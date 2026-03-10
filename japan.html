@@ -123,7 +123,16 @@ function applyFilter(){
   const q=searchInp.value.trim().toLowerCase();
   
   let list = PLACES.filter(p => p.region === currentRegion);
-  if(q) list = list.filter(p=>p.name.includes(q)||p.area.includes(q));
+  if(q) {
+      list=list.filter(p => {
+          const tName = window.t(`spot.${p.id}.name`, p.name).toLowerCase();
+          const tArea = window.t(`spot.${p.id}.area`, p.area).toLowerCase();
+          return p.name.toLowerCase().includes(q) || 
+                 p.area.toLowerCase().includes(q) || 
+                 tName.includes(q) || 
+                 tArea.includes(q);
+      });
+  }
 
   
   const grid=document.getElementById('grid');

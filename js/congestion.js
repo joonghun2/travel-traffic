@@ -37,7 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const term = e.target.value.toLowerCase();
             const filtered = mockSeoulSpots.filter(spot => 
                 spot.nameKo.toLowerCase().includes(term) ||
-                spot.nameEn.toLowerCase().includes(term)
+                spot.nameEn.toLowerCase().includes(term) ||
+                spot.nameJa.toLowerCase().includes(term)
             );
             renderCards(filtered);
         });
@@ -47,7 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.innerHTML = '';
         
         if(data.length === 0) {
-            grid.innerHTML = '<div class="no-results">검색 결과가 없습니다.</div>';
+            const noResultsMsg = (window.t) ? window.t('cg.label.no_results', '검색 결과가 없습니다.') : '검색 결과가 없습니다.';
+            grid.innerHTML = `<div class="no-results">${noResultsMsg}</div>`;
             return;
         }
 
@@ -95,7 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const term = searchInput.value.toLowerCase();
                 const filtered = mockSeoulSpots.filter(spot => 
                     spot.nameKo.toLowerCase().includes(term) ||
-                    spot.nameEn.toLowerCase().includes(term)
+                    spot.nameEn.toLowerCase().includes(term) ||
+                    spot.nameJa.toLowerCase().includes(term)
                 );
                 renderCards(filtered);
             }, 50);
