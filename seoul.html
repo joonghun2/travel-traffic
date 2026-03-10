@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travel Traffic - Seoul Live</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"> <!-- Existing global nav & dashboard styles -->
+<script src="js/i18n.js"></script>
+<script src="js/script.js" defer></script>
+</head>
+<body class="city-page" style="background-image: url('img/bg_seoul_gwanghwamun.png');">
+
+    <!-- Global Navigation -->
+    <nav>
+        <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav.home">홈</a></li>
+            <li><a href="seoul.html" data-i18n="nav.seoul" class="active">서울</a></li>
+            <li><a href="jeju.html" data-i18n="nav.jeju">제주</a></li>
+            <li><a href="japan.html" data-i18n="nav.japan">일본(오사카&교토)</a></li>
+        </ul>
+        <div class="lang-switcher">
+            <select id="lang-selector">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1 data-i18n="seoul.header.title">서울</h1>
+        <p data-i18n="seoul.header.desc">대한민국의 심장부</p>
+        <div style="margin-top:20px; font-family:'DM Mono', monospace; color:var(--accent);">
+            <span id="wIcon">⏳</span> <span id="wTemp" style="font-weight:900;">···</span>
+            <div id="wDetails" style="font-size:12px; margin-top:5px; color:var(--text-muted);"></div>
+        </div>
+    </header>
+
+        <div class="search-bar">
+            <input type="text" id="searchInp" placeholder="장소 검색 (예: 강남, 홍대)" data-i18n="seoul.search.placeholder">
+        </div>
+
+        <div class="cg-grid" id="grid">
+            <!-- Cards will be injected via JS -->
+            <div class="loading" data-i18n="cg.label.loading">Loading Live Data...</div>
+        </div>
+    </section>
+
+<script>
+// Dashboard Logic customized from user's provided code for Travel Traffic ecosystem
+const PLACES=[
+  {id:0,name:'홍대 거리',area:'마포구',cat:'쇼핑·관광',emoji:'🎸',lat:37.5563,lng:126.9234,base:72,peaks:[13,14,17,18,19,20],best:'평일 오전 11시',tip:'클럽·카페·버스킹 거리'},
+  {id:1,name:'명동',area:'중구',cat:'쇼핑·관광',emoji:'🛍️',lat:37.5636,lng:126.9860,base:88,peaks:[12,13,14,15,16,17,18],best:'주중 오전 일찍',tip:'뷰티·패션 쇼핑 1번지'},
+  {id:2,name:'경복궁',area:'종로구',cat:'고궁',emoji:'🏯',lat:37.5796,lng:126.9770,base:42,peaks:[10,11,12,13,14],best:'개관 직후 9시',tip:'수문장 교대식 인기'},
+  {id:3,name:'남산서울타워',area:'중구',cat:'쇼핑·관광',emoji:'🗼',lat:37.5512,lng:126.9882,base:66,peaks:[14,15,19,20],best:'야경 저녁 7시',tip:'야경 명소 & 자물쇠 이벤트'},
+  {id:4,name:'여의도 한강공원',area:'영등포구',cat:'자연·공원',emoji:'🌊',lat:37.5283,lng:126.9322,base:28,peaks:[17,18,19],best:'언제든 쾌적',tip:'봄 벚꽃 최고 명소'},
+  {id:5,name:'북촌 한옥마을',area:'종로구',cat:'고궁',emoji:'🏘️',lat:37.5826,lng:126.9832,base:35,peaks:[11,12,13,14],best:'오전 이른 시간',tip:'전통 한옥 포토스팟'},
+  {id:6,name:'동대문 DDP',area:'중구',cat:'쇼핑·관광',emoji:'🌀',lat:37.5669,lng:127.0098,base:79,peaks:[12,13,14,19,20,21],best:'평일 오전',tip:'자하 하디드 건축 디자인'},
+  {id:7,name:'인사동',area:'종로구',cat:'쇼핑·관광',emoji:'🎨',lat:37.5742,lng:126.9854,base:44,peaks:[11,12,13,14],best:'주말 오전 10시',tip:'전통 공예·갤러리 밀집'},
+  {id:40,name:'롯데월드',area:'송파구',cat:'테마파크',emoji:'🎢',base:85,peaks:[10,11,12,13,14,15,16,17],best:'개장 시',tip:'환상적인 모험'},
+  {id:41,name:'코엑스 몰',area:'강남구',cat:'쇼핑·관광',emoji:'🏙️',base:70,peaks:[12,13,14,18,19],best:'낮 시간대',tip:'별마당 도서관'},
+  {id:42,name:'광장시장',area:'종로구',cat:'쇼핑·관광',emoji:'🥘',base:75,peaks:[12,13,18,19,20],best:'저녁 시간',tip:'육회와 빈대떡'},
+  {id:43,name:'청계천',area:'종로구',cat:'자연·공원',emoji:'🌊',base:30,peaks:[19,20,21],best:'밤 8시',tip:'밤 산책 명소'},
+  {id:44,name:'서울숲',area:'성동구',cat:'자연·공원',emoji:'🌳',base:40,peaks:[14,15,16],best:'오후 2시',tip:'피크닉 추천'},
+  {id:45,name:'청와대',area:'종로구',cat:'고궁',emoji:'🏛️',base:50,peaks:[10,11,14,15],best:'예약 시간',tip:'대통령 집무실'},
+  {id:46,name:'익선동',area:'종로구',cat:'쇼핑·관광',emoji:'☕',base:80,peaks:[15,16,17,18,19],best:'오후 3시',tip:'한옥 카페 거리'},
+  {id:47,name:'낙산공원',area:'종로구',cat:'자연·공원',emoji:'🏰',base:20,peaks:[19,20,21],best:'일몰 후',tip:'성곽길 야경'},
+  {id:48,name:'반포 한강공원',area:'서초구',cat:'자연·공원',emoji:'⛲',base:45,peaks:[19,20,21],best:'분수 가동 시',tip:'무지개 분수'},
+  {id:49,name:'올림픽공원',area:'송파구',cat:'자연·공원',emoji:'🌳',base:35,peaks:[14,15,16],best:'가을 낮',tip:'나홀로나무'},
+];
+
+const WMO_ICON={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',61:'🌧️',71:'🌨️',80:'🌦️',95:'⛈️'};
+// Weather keys in i18n
+const WMO_KEY={0:'weather.sunny',1:'weather.mostly_sunny',2:'weather.partly_cloudy',3:'weather.cloudy',45:'weather.foggy',51:'weather.drizzle',61:'weather.rainy',71:'weather.snowy',80:'weather.showers',95:'weather.thunderstorm'};
+let wCode=null;
+
+async function fetchWeather(){
+  try{
+    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m,weathercode,windspeed_10m,relativehumidity_2m&timezone=Asia/Seoul');
+    const d=await r.json();const c=d.current;wCode=c.weathercode;
+    const wIcon = document.getElementById('wIcon');
+    const wTemp = document.getElementById('wTemp');
+    const wDetails = document.getElementById('wDetails');
+    
+    
+    if(wIcon) wIcon.textContent=WMO_ICON[wCode]||'🌡️';
+    if(wTemp) wTemp.textContent=`${Math.round(c.temperature_2m)}°C`;
+    const wTxt = window.t(WMO_KEY[wCode], '');
+    if(wDetails) wDetails.innerHTML=`<span style="margin-right:10px">💧 ${c.relativehumidity_2m}%</span><span style="margin-right:10px">💨 ${Math.round(c.windspeed_10m)}km/h</span><span>${wTxt}</span>`;
+    applyFilter();
+  }catch(e){
+    if(document.getElementById('wTemp')) document.getElementById('wTemp').textContent=window.t('weather.error', 'Error');
+  }
+}
+
+function calc(p){
+  const h=new Date().getHours(),day=new Date().getDay();
+  let s=p.base;
+  if(p.peaks.includes(h))s+=12; else if(h<7||h>21)s-=28; else s-=4;
+  if(day===0||day===6)s+=14; else if(day===1)s-=7;
+  if(wCode!==null){if(wCode<=1)s+=6;if(wCode>=61)s-=14;}
+  return Math.max(5,Math.min(99,Math.round(s)));
+}
+
+let curCat='전체';
+
+function applyFilter(){
+  const searchEl = document.getElementById('searchInp');
+  if(!searchEl) return;
+  const q=searchEl.value.trim().toLowerCase();
+  
+  let list=PLACES;
+  if(q) list=list.filter(p=>p.name.includes(q)||p.area.includes(q));
+  
+  const grid=document.getElementById('grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  
+  if(list.length === 0) {
+      grid.innerHTML = `<div class="no-results" style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">${window.t('cg.label.no_results', 'No results found.')}</div>`;
+      return;
+  }
+
+  list.forEach((p,i)=>{
+    const cv=calc(p);
+    let colorClass = '';
+    let statusKey = '';
+    
+    // Map percentages to our style.css classes
+    if(cv < 40) { colorClass = 'relax'; statusKey = 'cg.status.relaxed'; }
+    else if(cv < 60) { colorClass = 'normal'; statusKey = 'cg.status.normal'; }
+    else if(cv < 80) { colorClass = 'crowded'; statusKey = 'cg.status.crowded'; }
+    else { colorClass = 'severe'; statusKey = 'cg.status.very_crowded'; }
+
+    // Translate Status Label based on i18n
+    const statusLabel = window.t(statusKey, (cv < 40) ? '여유' : (cv < 60) ? '보통' : (cv < 80) ? '약간 붐빔' : '매우 붐빔');
+
+    // Lookup translated values using the global window.t helper
+    const tName = window.t(`spot.${p.id}.name`, p.name);
+    const tArea = window.t(`spot.${p.id}.area`, p.area);
+    const tCat = window.t(`spot.${p.id}.cat`, p.cat);
+    const tTip = window.t(`spot.${p.id}.tip`, p.tip);
+    const tBest = window.t(`spot.${p.id}.best`, p.best);
+    const lblTime = window.t("cg.label.rec_time", "추천 시간:");
+    const lblDir = window.t("cg.label.directions", "길찾기");
+
+    const card=document.createElement('div');
+    card.className=`cg-card`;
+    card.innerHTML=`
+      <div class="cg-header">
+          <h3>${tName}</h3>
+          <span class="cg-badge ${colorClass}">${statusLabel} ${cv}%</span>
+      </div>
+      <p class="cg-msg" style="margin-bottom: 8px;">📍 ${tArea} | ${tCat} ${p.emoji}</p>
+      <p class="cg-msg" style="font-size: 0.85rem;">💡 ${tTip} <br/> ⏰ ${lblTime} ${tBest}</p>
+      <div class="map-btns" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="https://map.naver.com/p/search/${encodeURIComponent(p.name)}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🗺️ ${window.t('cg.label.naver')}</a>
+        <a href="https://www.google.com/maps/search/${encodeURIComponent(p.name)}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🌐 ${window.t('cg.label.google')}</a>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+window.applyFilter = applyFilter;
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchWeather();
+    setTimeout(applyFilter, 100); // Give time for i18n variables to mount
+    
+    // Search input listener removed
+
+    // Re-render when language changes
+    window.addEventListener('languageChanged', () => {
+        applyFilter();
+    });
+
+    setInterval(applyFilter, 600000); 
+    setInterval(fetchWeather, 600000);
+});
+</script>
+</body>
+</html>

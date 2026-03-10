@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Traffic - Japan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/i18n.js"></script>
+    <script src="js/script.js" defer></script>
+</head>
+
+<body class="city-page" style="background-image: url('img/bg_japan_dotonbori.png');">
+
+    <nav>
+        <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav.home">홈</a></li>
+            <li><a href="seoul.html" data-i18n="nav.seoul">서울</a></li>
+            <li><a href="jeju.html" data-i18n="nav.jeju">제주</a></li>
+            <li><a href="japan.html" data-i18n="nav.japan" class="active">일본(오사카&교토)</a></li>
+        </ul>
+        <div class="lang-switcher">
+            <select id="lang-selector">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1 data-i18n="japan.header.title">일본</h1>
+        <p data-i18n="japan.header.desc">두 도시 이야기: 오사카 & 교토</p>
+        <div style="margin-top:20px; font-family:'DM Mono', monospace; color:var(--accent);">
+            <span id="wIcon">⏳</span> <span id="wTemp" style="font-weight:900;">···</span>
+            <div id="wDetails" style="font-size:12px; margin-top:5px; color:var(--text-muted);"></div>
+        </div>
+    </header>
+
+    <section class="content-section congestion-dashboard" style="background:transparent; border:none; box-shadow:none; padding:0;">
+        <div class="tabs-header" style="margin-bottom:30px;">
+            <button class="tab-btn active" data-region="osaka" data-bg="img/bg_japan_dotonbori.png" data-i18n="japan.tab.osaka">오사카</button>
+            <button class="tab-btn" data-region="kyoto" data-bg="img/bg_japan_kiyomizu.png" data-i18n="japan.tab.kyoto">교토</button>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInp" placeholder="장소 검색" data-i18n="japan.search.placeholder">
+        </div>
+
+
+        <div class="cg-grid" id="grid">
+            <div class="loading" data-i18n="cg.label.loading">Loading...</div>
+        </div>
+    </section>
+
+<script>
+const PLACES=[
+  {id:20,region:'osaka',name:'도톤보리',area:'오사카 나니와구',cat:'쇼핑·관광',emoji:'🏮',base:85,peaks:[12,13,18,19,20,21],best:'저녁 야경',tip:'글리코상 인증샷'},
+  {id:21,region:'osaka',name:'오사카성',area:'오사카 주오구',cat:'고궁',emoji:'🏯',base:40,peaks:[10,11,13,14],best:'오전 9시',tip:'천수각 전망'},
+  {id:22,region:'osaka',name:'신세카이',area:'오사카 나니와구',cat:'쇼핑·관광',emoji:'🍢',base:55,peaks:[12,13,17,18,19],best:'늦은 오후',tip:'쿠시카츠 맛집'},
+  {id:23,region:'osaka',name:'신사이바시',area:'오사카 주오구',cat:'쇼핑·관광',emoji:'🛍️',base:80,peaks:[14,15,16,17,18],best:'평일 오후',tip:'쇼핑의 거리'},
+  {id:24,region:'osaka',name:'유니버설 스튜디오 재팬',area:'오사카 코노하나구',cat:'테마파크',emoji:'🎢',base:90,peaks:[10,11,12,13,14,15,16,17],best:'개장 직후',tip:'익스프레스 패스 추천'},
+  {id:25,region:'osaka',name:'우메다 스카이 빌딩',area:'오사카 키타구',cat:'전망대',emoji:'🏙️',base:50,peaks:[18,19,20],best:'일몰 전후',tip:'야경 명소'},
+  {id:26,region:'osaka',name:'쿠로몬 시장',area:'오사카 주오구',cat:'쇼핑·관광',emoji:'🐟',base:70,peaks:[11,12,13,14],best:'오전 11시',tip:'현지 해산물'},
+  
+  {id:30,region:'kyoto',name:'기요미즈데라',area:'교토 히가시야마',cat:'고궁',emoji:'⛩️',base:60,peaks:[10,11,12,14,15],best:'이른 아침',tip:'교토 전경'},
+  {id:31,region:'kyoto',name:'후시미 이나리',area:'교토 후시미',cat:'고궁',emoji:'🦊',base:50,peaks:[9,10,11,13,14],best:'오전 8시',tip:'천본 도리이'},
+  {id:32,region:'kyoto',name:'금각사',area:'교토 키타구',cat:'고궁',emoji:'✨',base:45,peaks:[11,12,13,14],best:'오전 9시',tip:'화려한 금박'},
+  {id:33,region:'kyoto',name:'아라시야마',area:'교토 우쿄구',cat:'자연·공원',emoji:'🎋',base:55,peaks:[11,12,13,15],best:'오전 일찍',tip:'대나무 숲 산책'},
+  {id:34,region:'kyoto',name:'기온 거리',area:'교토 히가시야마',cat:'쇼핑·관광',emoji:'👘',base:65,peaks:[17,18,19,20],best:'늦은 오후',tip:'전통 거리 산책'},
+  {id:35,region:'kyoto',name:'니조 성',area:'교토 나카교구',cat:'고궁',emoji:'🏰',base:35,peaks:[10,11,13,14],best:'오전 10시',tip:'꾀꼬리 마루 체험'},
+  {id:36,region:'kyoto',name:'은각사',area:'교토 사쿄구',cat:'고궁',emoji:'🍃',base:40,peaks:[10,11,13,14],best:'오전 10시',tip:'아름다운 모래 정원'},
+  {id:200,region:'osaka',name:'해유관',area:'오사카 미나토구',cat:'박물관',emoji:'🐠',base:75,peaks:[11,12,13,14,15],best:'오전 10시',tip:'거대 고래상어'},
+  {id:201,region:'osaka',name:'덴포잔 대관람차',area:'오사카 미나토구',cat:'쇼핑·관광',emoji:'🎡',base:45,peaks:[17,18,19],best:'일몰 시',tip:'야경 명소'},
+  {id:202,region:'osaka',name:'스미요시 타이샤',area:'오사카 스미요시',cat:'고궁',emoji:'⛩️',base:30,peaks:[9,10,11],best:'이른 아침',tip:'아치형 다리'},
+  {id:203,region:'osaka',name:'아메리카무라',area:'오사카 주오구',cat:'쇼핑·관광',emoji:'🇺🇸',base:65,peaks:[14,15,16,17],best:'주말 오후',tip:'젊음의 거리'},
+  {id:204,region:'osaka',name:'난바 파크스',area:'오사카 나니와구',cat:'쇼핑·관광',emoji:'🌿',base:40,peaks:[16,17,18],best:'늦은 오후',tip:'옥상 정원'},
+  {id:205,region:'kyoto',name:'난젠지',area:'교토 사쿄구',cat:'고궁',emoji:'🌉',base:45,peaks:[10,11,13,14],best:'오전 9시',tip:'벽돌 수로각'},
+  {id:206,region:'kyoto',name:'철학의 길',area:'교토 사쿄구',cat:'자연·공원',emoji:'🌸',base:25,peaks:[10,11,14,15],best:'벚꽃 시즌',tip:'사색의 산책로'},
+  {id:207,region:'kyoto',name:'헤이안 신궁',area:'교토 사쿄구',cat:'고궁',emoji:'⛩️',base:35,peaks:[11,12,14],best:'오전 11시',tip:'거대 토리이'},
+  {id:208,region:'kyoto',name:'교토 어소',area:'교토 카미교구',cat:'고궁',emoji:'🏯',base:20,peaks:[10,11,14],best:'예약 시간',tip:'황궁의 품격'},
+  {id:209,region:'kyoto',name:'은각사',area:'교토 사쿄구',cat:'고궁',emoji:'🍃',base:40,peaks:[11,12,13,14],best:'오후 2시',tip:'모래 정원'},
+];
+
+const WMO_ICON={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',61:'🌧️',71:'🌨️',80:'🌦️',95:'⛈️'};
+const WMO_KEY={0:'weather.sunny',1:'weather.mostly_sunny',2:'weather.partly_cloudy',3:'weather.cloudy',45:'weather.foggy',51:'weather.drizzle',61:'weather.rainy',71:'weather.snowy',80:'weather.showers',95:'weather.thunderstorm'};
+let wCode=null;
+
+async function fetchWeather(lat, lng){
+  try{
+    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,weathercode,windspeed_10m,relativehumidity_2m&timezone=Asia/Tokyo`);
+    const d=await r.json();const c=d.current;wCode=c.weathercode;
+    const wIcon = document.getElementById('wIcon');
+    const wTemp = document.getElementById('wTemp');
+    const wDetails = document.getElementById('wDetails');
+    
+    if(wIcon) wIcon.textContent=WMO_ICON[wCode]||'🌡️';
+    if(wTemp) wTemp.textContent=`${Math.round(c.temperature_2m)}°C`;
+    const wTxt = window.t(WMO_KEY[wCode], '');
+    if(wDetails) wDetails.innerHTML=`<span style="margin-right:10px">💧 ${c.relativehumidity_2m}%</span><span style="margin-right:10px">💨 ${Math.round(c.windspeed_10m)}km/h</span><span>${wTxt}</span>`;
+    applyFilter();
+  }catch(e){
+    if(document.getElementById('wTemp')) document.getElementById('wTemp').textContent=window.t('weather.error', 'Error');
+  }
+}
+
+let currentRegion = 'osaka';
+const REGION_COORDS = {
+  osaka: { lat: 34.6937, lng: 135.5023 },
+  kyoto: { lat: 35.0116, lng: 135.7681 }
+};
+
+function calc(p){
+  const h=new Date().getHours();
+  let s=p.base;
+  if(p.peaks.includes(h)) s+=15; else if(h<8||h>22) s-=30;
+  return Math.max(5,Math.min(99,Math.round(s)));
+}
+
+function applyFilter(){
+  const searchInp = document.getElementById('searchInp');
+  const q=searchInp.value.trim().toLowerCase();
+  
+  let list = PLACES.filter(p => p.region === currentRegion);
+  if(q) list = list.filter(p=>p.name.includes(q)||p.area.includes(q));
+
+  
+  const grid=document.getElementById('grid');
+  grid.innerHTML='';
+  
+  if(list.length === 0) {
+      grid.innerHTML = `<div class="no-results" style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">${window.t('cg.label.no_results')}</div>`;
+      return;
+  }
+
+  list.forEach((p)=>{
+    const cv=calc(p);
+    let colorClass = (cv<40)?'relax':(cv<60)?'normal':(cv<80)?'crowded':'severe';
+
+    const card=document.createElement('div');
+    card.className=`cg-card`;
+    card.innerHTML=`
+      <div class="cg-header">
+          <h3>${window.t(`spot.${p.id}.name`, p.name)}</h3>
+          <span class="cg-badge ${colorClass}">${window.t((cv<40)?'cg.status.relaxed':(cv<60)?'cg.status.normal':(cv<80)?'cg.status.crowded':'cg.status.very_crowded')} ${cv}%</span>
+      </div>
+      <p class="cg-msg" style="margin-bottom: 8px;">📍 ${window.t(`spot.${p.id}.area`, p.area)} | ${window.t(`spot.${p.id}.cat`, p.cat)} ${p.emoji}</p>
+      <p class="cg-msg" style="font-size: 0.85rem;">💡 ${window.t(`spot.${p.id}.tip`, p.tip)} <br/> ⏰ ${window.t("cg.label.rec_time")} ${window.t(`spot.${p.id}.best`, p.best)}</p>
+      <div style="margin-top: 15px;">
+        <a href="https://www.google.com/maps/search/${encodeURIComponent(p.name)}" target="_blank" class="directions-btn">🗺️ ${window.t("cg.label.directions")} &rarr;</a>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentRegion = btn.dataset.region;
+            if(btn.dataset.bg) document.body.style.backgroundImage = `url('${btn.dataset.bg}')`;
+            const coords = REGION_COORDS[currentRegion];
+            fetchWeather(coords.lat, coords.lng);
+            applyFilter();
+        });
+    });
+
+    const initial = REGION_COORDS[currentRegion];
+    fetchWeather(initial.lat, initial.lng);
+    setTimeout(applyFilter, 100);
+    document.getElementById('searchInp').addEventListener('input', applyFilter);
+    window.addEventListener('languageChanged', applyFilter);
+    setInterval(() => {
+      const c = REGION_COORDS[currentRegion];
+      fetchWeather(c.lat, c.lng);
+    }, 600000);
+});
+</script>
+
+</body>
+
+</html>
