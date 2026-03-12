@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Traffic - Restaurants</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .restaurant-card {
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-main);
+            backdrop-filter: blur(10px);
+        }
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.15);
+        }
+        .rest-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .rest-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .rest-rating {
+            color: #ffc107;
+            font-weight: 800;
+        }
+    </style>
+    <script src="js/i18n.js"></script>
+    <script src="js/script.js" defer></script>
+    <script src="js/restaurants_data.js"></script> 
+    <script src="js/restaurants.js" defer></script>
+</head>
+
+<body class="ott-theme city-page">
+
+    <nav id="navbar">
+        <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav.home">홈</a></li>
+            <li><a href="seoul.html" data-i18n="nav.seoul">서울</a></li>
+            <li><a href="jeju.html" data-i18n="nav.jeju">제주</a></li>
+            <li><a href="japan.html" data-i18n="nav.japan">일본</a></li>
+        </ul>
+        <div class="lang-switcher">
+            <select id="lang-selector">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </nav>
+
+    <div class="page-header" style="padding-top: 10rem; padding-bottom: 2rem;">
+        <h1 id="spot-name-title" style="margin-bottom: 10px;">데이터를 불러오는 중...</h1>
+        <p style="color: var(--text-muted); font-size: 1.2rem;" data-i18n="rest.title">인기 맛집 리스트</p>
+    </div>
+
+    <section class="content-section" style="background: transparent; border: none; box-shadow: none; padding-top: 0;">
+        <div class="cg-grid" id="restaurant-list">
+            <div class="loading" data-i18n="cg.label.loading">데이터를 불러오는 중...</div>
+        </div>
+    </section>
+
+</body>
+</html>

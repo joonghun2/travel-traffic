@@ -10,7 +10,7 @@
     <script src="js/script.js" defer></script>
 </head>
 
-<body class="city-page" style="background-image: url('img/bg_japan_dotonbori.png');">
+<body class="city-page" style="background-image: url('img/graphic_japan.svg');">
 
     <nav>
         <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
@@ -29,19 +29,23 @@
         </div>
     </nav>
 
-    <header class="page-header">
-        <h1 data-i18n="japan.header.title">일본</h1>
-        <p data-i18n="japan.header.desc">두 도시 이야기: 오사카 & 교토</p>
-        <div style="margin-top:20px; font-family:'DM Mono', monospace; color:var(--accent);">
-            <span id="wIcon">⏳</span> <span id="wTemp" style="font-weight:900;">···</span>
-            <div id="wDetails" style="font-size:12px; margin-top:5px; color:var(--text-muted);"></div>
+    <header class="page-header content-hero" style="background-image: url('img/graphic_japan.svg');">
+        <div class="hero-content-left">
+            <h1 data-i18n="japan.header.title">일본</h1>
+            <div class="content-meta">
+                <span class="meta-tag">JAPAN</span>
+                <span class="meta-tag">OSAKA & KYOTO</span>
+                <span id="wIcon">⏳</span> <span id="wTemp">··°C</span>
+            </div>
+            <p class="hero-desc" data-i18n="japan.header.desc">두 도시 이야기: 역동적인 오사카와 천년의 숨결이 살아있는 교토</p>
+            <div id="wDetails" class="weather-pill"></div>
         </div>
     </header>
 
     <section class="content-section congestion-dashboard" style="background:transparent; border:none; box-shadow:none; padding:0;">
         <div class="tabs-header" style="margin-bottom:30px;">
-            <button class="tab-btn active" data-region="osaka" data-bg="img/bg_japan_dotonbori.png" data-i18n="japan.tab.osaka">오사카</button>
-            <button class="tab-btn" data-region="kyoto" data-bg="img/bg_japan_kiyomizu.png" data-i18n="japan.tab.kyoto">교토</button>
+            <button class="tab-btn active" data-region="osaka" data-bg="img/graphic_japan.svg" data-i18n="japan.tab.osaka">오사카</button>
+            <button class="tab-btn" data-region="kyoto" data-bg="img/graphic_japan.svg" data-i18n="japan.tab.kyoto">교토</button>
         </div>
 
         <div class="search-bar">
@@ -156,8 +160,9 @@ function applyFilter(){
       </div>
       <p class="cg-msg" style="margin-bottom: 8px;">📍 ${window.t(`spot.${p.id}.area`, p.area)} | ${window.t(`spot.${p.id}.cat`, p.cat)} ${p.emoji}</p>
       <p class="cg-msg" style="font-size: 0.85rem;">💡 ${window.t(`spot.${p.id}.tip`, p.tip)} <br/> ⏰ ${window.t("cg.label.rec_time")} ${window.t(`spot.${p.id}.best`, p.best)}</p>
-      <div style="margin-top: 15px;">
-        <a href="https://www.google.com/maps/search/${encodeURIComponent(p.name)}" target="_blank" class="directions-btn">🗺️ ${window.t("cg.label.directions")} &rarr;</a>
+      <div class="map-btns" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="https://www.google.com/maps/search/${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🗺️ ${window.t("cg.label.directions")} &rarr;</a>
+        <a href="https://www.google.com/search?q=${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name) + ' ' + window.t('cg.label.restaurant_query'))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: #ffc107; color: #ffc107;">🍽️ ${window.t('card.btn.restaurants')}</a>
       </div>
     `;
     grid.appendChild(card);
@@ -190,6 +195,32 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+    <h2 class="section-title" style="margin: 4rem 8% 0.5rem; font-size: 1.5rem; color: var(--text-main);" data-i18n="ott.trending">지금 뜨는 명소 (Trending Now)</h2>
+    <section class="destinations" id="trending-now" style="margin-bottom: 4rem;">
+        <a href="seoul.html" class="card">
+            <img src="img/poster_hongdae.png" alt="Seoul" class="card-img">
+            <div class="card-content">
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">SEOUL</span>
+                <h3 data-i18n="spot.0.name">서울 홍대</h3>
+                <p data-i18n="spot.0.tip">밤낮으로 멈추지 않는 에너지를 확인하세요.</p>
+            </div>
+        </a>
+        <a href="jeju.html" class="card">
+            <img src="img/poster_hamdeok.png" alt="Jeju" class="card-img">
+            <div class="card-content">
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">JEJU</span>
+                <h3 data-i18n="spot.10.name">제주 함덕 해변</h3>
+                <p data-i18n="spot.14.tip">에메랄드빛 바다와 평화로운 산책로.</p>
+            </div>
+        </a>
+        <a href="index.html" class="card">
+            <div class="card-img" style="background: linear-gradient(135deg, #1e293b, #0f172a); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--primary);" data-i18n="ott.home_btn">HOME</div>
+            <div class="card-content">
+                <h3 data-i18n="ott.discover">다른 지역 탐색하기</h3>
+                <p data-i18n="hero.desc">트래블 트래픽 홈으로 돌아가서 더 많은 정보를 확인하세요.</p>
+            </div>
+        </a>
+    </section>
 </body>
 
 </html>

@@ -3,12 +3,13 @@
 :root {
     --primary: #00f2fe;
     --secondary: #4facfe;
-    --accent: #ff0844;
-    --bg-dark: #0a0f1c;
+    --accent: #e50914; /* Netflix Red */
+    --bg-dark: #0a0b12; /* Disney+ deep blue-black */
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
-    --text-main: #ffffff;
+    --text-main: #f9f9f9;
     --text-muted: #a0aec0;
+    --card-hover: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -31,14 +32,12 @@ body {
 
 /* Dynamic Fancy Backgrounds */
 body.city-page {
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
     transition: background-image 1.5s ease-in-out;
-    background-blend-mode: multiply;
-    /* This tints the image with the background color */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Darkens the image directly */
+    background-blend-mode: overlay;
+    background-color: var(--bg-dark); /* Solid dark background for city pages */
 }
 
 body.city-page::before {
@@ -54,16 +53,21 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 5%;
-    background: rgba(10, 15, 28, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 1rem 5%;
+    background: linear-gradient(to bottom, rgba(10, 11, 18, 0.9) 0%, transparent 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
+    border-bottom: 1px solid transparent;
+    transition: all 0.5s ease;
+}
+
+nav.scrolled {
+    background: var(--bg-dark);
     border-bottom: 1px solid var(--glass-border);
-    transition: background 0.5s ease;
 }
 
 .logo {
@@ -115,22 +119,39 @@ nav {
 
 /* Hero Section */
 .hero {
-    min-height: 100vh;
+    position: relative;
+    min-height: 85vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 6rem 1rem 2rem;
+    align-items: flex-start;
+    text-align: left;
+    padding: 6rem 8% 2rem;
+    background: radial-gradient(circle at 70% 50%, rgba(79, 172, 254, 0.15), transparent 60%),
+                linear-gradient(to top, var(--bg-dark) 0%, transparent 50%),
+                linear-gradient(to right, var(--bg-dark) 0%, transparent 60%);
+    overflow: hidden;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15vh;
+    background: linear-gradient(to top, var(--bg-dark), transparent);
+    z-index: 2;
 }
 
 .hero h1 {
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(3rem, 10vw, 5.5rem);
     font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
+    line-height: 1;
+    margin-bottom: 1.2rem;
     animation: fadeInUp 1s ease forwards;
-    opacity: 0;
+    letter-spacing: -2px;
+    z-index: 3;
 }
 
 .hero h1 span {
@@ -141,90 +162,91 @@ nav {
 }
 
 .hero p {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    max-width: 600px;
-    margin-bottom: 3rem;
+    font-size: 1.3rem;
+    color: var(--text-main);
+    max-width: 550px;
+    margin-bottom: 2.5rem;
     animation: fadeInUp 1s ease forwards 0.3s;
-    opacity: 0;
+    opacity: 0.8;
+    line-height: 1.4;
+    z-index: 3;
 }
 
 /* Destination Cards */
 .destinations {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    animation: fadeInUp 1s ease forwards 0.6s;
-    opacity: 0;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 8% 4rem;
+}
+
+.destinations::-webkit-scrollbar {
+    display: none;
 }
 
 .card {
+    aspect-ratio: 16/9;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 2rem;
+    border-radius: 12px;
+    padding: 0;
     text-align: left;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: transform 0.4s ease, border-color 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
     text-decoration: none;
     color: var(--text-main);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
-.card::before {
-    content: '';
+.card .card-content {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    inset: 0;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.4) 40%, transparent 100%);
+    opacity: 0.85;
+    transition: all 0.4s ease;
+    z-index: 2;
 }
 
 .card:hover {
-    transform: translateY(-10px);
-    border-color: var(--primary);
+    transform: scale(1.06);
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
+    z-index: 10;
 }
 
-.card:hover::before {
+.card:hover .card-content {
     opacity: 1;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
 }
 
 .card h3 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    position: relative;
-    z-index: 1;
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
 }
 
 .card p {
     color: var(--text-muted);
-    font-size: 1rem;
-    line-height: 1.5;
-    position: relative;
-    z-index: 1;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    white-space: normal;
 }
 
-.card .explore-btn {
-    display: inline-block;
-    margin-top: 1.5rem;
-    color: var(--primary);
-    font-weight: 600;
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s ease;
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
 }
 
-.card:hover .explore-btn {
-    color: var(--secondary);
+.card:hover .card-img {
+    filter: brightness(0.6);
 }
+
 
 /* Page Specific Content */
 .page-header {
@@ -392,6 +414,36 @@ nav {
         border-radius: 8px;
         margin-top: 10px;
     }
+
+    /* Fix background visibility on mobile */
+    body.city-page {
+        background-attachment: scroll !important;
+        background-size: 100% auto !important;
+        background-position: center top 80px !important;
+    }
+
+    /* Trending Now Mobile Tweaks */
+    .destinations {
+        gap: 1rem;
+        padding: 0.5rem 5% 3rem;
+    }
+
+    .card {
+        flex: 0 0 85vw; /* Almost full width but showing the next card edge */
+    }
+
+    .card h3 {
+        font-size: 1.2rem;
+    }
+
+    .card p {
+        font-size: 0.75rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2; /* Standard property for compatibility */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 }
 
 /* Language Switcher */
@@ -520,6 +572,103 @@ nav {
     background: rgba(255, 128, 0, 0.2);
     color: #ff8000;
 }
+/* Brand Tiles (Disney+ Style) */
+.brand-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 0 8%;
+    margin-top: -50px; /* Overlap with hero slightly */
+    position: relative;
+    z-index: 10;
+}
+
+.brand-tile {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+}
+
+.brand-tile:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.8);
+}
+
+.brand-bg {
+    position: absolute;
+    inset: 0;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    transition: transform 0.3s ease;
+}
+
+.brand-tile:hover .brand-bg {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.brand-name {
+    position: absolute;
+    bottom: 10%;
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.section-title {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Animations and Responsive */
+@media (max-width: 768px) {
+    .hero {
+        padding-top: 8rem;
+        min-height: 60vh;
+    }
+    
+    .brand-tiles {
+        grid-template-columns: 1fr;
+        margin-top: 2rem;
+    }
+    
+    .destinations {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .card {
+        width: 100%;
+    }
+
+    .card h3 {
+        font-size: clamp(1.1rem, 5vw, 1.4rem);
+    }
+
+    .card p {
+        font-size: 0.8rem;
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
 
 .cg-badge.severe {
     background: rgba(255, 0, 0, 0.2);
@@ -551,4 +700,70 @@ nav {
 
 .directions-btn:hover {
     color: var(--secondary);
+}
+
+/* OTT Detail Page Header */
+.content-hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    padding: 8rem 8% 4rem;
+    background-size: 80% auto; /* Make branding graphic a centerpiece */
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    text-align: center; /* Center text */
+}
+
+.content-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, transparent 20%, var(--bg-dark) 90%),
+                linear-gradient(to top, var(--bg-dark) 10%, transparent 40%);
+    z-index: 1;
+}
+
+.hero-content-left {
+    max-width: 800px;
+    z-index: 5;
+    position: relative;
+}
+
+.content-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.meta-tag {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-desc {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    opacity: 0.9;
+    margin: 0 auto 2rem; /* Center description */
+}
+
+.weather-pill {
+    display: inline-flex;
+    background: var(--glass-bg);
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    border: 1px solid var(--glass-border);
+    margin-top: 1rem;
+    backdrop-filter: blur(10px);
 }

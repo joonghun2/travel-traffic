@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <!-- Sky / Clouds -->
+  <g fill="none" stroke="#a0aec0" stroke-width="1.5" opacity="0.4">
+    <path d="M200 150 Q250 120 300 150 T400 150" />
+    <path d="M1100 100 Q1150 70 1200 100 T1300 100" />
+    <path d="M600 200 Q650 170 700 200 T800 200" />
+  </g>
+  
+  <!-- Hallasan Mountain -->
+  <path d="M300 800 L800 400 L1300 800" fill="none" stroke="#4facfe" stroke-width="3" />
+  <path d="M700 480 Q800 430 900 480" fill="none" stroke="#4facfe" stroke-width="2" opacity="0.5"/>
+
+  <!-- Sea Waves -->
+  <g fill="none" stroke="#00f2fe" stroke-width="2">
+    <path d="M100 850 Q200 830 300 850 T500 850 T700 850 T900 850 T1100 850 T1300 850 T1500 850" />
+    <path d="M150 870 Q250 850 350 870 T550 870 T750 870 T950 870 T1150 870 T1350 870 T1550 870" opacity="0.6" />
+  </g>
+
+  <!-- Palm Tree silhouette -->
+  <g stroke="#a0aec0" stroke-width="2" fill="none">
+    <path d="M1400 800 Q1380 700 1400 600" />
+    <path d="M1400 600 Q1350 580 1300 620" />
+    <path d="M1400 600 Q1450 580 1500 620" />
+    <path d="M1400 600 Q1380 550 1350 530" />
+    <path d="M1400 600 Q1420 550 1450 530" />
+  </g>
+</svg>

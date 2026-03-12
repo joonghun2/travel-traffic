@@ -8,7 +8,7 @@
     <script src="js/i18n.js"></script>
     <script src="js/script.js" defer></script>
 </head>
-<body class="city-page" style="background-image: url('img/bg_jeju_hallasan.png');">
+<body class="city-page" style="background-image: url('img/graphic_jeju.svg');">
 
     <nav>
         <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
@@ -27,12 +27,16 @@
         </div>
     </nav>
 
-    <header class="page-header">
-        <h1 data-i18n="jeju.header.title">제주도</h1>
-        <p data-i18n="jeju.header.desc">화산섬의 파라다이스</p>
-        <div style="margin-top:20px; font-family:'DM Mono', monospace; color:var(--accent);">
-            <span id="wIcon">⏳</span> <span id="wTemp" style="font-weight:900;">···</span>
-            <div id="wDetails" style="font-size:12px; margin-top:5px; color:var(--text-muted);"></div>
+    <header class="page-header content-hero" style="background-image: url('img/graphic_jeju.svg');">
+        <div class="hero-content-left">
+            <h1 data-i18n="jeju.header.title">제주도</h1>
+            <div class="content-meta">
+                <span class="meta-tag">KOREA</span>
+                <span class="meta-tag">ISLAND</span>
+                <span id="wIcon">⏳</span> <span id="wTemp">··°C</span>
+            </div>
+            <p class="hero-desc" data-i18n="jeju.header.desc">화산섬의 파라다이스, 에메랄드빛 바다와 숨막히는 자연 경관</p>
+            <div id="wDetails" class="weather-pill"></div>
         </div>
     </header>
 
@@ -137,7 +141,8 @@ function applyFilter(){
       <p class="cg-msg" style="font-size: 0.85rem;">💡 ${window.t(`spot.${p.id}.tip`, p.tip)} <br/> ⏰ ${window.t("cg.label.rec_time")} ${window.t(`spot.${p.id}.best`, p.best)}</p>
       <div class="map-btns" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
         <a href="https://map.naver.com/p/search/${encodeURIComponent(p.name)}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🗺️ ${window.t('cg.label.naver')}</a>
-        <a href="https://www.google.com/maps/search/${encodeURIComponent(p.name)}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🌐 ${window.t('cg.label.google')}</a>
+        <a href="https://www.google.com/maps/search/${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🌐 ${window.t('cg.label.google')}</a>
+        <a href="https://www.google.com/search?q=${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name) + ' ' + window.t('cg.label.restaurant_query'))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: #ffc107; color: #ffc107;">🍽️ ${window.t('card.btn.restaurants')}</a>
       </div>
     `;
     grid.appendChild(card);
@@ -153,5 +158,31 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+    <h2 class="section-title" style="margin: 4rem 8% 0.5rem; font-size: 1.5rem; color: var(--text-main);" data-i18n="ott.trending">지금 뜨는 명소 (Trending Now)</h2>
+    <section class="destinations" id="trending-now" style="margin-bottom: 4rem;">
+        <a href="seoul.html" class="card">
+            <img src="img/poster_hongdae.png" alt="Seoul" class="card-img">
+            <div class="card-content">
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">SEOUL</span>
+                <h3 data-i18n="spot.0.name">서울 명동</h3>
+                <p data-i18n="spot.0.tip">다시 찾는 활기찬 거리. 쇼핑과 스트리트 푸드의 천국.</p>
+            </div>
+        </a>
+        <a href="japan.html" class="card">
+            <img src="img/poster_kiyomizu.png" alt="Japan" class="card-img">
+            <div class="card-content">
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">JAPAN</span>
+                <h3 data-i18n="spot.30.name">교토 청수사</h3>
+                <p data-i18n="spot.30.tip">계절마다 다른 아름다움. 조용한 산책길의 정취를 느껴보세요.</p>
+            </div>
+        </a>
+        <a href="index.html" class="card">
+            <div class="card-img" style="background: linear-gradient(135deg, #1e293b, #0f172a); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--primary);" data-i18n="ott.home_btn">HOME</div>
+            <div class="card-content">
+                <h3 data-i18n="ott.discover">다른 지역 탐색하기</h3>
+                <p data-i18n="hero.desc">트래블 트래픽 홈으로 돌아가서 더 많은 정보를 확인하세요.</p>
+            </div>
+        </a>
+    </section>
 </body>
 </html>

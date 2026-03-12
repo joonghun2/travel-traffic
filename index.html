@@ -10,15 +10,15 @@
     <script src="js/script.js" defer></script>
 </head>
 
-<body>
+<body class="ott-theme">
 
-    <nav>
+    <nav id="navbar">
         <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
         <ul class="nav-links">
-            <li><a href="index.html" data-i18n="nav.home">홈</a></li>
+            <li><a href="index.html" data-i18n="nav.home" class="active">홈</a></li>
             <li><a href="seoul.html" data-i18n="nav.seoul">서울</a></li>
             <li><a href="jeju.html" data-i18n="nav.jeju">제주</a></li>
-            <li><a href="japan.html" data-i18n="nav.japan">일본(오사카&교토)</a></li>
+            <li><a href="japan.html" data-i18n="nav.japan">일본</a></li>
         </ul>
         <div class="lang-switcher">
             <select id="lang-selector">
@@ -29,31 +29,82 @@
         </div>
     </nav>
 
-    <section class="hero">
+    <section class="hero" style="background-image: url('img/bg_seoul_gwanghwamun.png'); background-size: cover; background-position: center;">
         <h1 data-i18n="hero.title">안녕~ <br> <span>트래블 트래픽</span></h1>
         <p data-i18n="hero.desc">즐거운 여행, 붐비는지 지금 확인하고 출발하세요!</p>
+        <div class="hero-btns">
+            <a href="seoul.html" class="tab-btn active" style="padding: 1rem 2rem; border-radius: 5px; font-weight: 800;" data-i18n="hero.btn">지금 확인하기</a>
+        </div>
     </section>
 
-    <section class="destinations" id="destinations">
+    <div class="brand-tiles">
+        <a href="seoul.html" class="brand-tile">
+            <div class="brand-bg" style="background-image: url('img/graphic_seoul.svg');"></div>
+            <span class="brand-name" data-i18n="ott.tag.seoul">SEOUL</span>
+        </a>
+        <a href="jeju.html" class="brand-tile">
+            <div class="brand-bg" style="background-image: url('img/graphic_jeju.svg');"></div>
+            <span class="brand-name" data-i18n="ott.tag.jeju">JEJU</span>
+        </a>
+        <a href="japan.html" class="brand-tile">
+            <div class="brand-bg" style="background-image: url('img/graphic_japan.svg');"></div>
+            <span class="brand-name" data-i18n="ott.tag.japan">JAPAN</span>
+        </a>
+    </div>
+
+    <h2 class="section-title" style="margin: 2rem 8% 0.5rem; font-size: 1.5rem; color: var(--text-main);" data-i18n="ott.trending">지금 뜨는 명소 (Trending Now)</h2>
+    <section class="destinations" id="trending-now">
+        <!-- Seoul Spotlight -->
         <a href="seoul.html" class="card">
-            <h3 data-i18n="card.seoul.title">대한민국, 서울</h3>
-            <p data-i18n="card.seoul.desc">고대 궁궐과 미래지향적 도시의 화려한 대비를 경험해보세요. 잠들지 않는 도시 서울입니다.</p>
-            <span class="explore-btn" data-i18n="card.seoul.btn">실시간 확인하기 &rarr;</span>
+            <img src="img/poster_hongdae.png" alt="Hongdae" class="card-img">
+            <div class="card-content">
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">SEOUL</span>
+                <h3 data-i18n="spot.0.name">홍대입구역 주변</h3>
+                <p data-i18n="spot.0.tip">젊음의 거리, 버스킹과 맛집의 성지. 지금 가장 핫한 서울의 밤을 경험하세요.</p>
+            </div>
         </a>
 
+        <!-- Jeju Spotlight -->
         <a href="jeju.html" class="card">
-            <h3 data-i18n="card.jeju.title">대한민국, 제주도</h3>
-            <p data-i18n="card.jeju.desc">깨끗한 백사장, 화산 지형, 평화로운 폭포를 발견하세요. 최고의 섬 휴양지입니다.</p>
-            <span class="explore-btn" data-i18n="card.jeju.btn">실시간 확인하기 &rarr;</span>
+            <img src="img/poster_hallasan.png" alt="Hallasan" class="card-img">
+            <div class="card-content">
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">JEJU</span>
+                <h3 data-i18n="spot.10.name">한라산 백록담</h3>
+                <p data-i18n="spot.10.tip">대한민국 최고봉의 숨막히는 설경과 화구호를 만나보세요.</p>
+            </div>
         </a>
 
+        <!-- Japan Spotlight -->
         <a href="japan.html" class="card">
-            <h3 data-i18n="card.japan.title">일본 (오사카 & 교토)</h3>
-            <p data-i18n="card.japan.desc">오사카의 역동적인 식도락에 빠지거나, 교토의 변치 않는 사찰에서 평화를 찾아보세요.</p>
-            <span class="explore-btn" data-i18n="card.japan.btn">실시간 확인하기 &rarr;</span>
+            <img src="img/poster_dotonbori.png" alt="Dotonbori" class="card-img">
+            <div class="card-content">
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">JAPAN</span>
+                <h3 data-i18n="spot.20.name">오사카 도톤보리</h3>
+                <p data-i18n="spot.20.tip">글리코상과 함께하는 미식 여행. 오사카의 화려한 네온사인 아래서...</p>
+            </div>
+        </a>
+
+        <!-- More Spots -->
+        <a href="seoul.html" class="card">
+            <img src="img/poster_namsan_real.png" alt="N Seoul Tower" class="card-img" style="background: #0f172a;">
+            <div class="card-content">
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">SEOUL</span>
+                <h3 data-i18n="spot.3.name">남산서울타워</h3>
+                <p data-i18n="spot.3.tip">서울의 파노라마 뷰를 한눈에 담을 수 있는 로맨틱한 랜드마크.</p>
+            </div>
         </a>
     </section>
 
+    <script>
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 
 </html>
