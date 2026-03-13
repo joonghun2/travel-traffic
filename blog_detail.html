@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="blog.detail.title">Editor Blog - Travel Traffic</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/i18n.js"></script>
+    <style>
+        .blog-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        .blog-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .blog-title {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        .blog-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .blog-content {
+            line-height: 1.8;
+            color: var(--text-main);
+            font-size: 1.1rem;
+        }
+        .blog-content p {
+            margin-bottom: 25px;
+        }
+        .blog-content img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin: 30px 0;
+            display: block;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .no-blog {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-muted);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="blog-page">
+    <nav>
+        <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav.home">홈</a></li>
+            <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
+        </ul>
+        <div class="lang-switcher">
+            <select id="lang-selector">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </nav>
+
+    <div class="blog-container" id="blog-container">
+        <div class="loading" data-i18n="cg.label.loading">Loading...</div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Travel Traffic. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        async function loadBlog() {
+            const params = new URLSearchParams(window.location.search);
+            const spotId = params.get('spotId');
+            const container = document.getElementById('blog-container');
+
+            if (!spotId) {
+                container.innerHTML = '<div class="no-blog" data-i18n="blog.error.no_id">Invalid spot ID.</div>';
+                return;
+            }
+
+            try {
+                // In a real app, this would be a server-side fetch. 
+                // Since this is a static site with an admin server, we fetch from our data file.
+                // Note: In local static serving, we might need the admin server to serve this JSON.
+                const response = await fetch('/api/blogs');
+                if (!response.ok) throw new Error('Failed to fetch');
+                
+                const blogs = await response.json();
+                const blog = blogs.find(b => b.spotId == spotId);
+
+                if (!blog) {
+                    container.innerHTML = `
+                        <a href="javascript:history.back()" class="back-btn">&larr; ${window.t('blog.btn.back', 'Back')}</a>
+                        <div class="no-blog">
+                            <h2 data-i18n="blog.error.not_found">준비된 블로그 내용이 없습니다.</h2>
+                            <p data-i18n="blog.error.not_found_desc">관리자가 곧 내용을 업로드할 예정입니다.</p>
+                        </div>`;
+                    return;
+                }
+
+                renderBlog(blog);
+            } catch (error) {
+                console.error('Error loading blog:', error);
+                // Fallback for when admin server isn't running or API fails
+                container.innerHTML = `<div class="no-blog" data-i18n="blog.error.fetch">Error loading blog content.</div>`;
+            }
+        }
+
+        function renderBlog(blog) {
+            const container = document.getElementById('blog-container');
+            let contentHtml = '';
+            
+            blog.content.forEach(item => {
+                if (item.type === 'text') {
+                    contentHtml += `<p>${item.value.replace(/\n/g, '<br>')}</p>`;
+                } else if (item.type === 'image') {
+                    contentHtml += `<img src="${item.url}" alt="Blog Image">`;
+                }
+            });
+
+            container.innerHTML = `
+                <a href="javascript:history.back()" class="back-btn">&larr; ${window.t('blog.btn.back', 'Back')}</a>
+                <article class="blog-post">
+                    <header class="blog-header">
+                        <h1 class="blog-title">${blog.title}</h1>
+                        <div class="blog-meta">
+                            <span class="blog-author">${blog.author || 'Admin'}</span> | 
+                            <span class="blog-date">${blog.createdAt || ''}</span>
+                        </div>
+                    </header>
+                    <div class="blog-content">
+                        ${contentHtml}
+                    </div>
+                </article>
+            `;
+            
+            // Re-apply translations if necessary, though mostly dynamic content here
+            if (window.i18n && typeof window.i18n.updateContent === 'function') {
+                window.i18n.updateContent();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadBlog);
+    </script>
+</body>
+</html>

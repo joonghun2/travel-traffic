@@ -1,0 +1,15 @@
+[
+    {
+        "id": "blog-1773401506636",
+        "spotId": 0,
+        "title": "Wonderful Hongdae Trip",
+        "content": [
+            {
+                "type": "text",
+                "value": "Hongdae is a vibrant area in Seoul known for its youthful energy, street performances, and amazing cafes. Don't miss the street food!"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-13"
+    }
+]

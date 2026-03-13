@@ -172,6 +172,38 @@ nav.scrolled {
     z-index: 3;
 }
 
+.hero-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 10;
+    animation: fadeInUp 1s ease forwards 0.6s;
+    opacity: 0;
+}
+
+/* Tab buttons in hero */
+.hero-btns .tab-btn {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.hero-btns .tab-btn.secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-main);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.hero-btns .tab-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
 /* Destination Cards */
 .destinations {
     display: grid;

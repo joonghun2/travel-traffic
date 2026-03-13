@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <!-- Tokyo Landmarks: Mt. Fuji and Torii Gate -->
+  <g fill="none" stroke="#d65a6d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Mt. Fuji -->
+    <path d="M400 650 L800 250 L1200 650" opacity="0.6"/>
+    <path d="M680 370 L720 400 L760 380 L800 410 L840 380 L880 400 L920 370" stroke-opacity="0.8"/>
+    
+    <!-- Torii Gate -->
+    <g transform="translate(650, 480) scale(1.2)">
+      <!-- Top beams -->
+      <path d="M0 20 Q125 10 250 20" stroke-width="4"/>
+      <path d="M20 50 L230 50" stroke-width="3"/>
+      <!-- Vertical pillars -->
+      <line x1="70" y1="50" x2="70" y2="180" stroke-width="6"/>
+      <line x1="180" y1="50" x2="180" y2="180" stroke-width="6"/>
+      <!-- Connecting beam -->
+      <line x1="70" y1="80" x2="180" y2="80" stroke-width="3"/>
+      <!-- Base accents -->
+      <line x1="60" y1="180" x2="80" y2="180" stroke-width="4"/>
+      <line x1="170" y1="180" x2="190" y2="180" stroke-width="4"/>
+    </g>
+
+    <!-- Foreground landscape lines -->
+    <path d="M300 750 Q800 700 1300 750" opacity="0.4"/>
+    <path d="M100 800 Q800 780 1500 800" opacity="0.2"/>
+  </g>
+
+  <!-- Sakura Petals -->
+  <g fill="#f8a5c2" opacity="0.6">
+    <circle cx="500" cy="200" r="4" />
+    <circle cx="550" cy="280" r="3" />
+    <circle cx="700" cy="150" r="5" />
+    <circle cx="950" cy="220" r="4" />
+    <circle cx="1100" cy="300" r="3" />
+    <circle cx="1200" cy="180" r="4" />
+    <circle cx="400" cy="350" r="3" />
+    <circle cx="850" cy="100" r="4" />
+    <circle cx="1300" cy="250" r="5" />
+  </g>
+</svg>

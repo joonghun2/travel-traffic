@@ -16,9 +16,11 @@
         <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
         <ul class="nav-links">
             <li><a href="index.html" data-i18n="nav.home" class="active">홈</a></li>
-            <li><a href="seoul.html" data-i18n="nav.seoul">서울</a></li>
-            <li><a href="jeju.html" data-i18n="nav.jeju">제주</a></li>
-            <li><a href="japan.html" data-i18n="nav.japan">일본</a></li>
+            <li><a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a></li>
+            <li><a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a></li>
+            <li><a href="osaka.html" data-i18n="nav.osaka">오사카 (일본)</a></li>
+            <li><a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a></li>
+            <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
         </ul>
         <div class="lang-switcher">
             <select id="lang-selector">
@@ -33,7 +35,8 @@
         <h1 data-i18n="hero.title">안녕~ <br> <span>트래블 트래픽</span></h1>
         <p data-i18n="hero.desc">즐거운 여행, 붐비는지 지금 확인하고 출발하세요!</p>
         <div class="hero-btns">
-            <a href="seoul.html" class="tab-btn active" style="padding: 1rem 2rem; border-radius: 5px; font-weight: 800;" data-i18n="hero.btn">지금 확인하기</a>
+            <a href="seoul.html" class="tab-btn active" data-i18n="hero.btn">지금 확인하기</a>
+            <a href="guides.html" class="tab-btn secondary" data-i18n="hero.guide_btn">여행 가이드 보기</a>
         </div>
     </section>
 
@@ -46,9 +49,13 @@
             <div class="brand-bg" style="background-image: url('img/graphic_jeju.svg');"></div>
             <span class="brand-name" data-i18n="ott.tag.jeju">JEJU</span>
         </a>
-        <a href="japan.html" class="brand-tile">
-            <div class="brand-bg" style="background-image: url('img/graphic_japan.svg');"></div>
-            <span class="brand-name" data-i18n="ott.tag.japan">JAPAN</span>
+        <a href="osaka.html" class="brand-tile">
+            <div class="brand-bg" style="background-image: url('img/graphic_osaka.svg');"></div>
+            <span class="brand-name" data-i18n="ott.tag.osaka">OSAKA (JAPAN)</span>
+        </a>
+        <a href="kyoto.html" class="brand-tile">
+            <div class="brand-bg" style="background-image: url('img/graphic_kyoto.svg');"></div>
+            <span class="brand-name" data-i18n="ott.tag.kyoto">KYOTO (JAPAN)</span>
         </a>
     </div>
 
@@ -74,11 +81,11 @@
             </div>
         </a>
 
-        <!-- Japan Spotlight -->
-        <a href="japan.html" class="card">
+        <!-- Osaka Spotlight -->
+        <a href="osaka.html" class="card">
             <img src="img/poster_dotonbori.png" alt="Dotonbori" class="card-img">
             <div class="card-content">
-                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">JAPAN</span>
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">OSAKA (JAPAN)</span>
                 <h3 data-i18n="spot.20.name">오사카 도톤보리</h3>
                 <p data-i18n="spot.20.tip">글리코상과 함께하는 미식 여행. 오사카의 화려한 네온사인 아래서...</p>
             </div>
@@ -94,6 +101,16 @@
             </div>
         </a>
     </section>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Travel Traffic. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="privacy.html" data-i18n="footer.privacy">개인정보처리방침</a></li>
+                <li><a href="terms.html" data-i18n="footer.terms">이용약관</a></li>
+            </ul>
+        </div>
+    </footer>
 
     <script>
         window.addEventListener('scroll', () => {

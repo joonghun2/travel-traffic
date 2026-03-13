@@ -16,9 +16,11 @@
         <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
         <ul class="nav-links">
             <li><a href="index.html" data-i18n="nav.home">홈</a></li>
-            <li><a href="seoul.html" data-i18n="nav.seoul" class="active">서울</a></li>
-            <li><a href="jeju.html" data-i18n="nav.jeju">제주</a></li>
-            <li><a href="japan.html" data-i18n="nav.japan">일본(오사카&교토)</a></li>
+            <li><a href="seoul.html" data-i18n="nav.seoul" class="active">서울 (한국)</a></li>
+            <li><a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a></li>
+            <li><a href="osaka.html" data-i18n="nav.osaka">오사카 (일본)</a></li>
+            <li><a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a></li>
+            <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
         </ul>
         <div class="lang-switcher">
             <select id="lang-selector">
@@ -172,6 +174,7 @@ function applyFilter(){
         <a href="https://map.naver.com/p/search/${encodeURIComponent(p.name)}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🗺️ ${window.t('cg.label.naver')}</a>
         <a href="https://www.google.com/maps/search/${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🌐 ${window.t('cg.label.google')}</a>
         <a href="https://www.google.com/search?q=${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name) + ' ' + window.t('cg.label.restaurant_query'))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: #ffc107; color: #ffc107;">🍽️ ${window.t('card.btn.restaurants')}</a>
+        <a href="blog_detail.html?spotId=${p.id}" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: var(--primary); color: var(--primary);">✍️ ${window.t('card.btn.blog')}</a>
       </div>
     `;
     grid.appendChild(card);
@@ -205,10 +208,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p data-i18n="spot.10.tip">지금 가장 인기 있는 산행 코스. 실시간 혼잡도를 확인하세요.</p>
             </div>
         </a>
-        <a href="japan.html" class="card">
+        <a href="osaka.html" class="card">
             <img src="img/poster_dotonbori.png" alt="Japan" class="card-img">
             <div class="card-content">
-                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">JAPAN</span>
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">OSAKA (JAPAN)</span>
                 <h3 data-i18n="spot.20.name">오사카 도톤보리</h3>
                 <p data-i18n="spot.20.tip">일본 여행의 필수 코스. 맛집 대기 시간을 미리 체크하세요.</p>
             </div>
@@ -221,5 +224,15 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </a>
     </section>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Travel Traffic. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="privacy.html" data-i18n="footer.privacy">개인정보처리방침</a></li>
+                <li><a href="terms.html" data-i18n="footer.terms">이용약관</a></li>
+            </ul>
+        </div>
+    </footer>
 </body>
 </html>

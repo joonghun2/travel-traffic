@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Traffic - Jeju Island</title>
+    <title>Travel Traffic - Osaka (Japan)</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/i18n.js"></script>
     <script src="js/script.js" defer></script>
 </head>
-<body class="city-page" style="background-image: url('img/graphic_jeju.svg');">
+
+<body class="city-page" style="background-image: url('img/graphic_osaka.svg');">
 
     <nav>
         <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
         <ul class="nav-links">
             <li><a href="index.html" data-i18n="nav.home">홈</a></li>
             <li><a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a></li>
-            <li><a href="jeju.html" data-i18n="nav.jeju" class="active">제주 (한국)</a></li>
-            <li><a href="osaka.html" data-i18n="nav.osaka">오사카 (일본)</a></li>
+            <li><a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a></li>
+            <li><a href="osaka.html" data-i18n="nav.osaka" class="active">오사카 (일본)</a></li>
             <li><a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a></li>
             <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
         </ul>
@@ -29,24 +31,23 @@
         </div>
     </nav>
 
-    <header class="page-header content-hero" style="background-image: url('img/graphic_jeju.svg');">
+    <header class="page-header content-hero" style="background-image: url('img/graphic_osaka.svg');">
         <div class="hero-content-left">
-            <h1 data-i18n="jeju.header.title">제주도</h1>
+            <h1 data-i18n="japan.tab.osaka">오사카</h1>
             <div class="content-meta">
-                <span class="meta-tag">KOREA</span>
-                <span class="meta-tag">ISLAND</span>
+                <span class="meta-tag">JAPAN</span>
+                <span class="meta-tag">OSAKA</span>
                 <span id="wIcon">⏳</span> <span id="wTemp">··°C</span>
             </div>
-            <p class="hero-desc" data-i18n="jeju.header.desc">화산섬의 파라다이스, 에메랄드빛 바다와 숨막히는 자연 경관</p>
+            <p class="hero-desc" data-i18n="osaka.content.p1">친근한 사람들과 가성비 맛집으로 가득한, 일본에서 가장 역동적인 도시 오사카입니다.</p>
             <div id="wDetails" class="weather-pill"></div>
         </div>
     </header>
 
     <section class="content-section congestion-dashboard" style="background:transparent; border:none; box-shadow:none; padding:0;">
         <div class="search-bar">
-            <input type="text" id="searchInp" placeholder="장소 검색" data-i18n="jeju.search.placeholder">
+            <input type="text" id="searchInp" placeholder="장소 검색" data-i18n="japan.search.placeholder">
         </div>
-
 
         <div class="cg-grid" id="grid">
             <div class="loading" data-i18n="cg.label.loading">Loading...</div>
@@ -55,31 +56,27 @@
 
 <script>
 const PLACES=[
-  {id:10,name:'한라산 국립공원',area:'제주 중심부',cat:'자연·공원',emoji:'⛰️',lat:33.3617,lng:126.5332,base:30,peaks:[8,9,10,11],best:'새벽 6시',tip:'등산화 필수'},
-  {id:11,name:'성산 일출봉',area:'성산읍',cat:'자연·공원',emoji:'🌅',lat:33.4585,lng:126.9421,base:45,peaks:[6,7,11,12],best:'일출 전',tip:'최고의 일출'},
-  {id:12,name:'만장굴',area:'구좌읍',cat:'자연·공원',emoji:'🦇',lat:33.5284,lng:126.7716,base:35,peaks:[12,13,14,15],best:'오후 2시',tip:'겉옷 필수'},
-  {id:13,name:'정방폭포',area:'서귀포시',cat:'자연·공원',emoji:'🌊',lat:33.2448,lng:126.5718,base:40,peaks:[11,12,14,15],best:'오전 10시',tip:'동양 유일의 해안 폭포'},
-  {id:14,name:'함덕 해수욕장',area:'조천읍',cat:'자연·공원',emoji:'🏖️',lat:33.5430,lng:126.6692,base:60,peaks:[13,14,15,16,17],best:'만조 시',tip:'에메랄드빛 바다'},
-  {id:15,name:'오설록 티 뮤지엄',area:'안덕면',cat:'박물관',emoji:'🍵',lat:33.3056,lng:126.2894,base:70,peaks:[13,14,15,16],best:'평일 오후',tip:'녹차 아이스크림'},
-  {id:50,name:'우도',area:'우도면',cat:'자연·공원',emoji:'⛴️',lat:33.5115,lng:126.9538,base:40,peaks:[11,12,13,14],best:'오전 배',tip:'섬 속의 섬'},
-  {id:51,name:'주상절리대',area:'중문',cat:'자연·공원',emoji:'🗿',lat:33.2384,lng:126.4259,base:45,peaks:[11,12,14,15],best:'파도 센 날',tip:'화산석의 신비'},
-  {id:52,name:'비자림',area:'구좌읍',cat:'자연·공원',emoji:'🌲',lat:33.4912,lng:126.7725,base:30,peaks:[10,11,14,15],best:'비 온 후',tip:'천년의 숲'},
-  {id:53,name:'카멜리아 힐',area:'안덕면',cat:'자연·공원',emoji:'🌺',lat:33.2842,lng:126.3703,base:35,peaks:[11,12,14],best:'꽃 개화기',tip:'인생샷 명소'},
-  {id:54,name:'월정리 해변',area:'구좌읍',cat:'자연·공원',emoji:'⛱️',lat:33.5532,lng:126.7932,base:55,peaks:[16,17,18],best:'해질녘',tip:'카페 거리'},
-  {id:55,name:'천지연 폭포',area:'서귀포시',cat:'자연·공원',emoji:'🌊',lat:33.2458,lng:126.5593,base:50,peaks:[19,20,21],best:'밤 산책',tip:'야간 조명 폭포'},
-  {id:56,name:'협재 해수욕장',area:'한림읍',cat:'자연·공원',emoji:'🏝️',lat:33.3938,lng:126.2393,base:65,peaks:[14,15,16,17],best:'물 빠질 때',tip:'맑은 바다'},
-  {id:57,name:'약천사',area:'대포동',cat:'박물관',emoji:'🏯',lat:33.2435,lng:126.4485,base:25,peaks:[10,11,14],best:'낮 시간',tip:'웅장한 법당'},
-  {id:58,name:'생각하는 정원',area:'한경면',cat:'자연·공원',emoji:'🌳',lat:33.3245,lng:126.2541,base:20,peaks:[11,12,14],best:'낮',tip:'분수와 정원'},
-  {id:59,name:'에코랜드',area:'조천읍',cat:'테마파크',emoji:'🚂',base:45,peaks:[11,12,14,15],best:'가족과 함께',tip:'숲 속 기차'},
+  {id:20,region:'osaka',name:'도톤보리',area:'오사카 나니와구',cat:'쇼핑·관광',emoji:'🏮',base:85,peaks:[12,13,18,19,20,21],best:'저녁 야경',tip:'글리코상 인증샷'},
+  {id:21,region:'osaka',name:'오사카성',area:'오사카 주오구',cat:'고궁',emoji:'🏯',base:40,peaks:[10,11,13,14],best:'오전 9시',tip:'천수각 전망'},
+  {id:22,region:'osaka',name:'신세카이',area:'오사카 나니와구',cat:'쇼핑·관광',emoji:'🍢',base:55,peaks:[12,13,17,18,19],best:'늦은 오후',tip:'쿠시카츠 맛집'},
+  {id:23,region:'osaka',name:'신사이바시',area:'오사카 주오구',cat:'쇼핑·관광',emoji:'🛍️',base:80,peaks:[14,15,16,17,18],best:'평일 오후',tip:'쇼핑의 거리'},
+  {id:24,region:'osaka',name:'유니버설 스튜디오 재팬',area:'오사카 코노하나구',cat:'테마파크',emoji:'🎢',base:90,peaks:[10,11,12,13,14,15,16,17],best:'개장 직후',tip:'익스프레스 패스 추천'},
+  {id:25,region:'osaka',name:'우메다 스카이 빌딩',area:'오사카 키타구',cat:'전망대',emoji:'🏙️',base:50,peaks:[18,19,20],best:'일몰 전후',tip:'야경 명소'},
+  {id:26,region:'osaka',name:'쿠로몬 시장',area:'오사카 주오구',cat:'쇼핑·관광',emoji:'🐟',base:70,peaks:[11,12,13,14],best:'오전 11시',tip:'현지 해산물'},
+  {id:200,region:'osaka',name:'해유관',area:'오사카 미나토구',cat:'박물관',emoji:'🐠',base:75,peaks:[11,12,13,14,15],best:'오전 10시',tip:'거대 고래상어'},
+  {id:201,region:'osaka',name:'덴포잔 대관람차',area:'오사카 미나토구',cat:'쇼핑·관광',emoji:'🎡',base:45,peaks:[17,18,19],best:'일몰 시',tip:'야경 명소'},
+  {id:202,region:'osaka',name:'스미요시 타이샤',area:'오사카 스미요시',cat:'고궁',emoji:'⛩️',base:30,peaks:[9,10,11],best:'이른 아침',tip:'아치형 다리'},
+  {id:203,region:'osaka',name:'아메리카무라',area:'오사카 주오구',cat:'쇼핑·관광',emoji:'🇺🇸',base:65,peaks:[14,15,16,17],best:'주말 오후',tip:'젊음의 거리'},
+  {id:204,region:'osaka',name:'난바 파크스',area:'오사카 나니와구',cat:'쇼핑·관광',emoji:'🌿',base:40,peaks:[16,17,18],best:'늦은 오후',tip:'옥상 정원'},
 ];
 
 const WMO_ICON={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',61:'🌧️',71:'🌨️',80:'🌦️',95:'⛈️'};
 const WMO_KEY={0:'weather.sunny',1:'weather.mostly_sunny',2:'weather.partly_cloudy',3:'weather.cloudy',45:'weather.foggy',51:'weather.drizzle',61:'weather.rainy',71:'weather.snowy',80:'weather.showers',95:'weather.thunderstorm'};
 let wCode=null;
 
-async function fetchWeather(){
+async function fetchWeather(lat, lng){
   try{
-    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=33.4996&longitude=126.5312&current=temperature_2m,weathercode,windspeed_10m,relativehumidity_2m&timezone=Asia/Seoul');
+    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,weathercode,windspeed_10m,relativehumidity_2m&timezone=Asia/Tokyo`);
     const d=await r.json();const c=d.current;wCode=c.weathercode;
     const wIcon = document.getElementById('wIcon');
     const wTemp = document.getElementById('wTemp');
@@ -95,18 +92,20 @@ async function fetchWeather(){
   }
 }
 
+const REGION_COORDS = { lat: 34.6937, lng: 135.5023 };
+
 function calc(p){
-  const h=new Date().getHours(),day=new Date().getDay();
+  const h=new Date().getHours();
   let s=p.base;
-  if(p.peaks.includes(h))s+=15; else if(h<8||h>20)s-=25;
-  if(day===0||day===6)s+=10;
+  if(p.peaks.includes(h)) s+=15; else if(h<8||h>22) s-=30;
   return Math.max(5,Math.min(99,Math.round(s)));
 }
 
 function applyFilter(){
   const searchInp = document.getElementById('searchInp');
   const q=searchInp.value.trim().toLowerCase();
-  let list=PLACES;
+  
+  let list = PLACES;
   if(q) {
       list=list.filter(p => {
           const tName = window.t(`spot.${p.id}.name`, p.name).toLowerCase();
@@ -118,32 +117,29 @@ function applyFilter(){
       });
   }
 
-  
   const grid=document.getElementById('grid');
   grid.innerHTML='';
   
   if(list.length === 0) {
-      grid.innerHTML = `<div class="no-results" style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">${window.t('cg.label.no_results', 'No results')}</div>`;
+      grid.innerHTML = `<div class="no-results" style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">${window.t('cg.label.no_results')}</div>`;
       return;
   }
 
   list.forEach((p)=>{
     const cv=calc(p);
     let colorClass = (cv<40)?'relax':(cv<60)?'normal':(cv<80)?'crowded':'severe';
-    let statusKey = (cv<40)?'cg.status.relaxed':(cv<60)?'cg.status.normal':(cv<80)?'cg.status.crowded':'cg.status.very_crowded';
 
     const card=document.createElement('div');
     card.className=`cg-card`;
     card.innerHTML=`
       <div class="cg-header">
           <h3>${window.t(`spot.${p.id}.name`, p.name)}</h3>
-          <span class="cg-badge ${colorClass}">${window.t(statusKey)} ${cv}%</span>
+          <span class="cg-badge ${colorClass}">${window.t((cv<40)?'cg.status.relaxed':(cv<60)?'cg.status.normal':(cv<80)?'cg.status.crowded':'cg.status.very_crowded')} ${cv}%</span>
       </div>
       <p class="cg-msg" style="margin-bottom: 8px;">📍 ${window.t(`spot.${p.id}.area`, p.area)} | ${window.t(`spot.${p.id}.cat`, p.cat)} ${p.emoji}</p>
       <p class="cg-msg" style="font-size: 0.85rem;">💡 ${window.t(`spot.${p.id}.tip`, p.tip)} <br/> ⏰ ${window.t("cg.label.rec_time")} ${window.t(`spot.${p.id}.best`, p.best)}</p>
       <div class="map-btns" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
-        <a href="https://map.naver.com/p/search/${encodeURIComponent(p.name)}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🗺️ ${window.t('cg.label.naver')}</a>
-        <a href="https://www.google.com/maps/search/${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🌐 ${window.t('cg.label.google')}</a>
+        <a href="https://www.google.com/maps/search/${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🗺️ ${window.t("cg.label.directions")} &rarr;</a>
         <a href="https://www.google.com/search?q=${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name) + ' ' + window.t('cg.label.restaurant_query'))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: #ffc107; color: #ffc107;">🍽️ ${window.t('card.btn.restaurants')}</a>
         <a href="blog_detail.html?spotId=${p.id}" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: var(--primary); color: var(--primary);">✍️ ${window.t('card.btn.blog')}</a>
       </div>
@@ -153,30 +149,32 @@ function applyFilter(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchWeather();
+    fetchWeather(REGION_COORDS.lat, REGION_COORDS.lng);
     setTimeout(applyFilter, 100);
     document.getElementById('searchInp').addEventListener('input', applyFilter);
     window.addEventListener('languageChanged', applyFilter);
-    setInterval(fetchWeather, 600000);
+    setInterval(() => {
+      fetchWeather(REGION_COORDS.lat, REGION_COORDS.lng);
+    }, 600000);
 });
 </script>
 
     <h2 class="section-title" style="margin: 4rem 8% 0.5rem; font-size: 1.5rem; color: var(--text-main);" data-i18n="ott.trending">지금 뜨는 명소 (Trending Now)</h2>
     <section class="destinations" id="trending-now" style="margin-bottom: 4rem;">
-        <a href="seoul.html" class="card">
-            <img src="img/poster_hongdae.png" alt="Seoul" class="card-img">
-            <div class="card-content">
-                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">SEOUL</span>
-                <h3 data-i18n="spot.0.name">서울 명동</h3>
-                <p data-i18n="spot.0.tip">다시 찾는 활기찬 거리. 쇼핑과 스트리트 푸드의 천국.</p>
-            </div>
-        </a>
         <a href="kyoto.html" class="card">
-            <img src="img/poster_kiyomizu.png" alt="Japan" class="card-img">
+            <img src="img/poster_kiyomizu.png" alt="Kyoto" class="card-img">
             <div class="card-content">
                 <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">KYOTO (JAPAN)</span>
                 <h3 data-i18n="spot.30.name">교토 청수사</h3>
-                <p data-i18n="spot.30.tip">계절마다 다른 아름다움. 조용한 산책길의 정취를 느껴보세요.</p>
+                <p data-i18n="spot.30.tip">천년의 숨결이 살아있는 교토의 상징적인 사찰입니다.</p>
+            </div>
+        </a>
+        <a href="seoul.html" class="card">
+            <img src="img/poster_hongdae.png" alt="Seoul" class="card-img">
+            <div class="card-content">
+                <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">SEOUL (KOREA)</span>
+                <h3 data-i18n="spot.0.name">서울 홍대</h3>
+                <p data-i18n="spot.0.tip">밤낮으로 멈추지 않는 에너지를 확인하세요.</p>
             </div>
         </a>
         <a href="index.html" class="card">
@@ -197,4 +195,5 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </footer>
 </body>
+
 </html>
