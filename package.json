@@ -2,6 +2,7 @@
   "name": "tavel-trapic",
   "version": "1.0.0",
   "description": "Travel Trapic Admin",
+  "type": "module",
   "main": "admin_server.js",
   "scripts": {
     "start": "node admin_server.js",
