@@ -7,10 +7,18 @@ export default function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Password');
 
     if (req.method === 'OPTIONS') {
         res.status(204).end();
+        return;
+    }
+
+    const ADMIN_PASSWORD = '4898';
+    const authPassword = req.headers['x-admin-password'];
+
+    if (req.method === 'POST' && authPassword !== ADMIN_PASSWORD) {
+        res.status(401).json({ error: 'Unauthorized' });
         return;
     }
 
