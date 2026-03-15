@@ -386,7 +386,11 @@
 
             if (currentEditId) {
                 const idx = blogs.findIndex(x => x.id == currentEditId);
-                blogs[idx] = blogData;
+                if (idx !== -1) {
+                    blogs[idx] = blogData;
+                } else {
+                    blogs.push(blogData);
+                }
             } else {
                 // Check if blog for this spot already exists
                 const existingIdx = blogs.findIndex(x => x.spotId == spotId);
@@ -407,14 +411,21 @@
                     },
                     body: JSON.stringify(blogs)
                 });
+
                 if (res.ok) {
                     alert('Saved successfully!');
                     resetEditor();
                     await fetchBlogs();
                     renderBlogList();
                 } else {
-                    const errData = await res.json();
-                    alert('Save failed: ' + (errData.error || 'Server error'));
+                    let errorMessage = `Save failed (Status: ${res.status})`;
+                    try {
+                        const errData = await res.json();
+                        errorMessage += `: ${errData.error || res.statusText}`;
+                    } catch (e) {
+                        errorMessage += `: ${res.statusText}`;
+                    }
+                    alert(errorMessage);
                 }
             } catch (e) { 
                 console.error(e);

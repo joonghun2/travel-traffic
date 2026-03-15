@@ -21,6 +21,13 @@ const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-File-Name, X-Admin-Password');
 
+    console.log(`[API] ${req.method} ${req.url}`);
+    if (req.headers['x-admin-password']) {
+        console.log(`[AUTH] Password Header Present`);
+    } else {
+        console.log(`[AUTH] No Password Header`);
+    }
+
     if (req.method === 'OPTIONS') {
         res.writeHead(204);
         res.end();
@@ -96,6 +103,7 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             try {
                 const updatedData = JSON.parse(body);
+                console.log(`[GUIDES] Received ${updatedData.length || 0} guides`);
                 fs.writeFile(DATA_FILE, JSON.stringify(updatedData, null, 4), 'utf8', (err) => {
                     if (err) {
                         res.writeHead(500);
@@ -142,6 +150,7 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             try {
                 const updatedBlogs = JSON.parse(body);
+                console.log(`[BLOGS] Received ${updatedBlogs.length} blogs`);
                 fs.writeFile(BLOGS_FILE, JSON.stringify(updatedBlogs, null, 4), 'utf8', (err) => {
                     if (err) {
                         res.writeHead(500);
