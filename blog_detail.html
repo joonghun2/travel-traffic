@@ -6,6 +6,7 @@
     <title data-i18n="blog.detail.title">Editor Blog - Travel Traffic</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/i18n.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         .blog-container {
             max-width: 800px;
@@ -41,6 +42,29 @@
             display: block;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
+        /* Markdown Styles */
+        .blog-content h2 { font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem; color: var(--primary); }
+        .blog-content h3 { font-size: 1.4rem; margin-top: 1.5rem; margin-bottom: 0.8rem; color: var(--secondary); }
+        .blog-content hr { border: none; border-top: 1px solid var(--glass-border); margin: 2rem 0; }
+        .blog-content ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        .blog-content li { margin-bottom: 0.5rem; }
+        .blog-content strong { color: var(--primary); font-weight: 700; }
+        .blog-content table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 2rem 0; 
+            background: var(--glass-bg); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid var(--glass-border);
+        }
+        .blog-content th, .blog-content td { 
+            padding: 1rem; 
+            text-align: left; 
+            border-bottom: 1px solid var(--glass-border); 
+        }
+        .blog-content th { background: rgba(255,255,255,0.1); font-weight: 700; color: var(--primary); }
+        .blog-content tr:last-child td { border-bottom: none; }
         .no-blog {
             text-align: center;
             padding: 100px 20px;
@@ -127,7 +151,8 @@
             
             blog.content.forEach(item => {
                 if (item.type === 'text') {
-                    contentHtml += `<p>${item.value.replace(/\n/g, '<br>')}</p>`;
+                    // Use marked for markdown parsing
+                    contentHtml += marked.parse(item.value);
                 } else if (item.type === 'image') {
                     contentHtml += `<img src="${item.url}" alt="Blog Image">`;
                 }
