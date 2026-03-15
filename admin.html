@@ -301,7 +301,7 @@
             <p id="login-error" style="color: #ef4444; margin-top: 1rem; font-size: 0.875rem; display: none;">Invalid password</p>
         </div>
     </div>
-    <div class="container">
+    <div class="container" style="display: none;">
         <header>
             <h1>Admin Dashboard</h1>
             <div style="display: flex; gap: 1rem; align-items: center;">
@@ -381,29 +381,36 @@
 
         async function attemptLogin() {
             const pass = document.getElementById('login-pass').value;
-            const res = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password: pass })
-            });
-            if (res.ok) {
-                sessionStorage.setItem('admin_pass', pass);
-                document.getElementById('login-overlay').style.display = 'none';
-                document.body.style.visibility = 'visible';
-                fetchGuides();
-            } else {
-                const err = document.getElementById('login-error');
-                err.style.display = 'block';
-                setTimeout(() => err.style.display = 'none', 3000);
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pass })
+                });
+                if (res.ok) {
+                    sessionStorage.setItem('admin_pass', pass);
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.querySelector('.container').style.display = 'block';
+                    document.body.style.visibility = 'visible';
+                    fetchGuides();
+                } else {
+                    const err = document.getElementById('login-error');
+                    err.style.display = 'block';
+                    setTimeout(() => err.style.display = 'none', 3000);
+                }
+            } catch (e) {
+                alert('Connection error. Is the server running?');
             }
         }
 
         function checkAuth() {
             if (sessionStorage.getItem('admin_pass')) {
                 document.getElementById('login-overlay').style.display = 'none';
+                document.querySelector('.container').style.display = 'block';
                 document.body.style.visibility = 'visible';
                 fetchGuides();
             } else {
+                document.getElementById('login-overlay').style.display = 'flex';
                 document.body.style.visibility = 'visible';
             }
         }
