@@ -109,8 +109,7 @@
                     container.innerHTML = `
                         <a href="javascript:history.back()" class="back-btn">&larr; ${window.t('blog.btn.back', 'Back')}</a>
                         <div class="no-blog">
-                            <h2 data-i18n="blog.error.not_found">준비된 블로그 내용이 없습니다.</h2>
-                            <p data-i18n="blog.error.not_found_desc">관리자가 곧 내용을 업로드할 예정입니다.</p>
+                            <h2 data-i18n="blog.error.not_found">업데이트 예정</h2>
                         </div>`;
                     return;
                 }
@@ -118,8 +117,7 @@
                 renderBlog(blog);
             } catch (error) {
                 console.error('Error loading blog:', error);
-                // Fallback for when admin server isn't running or API fails
-                container.innerHTML = `<div class="no-blog" data-i18n="blog.error.fetch">Error loading blog content.</div>`;
+                container.innerHTML = `<div class="no-blog" data-i18n="blog.error.not_found">업데이트 예정</div>`;
             }
         }
 

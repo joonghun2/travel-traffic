@@ -21,6 +21,7 @@
             <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
         </ul>
         <div class="lang-switcher">
+            <button onclick="window.softRefresh()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; margin-right:5px;">🔄</button>
             <select id="lang-selector">
                 <option value="ko">한국어</option>
                 <option value="en">English</option>
@@ -134,6 +135,7 @@ function applyFilter(){
 
     const card=document.createElement('div');
     card.className=`cg-card`;
+    card.id=`spot-${p.id}`;
     card.innerHTML=`
       <div class="cg-header">
           <h3>${window.t(`spot.${p.id}.name`, p.name)}</h3>
@@ -152,12 +154,45 @@ function applyFilter(){
   });
 }
 
+let blogIds = [];
+
+async function fetchBlogs() {
+    try {
+        const response = await fetch('/api/blogs');
+        if (response.ok) {
+            const blogs = await response.json();
+            blogIds = blogs.map(b => b.spotId);
+            applyFilter();
+        }
+    } catch (e) {
+        console.error('Error fetching blogs:', e);
+    }
+}
+
+function softRefresh() {
+    console.log('Soft refreshing data...');
+    fetchWeather();
+    fetchBlogs();
+    if(typeof applyFilter === 'function') applyFilter();
+}
+window.softRefresh = softRefresh;
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchWeather();
+    fetchBlogs();
     setTimeout(applyFilter, 100);
     document.getElementById('searchInp').addEventListener('input', applyFilter);
     window.addEventListener('languageChanged', applyFilter);
-    setInterval(fetchWeather, 600000);
+    setInterval(fetchWeather, 300000);
+    setInterval(applyFilter, 300000);
+    setInterval(fetchBlogs, 300000);
+
+    if(window.location.hash) {
+        setTimeout(() => {
+            const el = document.querySelector(window.location.hash);
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 500);
+    }
 });
 </script>
 

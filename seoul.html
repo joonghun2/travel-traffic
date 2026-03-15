@@ -23,6 +23,7 @@
             <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
         </ul>
         <div class="lang-switcher">
+            <button onclick="window.softRefresh()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; margin-right:5px;">🔄</button>
             <select id="lang-selector">
                 <option value="ko">한국어</option>
                 <option value="en">English</option>
@@ -110,7 +111,20 @@ function calc(p){
   return Math.max(5,Math.min(99,Math.round(s)));
 }
 
-let curCat='전체';
+let blogIds = [];
+
+async function fetchBlogs() {
+    try {
+        const response = await fetch('/api/blogs');
+        if (response.ok) {
+            const blogs = await response.json();
+            blogIds = blogs.map(b => b.spotId);
+            applyFilter();
+        }
+    } catch (e) {
+        console.error('Error fetching blogs:', e);
+    }
+}
 
 function applyFilter(){
   const searchEl = document.getElementById('searchInp');
@@ -143,26 +157,23 @@ function applyFilter(){
     let colorClass = '';
     let statusKey = '';
     
-    // Map percentages to our style.css classes
     if(cv < 40) { colorClass = 'relax'; statusKey = 'cg.status.relaxed'; }
     else if(cv < 60) { colorClass = 'normal'; statusKey = 'cg.status.normal'; }
     else if(cv < 80) { colorClass = 'crowded'; statusKey = 'cg.status.crowded'; }
     else { colorClass = 'severe'; statusKey = 'cg.status.very_crowded'; }
 
-    // Translate Status Label based on i18n
     const statusLabel = window.t(statusKey, (cv < 40) ? '여유' : (cv < 60) ? '보통' : (cv < 80) ? '약간 붐빔' : '매우 붐빔');
 
-    // Lookup translated values using the global window.t helper
     const tName = window.t(`spot.${p.id}.name`, p.name);
     const tArea = window.t(`spot.${p.id}.area`, p.area);
     const tCat = window.t(`spot.${p.id}.cat`, p.cat);
     const tTip = window.t(`spot.${p.id}.tip`, p.tip);
     const tBest = window.t(`spot.${p.id}.best`, p.best);
     const lblTime = window.t("cg.label.rec_time", "추천 시간:");
-    const lblDir = window.t("cg.label.directions", "길찾기");
-
+    
     const card=document.createElement('div');
     card.className=`cg-card`;
+    card.id=`spot-${p.id}`;
     card.innerHTML=`
       <div class="cg-header">
           <h3>${tName}</h3>
@@ -181,21 +192,35 @@ function applyFilter(){
   });
 }
 
-window.applyFilter = applyFilter;
+function softRefresh() {
+    console.log('Soft refreshing data...');
+    fetchWeather();
+    fetchBlogs();
+    if(typeof applyFilter === 'function') applyFilter();
+}
+window.softRefresh = softRefresh;
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchWeather();
-    setTimeout(applyFilter, 100); // Give time for i18n variables to mount
+    fetchBlogs();
+    setTimeout(applyFilter, 100); 
     
     document.getElementById('searchInp').addEventListener('input', applyFilter);
 
-    // Re-render when language changes
     window.addEventListener('languageChanged', () => {
         applyFilter();
     });
 
-    setInterval(applyFilter, 600000); 
-    setInterval(fetchWeather, 600000);
+    setInterval(applyFilter, 300000); 
+    setInterval(fetchWeather, 300000);
+    setInterval(fetchBlogs, 300000);
+
+    if(window.location.hash) {
+        setTimeout(() => {
+            const el = document.querySelector(window.location.hash);
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 500);
+    }
 });
 </script>
     <h2 class="section-title" style="margin: 4rem 8% 0.5rem; font-size: 1.5rem; color: var(--text-main);" data-i18n="ott.trending">지금 뜨는 명소 (Trending Now)</h2>

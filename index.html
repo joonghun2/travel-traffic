@@ -23,6 +23,7 @@
             <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
         </ul>
         <div class="lang-switcher">
+            <button onclick="location.reload()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; margin-right:5px;">🔄</button>
             <select id="lang-selector">
                 <option value="ko">한국어</option>
                 <option value="en">English</option>
@@ -35,12 +36,12 @@
         <h1 data-i18n="hero.title">안녕~ <br> <span>트래블 트래픽</span></h1>
         <p data-i18n="hero.desc">즐거운 여행, 붐비는지 지금 확인하고 출발하세요!</p>
         <div class="hero-btns">
-            <a href="seoul.html" class="tab-btn active" data-i18n="hero.btn">지금 확인하기</a>
+            <a href="#brand-tiles" class="tab-btn active" data-i18n="hero.btn">지금 확인하기</a>
             <a href="guides.html" class="tab-btn secondary" data-i18n="hero.guide_btn">여행 가이드 보기</a>
         </div>
     </section>
 
-    <div class="brand-tiles">
+    <div class="brand-tiles" id="brand-tiles">
         <a href="seoul.html" class="brand-tile">
             <div class="brand-bg" style="background-image: url('img/graphic_seoul.svg');"></div>
             <span class="brand-name" data-i18n="ott.tag.seoul">SEOUL</span>
@@ -62,7 +63,7 @@
     <h2 class="section-title" style="margin: 2rem 8% 0.5rem; font-size: 1.5rem; color: var(--text-main);" data-i18n="ott.trending">지금 뜨는 명소 (Trending Now)</h2>
     <section class="destinations" id="trending-now">
         <!-- Seoul Spotlight -->
-        <a href="seoul.html" class="card">
+        <a href="seoul.html#spot-0" class="card">
             <img src="img/poster_hongdae.png" alt="Hongdae" class="card-img">
             <div class="card-content">
                 <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">SEOUL</span>
@@ -72,7 +73,7 @@
         </a>
 
         <!-- Jeju Spotlight -->
-        <a href="jeju.html" class="card">
+        <a href="jeju.html#spot-10" class="card">
             <img src="img/poster_hallasan.png" alt="Hallasan" class="card-img">
             <div class="card-content">
                 <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">JEJU</span>
@@ -82,7 +83,7 @@
         </a>
 
         <!-- Osaka Spotlight -->
-        <a href="osaka.html" class="card">
+        <a href="osaka.html#spot-20" class="card">
             <img src="img/poster_dotonbori.png" alt="Dotonbori" class="card-img">
             <div class="card-content">
                 <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">OSAKA (JAPAN)</span>
@@ -92,7 +93,7 @@
         </a>
 
         <!-- More Spots -->
-        <a href="seoul.html" class="card">
+        <a href="seoul.html#spot-3" class="card">
             <img src="img/poster_namsan_real.png" alt="N Seoul Tower" class="card-img" style="background: #0f172a;">
             <div class="card-content">
                 <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">SEOUL</span>
