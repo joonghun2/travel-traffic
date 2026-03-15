@@ -104,4 +104,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 50);
         });
     }
+
+    // Auto-refresh every 5 minutes
+    setInterval(() => {
+        const term = searchInput.value.toLowerCase();
+        const filtered = mockSeoulSpots.filter(spot => 
+            spot.nameKo.toLowerCase().includes(term) ||
+            spot.nameEn.toLowerCase().includes(term) ||
+            spot.nameJa.toLowerCase().includes(term)
+        );
+        renderCards(filtered);
+    }, 300000);
 });
