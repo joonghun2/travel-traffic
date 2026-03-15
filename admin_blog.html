@@ -226,7 +226,13 @@
                     location.reload();
                     return;
                 }
-                spots = await res.json();
+                
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.error || `Server Error (${res.status})`);
+                }
+                
+                spots = data;
                 const select = document.getElementById('spot-select');
                 select.innerHTML = '<option value="">-- Choose a Spot --</option>';
                 spots.forEach(s => {
@@ -246,7 +252,13 @@
                     location.reload();
                     return;
                 }
-                blogs = await res.json();
+                
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.error || `Server Error (${res.status})`);
+                }
+                
+                blogs = data;
             } catch (e) { 
                 console.error(e);
                 alert('Failed to fetch blogs: ' + e.message);

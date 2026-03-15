@@ -423,7 +423,13 @@
                     location.reload();
                     return;
                 }
-                guidesData = await res.json();
+                
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.error || `Server Error (${res.status})`);
+                }
+                
+                guidesData = data;
                 renderGrid();
             } catch (e) {
                 console.error('Fetch error:', e);
