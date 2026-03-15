@@ -1,11 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { exec } = require('child_process');
+const { supabase } = require('./lib/supabase');
 
-export default function handler(req, res) {
-    const DATA_FILE = path.join(process.cwd(), 'guides_data.json');
-    const BUILD_SCRIPT = 'node generate_guides.js';
-
+export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -13,6 +8,11 @@ export default function handler(req, res) {
 
     if (req.method === 'OPTIONS') {
         res.status(204).end();
+        return;
+    }
+
+    if (!supabase) {
+        res.status(500).json({ error: 'Supabase credentials not configured' });
         return;
     }
 
@@ -26,36 +26,39 @@ export default function handler(req, res) {
 
     if (req.method === 'GET') {
         try {
-            const data = fs.readFileSync(DATA_FILE, 'utf8');
-            res.status(200).json(JSON.parse(data));
+            const { data, error } = await supabase
+                .from('guides')
+                .select('*')
+                .order('id', { ascending: true });
+            
+            if (error) throw error;
+
+            res.status(200).json(data);
         } catch (err) {
-            console.error('Read error:', err);
-            res.status(500).json({ error: 'Failed to read data file' });
+            console.error('Database read error:', err);
+            res.status(500).json({ error: 'Failed to fetch guides' });
         }
     } else if (req.method === 'POST') {
         const updatedData = req.body;
         if (!updatedData || (Array.isArray(updatedData) && updatedData.length === 0 && req.headers['content-length'] === '0')) {
-             console.error('Empty body received');
              res.status(400).json({ error: 'Empty body' });
              return;
         }
 
         try {
-            fs.writeFileSync(DATA_FILE, JSON.stringify(updatedData, null, 4), 'utf8');
+            const { error } = await supabase.from('guides').upsert(updatedData.map(g => ({
+                id: g.id,
+                tags: g.tags,
+                ko: g.ko,
+                en: g.en,
+                ja: g.ja
+            })));
+            if (error) throw error;
 
-            // Trigger guide regeneration
-            // NOTE: This might also fail or have no effect on the served static files in production.
-            exec(BUILD_SCRIPT, (execErr, stdout, stderr) => {
-                if (execErr) {
-                    console.error(`Build error: ${execErr}`);
-                    res.status(500).json({ error: 'Failed to regenerate guides', details: stderr });
-                    return;
-                }
-                res.status(200).json({ message: 'Success (Note: Filesystem changes are ephemeral in Vercel)', output: stdout });
-            });
+            res.status(200).json({ message: 'Success (Saved to Database)' });
         } catch (e) {
-            console.error('Write error:', e);
-            res.status(400).json({ error: 'Failed to write data' });
+            console.error('Database write error:', e);
+            res.status(400).json({ error: 'Failed to save data' });
         }
     } else {
         res.status(405).json({ error: 'Method not allowed' });

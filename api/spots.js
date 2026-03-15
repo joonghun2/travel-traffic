@@ -1,9 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+const { supabase } = require('./lib/supabase');
 
-export default function handler(req, res) {
-    const SPOTS_FILE = path.join(process.cwd(), 'data', 'spots.json');
-
+export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -11,6 +8,11 @@ export default function handler(req, res) {
 
     if (req.method === 'OPTIONS') {
         res.status(204).end();
+        return;
+    }
+
+    if (!supabase) {
+        res.status(500).json({ error: 'Supabase credentials not configured' });
         return;
     }
 
@@ -24,11 +26,17 @@ export default function handler(req, res) {
 
     if (req.method === 'GET') {
         try {
-            const data = fs.readFileSync(SPOTS_FILE, 'utf8');
-            res.status(200).json(JSON.parse(data));
+            const { data, error } = await supabase
+                .from('spots')
+                .select('*')
+                .order('id', { ascending: true });
+            
+            if (error) throw error;
+
+            res.status(200).json(data);
         } catch (err) {
-            console.error('Read error:', err);
-            res.status(500).json({ error: 'Failed to read spots file' });
+            console.error('Database read error:', err);
+            res.status(500).json({ error: 'Failed to fetch spots' });
         }
     } else {
         res.status(405).json({ error: 'Method not allowed' });

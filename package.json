@@ -1,0 +1,13 @@
+{
+  "name": "tavel-trapic",
+  "version": "1.0.0",
+  "description": "Travel Trapic Admin",
+  "main": "admin_server.js",
+  "scripts": {
+    "start": "node admin_server.js",
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  }
+}

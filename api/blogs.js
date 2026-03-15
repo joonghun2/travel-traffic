@@ -1,9 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+const { supabase } = require('./lib/supabase');
 
-export default function handler(req, res) {
-    const BLOGS_FILE = path.join(process.cwd(), 'data', 'blogs.json');
-
+export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -11,6 +8,11 @@ export default function handler(req, res) {
 
     if (req.method === 'OPTIONS') {
         res.status(204).end();
+        return;
+    }
+
+    if (!supabase) {
+        res.status(500).json({ error: 'Supabase credentials not configured' });
         return;
     }
 
@@ -24,30 +26,54 @@ export default function handler(req, res) {
 
     if (req.method === 'GET') {
         try {
-            if (!fs.existsSync(BLOGS_FILE)) {
-                res.status(200).json([]);
-                return;
-            }
-            const data = fs.readFileSync(BLOGS_FILE, 'utf8');
-            res.status(200).json(JSON.parse(data));
+            const { data, error } = await supabase
+                .from('blogs')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+
+            // Map database fields to JSON fields if different
+            const formattedData = data.map(b => ({
+                id: b.id,
+                spotId: b.spot_id,
+                title: b.title,
+                content: b.content,
+                author: b.author,
+                createdAt: b.created_at
+            }));
+
+            res.status(200).json(formattedData);
         } catch (err) {
-            console.error('Read error:', err);
-            res.status(500).json({ error: 'Failed to read blogs file' });
+            console.error('Database read error:', err);
+            res.status(500).json({ error: 'Failed to fetch blogs from database' });
         }
     } else if (req.method === 'POST') {
-        const updatedData = req.body;
-        if (!updatedData || (typeof updatedData === 'object' && Object.keys(updatedData).length === 0 && req.headers['content-length'] === '0')) {
-             console.error('Empty body received');
+        const updatedBlogs = req.body;
+        if (!updatedBlogs || (Array.isArray(updatedBlogs) && updatedBlogs.length === 0 && req.headers['content-length'] === '0')) {
              res.status(400).json({ error: 'Empty body' });
              return;
         }
 
         try {
-            fs.writeFileSync(BLOGS_FILE, JSON.stringify(updatedData, null, 4), 'utf8');
-            res.status(200).json({ message: 'Success (Note: Filesystem changes are ephemeral in Vercel)' });
+            // Upsert all blogs. Note: In a real app, you'd insert/update individual records.
+            // For now, mirroring the JSON-overwrite logic.
+            const rows = updatedBlogs.map(b => ({
+                id: b.id,
+                spot_id: b.spotId,
+                title: b.title,
+                content: b.content,
+                author: b.author || 'Admin',
+                created_at: b.createdAt
+            }));
+
+            const { error } = await supabase.from('blogs').upsert(rows);
+            if (error) throw error;
+
+            res.status(200).json({ message: 'Success (Saved to Database)' });
         } catch (e) {
-            console.error('Write error:', e);
-            res.status(400).json({ error: 'Failed to write blogs' });
+            console.error('Database write error:', e);
+            res.status(400).json({ error: 'Failed to save blogs to database', details: e.message });
         }
     } else {
         res.status(405).json({ error: 'Method not allowed' });
