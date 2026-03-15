@@ -4,6 +4,7 @@ const path = require('path');
 const { exec } = require('child_process');
 
 const PORT = 3000;
+const ADMIN_PASSWORD = '4898';
 const DATA_FILE = path.join(__dirname, 'guides_data.json');
 const BLOGS_FILE = path.join(__dirname, 'data', 'blogs.json');
 const SPOTS_FILE = path.join(__dirname, 'data', 'spots.json');
@@ -18,11 +19,21 @@ const server = http.createServer((req, res) => {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-File-Name');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-File-Name, X-Admin-Password');
 
     if (req.method === 'OPTIONS') {
         res.writeHead(204);
         res.end();
+        return;
+    }
+
+    // Auth Middleware for API
+    const authPassword = req.headers['x-admin-password'];
+    const isApiRequest = req.url.startsWith('/api/');
+
+    if (isApiRequest && req.url !== '/api/login' && authPassword !== ADMIN_PASSWORD) {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Unauthorized' }));
         return;
     }
 
@@ -35,6 +46,24 @@ const server = http.createServer((req, res) => {
             }
             res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
             res.end(data);
+        });
+    } else if (req.url === '/api/login' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => { body += chunk.toString(); });
+        req.on('end', () => {
+            try {
+                const { password } = JSON.parse(body);
+                if (password === ADMIN_PASSWORD) {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: true }));
+                } else {
+                    res.writeHead(401, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Invalid password' }));
+                }
+            } catch (e) {
+                res.writeHead(400);
+                res.end(JSON.stringify({ error: 'Invalid JSON' }));
+            }
         });
     } else if (req.url === '/api/guides' && req.method === 'GET') {
         fs.readFile(DATA_FILE, 'utf8', (err, data) => {

@@ -81,7 +81,6 @@
             display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;
         }
 
-        .blog-list { margin-top: 4rem; }
         .blog-item {
             background: var(--card-bg);
             padding: 1rem;
@@ -89,9 +88,42 @@
             margin-bottom: 1rem;
             display: flex; justify-content: space-between; align-items: center;
         }
+
+        /* Login Overlay */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .login-box {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .login-box h2 { margin-bottom: 2rem; font-family: 'Outfit', sans-serif; }
     </style>
 </head>
-<body>
+<body style="visibility: hidden;">
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2>Admin Login</h2>
+            <div class="form-group" style="text-align: left;">
+                <label>Enter Password</label>
+                <input type="password" id="login-pass" placeholder="****" onkeypress="if(event.key==='Enter') attemptLogin()">
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="attemptLogin()">Login</button>
+            <p id="login-error" style="color: #ef4444; margin-top: 1rem; font-size: 0.875rem; display: none;">Invalid password</p>
+        </div>
+    </div>
     <div class="container">
         <header>
             <h1>Blog Management</h1>
@@ -140,6 +172,39 @@
         let spots = [];
         let currentEditId = null;
 
+        function getAuthHeader() {
+            return { 'X-Admin-Password': sessionStorage.getItem('admin_pass') || '' };
+        }
+
+        async function attemptLogin() {
+            const pass = document.getElementById('login-pass').value;
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pass })
+            });
+            if (res.ok) {
+                sessionStorage.setItem('admin_pass', pass);
+                document.getElementById('login-overlay').style.display = 'none';
+                document.body.style.visibility = 'visible';
+                init();
+            } else {
+                const err = document.getElementById('login-error');
+                err.style.display = 'block';
+                setTimeout(() => err.style.display = 'none', 3000);
+            }
+        }
+
+        function checkAuth() {
+            if (sessionStorage.getItem('admin_pass')) {
+                document.getElementById('login-overlay').style.display = 'none';
+                document.body.style.visibility = 'visible';
+                init();
+            } else {
+                document.body.style.visibility = 'visible';
+            }
+        }
+
         async function init() {
             await fetchSpots();
             await fetchBlogs();
@@ -148,7 +213,12 @@
 
         async function fetchSpots() {
             try {
-                const res = await fetch('/api/spots');
+                const res = await fetch('/api/spots', { headers: getAuthHeader() });
+                if (res.status === 401) {
+                    sessionStorage.removeItem('admin_pass');
+                    location.reload();
+                    return;
+                }
                 spots = await res.json();
                 const select = document.getElementById('spot-select');
                 select.innerHTML = '<option value="">-- Choose a Spot --</option>';
@@ -160,7 +230,12 @@
 
         async function fetchBlogs() {
             try {
-                const res = await fetch('/api/blogs');
+                const res = await fetch('/api/blogs', { headers: getAuthHeader() });
+                if (res.status === 401) {
+                    sessionStorage.removeItem('admin_pass');
+                    location.reload();
+                    return;
+                }
                 blogs = await res.json();
             } catch (e) { console.error(e); }
         }
@@ -231,7 +306,10 @@
             try {
                 const res = await fetch('/api/upload', {
                     method: 'POST',
-                    headers: { 'X-File-Name': file.name },
+                    headers: { 
+                        'X-File-Name': file.name,
+                        ...getAuthHeader()
+                    },
                     body: file
                 });
                 const d = await res.json();
@@ -310,7 +388,10 @@
             try {
                 const res = await fetch('/api/blogs', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        ...getAuthHeader()
+                    },
                     body: JSON.stringify(blogs)
                 });
                 if (res.ok) {
@@ -336,7 +417,10 @@
             try {
                 const res = await fetch('/api/blogs', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        ...getAuthHeader()
+                    },
                     body: JSON.stringify(blogs)
                 });
                 if (res.ok) {
@@ -345,7 +429,7 @@
             } catch (e) { alert('Delete failed'); }
         }
 
-        init();
+        checkAuth();
     </script>
 </body>
 </html>
