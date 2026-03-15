@@ -32,6 +32,7 @@ const server = http.createServer((req, res) => {
     const isApiRequest = req.url.startsWith('/api/');
 
     if (isApiRequest && req.url !== '/api/login' && authPassword !== ADMIN_PASSWORD) {
+        console.warn(`Unauthorized API request: ${req.url}`);
         res.writeHead(401, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Unauthorized' }));
         return;
@@ -54,9 +55,11 @@ const server = http.createServer((req, res) => {
             try {
                 const { password } = JSON.parse(body);
                 if (password === ADMIN_PASSWORD) {
+                    console.log('Login successful');
                     res.writeHead(200, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ success: true }));
                 } else {
+                    console.warn('Invalid login attempt');
                     res.writeHead(401, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Invalid password' }));
                 }

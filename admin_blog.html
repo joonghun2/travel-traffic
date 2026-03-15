@@ -232,7 +232,10 @@
                 spots.forEach(s => {
                     select.innerHTML += `<option value="${s.id}">${s.name} (${s.city}) (#${s.id})</option>`;
                 });
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error(e);
+                alert('Failed to fetch spots: ' + e.message);
+            }
         }
 
         async function fetchBlogs() {
@@ -244,7 +247,10 @@
                     return;
                 }
                 blogs = await res.json();
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error(e);
+                alert('Failed to fetch blogs: ' + e.message);
+            }
         }
 
         function renderBlogList() {
@@ -406,8 +412,14 @@
                     resetEditor();
                     await fetchBlogs();
                     renderBlogList();
+                } else {
+                    const errData = await res.json();
+                    alert('Save failed: ' + (errData.error || 'Server error'));
                 }
-            } catch (e) { alert('Save failed'); }
+            } catch (e) { 
+                console.error(e);
+                alert('Save failed: ' + e.message); 
+            }
         }
 
         function resetEditor() {

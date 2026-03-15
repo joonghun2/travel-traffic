@@ -33,10 +33,14 @@ export default function handler(req, res) {
             res.status(500).json({ error: 'Failed to read data file' });
         }
     } else if (req.method === 'POST') {
-        // NOTE: In Vercel production, this filesystem write will NOT persist.
-        // It will only work during local development (vercel dev).
+        const updatedData = req.body;
+        if (!updatedData || (Array.isArray(updatedData) && updatedData.length === 0 && req.headers['content-length'] === '0')) {
+             console.error('Empty body received');
+             res.status(400).json({ error: 'Empty body' });
+             return;
+        }
+
         try {
-            const updatedData = req.body;
             fs.writeFileSync(DATA_FILE, JSON.stringify(updatedData, null, 4), 'utf8');
 
             // Trigger guide regeneration

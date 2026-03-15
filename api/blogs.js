@@ -35,10 +35,15 @@ export default function handler(req, res) {
             res.status(500).json({ error: 'Failed to read blogs file' });
         }
     } else if (req.method === 'POST') {
-        // NOTE: In Vercel production, this filesystem write will NOT persist.
+        const updatedData = req.body;
+        if (!updatedData || (typeof updatedData === 'object' && Object.keys(updatedData).length === 0 && req.headers['content-length'] === '0')) {
+             console.error('Empty body received');
+             res.status(400).json({ error: 'Empty body' });
+             return;
+        }
+
         try {
-            const updatedBlogs = req.body;
-            fs.writeFileSync(BLOGS_FILE, JSON.stringify(updatedBlogs, null, 4), 'utf8');
+            fs.writeFileSync(BLOGS_FILE, JSON.stringify(updatedData, null, 4), 'utf8');
             res.status(200).json({ message: 'Success (Note: Filesystem changes are ephemeral in Vercel)' });
         } catch (e) {
             console.error('Write error:', e);

@@ -427,6 +427,7 @@
                 renderGrid();
             } catch (e) {
                 console.error('Fetch error:', e);
+                alert('Failed to fetch guides: ' + e.message);
             }
         }
 
@@ -560,9 +561,13 @@
                     showToast();
                     closeEditor();
                     renderGrid();
+                } else {
+                    const errData = await res.json();
+                    alert('Save failed: ' + (errData.error || 'Server error'));
                 }
             } catch (e) {
-                alert('Failed to save data. Check console.');
+                console.error(e);
+                alert('Failed to save data: ' + e.message);
             }
         }
 
