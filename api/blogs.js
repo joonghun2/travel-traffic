@@ -3,7 +3,7 @@ import { supabase } from './lib/supabase.js';
 export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Password');
 
     if (req.method === 'OPTIONS') {
@@ -37,6 +37,7 @@ export default async function handler(req, res) {
             const formattedData = data.map(b => ({
                 id: b.id,
                 spotId: b.spot_id,
+                lang: b.lang,
                 title: b.title,
                 content: b.content,
                 author: b.author,
@@ -61,6 +62,7 @@ export default async function handler(req, res) {
             const rows = updatedBlogs.map(b => ({
                 id: b.id,
                 spot_id: b.spotId,
+                lang: b.lang,
                 title: b.title,
                 content: b.content,
                 author: b.author || 'Admin',
@@ -74,6 +76,25 @@ export default async function handler(req, res) {
         } catch (e) {
             console.error('Database write error:', e);
             res.status(400).json({ error: 'Failed to save blogs to database', details: e.message });
+        }
+    } else if (req.method === 'DELETE') {
+        const { id } = req.query;
+        if (!id) {
+            res.status(400).json({ error: 'Missing blog id' });
+            return;
+        }
+
+        try {
+            const { error } = await supabase
+                .from('blogs')
+                .delete()
+                .eq('id', id);
+            
+            if (error) throw error;
+            res.status(200).json({ message: 'Success (Deleted from Database)' });
+        } catch (e) {
+            console.error('Database delete error:', e);
+            res.status(500).json({ error: 'Failed to delete blog' });
         }
     } else {
         res.status(405).json({ error: 'Method not allowed' });

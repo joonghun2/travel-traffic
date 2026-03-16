@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모든 여행 가이드 - 트래블 트래픽</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/i18n.js"></script>
+    <style>
+        .guides-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 5%;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: var(--accent); }
+        
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .guide-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .guide-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .guide-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #1e293b;
+        }
+        
+        .guide-card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .guide-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+        
+        .guide-card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .guide-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .tag {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            padding: 0.2rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        #loading {
+            text-align: center;
+            padding: 4rem;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body class="ott-theme">
+    <nav id="navbar">
+        <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav.home">홈</a></li>
+            <li><a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a></li>
+            <li><a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a></li>
+            <li><a href="osaka.html" data-i18n="nav.osaka">오사카 (일본)</a></li>
+            <li><a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a></li>
+            <li><a href="guides.html" data-i18n="nav.guides" class="active">여행 가이드</a></li>
+        </ul>
+        <div class="lang-switcher">
+            <select id="lang-selector">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </nav>
+
+    <main class="guides-container">
+        <a href="index.html" class="back-btn">← <span data-i18n="blog.btn.back">뒤로 가기</span></a>
+        <h1 style="margin-bottom: 2rem; font-size: 2.5rem;" data-i18n="nav.guides">여행 가이드</h1>
+        
+        <div id="loading">가이드 팁을 불러오는 중...</div>
+        <div id="guide-grid" class="guide-grid"></div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        async function loadAllGuides() {
+            const grid = document.getElementById('guide-grid');
+            const loading = document.getElementById('loading');
+            const currentLang = localStorage.getItem('selectedLang') || 'ko';
+
+            try {
+                const res = await fetch('/api/guides');
+                const allGuides = await res.json();
+                
+                loading.style.display = 'none';
+                
+                if (!allGuides || allGuides.length === 0) {
+                    grid.innerHTML = '<p>등록된 가이드가 없습니다.</p>';
+                    return;
+                }
+
+                // We need to use i18n to get the translated title/desc
+                // But /api/guides returns the core data.
+                // We'll iterate through the guides.
+                
+                allGuides.forEach(guide => {
+                    const id = guide.id;
+                    const title = window.translations[currentLang][`guide.${id}.title`] || guide.title;
+                    const desc = window.translations[currentLang][`guide.${id}.desc`] || guide.desc;
+                    const tags = window.translations[currentLang][`guide.${id}.tags`] || guide.tags;
+                    const img = window.translations[currentLang][`guide.${id}.image`] || guide.image || 'img/poster_hongdae.png';
+
+                    const card = document.createElement('a');
+                    card.href = `guide_detail.html?id=${id}`;
+                    card.className = 'guide-card';
+
+                    const tagList = tags ? tags.split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('') : '';
+
+                    card.innerHTML = `
+                        <img src="${img}" alt="${title}" class="guide-card-img" onerror="this.src='img/poster_hongdae.png'">
+                        <div class="guide-card-content">
+                            <h3 class="guide-card-title">${title}</h3>
+                            <p class="guide-card-desc">${desc}</p>
+                            <div class="guide-tags">${tagList}</div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (e) {
+                loading.innerText = '가이드를 불러오는데 실패했습니다.';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadAllGuides);
+        
+        document.getElementById('lang-selector').addEventListener('change', () => {
+             document.getElementById('guide-grid').innerHTML = '';
+             document.getElementById('loading').style.display = 'block';
+             loadAllGuides();
+        });
+    </script>
+</body>
+</html>

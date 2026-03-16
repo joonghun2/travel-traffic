@@ -1,6 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const { createClient } = require('@supabase/supabase-js');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { createClient } from '@supabase/supabase-js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Load environment variables (ensure these are set in your terminal or .env)
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -35,6 +40,7 @@ async function migrate() {
         const { error: blogsError } = await supabase.from('blogs').upsert(blogs.map(b => ({
             id: b.id,
             spot_id: b.spotId,
+            lang: b.lang,
             title: b.title,
             content: b.content,
             author: b.author || 'Admin',
@@ -64,3 +70,4 @@ async function migrate() {
 }
 
 migrate();
+

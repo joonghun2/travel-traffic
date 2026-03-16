@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>에디터 블로그 목록 - 트래블 트래픽</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/i18n.js"></script>
+    <style>
+        .blog-list-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 5%;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: var(--accent); }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .blog-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .blog-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .blog-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .blog-card-content {
+            padding: 1.5rem;
+        }
+        
+        .blog-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+        
+        .blog-card-meta {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #loading {
+            text-align: center;
+            padding: 4rem;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body class="ott-theme">
+    <nav id="navbar">
+        <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav.home">홈</a></li>
+            <li><a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a></li>
+            <li><a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a></li>
+            <li><a href="osaka.html" data-i18n="nav.osaka">오사카 (일본)</a></li>
+            <li><a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a></li>
+            <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
+        </ul>
+        <div class="lang-switcher">
+            <select id="lang-selector">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </nav>
+
+    <main class="blog-list-container">
+        <a href="index.html" class="back-btn">← <span data-i18n="blog.btn.back">뒤로 가기</span></a>
+        <h1 style="margin-bottom: 2rem; font-size: 2.5rem;" data-i18n="hero.blog_btn">에디터 블로그</h1>
+        
+        <div id="loading">지식을 불러오는 중...</div>
+        <div id="blog-grid" class="blog-grid"></div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        async function loadBlogs() {
+            const grid = document.getElementById('blog-grid');
+            const loading = document.getElementById('loading');
+            const currentLang = localStorage.getItem('selectedLang') || 'ko';
+
+            try {
+                const res = await fetch('/api/blogs');
+                const allBlogs = await res.json();
+                
+                // Filter by language and unique spots
+                const langBlogs = allBlogs.filter(b => b.lang === currentLang || (!b.lang && currentLang === 'ko'));
+                
+                loading.style.display = 'none';
+                
+                if (langBlogs.length === 0) {
+                    grid.innerHTML = '<p>아직 등록된 블로그가 없습니다.</p>';
+                    return;
+                }
+
+                langBlogs.forEach(blog => {
+                    const card = document.createElement('a');
+                    card.href = `blog_detail.html?spotId=${blog.spotId}`;
+                    card.className = 'blog-card';
+                    
+                    // Simple logic to find an image in content
+                    const firstImg = blog.content.find(c => c.type === 'image');
+                    const imgUrl = firstImg ? firstImg.url : 'img/poster_hongdae.png';
+
+                    card.innerHTML = `
+                        <img src="${imgUrl}" alt="${blog.title}" class="blog-card-img">
+                        <div class="blog-card-content">
+                            <h3 class="blog-card-title">${blog.title}</h3>
+                            <div class="blog-card-meta">
+                                <span>${blog.author}</span>
+                                <span>${blog.createdAt}</span>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (e) {
+                loading.innerText = '블로그를 불러오는데 실패했습니다.';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadBlogs);
+        
+        // Listen for language changes if the selector is present
+        document.getElementById('lang-selector').addEventListener('change', (e) => {
+            grid.innerHTML = '';
+            loading.style.display = 'block';
+            loadBlogs();
+        });
+    </script>
+</body>
+</html>

@@ -127,7 +127,17 @@
                 if (!response.ok) throw new Error('Failed to fetch');
                 
                 const blogs = await response.json();
-                const blog = blogs.find(b => b.spotId == spotId);
+                
+                // Get current language from localStorage or default to 'ko'
+                const currentLang = localStorage.getItem('selectedLanguage') || 'ko';
+                
+                // Find blog that matches spotId AND language
+                let blog = blogs.find(b => b.spotId == spotId && b.lang === currentLang);
+                
+                // Fallback: If no blog for current language, try 'ko'
+                if (!blog && currentLang !== 'ko') {
+                    blog = blogs.find(b => b.spotId == spotId && (b.lang === 'ko' || !b.lang));
+                }
 
                 if (!blog) {
                     container.innerHTML = `

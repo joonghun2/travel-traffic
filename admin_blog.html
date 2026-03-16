@@ -455,20 +455,18 @@
 
         async function deleteBlog(id) {
             if (!confirm('Are you sure you want to delete this blog?')) return;
-            blogs = blogs.filter(b => b.id != id);
             try {
-                const res = await fetch('/api/blogs', {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        ...getAuthHeader()
-                    },
-                    body: JSON.stringify(blogs)
+                const res = await fetch(`/api/blogs?id=${id}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeader()
                 });
                 if (res.ok) {
+                    await fetchBlogs();
                     renderBlogList();
+                } else {
+                    alert('Delete failed on server');
                 }
-            } catch (e) { alert('Delete failed'); }
+            } catch (e) { alert('Delete failed: ' + e.message); }
         }
 
         checkAuth();

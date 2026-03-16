@@ -1,7 +1,8 @@
 [
     {
-        "id": "blog-1773401506636",
+        "id": "blog-hongdae-ko",
         "spotId": 0,
+        "lang": "ko",
         "title": "[2026 최신] 홍대 로컬들만 아는 '실패 없는' 핫플 & 가성비 코스 완벽 정리",
         "content": [
             {
@@ -11,5 +12,131 @@
         ],
         "author": "Admin",
         "createdAt": "2026-03-15"
+    },
+    {
+        "id": "blog-myeongdong-ko",
+        "spotId": 1,
+        "lang": "ko",
+        "title": "2026 명동 쇼핑 완전 정복 — K-뷰티 최저가 루트부터 세금 환급·먹거리 순서까지 한 방 정리",
+        "content": [
+            {
+                "type": "text",
+                "value": "명동에 갔는데 뭘 사야 할지 몰라서 그냥 걷다가 왔다는 분, 손 드세요. K-뷰티, 길거리 음식, 쇼핑이 한 곳에 모인 명동은 서울 여행의 핵심이지만, 제대로 활용하지 못하면 그냥 사람 많은 거리로 끝납니다. 2026년 최신 정보를 바탕으로 명동을 200% 활용하는 방법을 알려드립니다.\n\n### **명동이 여전히 서울 쇼핑 1번지인 이유**\n\n명동은 K-뷰티 브랜드 플래그십 스토어가 집중되어 있고, 올리브영·이니스프리·에뛰드·더페이스샵 등 주요 브랜드 본점이 모두 자리합니다. 외국인 관광객뿐만 아니라 서울 시민에게도 신제품을 가장 먼저 체험할 수 있는 공간으로 여전히 인기입니다.\n\n---\n\n### **명동 완전 활용 전략**\n\n#### **1. K-뷰티 쇼핑 전략**\n* **명동 올리브영:** 명동 본점은 시즌 기획 세일과 1+1 행사가 잦습니다. 앱을 미리 설치하고 쿠폰을 받아두면 추가 할인이 가능합니다. 구매 금액에 따라 포인트 적립도 되니 회원가입을 미리 해두는 것이 유리합니다.\n\n#### **2. 길거리 음식 코스**\n* **명동교자 본점:** 줄이 너무 길다면 근처 유사 칼국수 집도 수준이 훌륭합니다. \n* **점포 운영:** 명동 길거리 떡볶이·호떡·꼬치는 저녁 시간대에 종류가 가장 다양합니다.\n\n---\n\n### **명동 핵심 정보 요약**\n* **위치:** 서울 중구 명동길 일대\n* **교통:** 지하철 4호선 명동역 (5·6번 출구)\n* **영업시간:** 대부분 오전 10시~밤 10시 (식당은 더 늦게까지)\n* **혼잡 시간대:** 주말 오후 2~8시\n* **주변 연계 명소:** 남산서울타워, 명동성당, 롯데백화점 본점\n\n---\n\n### **알아두면 돈 버는 명동 꿀팁**\n1.  **명동성당:** 쇼핑 피로를 풀기에 완벽한 쉼터입니다. 관광지임에도 조용하고 아름답습니다.\n2.  **롯데백화점 본점:** 지하 식품관은 길거리 음식 못지않은 다양한 먹거리를 합리적인 가격에 즐길 수 있습니다.\n3.  **추천 코스:** 명동역에서 남산 방향으로 걸어가면 명동성당→남산 케이블카로 이어지는 걷기 좋은 코스가 완성됩니다.\n\n---\n\n### **마무리 — 명동은 전략적으로 가야 진짜 재미가 있습니다**\n\n아무 준비 없이 가면 사람에 치이고 피곤하기만 합니다. 하지만 쇼핑 리스트와 동선을 미리 준비한다면 명동은 서울 나들이의 최고 하이라이트가 될 겁니다.\n"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-16"
+    },
+    {
+        "id": "blog-myeongdong-en",
+        "spotId": 1,
+        "lang": "en",
+        "title": "2026 Myeongdong Shopping Master Guide — K-Beauty Routes, Tax Refunds & Street Food",
+        "content": [
+            {
+                "type": "text",
+                "value": "Ever visited Myeongdong and felt overwhelmed by the crowds without knowing where to go? As a hub of K-Beauty, street food, and fashion, Myeongdong is the heart of Seoul travel. However, without a plan, it can just feel like a busy street. Here is how to use Myeongdong 200% based on 2026's latest data.\n\n### **Why Myeongdong is Still Seoul's #1 Shopping Destination**\n\nMyeongdong concentrates K-beauty flagship stores, including main branches of Olive Young, Innisfree, Etude, and The Face Shop. It’s the go-to place even for locals to experience the newest products first.\n\n---\n\n### **Myeongdong Strategic Practical Guide**\n\n#### **1. K-Beauty Shopping Strategy**\n* **Olive Young Myeongdong Flagship:** Frequent seasonal sales and 1+1 offers. Install the app beforehand for extra coupons. Signing up for membership is beneficial for point accumulation based on purchase amount.\n\n#### **2. Street Food Course**\n* **Myeongdong Kyoja:** If the line is too long, nearby kal-guksu restaurants are also excellent. \n* **Evening Scene:** Street tteokbokki, hotteok, and skewers are most diverse during evening hours.\n\n---\n\n### **Myeongdong Essential Info**\n* **Location:** Myeongdong-gil area, Jung-gu, Seoul\n* **Transport:** Subway Line 4, Myeongdong Station (Exits 5 & 6)\n* **Hours:** Mostly 10 AM to 10 PM (Restaurants stay open later)\n* **Peak Hours:** Weekends 2 PM - 8 PM\n* **Nearby:** N Seoul Tower, Myeongdong Cathedral, Lotte Department Store Main Branch\n\n---\n\n### **Pro Tips to Save Money & Time**\n1.  **Myeongdong Cathedral:** A perfect sanctuary to rest from shopping fatigue. It's surprisingly quiet and beautiful.\n2.  **Lotte Dept. Store Basement:** The food hall offers high-quality food choices at reasonable prices, comparable to street food diversity.\n3.  **Walking Course:** A great route is walking from Myeongdong Station towards Namsan: Myeongdong Cathedral → Namsan Cable Car.\n\n---\n\n### **Final Thoughts: Strategy is Key in Myeongdong**\n\nWithout preparation, Myeongdong can be tiring. But with a shopping list and a set route, it will become the highlight of your Seoul trip.\n"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-16"
+    },
+    {
+        "id": "blog-myeongdong-ja",
+        "spotId": 1,
+        "lang": "ja",
+        "title": "2026年 明洞ショッピング完全攻略 — K-ビューティー最安ルートから免税・食べ歩きまで徹底解説",
+        "content": [
+            {
+                "type": "text",
+                "value": "明洞（ミョンドン）に着いたものの、どこで何を買えばいいか分からず、ただ歩き回って疲れてしまった経験はありませんか？ K-ビューティー、屋台グルメ、ショッピングが集結した明洞はソウル旅行の核心ですが、戦略なしではただの混雑した街で終わってしまいます。2026年の最新情報をもとに、明洞を200%活用する方法をお伝えします。\n\n### **明洞が今もソウルショッピングの聖地である理由**\n\n明洞にはK-ビューティーブランドのフラッグシップストアが集中しており、オリーブヤング、イニスフリー、エチュード、ザ・フェイスショップなどの主要ブランドの本店がすべて揃っています。外国人観光客だけでなく、ソウル市民にとっても新製品を最も早く体験できる空間として依然として人気です。\n\n---\n\n### **明洞活用戦略**\n\n#### **1. K-ビューティー ショッピング戦略**\n* **オリーブヤング 明洞本店:** 季節ごとのセールや1+1イベントが頻繁に開催されます。アプリを事前にインストールしてクーポンを確保しておくと、追加割引が可能です。会員登録をしてポイントを貯めるのもお得です。\n\n#### **2. 屋台グルメコース**\n* **明洞餃子 本店:** 行列が長すぎる場合は、近くの他のカルグクス店もレベルが高いのでおすすめです。\n* **ベストタイム:** トッポッキ、ホットク、串焼きなどの屋台は、夕方の時間帯が最も種類が豊富です。\n\n---\n\n### **明洞 基本情報**\n* **位置:** ソウル市中区明洞ギル一帯\n* **交通:** 地下鉄4号線 明洞駅（5・6番出口）\n* **営業時間:** 大部分が午前10時〜午後10時（飲食店はより遅くまで）\n* **混雑時間:** 週末 午後2時〜8時\n* **周辺スポット:** 南山ソウルタワー、明洞聖堂、ロッテ百貨店本店\n\n---\n\n### **知っておくと得する明洞のコツ**\n1.  **明洞聖堂:** ショッピングの疲れを癒やすのに最適な休息場所です。観光地でありながら静かで美しい空間です。\n2.  **ロッテ百貨店地下食品館:** 屋台料理に負けない多様な食べ物を、リーズナブルな価格で楽しむことができます。\n3.  **おすすめ徒歩コース:** 明洞駅から南山方向へ歩き、明洞聖堂 → 南山ケーブルカーへと続くコースは散策に最適です。\n\n---\n\n### **まとめ — 明洞は戦略を立ててこそ本気で楽しめます**\n\n事前の準備なしに行くと、人に酔って疲れるだけかもしれません。しかし、ショッピングリストと動線をあらかじめ準備しておけば、明洞はソウル観光の最高のハイライトになるでしょう。\n"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-16"
+    },
+    {
+        "id": "blog-gyeongbokgung-ko",
+        "spotId": 2,
+        "lang": "ko",
+        "title": "2026 경복궁 완벽 가이드 — 무료 입장 방법·야간 개장 예매·한복 대여까지 실전 총정리",
+        "content": [
+            {
+                "type": "text",
+                "value": "경복궁 앞에서 한복을 입고 사진을 찍고 싶은데, 어디서 빌리는지, 입장료는 얼마인지, 야간 개장은 어떻게 예매하는지 막막하셨나요? 알고 보면 경복궁은 서울에서 가장 가성비 좋은 문화 체험지입니다. 제대로만 알고 가면 평생 기억에 남는 하루가 됩니다. 2026년 최신 기준으로 경복궁을 완벽하게 즐기는 모든 방법을 정리했습니다.\n\n### **경복궁, 600년 조선의 정궁을 만나다**\n\n경복궁은 1395년 조선 태조 이성계가 창건한 조선 왕조 최초의 정궁입니다. 서울 도심 한가운데 43만 제곱미터 규모로 자리하며, 근정전·경회루·향원정 등 주요 전각이 원형에 가깝게 복원되어 있습니다. 배경으로 펼쳐지는 북악산과의 조화는 그 자체로 압도적입니다.\n\n---\n\n### **2026년 경복궁 입장료 & 무료 입장 방법**\n\n**기본 입장료**\n* 성인 (만 19세~64세): 3,000원\n* 청소년 (만 7세~18세): 1,500원\n* 만 6세 이하·만 65세 이상: 무료\n\n**무료 입장 조건**\n1.  **한복 착용:** 한복을 착용하고 방문하면 무료 입장이 가능합니다. 주변 대여점에서 빌린 한복도 인정됩니다.\n2.  **문화가 있는 날:** 매월 마지막 수요일은 무료 입장이 가능합니다.\n\n---\n\n### **한복 대여 완전 정리**\n* **위치:** 경복궁역 3번 출구 방향과 동십자각 주변에 밀집해 있습니다.\n* **비용:** 1~3시간 기준 15,000~30,000원 정도입니다. (머리 올림 서비스 별도)\n* **주의:** 봄·가을 성수기에는 사전 예약을 권장합니다.\n\n---\n\n### **야간 개장 예매 방법**\n* **운영 시기:** 봄(4~5월)과 가을(9~10월) 한정 운영\n* **예매:** 공식 예매 사이트(티켓링크)에서 사전 예매 필수\n* **시간:** 오후 7시~9시 30분 (향원정과 경회루 야경 추천)\n\n---\n\n### **경복궁 핵심 정보 요약**\n* **위치:** 서울 종로구 사직로 161\n* **교통:** 지하철 3호선 경복궁역 (5번 출구)\n* **관람시간:** 오전 9시~오후 6시 (월요일 휴무, 계절별 상이)\n* **소요 시간:** 여유롭게 관람 시 2~3시간 권장\n\n---\n\n### **알아두면 좋은 경복궁 꿀팁**\n1.  **해설 투어:** 매일 오전 10시·오후 2시 무료 정기 해설이 진행됩니다.\n2.  **국립민속박물관:** 경복궁 내 위치하며 별도 무료 입장이 가능합니다.\n3.  **벚꽃 명소:** 봄에는 경복궁 서쪽 담장(영추문 근처)의 벚꽃길이 숨은 명소입니다.\n\n---\n\n### **마무리 — 경복궁은 아는 만큼 보입니다**\n\n한복을 입고, 해설을 듣고, 야경을 보는 경복궁은 서울 나들이 최고의 기억이 될 것입니다.\n"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-16"
+    },
+    {
+        "id": "blog-gyeongbokgung-en",
+        "spotId": 2,
+        "lang": "en",
+        "title": "2026 Gyeongbokgung Complete Guide — Free Entry, Hanbok & Night Tours",
+        "content": [
+            {
+                "type": "text",
+                "value": "Planning to take photos in Hanbok at Gyeongbokgung but unsure about rentals or admission? Gyeongbokgung is one of Seoul's most cost-effective cultural experiences. Here is the complete 2026 guide to making your visit unforgettable.\n\n### **Gyeongbokgung, the 600-Year-Old Royal Palace**\n\nFounded in 1395 by King Taejo, Gyeongbokgung was the first and main palace of the Joseon Dynasty. Spanning 430,000 square meters in central Seoul, it features restored halls like Geunjeongjeon and Gyeonghoeru, perfectly framed against Bukak Mountain.\n\n---\n\n### **2026 Admission & Free Entry Methods**\n\n**Standard Admission**\n* Adults (Age 19-64): 3,000 KRW\n* Youth (Age 7-18): 1,500 KRW\n* Under 6 or Over 65: Free\n\n**Free Admission Conditions**\n1.  **Wearing Hanbok:** Visitors wearing traditional Hanbok get free entry. Rented Hanboks from nearby shops are accepted.\n2.  **Culture Day:** Free entry on the last Wednesday of every month.\n\n---\n\n### **Hanbok Rental Summary**\n* **Location:** Concentrated near Gyeongbokgung Station Exit 3 and Dongshipjagak area.\n* **Cost:** Approx. 15,000–30,000 KRW for 1–3 hours (Hair styling may be extra).\n* **Tip:** Advance booking is recommended during peak Spring/Autumn seasons.\n\n---\n\n### **Night Opening Booking**\n* **Season:** Limited periods in Spring (April–May) and Autumn (September–October).\n* **Booking:** Advance reservation on official sites (Ticketlink) is mandatory due to high demand.\n* **Hours:** 7:00 PM – 9:30 PM. The views of Hyangwonjeong and Gyeonghoeru are legendary.\n\n---\n\n### **Essential Info**\n* **Location:** 161 Sajik-ro, Jongno-gu, Seoul\n* **Transport:** Subway Line 3, Gyeongbokgung Station (Exit 5)\n* **Hours:** 9 AM – 6 PM (Closed on Mondays; seasonal variations apply)\n* **Duration:** 2–3 hours recommended for a full experience\n\n---\n\n### **Quick Tips for Visitors**\n1.  **Guided Tours:** Free English/Foreign language guided tours are available (Check times: usually 10 AM / 2 PM).\n2.  **National Folk Museum:** Located within the palace grounds and also offers free entry.\n3.  **Hidden Spot:** In Spring, the cherry blossom path along the west wall (near Yeongchumun Gate) is a hidden gem.\n\n---\n\n### **Final Thoughts: The Palace Reveals More to Those Who Know**\n\nWalking the palace in Hanbok and watching the sunset will be the highlight of your Seoul journey.\n"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-16"
+    },
+    {
+        "id": "blog-gyeongbokgung-ja",
+        "spotId": 2,
+        "lang": "ja",
+        "title": "2026年 景福宮（キョンボックン）完全ガイド — 無料入場、韓服（ハンボク）レンタル、夜間観覧予約まで解説",
+        "content": [
+            {
+                "type": "text",
+                "value": "景福宮（キョンボックン）の前で韓服を着て写真を撮りたいけれど、どこで借りればいいのか、入場料はいくらか、夜間観覧はどうやって予約するのか、不安に思っていませんか？ 景福宮はソウルで最もコスパの良い文化体験地です。2026年の最新基準で、景福宮を完璧に楽しむ方法をまとめました。\n\n### **景福宮、600年の歴史を持つ朝鮮王朝の正宮**\n\n1395年に太祖・李成桂によって創建された朝鮮王朝最初の正宮です。ソウルの中心部に位置し、勤政殿、慶会楼、香遠亭などの主要な建物が復元されています。背景に広がる北岳山との調和は圧巻です。\n\n---\n\n### **2026年 景福宮 入場料＆無料入場方法**\n\n**基本入場料**\n* 大人 (満19歳〜64歳): 3,000ウォン\n* 青少年 (満7歳〜18歳): 1,500ウォン\n* 満6歳以下・満65歳以上: 無料\n\n**無料入場の条件**\n1.  **韓服（ハンボク）着用:** 韓服を着用して訪問すると入場料が無料になります。周辺のレンタルショップで借りた韓服も対象です。\n2.  **文化のある日:** 毎月最終水曜日は入場無料です。\n\n---\n\n### **韓服レンタル 完全整理**\n* **位置:** 景福宮駅3番出口方面や東十字閣周辺に密集しています。\n* **費用:** 1〜3時間基準で15,000〜30,000ウォン程度（ヘアセット代別）。\n* **注意:** 春・秋のハイシーズンは事前予約をお勧めします。\n\n---\n\n### **夜間観覧の予約方法**\n* **運営時期:** 春（4〜5月）と秋（9〜10月）の限定運営。\n* **予約:** 公式予約サイト（チケットリンク）での事前予約が必須。非常に人気のため早めの予約が必要です。\n* **時間:** 午後7時〜9時30分。香遠亭と慶会楼の夜景は必見です。\n\n---\n\n### **景福宮 基本情報**\n* **位置:** ソウル市鍾路区社稷路161\n* **交通:** 地下鉄3号線 景福宮駅（5番出口）\n* **観覧時間:** 午前9時〜午後6時（月曜定休、季節により変動あり）\n* **所要時間:** ゆっくり観覧する場合で2〜3時間推奨\n\n---\n\n### **知っておくと良いコツ**\n1.  **無料解説ツアー:** 毎日解説ツアーが行われています。日本語でのガイド時間を確認して参加することをお勧めします。\n2.  **国立民俗博物館:** 景福宮内にあり、無料で入場可能です。\n3.  **隠れた名所:** 春の桜の時期は、景福宮の西側の城壁（迎秋門付近）の桜並木が非常に美しい隠れたスポットです。\n\n---\n\n### **まとめ — 景福宮は知れば知るほど美しい**\n\n韓服を着て、解説を聞き、夜景を楽しむ景福宮は、ソウル旅行の最高に素晴らしい思い出になるでしょう。\n"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-16"
+    },
+    {
+        "id": "blog-namsan-ko",
+        "spotId": 3,
+        "lang": "ko",
+        "title": "2026 남산서울타워 완벽 가이드 — 케이블카 vs 걷기, 야경 포인트, 입장료 할인까지 한 방 정리",
+        "content": [
+            {
+                "type": "text",
+                "value": "서울 야경 하면 남산서울타워. 누구나 알지만 막상 가려면 케이블카를 타야 하는지, 걸어 올라가야 하는지 헷갈리기 시작합니다. 2026년 최신 기준으로 남산서울타워를 가장 효율적으로 즐기는 방법을 정리했습니다.\n\n### **남산서울타워, 서울의 상징이 된 이유**\n\n남산서울타워(N서울타워)는 해발 479.7미터 남산 위에 있으며, 타워 높이 236.7미터를 합치면 전망대는 해발 480미터 이상에 위치합니다. 서울 전역을 360도로 조망할 수 있는 최고의 명소입니다.\n\n---\n\n### **케이블카 vs 걷기 — 무엇을 선택할까?**\n\n**1. 케이블카**\n* **요금:** 성인 왕복 약 13,500원 (2026년 기준)\n* **특징:** 편도 약 3분 소요. 주말 대기 시간이 30분~1시간으로 길 수 있습니다.\n\n**2. 걷기 (남산 순환 산책로)**\n* **소요 시간:** 명동 방향 출발 기준 약 30~40분\n* **특징:** 무료이며 남산 숲길을 즐길 수 있으나, 야간에는 조명이 약해 낮 시간대를 추천합니다.\n\n**결론:** 체력이 된다면 올라갈 때는 걷고, 내려올 때는 케이블카를 타는 코스가 가장 인기가 많습니다.\n\n---\n\n### **전망대 입장료 & 할인**\n* **가격:** 성인 기준 약 21,000원\n* **할인:** 네이버·카카오 사전 예약 시 할인 가능 / 통신사 멤버십 할인 체크\n* **꿀팁:** 야경이 목적이라면 해질녘 1시간 전 입장이 베스트 타이밍입니다.\n\n---\n\n### **남산서울타워 핵심 정보 요약**\n* **위치:** 서울 용산구 남산공원길 105\n* **교통:** 명동역 3번 출구 → 남산 케이블카 이용 / 버스 01번 남산순환버스\n* **운영 시간:** 오전 10시~밤 11시\n\n---\n\n### **알아두면 좋은 남산 꿀팁**\n1.  **시야 확보:** 미세먼지가 없는 맑은 날에는 북한산과 63빌딩까지 보입니다.\n2.  **벚꽃 시즌:** 4월 초 팔각정 주변 벚꽃은 서울 최고의 절경 중 하나입니다.\n3.  **사랑의 자물쇠:** 현장에서 구매 및 기념 각인 서비스 이용이 가능합니다.\n\n---\n\n### **마무리 — 남산의 야경은 서울 나들이의 마침표입니다**\n\n서울에서의 특별한 밤, 남산에서 내려다보는 야경은 어떤 말로도 표현하기 어렵습니다. 이 가이드 하나로 완벽하게 준비하세요.\n"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-16"
+    },
+    {
+        "id": "blog-namsan-en",
+        "spotId": 3,
+        "lang": "en",
+        "title": "2026 N Seoul Tower Perfect Guide — Cable Car vs. Walking & Night Views",
+        "content": [
+            {
+                "type": "text",
+                "value": "N Seoul Tower is the ultimate spot for night views, but many struggle with whether to take the cable car or hike up. Here is the most efficient guide for 2026.\n\n### **N Seoul Tower: The Iconic Landmark**\n\nStanding on top of Namsan Mountain (479.7m) with a tower height of 236.7m, the observatory sits over 480m above sea level, offering 360-degree views of the entire city.\n\n---\n\n### **Cable Car vs. Hiking — Which to Choose?**\n\n**1. Namsan Cable Car**\n* **Cost:** Approx. 13,500 KRW for a round trip (Adult, 2026 baseline).\n* **Pros/Cons:** Takes only 3 mins. However, expect 30-60 min wait times on weekends/holidays.\n\n**2. Walking (Namsan Circular Trail)**\n* **Duration:** Approx. 30–40 mins from the Myeongdong area.\n* **Pros/Cons:** Free of charge and scenic. Recommended for daytime as lighting is sparse at night.\n\n**Verdict:** If you have the energy, hiking up and taking the cable car down is the most popular route.\n\n---\n\n### **Observatory Fees & Discounts**\n* **Price:** Approx. 21,000 KRW for adults.\n* **Discounts:** Check Naver/Kakao reservations for discounted tickets or use major carrier memberships.\n* **Tip:** For the best photos, enter the observatory about 1 hour before sunset.\n\n---\n\n### **Essential Info**\n* **Location:** 105 Namsangongwon-gil, Yongsan-gu, Seoul\n* **Transport:** Myeongdong Station Exit 3 → Namsan Cable Car / Namsan Circular Bus No. 01\n* **Hours:** 10 AM – 11 PM\n\n---\n\n### **Quick Tips for Visitors**\n1.  **Visibility Check:** On clear days, you can see all the way to Bukhansan Mountain and the 63 Building. Avoid visiting on high dust/pollution days.\n2.  **Cherry Blossoms:** Early April around the Palgakjeong Pavilion is one of Seoul's top blossom spots.\n3.  **Love Locks:** You can buy locks and get them engraved on-site for a romantic memory.\n\n---\n\n### **Final Thoughts: The Perfect End to a Day in Seoul**\n\nThe panoramic night view from Namsan is a must-see for anyone visiting the capital.\n"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-16"
+    },
+    {
+        "id": "blog-namsan-ja",
+        "spotId": 3,
+        "lang": "ja",
+        "title": "2026年 南山ソウルタワー完全ガイド — ケーブルカー vs 徒歩、夜景、入場料割引まで解説",
+        "content": [
+            {
+                "type": "text",
+                "value": "ソウルの夜景といえば南山（ナムサン）ソウルタワー。有名スポットですが、いざ行くとなるとケーブルカーに乗るべきか、歩いて登るべきか迷いますよね。2026年最新基準で、効率的に楽しむ方法をまとめました。\n\n### **南山ソウルタワーがソウルの象徴である理由**\n\n南山（479.7m）の上に高さ236.7mのタワーが立っており、展望台は海抜480m以上に位置します。ソウル全域を360度見渡せる最高の展望スポットです。\n\n---\n\n### **ケーブルカー vs 徒歩 — どっちが良い？**\n\n**1. ケーブルカー**\n* **料金:** 大人往復 約13,500ウォン (2026年基準)\n* **特徴:** 片道約3分。ただし週末や祝日は30分〜1時間の待ち時間が発生することがあります。\n\n**2. 徒歩 (南山循環散策路)**\n* **所要時間:** 明洞方面出発基準で約30〜40分。\n* **特徴:** 無料で自然を楽しめますが、夜間は照明が暗いため昼間の時間帯をお勧めします。\n\n**結論:** 体力があれば、登りは歩いて、帰りはケーブルカーを利用するコースが最も人気です。\n\n---\n\n### **展望台入場料＆割引**\n* **料金:** 大人基準 約21,000ウォン。\n* **割引:** ネイバーやカカオでの事前予約で割引が適用される場合があります。通信会社のメンバーシップ割引もチェック。\n* **コツ:** 夜景が目的なら、日没の1時間前の入場がベストタイミングです。\n\n---\n\n### **南山ソウルタワー 基本情報**\n* **位置:** ソウル市龍山区南山公園ギル105\n* **交通:** 明洞駅3番出口 → 南山ケーブルカー利用 / 01番南山循環バス\n* **営業時間:** 午前10時〜午後11時\n\n---\n\n### **知っておくと良いコツ**\n1.  **視界の確認:** 空気が澄んだ日には北漢山や63ビルまで見渡せます。ミセモンジ（微小粉塵）が激しい日は避けましょう。\n2.  **桜のシーズン:** 4月初旬、八角亭周辺の桜はソウル屈指の美しさです。\n3.  **愛の南京錠:** 現地で購入でき、刻印サービスも利用可能です。カップルでの思い出作りに最適です。\n\n---\n\n### **まとめ — 南山の夜景はソウル旅行のハイライトです**\n\nソウルでの特別な夜、南山から見下ろす夜景は言葉にできないほどの感動を与えてくれます。このガイドで完璧に準備して出かけましょう。\n"
+            }
+        ],
+        "author": "Admin",
+        "createdAt": "2026-03-16"
     }
 ]

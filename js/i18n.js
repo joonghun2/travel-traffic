@@ -61,6 +61,7 @@ window.translations = {
         "hero.desc": "실시간 혼잡도 확인으로 더 여유롭고 완벽한 출발을 준비하세요.",
         "hero.btn": "지금 확인하기",
         "hero.guide_btn": "여행 가이드 보기",
+        "hero.blog_btn": "에디터 블로그",
 
         "card.btn.restaurants": "맛집 검색",
         "card.btn.blog": "에디터 블로그",
@@ -707,6 +708,7 @@ window.translations = {
         "hero.desc": "Prepare for a more relaxed and perfect departure with real-time congestion checks.",
         "hero.btn": "Explore Now",
         "hero.guide_btn": "View Travel Guides",
+        "hero.blog_btn": "Editor Blog",
 
         "ott.trending": "Trending Now",
         "ott.discover": "Explore Other Regions",
@@ -1316,6 +1318,7 @@ window.translations = {
         "hero.desc": "リアルタイムの混잡状況確認で、より余裕のある完璧な出発を準備しましょう。",
         "hero.btn": "今すぐ確認",
         "hero.guide_btn": "旅行ガイドを見る",
+        "hero.blog_btn": "エ디터 블로그",
 
         "ott.trending": "今注目のスポット (Trending Now)",
         "ott.discover": "他の地域を探索する",
