@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>서울 실시간 혼잡도 & 여행 가이드 | 트래블 트래픽</title>
-    <meta name="description" content="홍대, 명동, 강남 등 서울 주요 명소의 실시간 혼잡도와 맛집, 에디터 블로그를 확인하세요.">
+    <meta name="description" content="홍대, 명동, 강남 등 서울 주요 명소의 실시간 혼잡도와 맛집 가이드를 확인하세요.">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -193,7 +193,7 @@ function applyFilter(){
         <a href="https://map.naver.com/p/search/${encodeURIComponent(p.name)}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🗺️ ${window.t('cg.label.naver')}</a>
         <a href="https://www.google.com/maps/search/${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🌐 ${window.t('cg.label.google')}</a>
         <a href="https://www.google.com/search?q=${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name) + ' ' + window.t('cg.label.restaurant_query'))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: #ffc107; color: #ffc107;">🍽️ ${window.t('card.btn.restaurants')}</a>
-        <a href="blog_detail.html?spotId=${p.id}" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: var(--primary); color: var(--primary);">✍️ ${window.t('card.btn.blog')}</a>
+
       </div>
     `;
     grid.appendChild(card);
