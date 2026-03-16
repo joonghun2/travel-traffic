@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://travel-traffic.vercel.app/sitemap.xml
+Sitemap: https://www.checkeastpoint.com/sitemap.xml
 
 # Disallow administrative pages
 Disallow: /admin.html
