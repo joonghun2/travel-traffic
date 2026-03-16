@@ -2066,6 +2066,37 @@ function setLanguage(lang) {
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
 }
 
+async function syncGuidesFromDatabase() {
+    try {
+        console.log('Syncing guides from database...');
+        const res = await fetch('/api/guides?t=' + Date.now());
+        if (!res.ok) {
+            console.warn('Guide sync failed:', res.status);
+            return;
+        }
+        const guides = await res.json();
+        
+        guides.forEach(g => {
+            ['ko', 'en', 'ja'].forEach(lang => {
+                const data = g[lang];
+                if (data && window.translations[lang]) {
+                    window.translations[lang][`guide.${g.id}.title`] = data.title;
+                    window.translations[lang][`guide.${g.id}.desc`] = data.desc;
+                    window.translations[lang][`guide.${g.id}.content`] = data.content;
+                    window.translations[lang][`guide.${g.id}.tags`] = data.tags;
+                    window.translations[lang][`guide.${g.id}.image`] = data.image;
+                }
+            });
+        });
+        
+        console.log('Guide sync complete. Refreshing UI...');
+        // Refresh UI with new data
+        setLanguage(window.currentLang);
+    } catch (e) {
+        console.error('Failed to sync guides from database:', e);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Detect stored lang
     const savedLang = localStorage.getItem('travel_traffic_lang') || 'ko';
@@ -2075,6 +2106,9 @@ document.addEventListener('DOMContentLoaded', () => {
         sel.addEventListener('change', (e) => setLanguage(e.target.value));
     });
 
-    // Initial run
+    // Initial run with static data
     setLanguage(savedLang);
+
+    // Sync with live data from database
+    syncGuidesFromDatabase();
 });
