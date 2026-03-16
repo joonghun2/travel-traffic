@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://travel-traffic.vercel.app/sitemap.xml
+
+# Disallow administrative pages
+Disallow: /admin.html
+Disallow: /admin_blog.html
+Disallow: /api/
