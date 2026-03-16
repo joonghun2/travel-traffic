@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-3755818526713804">
     <title>교토 실시간 혼잡도 & 여행 가이드 | 트래블 트래픽</title>
     <meta name="description" content="기온 거리, 청수사 등 교토의 고즈넉한 명소들을 붐비지 않게 즐기는 팁!">
     
@@ -151,7 +152,7 @@ function applyFilter(){
       <div class="map-btns" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
         <a href="https://www.google.com/maps/search/${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🗺️ ${window.t("cg.label.directions")} &rarr;</a>
         <a href="https://www.google.com/search?q=${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name) + ' ' + window.t('cg.label.restaurant_query'))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: #ffc107; color: #ffc107;">🍽️ ${window.t('card.btn.restaurants')}</a>
-        <a href="blog_detail.html?spotId=${p.id}" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: var(--primary); color: var(--primary);">✍️ ${window.t('card.btn.blog')}</a>
+
       </div>
     `;
     grid.appendChild(card);

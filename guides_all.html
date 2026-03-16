@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-3755818526713804">
     <title>모든 여행 가이드 - 트래블 트래픽</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/i18n.js"></script>
@@ -136,7 +137,8 @@
             const currentLang = localStorage.getItem('selectedLang') || 'ko';
 
             try {
-                const res = await fetch('/api/guides');
+                // Add cache-busting timestamp
+                const res = await fetch('/api/guides?t=' + Date.now());
                 const allGuides = await res.json();
                 
                 loading.style.display = 'none';
@@ -152,16 +154,22 @@
                 
                 allGuides.forEach(guide => {
                     const id = guide.id;
-                    const title = window.translations[currentLang][`guide.${id}.title`] || guide.title;
-                    const desc = window.translations[currentLang][`guide.${id}.desc`] || guide.desc;
-                    const tags = window.translations[currentLang][`guide.${id}.tags`] || guide.tags;
-                    const img = window.translations[currentLang][`guide.${id}.image`] || guide.image || 'img/poster_hongdae.png';
+                    const gData = guide[currentLang] || guide['ko'];
+                    const title = gData.title || `Guide #${id}`;
+                    const desc = gData.desc || '';
+                    const tags = gData.tags || guide.tags || [];
+                    const img = gData.image || guide.image || 'img/poster_hongdae.png';
 
                     const card = document.createElement('a');
                     card.href = `guide_detail.html?id=${id}`;
                     card.className = 'guide-card';
 
-                    const tagList = tags ? tags.split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('') : '';
+                    let tagList = '';
+                    if (Array.isArray(tags)) {
+                        tagList = tags.map(t => `<span class="tag">${t.startsWith('#') ? t : '#' + t}</span>`).join('');
+                    } else if (typeof tags === 'string') {
+                        tagList = tags.split(',').map(t => `<span class="tag">${t.trim().startsWith('#') ? t.trim() : '#' + t.trim()}</span>`).join('');
+                    }
 
                     card.innerHTML = `
                         <img src="${img}" alt="${title}" class="guide-card-img" onerror="this.src='img/poster_hongdae.png'">

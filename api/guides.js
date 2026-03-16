@@ -26,39 +26,53 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
         try {
+            console.log('Fetching guides from Supabase...');
             const { data, error } = await supabase
                 .from('guides')
                 .select('*')
                 .order('id', { ascending: true });
             
-            if (error) throw error;
+            if (error) {
+                console.error('Supabase GET error:', error);
+                throw error;
+            }
 
             res.status(200).json(data);
         } catch (err) {
             console.error('Database read error:', err);
-            res.status(500).json({ error: 'Failed to fetch guides' });
+            res.status(500).json({ error: 'Failed to fetch guides', details: err.message });
         }
     } else if (req.method === 'POST') {
         const updatedData = req.body;
-        if (!updatedData || (Array.isArray(updatedData) && updatedData.length === 0 && req.headers['content-length'] === '0')) {
-             res.status(400).json({ error: 'Empty body' });
+        console.log('Received POST request for guides. Count:', Array.isArray(updatedData) ? updatedData.length : 'Not an array');
+
+        if (!updatedData || (Array.isArray(updatedData) && updatedData.length === 0)) {
+             res.status(400).json({ error: 'Empty or invalid data body' });
              return;
         }
 
         try {
-            const { error } = await supabase.from('guides').upsert(updatedData.map(g => ({
-                id: g.id,
-                tags: g.tags,
-                ko: g.ko,
-                en: g.en,
-                ja: g.ja
-            })));
-            if (error) throw error;
+            const rows = updatedData.map(g => ({
+                id: parseInt(g.id),
+                tags: g.tags || [],
+                ko: g.ko || {},
+                en: g.en || {},
+                ja: g.ja || {}
+            }));
 
-            res.status(200).json({ message: 'Success (Saved to Database)' });
+            console.log('Attempting upsert to Supabase...');
+            const { data, error } = await supabase.from('guides').upsert(rows);
+            
+            if (error) {
+                console.error('Supabase upsert error:', error);
+                throw error;
+            }
+
+            console.log('Successfully saved guides to database');
+            res.status(200).json({ message: 'Success (Saved to Database)', count: rows.length });
         } catch (e) {
-            console.error('Database write error:', e);
-            res.status(400).json({ error: 'Failed to save data' });
+            console.error('Database write error detailed:', e);
+            res.status(400).json({ error: 'Failed to save data to database', details: e.message });
         }
     } else {
         res.status(405).json({ error: 'Method not allowed' });
