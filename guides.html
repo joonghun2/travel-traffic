@@ -4,7 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-adsense-account" content="ca-pub-3755818526713804">
-    <title>Travel Traffic - Travel Guides</title>
+    <link rel="canonical" href="https://www.checkeastpoint.com/guides.html">
+
+    <title>여행 가이드 & 팁 | 트래블 트래픽</title>
+    <meta name="description" content="서울, 제주, 오사카, 교토 여행을 위한 트래블 트래픽의 엄선된 가이드와 팁을 확인하세요. 현지인처럼 여행하는 비법을 공개합니다.">
+    <meta name="keywords" content="트래블 트래픽, 여행 가이드, 여행 팁, 서울 가이드, 제주 여행 팁, 일본 여행 가이드, 오사카 팁, 교토 가이드">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.checkeastpoint.com/guides.html">
+    <meta property="og:title" content="트래블 트래픽 - 여행 가이드 & 팁">
+    <meta property="og:description" content="트래블 트래픽이 엄선한 최고의 여행 정보들을 확인해 보세요.">
+    <meta property="og:image" content="https://www.checkeastpoint.com/img/bg_seoul_gwanghwamun.png">
+    <meta property="og:site_name" content="트래블 트래픽">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "홈",
+        "item": "https://www.checkeastpoint.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "여행 가이드",
+        "item": "https://www.checkeastpoint.com/guides.html"
+      }]
+    }
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJC5R171MS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EJC5R171MS');
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/i18n.js"></script>
@@ -97,7 +138,7 @@
         function renderGuides() {
             const grid = document.getElementById('guidesGrid');
             const term = document.getElementById('guideSearch').value.toLowerCase();
-            const lang = localStorage.getItem('selectedLang') || 'ko';
+            const lang = window.currentLang || localStorage.getItem('travel_traffic_lang') || 'ko';
             
             grid.innerHTML = '';
             
@@ -140,7 +181,9 @@
 
         document.getElementById('guideSearch').addEventListener('input', renderGuides);
 
-        window.addEventListener('languageChanged', renderGuides);
+        window.addEventListener('languageChanged', (e) => {
+            renderGuides();
+        });
 
         document.addEventListener('DOMContentLoaded', fetchGuides);
     </script>
