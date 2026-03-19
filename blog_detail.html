@@ -30,77 +30,116 @@
     <script src="js/i18n.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
+        :root {
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --accent: #fb7185;
+            --bg-dark: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
         .blog-container {
-            max-width: 800px;
-            margin: 100px auto 50px;
-            padding: 0 20px;
+            max-width: 900px;
+            margin: 120px auto 80px;
+            padding: 0 5%;
         }
+
         .blog-header {
-            margin-bottom: 40px;
+            margin-bottom: 60px;
             text-align: center;
         }
+
         .blog-title {
-            font-size: 2.5rem;
-            color: var(--text-main);
-            margin-bottom: 15px;
-            line-height: 1.2;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
         }
+
         .blog-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
-        .blog-content {
-            line-height: 1.8;
-            color: var(--text-main);
-            font-size: 1.1rem;
-        }
-        .blog-content p {
-            margin-bottom: 25px;
-        }
-        .blog-content img {
-            max-width: 100%;
-            border-radius: 12px;
-            margin: 30px 0;
-            display: block;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        /* Markdown Styles */
-        .blog-content h2 { font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem; color: var(--primary); }
-        .blog-content h3 { font-size: 1.4rem; margin-top: 1.5rem; margin-bottom: 0.8rem; color: var(--secondary); }
-        .blog-content hr { border: none; border-top: 1px solid var(--glass-border); margin: 2rem 0; }
-        .blog-content ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
-        .blog-content li { margin-bottom: 0.5rem; }
-        .blog-content strong { color: var(--primary); font-weight: 700; }
-        .blog-content table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin: 2rem 0; 
-            background: var(--glass-bg); 
-            border-radius: 12px; 
-            overflow: hidden; 
+
+        .blog-author-tag {
+            background: var(--glass-bg);
+            padding: 0.4rem 1.2rem;
+            border-radius: 2rem;
             border: 1px solid var(--glass-border);
-        }
-        .blog-content th, .blog-content td { 
-            padding: 1rem; 
-            text-align: left; 
-            border-bottom: 1px solid var(--glass-border); 
-        }
-        .blog-content th { background: rgba(255,255,255,0.1); font-weight: 700; color: var(--primary); }
-        .blog-content tr:last-child td { border-bottom: none; }
-        .no-blog {
-            text-align: center;
-            padding: 100px 20px;
-            color: var(--text-muted);
-        }
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 30px;
             color: var(--primary);
-            text-decoration: none;
             font-weight: 600;
         }
-        .back-btn:hover {
-            text-decoration: underline;
+
+        .blog-content {
+            line-height: 1.8;
+            color: #e2e8f0;
+            font-size: 1.15rem;
+        }
+
+        /* SEO & GEO FAQ Styling */
+        .blog-content h2, .blog-content h3 {
+            position: relative;
+            font-size: 2rem;
+            margin: 4rem 0 1.5rem;
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .blog-content h2::before {
+            content: 'Q.';
+            position: absolute;
+            left: -3rem;
+            color: var(--primary);
+            font-size: 2.5rem;
+            opacity: 0.3;
+        }
+
+        /* Inverted Pyramid Answer Styling */
+        .faq-answer {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, transparent 100%);
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            border-radius: 0 1.5rem 1.5rem 0;
+            margin-bottom: 2.5rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .blog-content p {
+            margin-bottom: 2rem;
+        }
+
+        .blog-content img {
+            width: 100%;
+            border-radius: 2rem;
+            margin: 4rem 0;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 3rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: var(--primary); transform: translateX(-5px); }
+
+        @media (max-width: 768px) {
+            .blog-content h2::before { display: none; }
+            .faq-answer { padding: 1.5rem; font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -142,21 +181,13 @@
             }
 
             try {
-                // In a real app, this would be a server-side fetch. 
-                // Since this is a static site with an admin server, we fetch from our data file.
-                // Note: In local static serving, we might need the admin server to serve this JSON.
                 const response = await fetch('/api/blogs');
                 if (!response.ok) throw new Error('Failed to fetch');
                 
                 const blogs = await response.json();
-                
-                // Get current language from localStorage or default to 'ko'
                 const currentLang = localStorage.getItem('selectedLanguage') || 'ko';
                 
-                // Find blog that matches spotId AND language
                 let blog = blogs.find(b => b.spotId == spotId && b.lang === currentLang);
-                
-                // Fallback: If no blog for current language, try 'ko'
                 if (!blog && currentLang !== 'ko') {
                     blog = blogs.find(b => b.spotId == spotId && (b.lang === 'ko' || !b.lang));
                 }
@@ -171,6 +202,7 @@
                 }
 
                 renderBlog(blog);
+                generateSchema(blog);
             } catch (error) {
                 console.error('Error loading blog:', error);
                 container.innerHTML = `<div class="no-blog" data-i18n="blog.error.not_found">업데이트 예정</div>`;
@@ -183,10 +215,17 @@
             
             blog.content.forEach(item => {
                 if (item.type === 'text') {
-                    // Use marked for markdown parsing
-                    contentHtml += marked.parse(item.value);
+                    const parsedHtml = marked.parse(item.value);
+                    
+                    // SEO & GEO Architecture: Wrap first paragraph after H2/H3 as a "FAQ Answer" (Inverted Pyramid)
+                    // We use regex to identify headings and style subsequent paragraphs
+                    const faqMappedHtml = parsedHtml.replace(/<(h[23])>(.*?)<\/\1>\s*<p>(.*?)<\/p>/gs, (match, tag, title, firstPara) => {
+                        return `<${tag}>${title}</${tag}><div class="faq-answer">${firstPara}</div>`;
+                    });
+                    
+                    contentHtml += faqMappedHtml;
                 } else if (item.type === 'image') {
-                    contentHtml += `<img src="${item.url}" alt="Blog Image">`;
+                    contentHtml += `<img src="${item.url}" alt="${blog.title}">`;
                 }
             });
 
@@ -196,8 +235,8 @@
                     <header class="blog-header">
                         <h1 class="blog-title">${blog.title}</h1>
                         <div class="blog-meta">
-                            <span class="blog-author">${blog.author || 'Admin'}</span> | 
-                            <span class="blog-date">${blog.createdAt || ''}</span>
+                            <span class="blog-author-tag">${blog.author || 'Travel Traffic Editor'}</span>
+                            <span>${blog.createdAt || 'RECENT POST'}</span>
                         </div>
                     </header>
                     <div class="blog-content">
@@ -206,10 +245,60 @@
                 </article>
             `;
             
-            // Re-apply translations if necessary, though mostly dynamic content here
             if (window.i18n && typeof window.i18n.updateContent === 'function') {
                 window.i18n.updateContent();
             }
+        }
+
+        function generateSchema(blog) {
+            const faqs = [];
+            let currentText = '';
+            
+            // Extract questions and answers for FAQ schema
+            blog.content.forEach(item => {
+                if (item.type === 'text') currentText += item.value;
+            });
+
+            // Match headings and first paragraphs for schema
+            const matches = [...currentText.matchAll(/##\s+(.*?)\n+(.*?)\n/g)];
+            matches.forEach(match => {
+                faqs.push({
+                    "@type": "Question",
+                    "name": match[1].trim(),
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": match[2].trim()
+                    }
+                });
+            });
+
+            const schema = {
+                "@context": "https://schema.org",
+                "@graph": [
+                    {
+                        "@type": "Article",
+                        "headline": blog.title,
+                        "author": {
+                            "@type": "Person",
+                            "name": blog.author || "Travel Traffic Editor"
+                        },
+                        "datePublished": blog.createdAt,
+                        "image": blog.content.find(c => c.type === 'image')?.url || "https://www.checkeastpoint.com/img/bg_seoul_gwanghwamun.png"
+                    }
+                ]
+            };
+
+            if (faqs.length > 0) {
+                schema["@graph"].push({
+                    "@type": "FAQPage",
+                    "mainEntity": faqs
+                });
+            }
+
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.text = JSON.stringify(schema);
+            document.head.appendChild(script);
         }
 
         document.addEventListener('DOMContentLoaded', loadBlog);

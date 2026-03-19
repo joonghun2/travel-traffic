@@ -24,15 +24,40 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "트래블 트래픽",
-      "alternateName": ["Travel Traffic", "CheckEastPoint"],
-      "url": "https://www.checkeastpoint.com/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.checkeastpoint.com/guides_all.html?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "트래블 트래픽",
+          "alternateName": ["Travel Traffic", "CheckEastPoint"],
+          "url": "https://www.checkeastpoint.com/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.checkeastpoint.com/guides_all.html?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "현재 오사카 도톤보리는 얼마나 붐비나요?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "오사카 도톤보리는 평일 오후부터 매우 혼잡해지며, 주말 저녁에는 보행이 어려울 정도로 인파가 몰립니다. 트래블 트래픽의 실시간 혼잡도 지수를 통해 쾌적한 방문 시간대를 확인하세요."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "서울 홍대입구 주변의 가장 한적한 시간은 언제인가요?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "서울 홍대는 정오(12시) 이전 오전 시간대가 가장 한적하며 여유로운 산책과 사진 촬영이 가능합니다."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
 
@@ -144,6 +169,39 @@
         </a>
     </section>
 
+    <style>
+        .faq-section { max-width: 1200px; margin: 80px auto; padding: 0 8%; }
+        .faq-item { margin-bottom: 3rem; }
+        .faq-item h2 { font-size: 1.8rem; margin-bottom: 1rem; color: #fff; font-weight: 800; }
+        .faq-answer-box { 
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, transparent 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem 2rem;
+            border-radius: 0 1rem 1rem 0;
+            font-size: 1.15rem;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+    </style>
+
+    <section class="faq-section">
+        <h2 style="font-size: 2.5rem; margin-bottom: 3rem; color: var(--primary);" data-i18n="faq.title">자주 묻는 질문 (FAQ)</h2>
+        
+        <div class="faq-item">
+            <h2 data-i18n="faq.q1">현재 오사카 도톤보리는 얼마나 붐비나요?</h2>
+            <div class="faq-answer-box" data-i18n="faq.a1">
+                오사카 도톤보리는 평일 오후부터 매우 혼잡해지며, 주말 저녁에는 보행이 어려울 정도로 인파가 몰립니다. 트래블 트래픽의 실시간 혼잡도 지수를 통해 쾌적한 방문 시간대를 확인하고 대기 없는 여행을 즐겨보세요.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h2 data-i18n="faq.q2">서울 홍대입구 주변의 가장 한적한 시간은 언제인가요?</h2>
+            <div class="faq-answer-box" data-i18n="faq.a2">
+                서울 홍대는 정오(12시) 이전 오전 시간대가 가장 한적하며 여유로운 산책과 사진 촬영이 가능합니다. 오후 4시 이후부터는 유동인구가 급격히 증가하므로, 맛집이나 카페 방문을 계획하신다면 오전 일정을 추천드립니다.
+            </div>
+        </div>
+    </section>
+
     <footer class="site-footer">
         <div class="footer-content">
             <p>&copy; 2026 Travel Traffic. All rights reserved.</p>
@@ -163,6 +221,43 @@
                 nav.classList.remove('scrolled');
             }
         });
+
+        // Dynamic Schema Update
+        function updateFaqSchema() {
+            const scripts = document.querySelectorAll('script[type="application/ld+json"]');
+            scripts.forEach(script => {
+                try {
+                    const data = JSON.parse(script.innerHTML);
+                    let graph = data['@graph'] || [data];
+                    let faqPage = graph.find(item => item['@type'] === 'FAQPage');
+                    
+                    if (faqPage) {
+                        faqPage.mainEntity = [
+                            {
+                                "@type": "Question",
+                                "name": window.t('faq.q1'),
+                                "acceptedAnswer": {
+                                    "@type": "Answer",
+                                    "text": window.t('faq.a1')
+                                }
+                            },
+                            {
+                                "@type": "Question",
+                                "name": window.t('faq.q2'),
+                                "acceptedAnswer": {
+                                    "@type": "Answer",
+                                    "text": window.t('faq.a2')
+                                }
+                            }
+                        ];
+                        script.innerHTML = JSON.stringify(data, null, 2);
+                    }
+                } catch (e) { console.error("Schema update error:", e); }
+            });
+        }
+
+        window.addEventListener('languageChanged', updateFaqSchema);
+        window.addEventListener('load', updateFaqSchema);
     </script>
 </body>
 

@@ -30,73 +30,189 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/i18n.js"></script>
     <style>
+        :root {
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-hover-bg: rgba(255, 255, 255, 0.08);
+        }
+
         .blog-list-container {
-            max-width: 1200px;
-            margin: 100px auto 50px;
+            max-width: 1400px;
+            margin: 120px auto 80px;
             padding: 0 5%;
         }
+
         .back-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            color: var(--text-main);
+            gap: 12px;
+            color: var(--text-muted);
             text-decoration: none;
-            margin-bottom: 2rem;
-            font-weight: 600;
-            transition: 0.3s;
+            margin-bottom: 2.5rem;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .back-btn:hover { color: var(--accent); }
-        
+        .back-btn:hover { 
+            color: var(--primary);
+            transform: translateX(-5px);
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
         .blog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2.5rem;
         }
-        
+
         .blog-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 1.5rem;
+            position: relative;
+            background: var(--card-bg);
+            border-radius: 2rem;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.3s;
+            border: 1px solid var(--card-border);
             text-decoration: none;
             color: inherit;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
         }
+
         .blog-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary);
+            background: var(--card-hover-bg);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 189, 248, 0.2);
         }
-        
+
+        .blog-card-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            overflow: hidden;
+        }
+
         .blog-card-img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
+
+        .blog-card:hover .blog-card-img {
+            transform: scale(1.1);
+        }
+
+        .blog-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+        }
+
         .blog-card-content {
-            padding: 1.5rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2.5rem;
+            z-index: 2;
         }
-        
+
+        .blog-card-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--primary);
+            color: #000;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.05em;
+        }
+
         .blog-card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-        
+
+        .blog-card-footer {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .author-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #000;
+            font-size: 0.8rem;
+        }
+
         .blog-card-meta {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .author-name {
+            color: #fff;
+            font-weight: 600;
         }
 
         #loading {
             text-align: center;
-            padding: 4rem;
-            font-size: 1.2rem;
-            color: var(--text-muted);
+            padding: 8rem;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            .blog-card-img-wrapper {
+                height: 400px;
+            }
         }
     </style>
 </head>
@@ -122,9 +238,12 @@
 
     <main class="blog-list-container">
         <a href="index.html" class="back-btn">← <span data-i18n="blog.btn.back">뒤로 가기</span></a>
-        <h1 style="margin-bottom: 2rem; font-size: 2.5rem;" data-i18n="hero.blog_btn">에디터 블로그</h1>
         
-        <div id="loading">지식을 불러오는 중...</div>
+        <header class="section-header">
+            <h1 data-i18n="hero.blog_btn">에디터 블로그</h1>
+        </header>
+        
+        <div id="loading" data-i18n="cg.label.loading">Loading...</div>
         <div id="blog-grid" class="blog-grid"></div>
     </main>
 
@@ -133,19 +252,21 @@
         async function loadBlogs() {
             const grid = document.getElementById('blog-grid');
             const loading = document.getElementById('loading');
-            const currentLang = localStorage.getItem('selectedLang') || 'ko';
+            const currentLang = localStorage.getItem('selectedLanguage') || 'ko';
 
             try {
+                // Fetch direct from API (Supabase backed)
                 const res = await fetch('/api/blogs');
                 const allBlogs = await res.json();
                 
-                // Filter by language and unique spots
+                // Filter by language
                 const langBlogs = allBlogs.filter(b => b.lang === currentLang || (!b.lang && currentLang === 'ko'));
                 
                 loading.style.display = 'none';
+                grid.innerHTML = '';
                 
                 if (langBlogs.length === 0) {
-                    grid.innerHTML = '<p>아직 등록된 블로그가 없습니다.</p>';
+                    grid.innerHTML = '<p style="text-align: center; color: var(--text-muted); grid-column: 1/-1;" data-i18n="blog.error.not_found">아직 등록된 블로그가 없습니다.</p>';
                     return;
                 }
 
@@ -154,35 +275,49 @@
                     card.href = `blog_detail.html?spotId=${blog.spotId}`;
                     card.className = 'blog-card';
                     
-                    // Simple logic to find an image in content
+                    // Find first image for the high-res thumbnail
                     const firstImg = blog.content.find(c => c.type === 'image');
                     const imgUrl = firstImg ? firstImg.url : 'img/poster_hongdae.png';
+                    
+                    // Simple EEAT: Initial of author or 'E' for Editor
+                    const authorInitial = (blog.author || 'Admin').charAt(0).toUpperCase();
 
                     card.innerHTML = `
-                        <img src="${imgUrl}" alt="${blog.title}" class="blog-card-img">
+                        <div class="blog-card-img-wrapper">
+                            <img src="${imgUrl}" alt="${blog.title}" class="blog-card-img">
+                            <div class="blog-card-overlay"></div>
+                        </div>
                         <div class="blog-card-content">
+                            <span class="blog-card-tag">Editor's Pick</span>
                             <h3 class="blog-card-title">${blog.title}</h3>
-                            <div class="blog-card-meta">
-                                <span>${blog.author}</span>
-                                <span>${blog.createdAt}</span>
+                            <div class="blog-card-footer">
+                                <div class="author-avatar">${authorInitial}</div>
+                                <div class="blog-card-meta">
+                                    <span class="author-name">${blog.author || 'Travel Traffic Editor'}</span>
+                                    <span>${blog.createdAt || 'RECENT POST'}</span>
+                                </div>
                             </div>
                         </div>
                     `;
                     grid.appendChild(card);
                 });
             } catch (e) {
+                console.error('Error loading blogs:', e);
                 loading.innerText = '블로그를 불러오는데 실패했습니다.';
             }
         }
         
         document.addEventListener('DOMContentLoaded', loadBlogs);
         
-        // Listen for language changes if the selector is present
-        document.getElementById('lang-selector').addEventListener('change', (e) => {
-            grid.innerHTML = '';
-            loading.style.display = 'block';
-            loadBlogs();
-        });
+        // Listen for language selector changes
+        const langSelector = document.getElementById('lang-selector');
+        if (langSelector) {
+            langSelector.addEventListener('change', () => {
+                document.getElementById('blog-grid').innerHTML = '';
+                document.getElementById('loading').style.display = 'block';
+                loadBlogs();
+            });
+        }
     </script>
 </body>
 </html>
