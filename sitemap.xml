@@ -29,6 +29,10 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.checkeastpoint.com/faq.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.checkeastpoint.com/guides_all.html</loc>
     <priority>0.7</priority>
   </url>

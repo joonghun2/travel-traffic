@@ -56,13 +56,24 @@
 
     <nav>
         <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
-        <ul class="nav-links">
+                        <ul class="nav-links">
             <li><a href="index.html" data-i18n="nav.home">홈</a></li>
-            <li><a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a></li>
-            <li><a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a></li>
-            <li><a href="osaka.html" data-i18n="nav.osaka" class="active">오사카 (일본)</a></li>
-            <li><a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a></li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.korea">한국</a>
+                <div class="nav-dropdown-content">
+                    <a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a>
+                    <a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a>
+                </div>
+            </li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.japan">일본</a>
+                <div class="nav-dropdown-content">
+                    <a href="osaka.html" data-i18n="nav.osaka" class="active">오사카 (일본)</a>
+                    <a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a>
+                </div>
+            </li>
             <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
+            <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
         </ul>
         <div class="lang-switcher">
             <button onclick="window.softRefresh()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; margin-right:5px;">🔄</button>
