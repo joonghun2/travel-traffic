@@ -184,8 +184,52 @@ export default async function handler(req, res) {
 
         html = html.replace('</head>', `${hreflangTags}\n</head>`);
         
-        // Pass current lang to client script
-        html = html.replace('</head>', `<script>window.currentLang = "${lang}"; localStorage.setItem('travel_traffic_lang', "${lang}");</script>\n</head>`);
+        // Pass current lang to client script + rewrite lang-switcher behavior
+        const langSwitcherScript = `
+<script>
+(function(){
+    window.currentLang = "${lang}";
+    localStorage.setItem('travel_traffic_lang', "${lang}");
+
+    // Rewrite internal links to include language prefix
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('a[href]').forEach(function(a) {
+            var href = a.getAttribute('href');
+            if (!href) return;
+            // Skip external links, anchors, javascript:, and already-prefixed links
+            if (href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('mailto:')) return;
+            if (/^\\/(ko|en|ja)(\\/|$)/.test(href)) return;
+            // Skip static assets
+            if (/^(css|js|img|lib|api)\\//.test(href) || /^\\/(css|js|img|lib|api)\\//.test(href)) return;
+            // Prefix with language
+            if (href.startsWith('/')) {
+                a.setAttribute('href', '/${lang}' + href);
+            } else {
+                a.setAttribute('href', '/${lang}/' + href);
+            }
+        });
+
+        // Rewrite language selector to navigate between language routes
+        var selector = document.getElementById('lang-selector');
+        if (selector) {
+            selector.value = "${lang}";
+            selector.addEventListener('change', function() {
+                var newLang = this.value;
+                var path = window.location.pathname;
+                // Replace current lang prefix with new one
+                var newPath = path.replace(/^\\/(ko|en|ja)/, '/' + newLang);
+                if (newPath === path) {
+                    // No lang prefix found, add it
+                    newPath = '/' + newLang + path;
+                }
+                window.location.href = newPath + window.location.search + window.location.hash;
+            });
+        }
+    });
+})();
+</script>`;
+
+        html = html.replace('</head>', `${langSwitcherScript}\n</head>`);
 
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         return res.status(200).send(html);
