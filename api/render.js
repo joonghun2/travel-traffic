@@ -93,26 +93,80 @@ export default async function handler(req, res) {
                 }
             } catch(e) {}
         } 
-        // Static Pages
+        // Static Pages — language-specific SEO meta
         else {
-            if (filepath === 'index.html') {
-                title = translations['hero.title'] ? translations['hero.title'].replace(/<br>/g, ' ').replace(/<[^>]+>/g, '') : 'CheckEastPoint';
-                desc = translations['hero.desc'] || '';
-            } else if (filepath === 'seoul.html') {
-                title = (translations['nav.seoul'] || 'Seoul') + ' | CheckEastPoint';
-                desc = translations['seoul.header.desc'] || '';
-            } else if (filepath === 'jeju.html') {
-                title = (translations['nav.jeju'] || 'Jeju Island') + ' | CheckEastPoint';
-                desc = translations['jeju.header.desc'] || '';
-            } else if (filepath === 'osaka.html') {
-                title = (translations['nav.osaka'] || 'Osaka') + ' | CheckEastPoint';
-                desc = translations['osaka.title'] || '';
-            } else if (filepath === 'kyoto.html') {
-                title = (translations['nav.kyoto'] || 'Kyoto') + ' | CheckEastPoint';
-                desc = translations['kyoto.title'] || '';
-            } else if (filepath === 'guides.html') {
-                title = (translations['guide.hub.title'] || 'Travel Guides') + ' | CheckEastPoint';
-                desc = translations['guide.hub.subtitle'] || '';
+            if (lang === 'en') {
+                // GEO-targeted English SEO copy with target keywords
+                if (filepath === 'index.html') {
+                    title = 'Check Live Peak Crowd Times – Seoul, Jeju, Osaka, Kyoto | CheckEastPoint';
+                    desc = 'Check live peak crowd times for top East Asia travel spots. Avoid crowds in Seoul, Jeju Island, Osaka & Kyoto, and plan the perfect trip.';
+                } else if (filepath === 'seoul.html') {
+                    title = 'Seoul Crowd Times – Check Live Busyness at Hongdae, Gangnam & More';
+                    desc = 'Check live peak crowd times in Seoul. Real-time busyness for Hongdae, Myeongdong, Gangnam, N Seoul Tower and more. Plan your visit to avoid the rush.';
+                } else if (filepath === 'jeju.html') {
+                    title = 'Jeju Island Crowd Times – Check Live Busyness at Hallasan & Top Spots';
+                    desc = 'Check live peak crowd times on Jeju Island. Avoid busy hours at Hallasan, Seongsan Sunrise Peak, Manjanggul Cave, and popular beaches.';
+                } else if (filepath === 'osaka.html') {
+                    title = 'Osaka Crowd Times – Check Live Busyness at Dotonbori, Namba & More';
+                    desc = 'Check live peak crowd times in Osaka. See real-time busyness at Dotonbori, Universal Studios Japan, Kuromon Market, and Shinsekai before you go.';
+                } else if (filepath === 'kyoto.html') {
+                    title = 'Kyoto Crowd Times – Check Live Busyness at Arashiyama, Fushimi & More';
+                    desc = 'Check live peak crowd times in Kyoto. Discover the best times to visit Fushimi Inari, Arashiyama Bamboo Grove, Kinkakuji and Gion without the crowds.';
+                } else if (filepath === 'guides.html') {
+                    title = 'East Asia Travel Guides – Best Times to Visit Without Crowds | CheckEastPoint';
+                    desc = 'Browse expert travel guides for Seoul, Jeju, Osaka, and Kyoto. Learn the peak crowd times and best hours to explore must-see attractions crowd-free.';
+                } else if (filepath === 'faq.html') {
+                    title = 'FAQ – When Are Popular Spots Least Crowded? | CheckEastPoint';
+                    desc = 'Answers to common questions about peak crowd times in East Asia. Find out when Seoul, Jeju, Osaka, and Kyoto tourist spots are least busy.';
+                } else if (filepath === 'blog_list.html') {
+                    title = 'Travel Blog – Tips to Avoid Peak Crowds in East Asia | CheckEastPoint';
+                    desc = 'Real traveler insights on avoiding peak crowd times in Seoul, Jeju, Osaka, and Kyoto. Plan smarter and enjoy popular attractions without the wait.';
+                } else {
+                    title = 'CheckEastPoint – Check Live Crowd Times for East Asia Travel';
+                    desc = 'Real-time crowd information for top travel destinations in South Korea and Japan. Check live peak times before you visit.';
+                }
+            } else if (lang === 'ja') {
+                // Japanese — use i18n translations
+                if (filepath === 'index.html') {
+                    title = translations['hero.title'] ? translations['hero.title'].replace(/<br>/g, ' ').replace(/<[^>]+>/g, '') : 'CheckEastPoint';
+                    desc = translations['hero.desc'] || '';
+                } else if (filepath === 'seoul.html') {
+                    title = (translations['nav.seoul'] || 'ソウル') + ' | CheckEastPoint';
+                    desc = translations['seoul.header.desc'] || '';
+                } else if (filepath === 'jeju.html') {
+                    title = (translations['nav.jeju'] || '済州島') + ' | CheckEastPoint';
+                    desc = translations['jeju.header.desc'] || '';
+                } else if (filepath === 'osaka.html') {
+                    title = (translations['nav.osaka'] || '大阪') + ' | CheckEastPoint';
+                    desc = translations['osaka.title'] || '';
+                } else if (filepath === 'kyoto.html') {
+                    title = (translations['nav.kyoto'] || '京都') + ' | CheckEastPoint';
+                    desc = translations['kyoto.title'] || '';
+                } else if (filepath === 'guides.html') {
+                    title = (translations['guide.hub.title'] || '旅行ガイド') + ' | CheckEastPoint';
+                    desc = translations['guide.hub.subtitle'] || '';
+                }
+            } else {
+                // Korean (ko) — use i18n translations
+                if (filepath === 'index.html') {
+                    title = translations['hero.title'] ? translations['hero.title'].replace(/<br>/g, ' ').replace(/<[^>]+>/g, '') : 'CheckEastPoint';
+                    desc = translations['hero.desc'] || '';
+                } else if (filepath === 'seoul.html') {
+                    title = (translations['nav.seoul'] || '서울') + ' | CheckEastPoint';
+                    desc = translations['seoul.header.desc'] || '';
+                } else if (filepath === 'jeju.html') {
+                    title = (translations['nav.jeju'] || '제주') + ' | CheckEastPoint';
+                    desc = translations['jeju.header.desc'] || '';
+                } else if (filepath === 'osaka.html') {
+                    title = (translations['nav.osaka'] || '오사카') + ' | CheckEastPoint';
+                    desc = translations['osaka.title'] || '';
+                } else if (filepath === 'kyoto.html') {
+                    title = (translations['nav.kyoto'] || '교토') + ' | CheckEastPoint';
+                    desc = translations['kyoto.title'] || '';
+                } else if (filepath === 'guides.html') {
+                    title = (translations['guide.hub.title'] || '여행 가이드') + ' | CheckEastPoint';
+                    desc = translations['guide.hub.subtitle'] || '';
+                }
             }
         }
 
