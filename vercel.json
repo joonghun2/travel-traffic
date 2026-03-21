@@ -1,6 +1,31 @@
 {
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept-language", "value": "(?i)^(ko).*" }],
+      "destination": "/ko",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept-language", "value": "(?i)^(ja).*" }],
+      "destination": "/ja",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "destination": "/en",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/admin_blog", "destination": "/admin_blog.html" }
+    { "source": "/admin_blog", "destination": "/admin_blog.html" },
+    { "source": "/api/sitemap", "destination": "/api/sitemap" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "/:lang(ko|en|ja)/:folder(css|js|img|lib|api)/:path*", "destination": "/:folder/:path" },
+    { "source": "/:lang(ko|en|ja)", "destination": "/api/render?lang=$lang&filepath=index.html" },
+    { "source": "/:lang(ko|en|ja)/", "destination": "/api/render?lang=$lang&filepath=index.html" },
+    { "source": "/:lang(ko|en|ja)/:filepath*", "destination": "/api/render?lang=$lang&filepath=$filepath" }
   ]
 }
