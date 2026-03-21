@@ -1,5 +1,7 @@
+import { rewrite } from '@vercel/functions';
+
 // Vercel Edge Middleware — runs BEFORE static file serving.
-// This ensures /en/seoul.html goes to api/render instead of 404.
+// Uses @vercel/functions for proper non-Next.js rewrites.
 export default function middleware(request) {
     const url = new URL(request.url);
     const pathname = url.pathname;
@@ -13,9 +15,7 @@ export default function middleware(request) {
 
     // Skip static assets — let them pass through to CDN
     if (/^(css|js|img|lib|api)(\/|$)/.test(filepath)) {
-        const newUrl = new URL(request.url);
-        newUrl.pathname = '/' + filepath;
-        return Response.redirect(newUrl, 307);
+        return rewrite(new URL('/' + filepath, request.url));
     }
 
     // Add .html extension if missing
@@ -24,15 +24,18 @@ export default function middleware(request) {
     }
 
     // Rewrite to SSR render function
-    const newUrl = new URL(request.url);
-    newUrl.pathname = '/api/render';
-    newUrl.searchParams.set('lang', lang);
-    newUrl.searchParams.set('filepath', filepath);
+    const renderUrl = new URL('/api/render', request.url);
+    renderUrl.searchParams.set('lang', lang);
+    renderUrl.searchParams.set('filepath', filepath);
+    
+    // Preserve any extra query params (e.g. ?spotId=xxx for blog pages)
+    for (const [key, value] of url.searchParams.entries()) {
+        if (key !== 'lang' && key !== 'filepath') {
+            renderUrl.searchParams.set(key, value);
+        }
+    }
 
-    return fetch(newUrl, {
-        headers: request.headers,
-        method: request.method,
-    });
+    return rewrite(renderUrl);
 }
 
 export const config = {

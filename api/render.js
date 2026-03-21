@@ -158,6 +158,22 @@ export default async function handler(req, res) {
             return `<${tag} ${beforeArgs}data-i18n-tags="${key}"${afterArgs}>${out}</${tag}>`;
         });
 
+        // --- SERVER-SIDE LINK REWRITING ---
+        // Rewrite all relative internal hrefs to include the language prefix
+        // e.g. href="seoul.html" -> href="/en/seoul.html"
+        //      href="guides/guide1.html" -> href="/en/guides/guide1.html"
+        html = html.replace(
+            /(<a\s[^>]*href=)(["'])([^"'#?]+\.html)(["'])/gi,
+            (match, prefix, q1, href, q2) => {
+                // Skip already prefixed or external links
+                if (/^(https?:\/\/|\/\/(ko|en|ja)\/)/.test(href)) return match;
+                if (/^\/(ko|en|ja)\//.test(href)) return match;
+                // Rewrite relative link
+                const newHref = href.startsWith('/') ? `/${lang}${href}` : `/${lang}/${href}`;
+                return `${prefix}${q1}${newHref}${q2}`;
+            }
+        );
+
         // Inject hreflang tags
         const baseUrl = 'https://www.checkeastpoint.com';
         let canonicalPath = `/${filepath}`;
