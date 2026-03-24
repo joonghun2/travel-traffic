@@ -1,5 +1,39 @@
 window.translations = {
     ko: {
+        "nav.tips": "여행 팁",
+        "nav.guides": "여행 가이드 / FAQ",
+        "nav.planner": "최적 여행 동선 플래너",
+        "route.title": "🗺️ 최적 여행 동선 플래너",
+        "route.subtitle": "담아둔 명소들을 지도 기반의 알고리즘으로 계산해 꼬이지 않는 완벽한 시간표를 만들어 드립니다.",
+        "route.cart": "🎒 내 루트 관리",
+        "route.empty_cart": "담아둔 장소가 없습니다.",
+        "route.sel_city": "-- 도시 선택 --",
+        "route.sel_spot": "-- 명소 선택 --",
+        "route.settings": "⚙️ 플래너 설정",
+        "route.dep_time": "출발 시간",
+        "route.pace": "여행 스타일 (명소 체류 시간)",
+        "route.pace_tight": "타이트하게 (명소당 45분)",
+        "route.pace_normal": "일반적 (명소당 1시간 30분)",
+        "route.pace_relaxed": "여유롭게 (명소당 2시간 30분)",
+        "route.lunch_time": "희망 점심 시간 (선택)",
+        "route.generate": "🪄 동선 시간표 생성 시작",
+        "route.timeline": "📝 최적 스케줄 타임라인",
+        "route.tl_empty_icon": "🪄",
+        "route.tl_empty": "설정을 완료하고 생성 버튼을 누르면 이 곳에 동선이 표시됩니다.",
+        "route.alert_empty": "루트에 명소를 추가해주세요!",
+        "route.lunch1": "🍱 점심 식사 (인근 맛집 탐색)",
+        "route.lunch2": "🍱 점심 식사 (방문 전 식사 추천)",
+        "route.cat": "카테고리:",
+        "route.lunch_desc": "충분한 휴식을 취하세요.",
+        "route.approx": "약",
+        "route.mins": "분 소요",
+        "route.travel": "이동",
+        "route.map_link": "지도 길찾기 연동",
+        "route.map_google": "🔵 구글",
+        "route.map_naver": "🟢 네이버",
+        "route.badge": "여행 루트",
+        "route.am": "오전",
+        "route.pm": "오후",
         "guide.21.image": "",
         "guide.20.image": "",
         "guide.19.image": "",
@@ -732,6 +766,40 @@ window.translations = {
         "guide.20.content": "즐거운 여행의 시작은 철저한 준비입니다. 여권 만료일 확인과 사본 준비는 기본입니다. 비상용 카드와 현지 화폐를 적절히 섞어 환전하세요. 멀티 어댑터, 보조 배터리, 그리고 비상약 세트도 빼놓을 수 없는 필수품입니다. 방문 국가의 긴급 연락처와 대사관 위치를 미리 메모해두면 응급 상황 시 큰 도움이 됩니다."
     },
     en: {
+        "nav.tips": "Travel Tips",
+        "nav.guides": "Travel Guides / FAQ",
+        "nav.planner": "Optimal Route Planner",
+        "route.title": "🗺️ Optimal Route Planner",
+        "route.subtitle": "Calculate chosen spots with map-based algorithms to create a perfect, tangle-free schedule.",
+        "route.cart": "🎒 My Route Cart",
+        "route.empty_cart": "No spots added yet.",
+        "route.sel_city": "-- Select City --",
+        "route.sel_spot": "-- Select Spot --",
+        "route.settings": "⚙️ Planner Settings",
+        "route.dep_time": "Departure Time",
+        "route.pace": "Travel Pace (Stay Time)",
+        "route.pace_tight": "Tight (45m / spot)",
+        "route.pace_normal": "Normal (1h 30m / spot)",
+        "route.pace_relaxed": "Relaxed (2h 30m / spot)",
+        "route.lunch_time": "Preferred Lunch Time (Optional)",
+        "route.generate": "🪄 Generate Route Schedule",
+        "route.timeline": "📝 Optimal Timeline",
+        "route.tl_empty_icon": "🪄",
+        "route.tl_empty": "After setup, click generate to see your route here.",
+        "route.alert_empty": "Please add spots to your route!",
+        "route.lunch1": "🍱 Lunch Time (Explore nearby food)",
+        "route.lunch2": "🍱 Lunch Time (Eat before visit)",
+        "route.cat": "Category:",
+        "route.lunch_desc": "Take a good rest.",
+        "route.approx": "Approx",
+        "route.mins": "mins",
+        "route.travel": "Travel",
+        "route.map_link": "Open Map Directions",
+        "route.map_google": "🔵 Google",
+        "route.map_naver": "🟢 Naver",
+        "route.badge": "Route Cart",
+        "route.am": "AM",
+        "route.pm": "PM",
         "guide.21.image": "",
         "guide.20.image": "",
         "guide.19.image": "",
@@ -1427,7 +1495,38 @@ window.translations = {
         "guide.20.content": "A successful trip begins with thorough preparation. Check your passport expiration and keep a copy handy. Mix emergency cards and local currency for your finances. Essentials like multi-adapters, power banks, and first-aid kits are must-haves. Noting down emergency contacts and embassy locations of your destination can be a lifesaver in urgent situations."
     },
     ja: {
-
+        "nav.tips": "旅行のヒント",
+        "nav.guides": "旅行ガイド / FAQ",
+        "nav.planner": "最適なルートプランナー",
+        "route.title": "🗺️ 最適なルートプランナー",
+        "route.subtitle": "マップベースのアルゴリズムで、整理された完璧なツアースケジュールを作成します。",
+        "route.cart": "🎒 マイルート管理",
+        "route.empty_cart": "スポットがありません。",
+        "route.sel_city": "-- 都市を選択 --",
+        "route.sel_spot": "-- スポットを選択 --",
+        "route.settings": "⚙️ プランナー設定",
+        "route.dep_time": "出発時刻",
+        "route.pace": "旅行スタイル（滞在時間）",
+        "route.pace_tight": "タイトに（名所45分）",
+        "route.pace_normal": "普通に（名所1時間30分）",
+        "route.pace_relaxed": "ゆったりと（名所2時間30分）",
+        "route.lunch_time": "希望ランチタイム（任意）",
+        "route.generate": "🪄 ルート作成開始",
+        "route.timeline": "📝 最適なタイムライン",
+        "route.tl_empty_icon": "🪄",
+        "route.tl_empty": "設定後、作成ボタンを押すとここにルートが表示されます。",
+        "route.alert_empty": "ルートにスポットを追加してください！",
+        "route.lunch1": "🍱 ランチタイム（周辺のグルメ探索）",
+        "route.lunch2": "🍱 ランチタイム（訪問前に食事）",
+        "route.cat": "カテゴリー:",
+        "route.lunch_desc": "十分に休憩を取ってください。",
+        "route.approx": "約",
+        "route.mins": "分",
+        "route.travel": "移動",
+        "route.map_link": "マップ案内を開く",
+        "route.map_google": "🔵 Google",
+        "route.map_naver": "🟢 Naver",
+        "route.badge": "旅行ルート",
         "nav.korea": "韓国",
         "nav.japan": "日本",
         "nav.faq": "FAQ",
@@ -1479,6 +1578,8 @@ window.translations = {
         "faq.jp.a9": "<p>はい、東京・大阪・京都などの人気観光都市であれば十分に旅行可能です。駅や空港には分かりやすい<strong>英語案内板</strong>があり、レストランにも写真付きメニューや英語メニューが多く備えられています。</p><p>もし言葉の壁にぶつかった時は、便利なツールに頼りましょう。<br>• <strong>Google翻訳（カメラモード）：</strong>メニュー表やスーパーの食品成分表などをリアルタイム翻訳。<br>• <strong>Papago：</strong>韓国語↔日本語の翻訳なら最も精度が高く自然な結果が出ます。<br>• <strong>iTranslate Voice：</strong>音声通訳に便利。<br></p><div class='tip-box'><span class='tip-icon'>🗣️</span><span><strong>「すみません (Sumimasen)」</strong>という言葉は魔法の言葉です。お店に入る時、店員さんを呼ぶ時、道を譲ってもらった時など、いつでも使えます。</span></div>",
         "faq.jp.q10": "入れておくべき推奨アプリはありますか？",
         "faq.jp.a10": "<p>これらは日本の生活に欠かせない最強のアプリです。</p><p><strong>📍 移動・マップ</strong><br>→ <strong>Navitime for Japan Travel：</strong>外国人向けの最高の乗換案内アプリ。<br>→ <strong>Google マップ：</strong>複雑な東京の地下鉄を歩くなら必須です。<br><br><strong>🚄 新幹線・特急</strong><br>→ <strong>JR East App / えきねっと：</strong>新幹線の座席予約や運行情報確認。<br><br><strong>🍱 食事</strong><br>→ <strong>Tabelog（食べログ）：</strong>日本最大級のグルメ口コミサイト（英語対応）。<br>→ <strong>TableCheck / OpenTable：</strong>人気レストランの事前予約に。<br><br><strong>🚨 防災</strong><br>→ <strong>Safety Tips：</strong>地震や津波情報を多言語で配信。</p><div class='tip-box'><span class='tip-icon'>📡</span><span>これらのアプリは道端で即座に使う必要があります。空港に着いたら<strong>SIMカードかポケットWi-Fi</strong>を迷わず契約し、常時インターネットに繋がるようにしてください。</span></div>",
+        "route.am": "午前",
+        "route.pm": "午後",
 
         "guide.21.image": "",
         "guide.20.image": "",
@@ -2273,6 +2374,17 @@ function setLanguage(lang) {
     if (!window.translations || !window.translations[lang]) return;
     window.currentLang = lang;
     localStorage.setItem('travel_traffic_lang', lang);
+    document.documentElement.lang = lang;
+
+    // Update lang attribute on all native time inputs so the browser localizes AM/PM labels
+    document.querySelectorAll('input[type="time"]').forEach(input => {
+        input.lang = lang;
+        // Force repaint: briefly toggle the value to trigger re-render of the label
+        const v = input.value;
+        input.type = 'text';
+        input.type = 'time';
+        input.value = v;
+    });
 
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');

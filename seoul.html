@@ -73,8 +73,14 @@
                     <a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a>
                 </div>
             </li>
-            <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
-            <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.tips">여행 팁</a>
+                <div class="nav-dropdown-content">
+                    <a href="guides.html" data-i18n="nav.guides">여행 가이드</a>
+                    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+                    <a href="route.html" data-i18n="nav.planner">최적 여행 동선 플래너</a>
+                </div>
+            </li>
         </ul>
         <div class="lang-switcher">
             <button onclick="window.softRefresh()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; margin-right:5px;">🔄</button>
@@ -109,28 +115,10 @@
         </div>
     </section>
 
+<script src="js/places-db.js"></script>
 <script>
 // Dashboard Logic customized from user's provided code for Travel Traffic ecosystem
-const PLACES=[
-  {id:0,name:'홍대 거리',area:'마포구',cat:'쇼핑·관광',emoji:'🎸',lat:37.5563,lng:126.9234,base:72,peaks:[13,14,17,18,19,20],best:'평일 오전 11시',tip:'클럽·카페·버스킹 거리'},
-  {id:1,name:'명동',area:'중구',cat:'쇼핑·관광',emoji:'🛍️',lat:37.5636,lng:126.9860,base:88,peaks:[12,13,14,15,16,17,18],best:'주중 오전 일찍',tip:'뷰티·패션 쇼핑 1번지'},
-  {id:2,name:'경복궁',area:'종로구',cat:'고궁',emoji:'🏯',lat:37.5796,lng:126.9770,base:42,peaks:[10,11,12,13,14],best:'개관 직후 9시',tip:'수문장 교대식 인기'},
-  {id:3,name:'남산서울타워',area:'중구',cat:'쇼핑·관광',emoji:'🗼',lat:37.5512,lng:126.9882,base:66,peaks:[14,15,19,20],best:'야경 저녁 7시',tip:'야경 명소 & 자물쇠 이벤트'},
-  {id:4,name:'여의도 한강공원',area:'영등포구',cat:'자연·공원',emoji:'🌊',lat:37.5283,lng:126.9322,base:28,peaks:[17,18,19],best:'언제든 쾌적',tip:'봄 벚꽃 최고 명소'},
-  {id:5,name:'북촌 한옥마을',area:'종로구',cat:'고궁',emoji:'🏘️',lat:37.5826,lng:126.9832,base:35,peaks:[11,12,13,14],best:'오전 이른 시간',tip:'전통 한옥 포토스팟'},
-  {id:6,name:'동대문 DDP',area:'중구',cat:'쇼핑·관광',emoji:'🌀',lat:37.5669,lng:127.0098,base:79,peaks:[12,13,14,19,20,21],best:'평일 오전',tip:'자하 하디드 건축 디자인'},
-  {id:7,name:'인사동',area:'종로구',cat:'쇼핑·관광',emoji:'🎨',lat:37.5742,lng:126.9854,base:44,peaks:[11,12,13,14],best:'주말 오전 10시',tip:'전통 공예·갤러리 밀집'},
-  {id:40,name:'롯데월드',area:'송파구',cat:'테마파크',emoji:'🎢',base:85,peaks:[10,11,12,13,14,15,16,17],best:'개장 시',tip:'환상적인 모험'},
-  {id:41,name:'코엑스 몰',area:'강남구',cat:'쇼핑·관광',emoji:'🏙️',base:70,peaks:[12,13,14,18,19],best:'낮 시간대',tip:'별마당 도서관'},
-  {id:42,name:'광장시장',area:'종로구',cat:'쇼핑·관광',emoji:'🥘',base:75,peaks:[12,13,18,19,20],best:'저녁 시간',tip:'육회와 빈대떡'},
-  {id:43,name:'청계천',area:'종로구',cat:'자연·공원',emoji:'🌊',base:30,peaks:[19,20,21],best:'밤 8시',tip:'밤 산책 명소'},
-  {id:44,name:'서울숲',area:'성동구',cat:'자연·공원',emoji:'🌳',base:40,peaks:[14,15,16],best:'오후 2시',tip:'피크닉 추천'},
-  {id:45,name:'청와대',area:'종로구',cat:'고궁',emoji:'🏛️',base:50,peaks:[10,11,14,15],best:'예약 시간',tip:'대통령 집무실'},
-  {id:46,name:'익선동',area:'종로구',cat:'쇼핑·관광',emoji:'☕',base:80,peaks:[15,16,17,18,19],best:'오후 3시',tip:'한옥 카페 거리'},
-  {id:47,name:'낙산공원',area:'종로구',cat:'자연·공원',emoji:'🏰',base:20,peaks:[19,20,21],best:'일몰 후',tip:'성곽길 야경'},
-  {id:48,name:'반포 한강공원',area:'서초구',cat:'자연·공원',emoji:'⛲',base:45,peaks:[19,20,21],best:'분수 가동 시',tip:'무지개 분수'},
-  {id:49,name:'올림픽공원',area:'송파구',cat:'자연·공원',emoji:'🌳',base:35,peaks:[14,15,16],best:'가을 낮',tip:'나홀로나무'},
-];
+const PLACES = window.GLOBAL_PLACES.filter(p => p.city === 'seoul');
 
 const WMO_ICON={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',61:'🌧️',71:'🌨️',80:'🌦️',95:'⛈️'};
 // Weather keys in i18n

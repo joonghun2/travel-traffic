@@ -53,6 +53,14 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>https://www.checkeastpoint.com/en/route.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/route.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/route.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/route.html"/>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>https://www.checkeastpoint.com/en/guides.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/guides.html"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/guides.html"/>
@@ -117,6 +125,11 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>https://www.checkeastpoint.com/ko/route.html</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>https://www.checkeastpoint.com/ko/guides.html</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
@@ -160,6 +173,11 @@
   </url>
   <url>
     <loc>https://www.checkeastpoint.com/ja/busan.html</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://www.checkeastpoint.com/ja/route.html</loc>
     <priority>0.9</priority>
     <changefreq>daily</changefreq>
   </url>

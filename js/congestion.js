@@ -88,14 +88,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const dashOffset = 408 - (408 * cv / 100);
 
             const card = document.createElement('div');
-            card.className = 'bento-card';
+            card.className = 'bento-card relative-card';
+            card.style.position = 'relative'; 
+            
+            card.onmouseenter = () => { const ov = card.querySelector('.route-overlay'); if(ov) ov.style.opacity = '1'; };
+            card.onmouseleave = () => { const ov = card.querySelector('.route-overlay'); if(ov) ov.style.opacity = '0'; };
+
             card.innerHTML = `
-                <div class="bento-header">
+                <div class="route-overlay" onclick="if(window.RouteStore) window.RouteStore.addSpot(${spot.id}); event.stopPropagation();" style="position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(255,255,255,0.85); backdrop-filter:blur(5px); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s; z-index:20; border-radius:inherit; cursor:pointer;">
+                    <div style="font-size:3rem; margin-bottom:15px; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1));">🗺️</div>
+                    <div style="font-size:1.1rem; font-weight:800; background:var(--primary-color, #ff385c); padding:12px 24px; border-radius:30px; color:#fff; display:flex; gap:8px; align-items:center; box-shadow:0 10px 20px rgba(255,56,92,0.3);">
+                        <span>+</span> <span>${window.t ? window.t('cg.btn.add_route', '내 루트에 담기') : '내 루트에 담기'}</span>
+                    </div>
+                </div>
+
+                <div class="bento-header" style="position:relative; z-index:2;">
                     <h3 class="bento-title">${displayName}</h3>
                     <p class="bento-subtitle">(${spot.msg})</p>
                 </div>
                 
-                <div class="gauge-container">
+                <div class="gauge-container" style="position:relative; z-index:2;">
                     <svg class="gauge-svg" viewBox="0 0 150 150">
                         <circle class="gauge-bg" cx="75" cy="75" r="65"></circle>
                         <circle class="gauge-bar ${colorClass}" cx="75" cy="75" r="65" style="stroke-dashoffset: 408;"></circle>
@@ -106,18 +118,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div class="status-box">
+                <div class="status-box" style="position:relative; z-index:2;">
                     <div class="status-headline">${window.t ? window.t('cg.label.now', '지금') : '지금'} ${statusLabel} ${statusEmoji}</div>
                     <div class="context-box ${colorClass}">
                         <span>⏰ ${(window.t) ? window.t('cg.label.rec_time', '추천 시간:') : '추천 시간:'} ${window.currentLang === 'en' ? 'Anytime' : window.currentLang === 'ja' ? 'いつでも快適' : '언제든 쾌적'}</span>
                     </div>
                 </div>
 
-                <div class="cta-group">
-                    <a href="${kakaoLink}" class="cta-btn cta-kakao" target="_blank">
+                <div class="cta-group" style="position:relative; z-index:30;">
+                    <a href="${kakaoLink}" class="cta-btn cta-kakao" target="_blank" onclick="event.stopPropagation();">
                         🚕 ${window.t ? window.t('cg.btn.kakao', '카카오T 호출하기') : '카카오T 호출하기'}
                     </a>
-                    <a href="${uberLink}" class="cta-btn cta-uber" target="_blank">
+                    <a href="${uberLink}" class="cta-btn cta-uber" target="_blank" onclick="event.stopPropagation();">
                         🚗 ${window.t ? window.t('cg.btn.uber', 'Uber 부르기') : 'Uber 부르기'}
                     </a>
                 </div>

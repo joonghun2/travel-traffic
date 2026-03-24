@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최적 여행 동선 플래너 | 트래블 트래픽</title>
+    <meta name="description" content="원하는 도시의 명소들을 선택해 꼬이지 않는 완벽한 지도 기반의 자동 일정표를 완성해보세요.">
+    <meta property="og:title" content="최적 여행 동선 플래너 | 트래블 트래픽">
+    <meta property="og:description" content="여행 동선 때문에 스트레스 받지 마세요. 담아둔 명소들을 최적의 알고리즘으로 계산해 여행 스케줄을 만들어 줍니다.">
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        .planner-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        @media(max-width: 900px) {
+            .planner-container { grid-template-columns: 1fr; }
+        }
+
+        .planner-panel {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .planner-panel h2 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #111;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 0.95rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background: #fafafa;
+            transition: all 0.2s;
+        }
+        .form-control:focus {
+            border-color: var(--primary-color);
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255,56,92,0.1);
+        }
+
+        .spot-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 25px 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .spot-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+        .spot-item:hover { transform: translateX(5px); }
+        .spot-info { flex: 1; display:flex; gap: 10px; align-items:center; font-weight:600;}
+        .spot-city-badge { font-size: 0.75rem; padding: 3px 8px; background: #e0e0e0; border-radius: 10px; color:#555;}
+        .spot-remove {
+            background: none; border: none; color: #ff385c; cursor: pointer; font-size: 1rem; font-weight: bold; padding: 5px;
+        }
+        
+        .add-manual-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        .add-manual-group select { flex: 1; }
+
+        .btn-primary {
+            display: block; width: 100%; padding: 15px; background: var(--primary-color, #ff385c);
+            color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: background 0.3s, transform 0.2s;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255,56,92,0.3);
+        }
+        .btn-primary:hover { background: #d90f3e; transform: translateY(-2px); }
+
+        /* Timeline UI */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            list-style: none;
+            margin: 0;
+        }
+        .timeline::before {
+            content: ''; position: absolute; left: 7px; top: 0; bottom: 0;
+            width: 2px; background: #ffe4e8;
+        }
+        .tl-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .tl-item::before {
+            content: ''; position: absolute; left: -28px; top: 5px; width: 12px; height: 12px;
+            border-radius: 50%; background: var(--primary-color); border: 3px solid #fff; box-shadow: 0 0 0 2px #ffe4e8;
+        }
+        
+        .tl-type-TRAVEL::before { background: #4dabf7; box-shadow: 0 0 0 2px #d0ebff; }
+        .tl-type-LUNCH::before { background: #fab005; box-shadow: 0 0 0 2px #ffec99; }
+
+        .tl-time { font-size: 0.9rem; color: var(--primary-color); font-weight: 700; margin-bottom: 5px; }
+        .tl-type-TRAVEL .tl-time { color: #4dabf7; }
+        .tl-type-LUNCH .tl-time { color: #fab005; }
+
+        .tl-card {
+            background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .tl-title { margin: 0 0 5px 0; font-size: 1.1rem; color: #333; }
+        .tl-desc { margin: 0; font-size: 0.9rem; color: #777; line-height: 1.4; }
+        
+        .tl-map-btn {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+            font-size: 0.85rem; font-weight: 600; padding: 6px 14px;
+            background: #f1f3f5; color: #495057; border-radius: 20px;
+            text-decoration: none; transition: background 0.2s;
+        }
+        .tl-map-btn:hover { background: #e9ecef; color: #212529; }
+        .tl-map-btn.google { color: #1a73e8; background: #e8f0fe; }
+        .tl-map-btn.google:hover { background: #d2e3fc; }
+        .tl-map-btn.naver { color: #03c75a; background: #eafbf0; }
+        .tl-map-btn.naver:hover { background: #ccecdf; }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav id="navbar">
+        <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
+                        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav.home" class="active">홈</a></li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.korea">한국</a>
+                <div class="nav-dropdown-content">
+                    <a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a>
+                    <a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a>
+                    <a href="busan.html" data-i18n="nav.busan">부산 (한국)</a>
+                </div>
+            </li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.japan">일본</a>
+                <div class="nav-dropdown-content">
+                    <a href="osaka.html" data-i18n="nav.osaka">오사카 (일본)</a>
+                    <a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a>
+                </div>
+            </li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.tips">여행 팁</a>
+                <div class="nav-dropdown-content">
+                    <a href="guides.html" data-i18n="nav.guides">여행 가이드</a>
+                    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+                    <a href="route.html" data-i18n="nav.planner">최적 여행 동선 플래너</a>
+                </div>
+            </li>
+        </ul>
+        <div class="lang-switcher">
+            <button onclick="location.reload()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; margin-right:5px;">🔄</button>
+            <select id="lang-selector">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </nav>
+    </header>
+
+    <div class="hero-section" style="padding: 100px 20px 40px; background: linear-gradient(135deg, #ff385c 0%, #d90f3e 100%); min-height: auto;">
+        <h1 style="color:white; font-size: 2.5rem; margin-bottom: 10px;" data-i18n="route.title">🗺️ 최적 여행 동선 플래너</h1>
+        <p style="color:white; opacity: 0.9; font-size: 1.1rem; max-width: 600px; margin: 0 auto;" data-i18n="route.subtitle">담아둔 명소들을 지도 기반의 알고리즘으로 계산해 꼬이지 않는 완벽한 시간표를 만들어 드립니다.</p>
+    </div>
+
+    <div class="planner-container">
+        <!-- Left Panel: Settings & Cart -->
+        <div class="planner-panel planner-left">
+            <h2 data-i18n="route.cart">🎒 내 루트 관리</h2>
+            
+            <ul class="spot-list" id="cartList">
+                <!-- Cart items injected here -->
+            </ul>
+
+            <div class="add-manual-group">
+                <select id="citySelect" class="form-control" onchange="renderSpotSelect()">
+                    <option value="" data-i18n="route.sel_city">-- 도시 선택 --</option>
+                    <option value="seoul" data-i18n="nav.seoul">서울 (Seoul)</option>
+                    <option value="busan" data-i18n="nav.busan">부산 (Busan)</option>
+                    <option value="jeju" data-i18n="nav.jeju">제주 (Jeju)</option>
+                    <option value="osaka" data-i18n="nav.osaka">오사카 (Osaka)</option>
+                    <option value="kyoto" data-i18n="nav.kyoto">교토 (Kyoto)</option>
+                </select>
+                <select id="spotSelect" class="form-control" disabled>
+                    <option value="" data-i18n="route.sel_spot">-- 명소 선택 --</option>
+                </select>
+                <button class="btn-primary" style="padding: 12px; width:auto;" onclick="addManualSpot()">+</button>
+            </div>
+
+            <hr style="border:0; height:1px; background:#eee; margin:30px 0;">
+
+            <h2 data-i18n="route.settings">⚙️ 플래너 설정</h2>
+            <div class="form-group">
+                <label data-i18n="route.dep_time">출발 시간</label>
+                <div style="display:flex; gap:6px;">
+                    <select id="depAmPm" class="form-control" style="max-width:90px;" onchange="syncHiddenTime('dep')">
+                        <option value="am" data-i18n="route.am">오전</option>
+                        <option value="pm" data-i18n="route.pm">오후</option>
+                    </select>
+                    <select id="depHour" class="form-control" style="max-width:80px;" onchange="syncHiddenTime('dep')"></select>
+                    <select id="depMin" class="form-control" style="max-width:80px;" onchange="syncHiddenTime('dep')"></select>
+                </div>
+                <input type="hidden" id="depTime" value="09:00">
+            </div>
+            <div class="form-group">
+                <label data-i18n="route.pace">여행 스타일 (명소 체류 시간)</label>
+                <select id="paceSelect" class="form-control">
+                    <option value="tight" data-i18n="route.pace_tight">타이트하게 (명소당 45분)</option>
+                    <option value="normal" selected data-i18n="route.pace_normal">일반적 (명소당 1시간 30분)</option>
+                    <option value="relaxed" data-i18n="route.pace_relaxed">여유롭게 (명소당 2시간 30분)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label data-i18n="route.lunch_time">희망 점심 시간 (선택)</label>
+                <div style="display:flex; gap:6px;">
+                    <select id="lunchAmPm" class="form-control" style="max-width:90px;" onchange="syncHiddenTime('lunch')">
+                        <option value="am" data-i18n="route.am">오전</option>
+                        <option value="pm" data-i18n="route.pm">오후</option>
+                    </select>
+                    <select id="lunchHour" class="form-control" style="max-width:80px;" onchange="syncHiddenTime('lunch')"></select>
+                    <select id="lunchMin" class="form-control" style="max-width:80px;" onchange="syncHiddenTime('lunch')"></select>
+                </div>
+                <input type="hidden" id="lunchTime" value="12:30">
+            </div>
+
+            <button class="btn-primary" onclick="generateRoute()" style="margin-top:20px;" data-i18n="route.generate">🪄 동선 시간표 생성 시작</button>
+        </div>
+
+        <!-- Right Panel: Generated Route -->
+        <div class="planner-panel planner-right">
+            <h2 data-i18n="route.timeline">📝 최적 스케줄 타임라인</h2>
+            <div id="timelineContainer" style="padding-top:10px;">
+                <div style="text-align:center; padding: 40px; color:#999;" data-i18n="route.tl_empty">
+                    <span style="font-size:3rem; display:block; margin-bottom:15px; opacity:0.5;" data-i18n="route.tl_empty_icon">🪄</span>
+                    설정을 완료하고 생성 버튼을 누르면 이 곳에 동선이 표시됩니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="js/i18n.js"></script>
+    <script src="js/places-db.js"></script>
+    
+    <script>
+        // ——— Custom Time Picker Helpers ———
+        function initTimePicker(prefix, defaultHour, defaultMin) {
+            const hourSel = document.getElementById(prefix + 'Hour');
+            const minSel  = document.getElementById(prefix + 'Min');
+            const amPmSel = document.getElementById(prefix + 'AmPm');
+
+            for (let h = 1; h <= 12; h++) {
+                const o = document.createElement('option');
+                o.value = h;
+                o.textContent = String(h).padStart(2,'0');
+                hourSel.appendChild(o);
+            }
+            [0, 10, 20, 30, 40, 50].forEach(m => {
+                const o = document.createElement('option');
+                o.value = m;
+                o.textContent = String(m).padStart(2,'0');
+                minSel.appendChild(o);
+            });
+
+            // Set defaults
+            const isPm = defaultHour >= 12;
+            amPmSel.value = isPm ? 'pm' : 'am';
+            hourSel.value = isPm ? (defaultHour === 12 ? 12 : defaultHour - 12) : (defaultHour === 0 ? 12 : defaultHour);
+            minSel.value  = defaultMin;
+            syncHiddenTime(prefix);
+        }
+
+        function syncHiddenTime(prefix) {
+            const ampm = document.getElementById(prefix + 'AmPm').value;
+            let   hour = parseInt(document.getElementById(prefix + 'Hour').value);
+            const min  = parseInt(document.getElementById(prefix + 'Min').value);
+
+            if (ampm === 'am') {
+                if (hour === 12) hour = 0;
+            } else {
+                if (hour !== 12) hour += 12;
+            }
+            document.getElementById(prefix + 'Time').value =
+                String(hour).padStart(2,'0') + ':' + String(min).padStart(2,'0');
+        }
+
+        // Initialize pickers: dep = 09:00, lunch = 12:30
+        document.addEventListener('DOMContentLoaded', () => {
+            initTimePicker('dep',   9,  0);
+            initTimePicker('lunch', 12, 30);
+        });
+        // ——————————————————————————————————
+
+        // Use global language variable (initialized by i18n.js)
+        window.t = function(key, fallback) {
+            if (window.translations && window.translations[window.currentLang] && window.translations[window.currentLang][key]) {
+                return window.translations[window.currentLang][key];
+            }
+            return fallback;
+        };
+
+        // UI Logic for Planner
+        function renderCartList() {
+            const list = document.getElementById('cartList');
+            const routeIds = window.RouteStore.getRoute();
+            list.innerHTML = '';
+            
+            if(routeIds.length === 0) {
+                list.innerHTML = '<li style="text-align:center; color:#999; padding:20px;">' + window.t('route.empty_cart', '담아둔 장소가 없습니다.') + '</li>';
+                return;
+            }
+
+            routeIds.forEach(id => {
+                const spot = GLOBAL_PLACES.find(p => p.id === id);
+                if(spot) {
+                    list.innerHTML += `
+                        <li class="spot-item">
+                            <div class="spot-info">
+                                <span>${spot.emoji}</span>
+                                <span>${window.currentLang === 'en' && spot.nameEn ? spot.nameEn : (window.currentLang === 'ja' && spot.nameJa ? spot.nameJa : spot.name)}</span>
+                                <span class="spot-city-badge">${spot.city.toUpperCase()}</span>
+                            </div>
+                            <button class="spot-remove" onclick="removeSpotUI(${id})">✕</button>
+                        </li>
+                    `;
+                }
+            });
+            setTimeout(applyTranslations, 50); // Make sure static texts are re-translated right after render
+        }
+
+        function removeSpotUI(id) {
+            window.RouteStore.removeSpot(id);
+            renderCartList();
+        }
+
+        function renderSpotSelect() {
+            const city = document.getElementById('citySelect').value;
+            const spotSel = document.getElementById('spotSelect');
+            spotSel.innerHTML = '<option value="">' + window.t('route.sel_spot', '-- 명소 선택 --') + '</option>';
+            if(city) {
+                const citySpots = GLOBAL_PLACES.filter(p => p.city === city);
+                citySpots.forEach(s => {
+                    let sName = window.currentLang === 'en' && s.nameEn ? s.nameEn : (window.currentLang === 'ja' && s.nameJa ? s.nameJa : s.name);
+                    spotSel.innerHTML += `<option value="${s.id}">${s.emoji} ${sName}</option>`;
+                });
+                spotSel.disabled = false;
+            } else {
+                spotSel.disabled = true;
+            }
+        }
+
+        function addManualSpot() {
+            const spotId = document.getElementById('spotSelect').value;
+            if(spotId) {
+                window.RouteStore.addSpot(parseInt(spotId));
+                renderCartList();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCartList();
+            
+            // Re-render strings when language changes
+            const langSelector = document.getElementById('lang-selector');
+            if (langSelector) {
+                langSelector.addEventListener('change', () => {
+                    setTimeout(() => {
+                        renderCartList();
+                        renderSpotSelect();
+                        // Re-generate timeline if it already has items
+                        if (document.querySelector('.tl-item')) generateRoute();
+                    }, 100);
+                });
+            }
+        });
+
+        // TSP Routing Logic with basic City Clustering Extension
+        const PACE_MAP = { 'tight': 45, 'normal': 90, 'relaxed': 150 };
+
+        function distKm(lat1, lon1, lat2, lon2) {
+            const R = 6371; 
+            const p = Math.PI / 180;
+            const a = 0.5 - Math.cos((lat2 - lat1) * p)/2 + 
+                        Math.cos(lat1 * p) * Math.cos(lat2 * p) * 
+                        (1 - Math.cos((lon2 - lon1) * p))/2;
+            return 2 * R * Math.asin(Math.sqrt(a));
+        }
+
+        function parseTimeMins(tStr) {
+            let parts = tStr.split(':');
+            return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+        }
+
+        function formatTimeMins(mins) {
+            let h = Math.floor(mins / 60) % 24;
+            let m = mins % 60;
+            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+        }
+
+        function getMapLink(prev, next) {
+            if(['osaka', 'kyoto'].includes(next.city)) {
+                return { type: 'google', url: `https://www.google.com/maps/dir/${prev.lat},${prev.lng}/${next.lat},${next.lng}` };
+            } else {
+                return { type: 'naver', url: `https://map.naver.com/v5/directions/${prev.lng},${prev.lat},${encodeURIComponent(prev.name)},,/${next.lng},${next.lat},${encodeURIComponent(next.name)},,/-/transit?c=15,0,0,0,dh` };
+            }
+        }
+
+        function generateRoute() {
+            const routeIds = window.RouteStore.getRoute();
+            if(routeIds.length === 0) {
+                alert(window.t('route.alert_empty', "루트에 명소를 추가해주세요!"));
+                return;
+            }
+            
+            const spots = routeIds.map(id => GLOBAL_PLACES.find(p => p.id === id)).filter(Boolean);
+            
+            // Cluster by City first to prevent hopping between distant regions (e.g. Seoul -> Osaka -> Seoul)
+            const grouped = {};
+            spots.forEach(s => {
+                if(!grouped[s.city]) grouped[s.city] = [];
+                grouped[s.city].push(s);
+            });
+            
+            let ordered = [];
+            
+            // Execute TSP nearest neighbor within each city block independently
+            for(let city in grouped) {
+                let citySpots = grouped[city];
+                let current = citySpots[0];
+                let unvisited = citySpots.slice(1);
+                ordered.push(current);
+                
+                while(unvisited.length > 0) {
+                    let nearest = null; let minD = Infinity;
+                    unvisited.forEach(u => {
+                        let d = distKm(current.lat, current.lng, u.lat, u.lng);
+                        if(d < minD) { minD = d; nearest = u; }
+                    });
+                    ordered.push(nearest);
+                    current = nearest;
+                    unvisited = unvisited.filter(u => u.id !== nearest.id);
+                }
+            }
+            
+            // Scheduling
+            const depTimeStr = document.getElementById('depTime').value || "09:00";
+            const paceKey = document.getElementById('paceSelect').value || "normal";
+            const pace = PACE_MAP[paceKey];
+            const lunchStr = document.getElementById('lunchTime').value;
+            
+            let t = parseTimeMins(depTimeStr);
+            let lunchMins = lunchStr ? parseTimeMins(lunchStr) : null;
+            let hasHadLunch = false;
+            
+            let scheduleItems = [];
+            
+            for(let i=0; i<ordered.length; i++) {
+                let spot = ordered[i];
+                let p_start = t;
+                let p_end = t + pace;
+                
+                // Lunch logic
+                if(lunchMins && !hasHadLunch && p_start < lunchMins && p_end > lunchMins) {
+                    scheduleItems.push({ type: 'LUNCH', start: lunchMins, end: lunchMins + 60, name: window.t('route.lunch1', '🍱 점심 식사 (인근 맛집 탐색)') });
+                    t = lunchMins + 60;
+                    hasHadLunch = true;
+                    p_start = t;
+                    p_end = t + pace;
+                } else if(lunchMins && !hasHadLunch && t >= lunchMins) {
+                    scheduleItems.push({ type: 'LUNCH', start: t, end: t + 60, name: window.t('route.lunch2', '🍱 점심 식사 (방문 전 식사 추천)') });
+                    t = t + 60;
+                    hasHadLunch = true;
+                    p_start = t;
+                    p_end = t + pace;
+                }
+                
+                scheduleItems.push({ type: 'SPOT', start: p_start, end: p_end, spot: spot });
+                t = p_end;
+                
+                // Travel logic
+                if(i < ordered.length - 1) {
+                    let nextSpot = ordered[i+1];
+                    let d = distKm(spot.lat, spot.lng, nextSpot.lat, nextSpot.lng);
+                    let travelMins = Math.max(15, Math.round(d * 4)); // approx 15km/h speed
+                    
+                    // Cross-City long distance exception:
+                    if(spot.city !== nextSpot.city) {
+                        travelMins = 120; // Default minimum 2 hr for airplane/ktx
+                    }
+                    
+                    scheduleItems.push({ 
+                        type: 'TRAVEL', 
+                        start: t, end: t + travelMins, 
+                        prevSpot: spot, nextSpot: nextSpot, dist: d 
+                    });
+                    t = t + travelMins;
+                }
+            }
+            
+            renderTimeline(scheduleItems);
+        }
+
+        function renderTimeline(items) {
+            const container = document.getElementById('timelineContainer');
+            let html = '<ul class="timeline">';
+            
+            items.forEach(item => {
+                if(item.type === 'SPOT') {
+                    let sName = window.currentLang === 'en' && item.spot.nameEn ? item.spot.nameEn : (window.currentLang === 'ja' && item.spot.nameJa ? item.spot.nameJa : item.spot.name);
+                    let catName = window.currentLang === 'en' && item.spot.catEn ? item.spot.catEn : (window.currentLang === 'ja' && item.spot.catJa ? item.spot.catJa : item.spot.cat);
+                    let tipText = window.currentLang === 'en' && item.spot.tipEn ? item.spot.tipEn : (window.currentLang === 'ja' && item.spot.tipJa ? item.spot.tipJa : item.spot.tip);
+                    
+                    html += `
+                        <li class="tl-item tl-type-SPOT">
+                            <div class="tl-time">${formatTimeMins(item.start)} - ${formatTimeMins(item.end)}</div>
+                            <div class="tl-card">
+                                <h3 class="tl-title">${item.spot.emoji} ${sName} <span class="spot-city-badge">${item.spot.city.toUpperCase()}</span></h3>
+                                <p class="tl-desc">${window.t('route.cat', '카테고리:')} ${catName} | 💡 ${tipText}</p>
+                            </div>
+                        </li>
+                    `;
+                } else if (item.type === 'LUNCH') {
+                    html += `
+                        <li class="tl-item tl-type-LUNCH">
+                            <div class="tl-time">${formatTimeMins(item.start)} - ${formatTimeMins(item.end)}</div>
+                            <div class="tl-card" style="background:#fffdf0; border-color:#ffec99;">
+                                <h3 class="tl-title">${item.name}</h3>
+                                <p class="tl-desc">${window.t('route.lunch_desc', '충분한 휴식을 취하세요.')}</p>
+                            </div>
+                        </li>
+                    `;
+                } else if (item.type === 'TRAVEL') {
+                    const linkInfo = getMapLink(item.prevSpot, item.nextSpot);
+                    const btnClass = linkInfo.type === 'naver' ? 'naver' : 'google';
+                    const btnIcon = linkInfo.type === 'naver' ? window.t('route.map_naver', '🟢 네이버') : window.t('route.map_google', '🔵 구글');
+                    
+                    let prevName = window.currentLang === 'en' && item.prevSpot.nameEn ? item.prevSpot.nameEn : (window.currentLang === 'ja' && item.prevSpot.nameJa ? item.prevSpot.nameJa : item.prevSpot.name);
+                    let nextName = window.currentLang === 'en' && item.nextSpot.nameEn ? item.nextSpot.nameEn : (window.currentLang === 'ja' && item.nextSpot.nameJa ? item.nextSpot.nameJa : item.nextSpot.name);
+                    
+                    html += `
+                        <li class="tl-item tl-type-TRAVEL">
+                            <div class="tl-time">${formatTimeMins(item.start)} - ${formatTimeMins(item.end)} (${window.t('route.approx', '약')} ${item.end - item.start}${window.t('route.mins', '분 소요')})</div>
+                            <div style="padding-left:10px;">
+                                <p style="margin:0; font-size:0.9rem; color:#666;">🚙 ${window.t('route.approx', '약')} ${item.dist.toFixed(1)}km ${window.t('route.travel', '이동')} (${prevName} → ${nextName})</p>
+                                <a href="${linkInfo.url}" class="tl-map-btn ${btnClass}" target="_blank">
+                                    ${btnIcon} ${window.t('route.map_link', '지도 길찾기 연동')}
+                                </a>
+                            </div>
+                        </li>
+                    `;
+                }
+            });
+            
+            html += '</ul>';
+            container.innerHTML = html;
+        }
+
+    </script>
+</body>
+</html>

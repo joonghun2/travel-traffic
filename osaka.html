@@ -73,8 +73,14 @@
                     <a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a>
                 </div>
             </li>
-            <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
-            <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.tips">여행 팁</a>
+                <div class="nav-dropdown-content">
+                    <a href="guides.html" data-i18n="nav.guides">여행 가이드</a>
+                    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+                    <a href="route.html" data-i18n="nav.planner">최적 여행 동선 플래너</a>
+                </div>
+            </li>
         </ul>
         <div class="lang-switcher">
             <button onclick="window.softRefresh()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; margin-right:5px;">🔄</button>
@@ -109,21 +115,9 @@
         </div>
     </section>
 
+<script src="js/places-db.js"></script>
 <script>
-const PLACES=[
-  {id:20,region:'osaka',name:'도톤보리',area:'오사카 나니와구',cat:'쇼핑·관광',emoji:'🏮',base:85,peaks:[12,13,18,19,20,21],best:'저녁 야경',tip:'글리코상 인증샷'},
-  {id:21,region:'osaka',name:'오사카성',area:'오사카 주오구',cat:'고궁',emoji:'🏯',base:40,peaks:[10,11,13,14],best:'오전 9시',tip:'천수각 전망'},
-  {id:22,region:'osaka',name:'신세카이',area:'오사카 나니와구',cat:'쇼핑·관광',emoji:'🍢',base:55,peaks:[12,13,17,18,19],best:'늦은 오후',tip:'쿠시카츠 맛집'},
-  {id:23,region:'osaka',name:'신사이바시',area:'오사카 주오구',cat:'쇼핑·관광',emoji:'🛍️',base:80,peaks:[14,15,16,17,18],best:'평일 오후',tip:'쇼핑의 거리'},
-  {id:24,region:'osaka',name:'유니버설 스튜디오 재팬',area:'오사카 코노하나구',cat:'테마파크',emoji:'🎢',base:90,peaks:[10,11,12,13,14,15,16,17],best:'개장 직후',tip:'익스프레스 패스 추천'},
-  {id:25,region:'osaka',name:'우메다 스카이 빌딩',area:'오사카 키타구',cat:'전망대',emoji:'🏙️',base:50,peaks:[18,19,20],best:'일몰 전후',tip:'야경 명소'},
-  {id:26,region:'osaka',name:'쿠로몬 시장',area:'오사카 주오구',cat:'쇼핑·관광',emoji:'🐟',base:70,peaks:[11,12,13,14],best:'오전 11시',tip:'현지 해산물'},
-  {id:200,region:'osaka',name:'해유관',area:'오사카 미나토구',cat:'박물관',emoji:'🐠',base:75,peaks:[11,12,13,14,15],best:'오전 10시',tip:'거대 고래상어'},
-  {id:201,region:'osaka',name:'덴포잔 대관람차',area:'오사카 미나토구',cat:'쇼핑·관광',emoji:'🎡',base:45,peaks:[17,18,19],best:'일몰 시',tip:'야경 명소'},
-  {id:202,region:'osaka',name:'스미요시 타이샤',area:'오사카 스미요시',cat:'고궁',emoji:'⛩️',base:30,peaks:[9,10,11],best:'이른 아침',tip:'아치형 다리'},
-  {id:203,region:'osaka',name:'아메리카무라',area:'오사카 주오구',cat:'쇼핑·관광',emoji:'🇺🇸',base:65,peaks:[14,15,16,17],best:'주말 오후',tip:'젊음의 거리'},
-  {id:204,region:'osaka',name:'난바 파크스',area:'오사카 나니와구',cat:'쇼핑·관광',emoji:'🌿',base:40,peaks:[16,17,18],best:'늦은 오후',tip:'옥상 정원'},
-];
+const PLACES = window.GLOBAL_PLACES.filter(p => p.city === 'osaka');
 
 const WMO_ICON={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',61:'🌧️',71:'🌨️',80:'🌦️',95:'⛈️'};
 const WMO_KEY={0:'weather.sunny',1:'weather.mostly_sunny',2:'weather.partly_cloudy',3:'weather.cloudy',45:'weather.foggy',51:'weather.drizzle',61:'weather.rainy',71:'weather.snowy',80:'weather.showers',95:'weather.thunderstorm'};

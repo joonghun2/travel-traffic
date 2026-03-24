@@ -71,8 +71,14 @@
                     <a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a>
                 </div>
             </li>
-            <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
-            <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.tips">여행 팁</a>
+                <div class="nav-dropdown-content">
+                    <a href="guides.html" data-i18n="nav.guides">여행 가이드</a>
+                    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+                    <a href="route.html" data-i18n="nav.planner">최적 여행 동선 플래너</a>
+                </div>
+            </li>
         </ul>
         <div class="lang-switcher">
             <button onclick="window.softRefresh()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; margin-right:5px;">🔄</button>
@@ -108,25 +114,9 @@
         </div>
     </section>
 
+<script src="js/places-db.js"></script>
 <script>
-const PLACES=[
-  {id:10,name:'한라산 국립공원',area:'제주 중심부',cat:'자연·공원',emoji:'⛰️',lat:33.3617,lng:126.5332,base:30,peaks:[8,9,10,11],best:'새벽 6시',tip:'등산화 필수'},
-  {id:11,name:'성산 일출봉',area:'성산읍',cat:'자연·공원',emoji:'🌅',lat:33.4585,lng:126.9421,base:45,peaks:[6,7,11,12],best:'일출 전',tip:'최고의 일출'},
-  {id:12,name:'만장굴',area:'구좌읍',cat:'자연·공원',emoji:'🦇',lat:33.5284,lng:126.7716,base:35,peaks:[12,13,14,15],best:'오후 2시',tip:'겉옷 필수'},
-  {id:13,name:'정방폭포',area:'서귀포시',cat:'자연·공원',emoji:'🌊',lat:33.2448,lng:126.5718,base:40,peaks:[11,12,14,15],best:'오전 10시',tip:'동양 유일의 해안 폭포'},
-  {id:14,name:'함덕 해수욕장',area:'조천읍',cat:'자연·공원',emoji:'🏖️',lat:33.5430,lng:126.6692,base:60,peaks:[13,14,15,16,17],best:'만조 시',tip:'에메랄드빛 바다'},
-  {id:15,name:'오설록 티 뮤지엄',area:'안덕면',cat:'박물관',emoji:'🍵',lat:33.3056,lng:126.2894,base:70,peaks:[13,14,15,16],best:'평일 오후',tip:'녹차 아이스크림'},
-  {id:50,name:'우도',area:'우도면',cat:'자연·공원',emoji:'⛴️',lat:33.5115,lng:126.9538,base:40,peaks:[11,12,13,14],best:'오전 배',tip:'섬 속의 섬'},
-  {id:51,name:'주상절리대',area:'중문',cat:'자연·공원',emoji:'🗿',lat:33.2384,lng:126.4259,base:45,peaks:[11,12,14,15],best:'파도 센 날',tip:'화산석의 신비'},
-  {id:52,name:'비자림',area:'구좌읍',cat:'자연·공원',emoji:'🌲',lat:33.4912,lng:126.7725,base:30,peaks:[10,11,14,15],best:'비 온 후',tip:'천년의 숲'},
-  {id:53,name:'카멜리아 힐',area:'안덕면',cat:'자연·공원',emoji:'🌺',lat:33.2842,lng:126.3703,base:35,peaks:[11,12,14],best:'꽃 개화기',tip:'인생샷 명소'},
-  {id:54,name:'월정리 해변',area:'구좌읍',cat:'자연·공원',emoji:'⛱️',lat:33.5532,lng:126.7932,base:55,peaks:[16,17,18],best:'해질녘',tip:'카페 거리'},
-  {id:55,name:'천지연 폭포',area:'서귀포시',cat:'자연·공원',emoji:'🌊',lat:33.2458,lng:126.5593,base:50,peaks:[19,20,21],best:'밤 산책',tip:'야간 조명 폭포'},
-  {id:56,name:'협재 해수욕장',area:'한림읍',cat:'자연·공원',emoji:'🏝️',lat:33.3938,lng:126.2393,base:65,peaks:[14,15,16,17],best:'물 빠질 때',tip:'맑은 바다'},
-  {id:57,name:'약천사',area:'대포동',cat:'박물관',emoji:'🏯',lat:33.2435,lng:126.4485,base:25,peaks:[10,11,14],best:'낮 시간',tip:'웅장한 법당'},
-  {id:58,name:'생각하는 정원',area:'한경면',cat:'자연·공원',emoji:'🌳',lat:33.3245,lng:126.2541,base:20,peaks:[11,12,14],best:'낮',tip:'분수와 정원'},
-  {id:59,name:'에코랜드',area:'조천읍',cat:'테마파크',emoji:'🚂',base:45,peaks:[11,12,14,15],best:'가족과 함께',tip:'숲 속 기차'},
-];
+const PLACES = window.GLOBAL_PLACES.filter(p => p.city === 'jeju');
 
 const WMO_ICON={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',61:'🌧️',71:'🌨️',80:'🌦️',95:'⛈️'};
 const WMO_KEY={0:'weather.sunny',1:'weather.mostly_sunny',2:'weather.partly_cloudy',3:'weather.cloudy',45:'weather.foggy',51:'weather.drizzle',61:'weather.rainy',71:'weather.snowy',80:'weather.showers',95:'weather.thunderstorm'};

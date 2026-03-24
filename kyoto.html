@@ -73,8 +73,14 @@
                     <a href="kyoto.html" data-i18n="nav.kyoto" class="active">교토 (일본)</a>
                 </div>
             </li>
-            <li><a href="guides.html" data-i18n="nav.guides">여행 가이드</a></li>
-            <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.tips">여행 팁</a>
+                <div class="nav-dropdown-content">
+                    <a href="guides.html" data-i18n="nav.guides">여행 가이드</a>
+                    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+                    <a href="route.html" data-i18n="nav.planner">최적 여행 동선 플래너</a>
+                </div>
+            </li>
         </ul>
         <div class="lang-switcher">
             <button onclick="window.softRefresh()"
@@ -111,21 +117,9 @@
         </div>
     </section>
 
+    <script src="js/places-db.js"></script>
     <script>
-        const PLACES = [
-            { id: 30, region: 'kyoto', name: '기요미즈데라', area: '교토 히가시야마', cat: '고궁', emoji: '⛩️', base: 60, peaks: [10, 11, 12, 14, 15], best: '이른 아침', tip: '교토 전경' },
-            { id: 31, region: 'kyoto', name: '후시미 이나리', area: '교토 후시미', cat: '고궁', emoji: '🦊', base: 50, peaks: [9, 10, 11, 13, 14], best: '오전 8시', tip: '천본 도리이' },
-            { id: 32, region: 'kyoto', name: '금각사', area: '교토 키타구', cat: '고궁', emoji: '✨', base: 45, peaks: [11, 12, 13, 14], best: '오전 9시', tip: '화려한 금박' },
-            { id: 33, region: 'kyoto', name: '아라시야마', area: '교토 우쿄구', cat: '자연·공원', emoji: '🎋', base: 55, peaks: [11, 12, 13, 15], best: '오전 일찍', tip: '대나무 숲 산책' },
-            { id: 34, region: 'kyoto', name: '기온 거리', area: '교토 히가시야마', cat: '쇼핑·관광', emoji: '👘', base: 65, peaks: [17, 18, 19, 20], best: '늦은 오후', tip: '전통 거리 산책' },
-            { id: 35, region: 'kyoto', name: '니조 성', area: '교토 나카교구', cat: '고궁', emoji: '🏰', base: 35, peaks: [10, 11, 13, 14], best: '오전 10시', tip: '꾀꼬리 마루 체험' },
-            { id: 36, region: 'kyoto', name: '은각사', area: '교토 사쿄구', cat: '고궁', emoji: '🍃', base: 40, peaks: [10, 11, 13, 14], best: '오전 10시', tip: '아름다운 모래 정원' },
-            { id: 205, region: 'kyoto', name: '난젠지', area: '교토 사쿄구', cat: '고궁', emoji: '🌉', base: 45, peaks: [10, 11, 13, 14], best: '오전 9시', tip: '벽돌 수로각' },
-            { id: 206, region: 'kyoto', name: '철학의 길', area: '교토 사쿄구', cat: '자연·공원', emoji: '🌸', base: 25, peaks: [10, 11, 14, 15], best: '벚꽃 시즌', tip: '사색의 산책로' },
-            { id: 207, region: 'kyoto', name: '헤이안 신궁', area: '교토 사쿄구', cat: '고궁', emoji: '⛩️', base: 35, peaks: [11, 12, 14], best: '오전 11시', tip: '거대 토리이' },
-            { id: 208, region: 'kyoto', name: '교토 어소', area: '교토 카미교구', cat: '고궁', emoji: '🏯', base: 20, peaks: [10, 11, 14], best: '예약 시간', tip: '황궁의 품격' },
-            { id: 209, region: 'kyoto', name: '은각사', area: '교토 사쿄구', cat: '고궁', emoji: '🍃', base: 40, peaks: [11, 12, 13, 14], best: '오후 2시', tip: '모래 정원' },
-        ];
+        const PLACES = window.GLOBAL_PLACES.filter(p => p.city === 'kyoto');
 
         const WMO_ICON = { 0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️', 45: '🌫️', 51: '🌦️', 61: '🌧️', 71: '🌨️', 80: '🌦️', 95: '⛈️' };
         const WMO_KEY = { 0: 'weather.sunny', 1: 'weather.mostly_sunny', 2: 'weather.partly_cloudy', 3: 'weather.cloudy', 45: 'weather.foggy', 51: 'weather.drizzle', 61: 'weather.rainy', 71: 'weather.snowy', 80: 'weather.showers', 95: 'weather.thunderstorm' };
