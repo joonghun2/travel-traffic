@@ -166,6 +166,7 @@ window.translations = {
         "faq.jp.a10": "<p>일본 여행 경험자들이 강력 추천하는 필수 앱 목록입니다.</p><p><strong>📍 교통·이동</strong><br>→ <strong>Navitime for Japan Travel</strong> (대중교통 길찾기, 외국인 최적화)<br>→ <strong>Google 지도</strong> (일본 내 정확도 높음, 실시간 교통 정보 포함)<br><br><strong>🚄 기차·신칸센</strong><br>→ <strong>JR East App / Ekinet</strong> (신칸센 좌석 예약, 외국인 e-Ticket 발급)<br><br><strong>🍱 음식</strong><br>→ <strong>Tabelog</strong> (일본 최대 음식점 리뷰 앱 — 영어 모드 지원)<br>→ <strong>TableCheck / OpenTable</strong> (인기 레스토랑 사전 예약)<br><br><strong>🚨 안전</strong><br>→ <strong>Safety Tips</strong> (일본 관광청 공식 재난 알림, 영어 지원)<br><br><strong>🔤 언어</strong><br>→ <strong>Papago</strong> 또는 <strong>Google 번역</strong> (카메라 번역 필수)</p><div class='tip-box'><span class='tip-icon'>📡</span><span>나리타·하네다·간사이 공항 도착 홀에서 <strong>SIM 카드 또는 포켓 와이파이</strong>를 바로 구입할 수 있습니다. eSIM은 출발 전 온라인으로 미리 설정해 두면 도착 즉시 사용 가능합니다.</span></div>",
 
         "ott.trending": "지금 뜨는 명소 (Trending Now)",
+        "jeju.recommended_activities": "제주 여행 추천 활동 (Recommended Activities)",
         "ott.discover": "다른 지역 탐색하기",
         "ott.home_btn": "HOME",
         "ott.more": "더 많은 소식",
@@ -925,6 +926,7 @@ window.translations = {
         "faq.jp.a10": "<p>You don't want to navigate Japan without these:</p><p><strong>📍 Navigation</strong><br>→ <strong>Navitime for Japan Travel</strong> (Built for foreigners, gives train platform numbers and tourist passes routes.)<br>→ <strong>Google Maps</strong> (Failing to use this in Tokyo will guarantee getting lost.)<br><br><strong>🚄 Trains</strong><br>→ <strong>JR East App / Ekinet</strong> (Crucial for reserving Shinkansen seats.)<br><br><strong>🍱 Food</strong><br>→ <strong>Tabelog</strong> (Japan's equivalent of Yelp, great English support.)<br>→ <strong>TableCheck / OpenTable</strong> (For booking wildly popular restaurants.)<br><br><strong>🚨 Safety</strong><br>→ <strong>Safety Tips</strong> (Official disaster alerts.)<br><br><strong>🔤 Language</strong><br>→ <strong>Google Translate / Papago</strong></p><div class='tip-box'><span class='tip-icon'>📡</span><span>Pick up a <strong>tourist SIM or rent a Pocket Wi-Fi</strong> the second you arrive at Narita, Haneda, or Kansai Airport. You will need internet access for your maps constantly!</span></div>",
 
         "ott.trending": "Trending Now",
+        "jeju.recommended_activities": "Recommended Jeju Activities",
         "ott.discover": "Explore Other Regions",
         "ott.home_btn": "HOME",
         "ott.more": "More Discoveries",
@@ -1654,6 +1656,7 @@ window.translations = {
         "faq.a2": "ソウルの弘大は、正午（12時）前の午前中が最も空いており、ゆったりとした散策や写真撮影が可能です。午後4時以降は人通りが急激に増えるため、人気のレストランやカフェを訪れる予定がある場合は、午前中のスケジュールをお勧めします。",
 
         "ott.trending": "今注目のスポット (Trending Now)",
+        "jeju.recommended_activities": "済州島旅行のおすすめアクティビティ",
         "ott.discover": "他の地域を探索する",
         "ott.home_btn": "HOME",
         "ott.more": "もっと見る",
