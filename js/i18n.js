@@ -91,7 +91,7 @@ window.translations = {
         "footer.privacy": "개인정보처리방침",
         "footer.terms": "이용약관",
         "footer.contact": "문의하기",
-        
+
         "hero.title": "떠나기 직전 1초, <br> <span>당신의 여행 컨디션이 바뀝니다.</span>",
         "hero.desc": "실시간 혼잡도 확인으로 더 여유롭고 완벽한 출발을 준비하세요.",
         "hero.btn": "지금 확인하기",
@@ -111,17 +111,18 @@ window.translations = {
         "blog.error.not_found_desc": "관리자가 곧 내용을 업로드할 예정입니다.",
         "blog.error.fetch": "내용을 불러오는 중 오류가 발생했습니다.",
 
-        
+
         "nav.korea": "한국",
         "nav.japan": "일본",
         "nav.faq": "FAQ",
         "hero.faq_btn": "자주 묻는 질문(FAQ)",
-        
+        "hero.planner_btn": "여행 동선 플래너",
+
         "faq.page.title": "한국 & 일본 여행 FAQ 2026",
         "faq.page.desc": "외국인 여행자를 위한 한국 및 일본 여행 자주 묻는 질문 10선. 비자, 편의시설, 에티켓 등 최신 정보.",
         "faq.tab.korea": "한국 여행 FAQ",
         "faq.tab.japan": "일본 여행 FAQ",
-        
+
         "faq.ko.q1": "한국에 입국하려면 비자가 필요한가요? K-ETA는 어떻게 되나요?",
         "faq.ko.a1": "<p>현재 <strong>73개국 이상 여권 소지자는 K-ETA(한국 전자여행허가제) 면제 혜택을 2026년 12월 31일까지</strong> 받고 있습니다. 미국, 영국, EU 국가, 호주, 캐나다 등이 포함되며, 관광 목적 90일 이내 체류라면 사전 승인 없이 입국할 수 있습니다.</p><p>단, <strong>2025년 2월 24일부터 모든 입국자는 e-Arrival Card(전자 입국 신고서)를 반드시 항공기 탑승 전에 온라인으로 제출</strong>해야 합니다. 무료이며 3분 내외로 작성 가능합니다. 기존 종이 입국 신고서를 대체하므로 꼭 출발 전에 완료하세요.</p><div class='tip-box'><span class='tip-icon'>💡</span><span>\"Korea e-Arrival Card\"를 검색하여 공식 포털에서 항공편 정보를 입력하면 됩니다. 입국 3일 전부터 작성 가능합니다.</span></div>",
         "faq.ko.q2": "한국에서 대중교통은 어떻게 이용하나요?",
@@ -178,11 +179,11 @@ window.translations = {
         "card.seoul.title": "대한민국, 서울",
         "card.seoul.desc": "고대 궁궐과 미래지향적 도시의 화려한 대비를 경험해보세요. 잠들지 않는 도시 서울입니다.",
         "card.seoul.btn": "실시간 확인하기 &rarr;",
-        
+
         "card.jeju.title": "대한민국, 제주도",
         "card.jeju.desc": "깨끗한 백사장, 화산 지형, 평화로운 폭포를 발견하세요. 최고의 섬 휴양지입니다.",
         "card.jeju.btn": "실시간 확인하기 &rarr;",
-        
+
         "card.japan.title": "일본 (오사카 & 교토)",
         "card.japan.desc": "오사카의 역동적인 식도락에 빠지거나, 교토의 변치 않는 사찰에서 평화를 찾아보세요.",
         "card.japan.btn": "실시간 확인하기 &rarr;",
@@ -211,7 +212,7 @@ window.translations = {
         "osaka.content.p1": "일본에서 가장 역동적인 먹거리 중심지 오사카에 오신 것을 환영합니다. 친절한 사람들과 개방적인 분위기로 유명한 이곳에서 도톤보리의 네온사인과 타코야키 향기 속에 빠져보세요.",
         "osaka.content.p2": "장엄한 오사카성을 방문하고, 신세카이의 레트로한 매력을 즐기며, 신사이바시에서 마음껏 쇼핑을 즐겨보세요. 즐거움과 맛이 가득한 도시입니다.",
         "img.osaka": "[ 오사카 도톤보리 네온사인 이미지 ]",
-        
+
         "kyoto.title": "교토: 문화의 중심",
         "kyoto.content.p1": "과거로 시간 여행을 떠나는 교토입니다. 수천 개의 불교 사원, 고요한 신사, 전통 목조 가옥인 마치야가 보존된 도시로 기온 거리에서는 전통 다도와 게이샤의 우아함을 엿볼 수 있습니다.",
         "kyoto.content.p2": "후시미 이나리 타이샤의 상징적인 붉은 도리이 길을 걷고, 금각사(킨카쿠지)에서 명상을 즐기며, 아라시야마 대나무 숲에서 평온함을 느껴보세요.",
@@ -668,7 +669,7 @@ window.translations = {
         "spot.36.cat": "고궁",
         "spot.36.tip": "와비사비 정서가 담긴 정원",
         "spot.36.best": "오전 10시",
-        
+
         "cg.label.rec_time": "추천 시간:",
         "cg.label.naver": "네이버 지도",
         "cg.label.google": "구글 지도",
@@ -769,7 +770,7 @@ window.translations = {
         "nav.tips": "Travel Tips",
         "nav.guides": "Travel Guides / FAQ",
         "nav.planner": "Optimal Route Planner",
-        "route.title": "🗺️ Optimal Route Planner",
+        "route.title": "Optimal Route Planner",
         "route.subtitle": "Calculate chosen spots with map-based algorithms to create a perfect, tangle-free schedule.",
         "route.cart": "🎒 My Route Cart",
         "route.empty_cart": "No spots added yet.",
@@ -857,29 +858,30 @@ window.translations = {
         "footer.privacy": "Privacy Policy",
         "footer.terms": "Terms of Service",
         "footer.contact": "Contact Us",
-        
+
         "hero.title": "One second before you leave, <br> <span>your travel condition changes.</span>",
         "hero.desc": "Prepare for a more relaxed and perfect departure with real-time congestion checks.",
         "hero.btn": "Explore Now",
         "hero.guide_btn": "View Travel Guides",
         "hero.blog_btn": "Editor Blog",
+        "hero.planner_btn": "Travel Route Planner",
         "faq.title": "Frequently Asked Questions (FAQ)",
         "faq.q1": "How crowded is Dotonbori in Osaka right now?",
         "faq.a1": "Dotonbori becomes very crowded starting from weekday afternoons, and on weekend evenings, it's often packed with people, making it difficult to walk around. Check the real-time congestion index on Travel Traffic to find the best time for a comfortable visit and enjoy your trip without the wait.",
         "faq.q2": "When is the quietest time to visit the Hongdae area in Seoul?",
         "faq.a2": "The Hongdae area in Seoul is quietest in the morning before noon (12:00 PM), allowing for a relaxed walk and great photo opportunities. Since the crowds increase significantly after 4:00 PM, we recommend planning your visit to restaurants or cafes in the morning.",
 
-        
+
         "nav.korea": "Korea",
         "nav.japan": "Japan",
         "nav.faq": "FAQ",
         "hero.faq_btn": "Frequently Asked Questions",
-        
+
         "faq.page.title": "Korea & Japan Travel FAQ 2026",
         "faq.page.desc": "Top 10 essential FAQs for foreigners traveling to Korea and Japan, covering visas, transport, shopping, and etiquette.",
         "faq.tab.korea": "Korea FAQ",
         "faq.tab.japan": "Japan FAQ",
-        
+
         "faq.ko.q1": "Do I need a visa to enter Korea? What about K-ETA?",
         "faq.ko.a1": "<p>Currently, passport holders of over <strong>73 countries are exempt from the K-ETA (Electronic Travel Authorization) until December 31, 2026</strong>. This includes the US, UK, EU, Australia, and Canada, letting you enter visa-free for up to 90 days as a tourist.</p><p>However, starting <strong>February 24, 2025, every traveler must submit the e-Arrival Card online before boarding their flight</strong>. It’s free and only takes about 3 minutes. It replaces the old paper arrival card, so be sure to do it before you fly!</p><div class='tip-box'><span class='tip-icon'>💡</span><span>Just search for \"Korea e-Arrival Card\" and fill in your flight details on the official portal up to 3 days before arrival.</span></div>",
         "faq.ko.q2": "How do I get around using public transport in Korea?",
@@ -935,11 +937,11 @@ window.translations = {
         "card.seoul.title": "Seoul (Korea)",
         "card.seoul.desc": "Experience the dazzling contrast between ancient palaces and futuristic cityscapes.",
         "card.seoul.btn": "Check Real-time &rarr;",
-        
+
         "card.jeju.title": "Jeju Island (Korea)",
         "card.jeju.desc": "Discover pristine beaches, volcanic landscapes, and tranquil waterfalls. The ultimate island escape.",
         "card.jeju.btn": "Check Real-time &rarr;",
-        
+
         "card.osaka.title": "Osaka (Japan)",
         "card.osaka.desc": "Dive into Osaka's dynamic food scene or marvel at the neon lights of Dotonbori.",
         "card.osaka.btn": "Check Real-time &rarr;",
@@ -972,7 +974,7 @@ window.translations = {
         "osaka.content.p1": "Welcome to Osaka, Japan's dynamic street food capital. Known for its friendly locals and outgoing atmosphere, Osaka invites you to dive into the bustling energy of Dotonbori, where neon lights reflect on the canal and the scent of Takoyaki fills the air.",
         "osaka.content.p2": "Visit the majestic Osaka Castle, explore the retro charm of Shinsekai, and shop till you drop in Shinsaibashi. It's a city that promises fun, flavor, and endless entertainment.",
         "img.osaka": "[ Osaka Dotonbori Neon Signs Image ]",
-        
+
         "kyoto.title": "Kyoto: The Cultural Heart",
         "kyoto.content.p1": "Step back in time in Kyoto, a city adorned with thousands of classical Buddhist temples, serene Shinto shrines, and traditional wooden machiya houses. Home to authentic tea ceremonies and graceful geishas wandering the streets of Gion.",
         "kyoto.content.p2": "Walk through the iconic vermilion gates of Fushimi Inari Taisha, meditate by the Golden Pavilion (Kinkaku-ji), and find tranquility in the towering Arashiyama Bamboo Grove.",
@@ -1390,7 +1392,7 @@ window.translations = {
         "spot.36.cat": "Palace",
         "spot.36.tip": "Beautiful silver pavilion and moss garden.",
         "spot.36.best": "10 AM",
-         "cg.label.rec_time": "Recommended Time:",
+        "cg.label.rec_time": "Recommended Time:",
         "cg.label.naver": "Naver Maps",
         "cg.label.google": "Google Maps",
         "cg.label.directions": "Directions",
@@ -1498,7 +1500,7 @@ window.translations = {
         "nav.tips": "旅行のヒント",
         "nav.guides": "旅行ガイド / FAQ",
         "nav.planner": "最適なルートプランナー",
-        "route.title": "🗺️ 最適なルートプランナー",
+        "route.title": "最適なルートプランナー",
         "route.subtitle": "マップベースのアルゴリズムで、整理された完璧なツアースケジュールを作成します。",
         "route.cart": "🎒 マイルート管理",
         "route.empty_cart": "スポットがありません。",
@@ -1531,12 +1533,12 @@ window.translations = {
         "nav.japan": "日本",
         "nav.faq": "FAQ",
         "hero.faq_btn": "よくある質問(FAQ)",
-        
+
         "faq.page.title": "韓国＆日本旅行 FAQ 2026",
         "faq.page.desc": "外国人旅行者向けの韓国と日本の旅行に関する最新FAQ10選。ビザ、交通、マナーなど。",
         "faq.tab.korea": "韓国旅行 FAQ",
         "faq.tab.japan": "日本旅行 FAQ",
-        
+
         "faq.ko.q1": "韓国入国にビザは必要ですか？ K-ETAについて教えてください。",
         "faq.ko.a1": "<p>現在、<strong>73カ国以上のパスポート保持者はK-ETA（電子旅行許可制）が2026年12月31日まで免除</strong>されています。日本国籍の方も含まれており、観光目的で90日以内の滞在であれば、事前の許可なしで入国可能です。</p><p>ただし、<strong>2025年2月24日より、すべての入国者は航空機に搭乗する前にオンラインで「e-Arrival Card（電子入国申告書）」の提出が義務化</strong>されました。無料で3分程度で完了します。以前の紙の入国申告書に代わるものですので、必ず出発前に済ませておきましょう。</p><div class='tip-box'><span class='tip-icon'>💡</span><span>「Korea e-Arrival Card」で検索し、公式ポータルにフライト情報を入力するだけです。入国の3日前から作成可能です！</span></div>",
         "faq.ko.q2": "韓国での公共交通機関の利用方法は？",
@@ -1638,12 +1640,13 @@ window.translations = {
         "footer.privacy": "プライバシーポリシー",
         "footer.terms": "利用規約",
         "footer.contact": "お問い合わせ",
-        
+
         "hero.title": "出発直前の1秒、 <br> <span>あなたの旅行コンディションが変わります。</span>",
         "hero.desc": "リアルタイムの混잡状況確認で、より余裕のある完璧な出発を準備しましょう。",
         "hero.btn": "今すぐ確認",
         "hero.guide_btn": "旅行ガイドを見る",
         "hero.blog_btn": "エディティブログ",
+        "hero.planner_btn": "旅程プランナー",
         "faq.title": "よくある質問 (FAQ)",
         "faq.q1": "現在、大阪の道頓堀はどのくらい混雑していますか？",
         "faq.a1": "大阪の道頓堀は平日の午後から非常に混雑し始め、週末の夜には歩くのが困難なほどの人出となります。トラベル トラフィック（Travel Traffic）のリアルタイム混雑度指数を確認して、快適な訪問時間を見つけ、待ち時間のない旅行を楽しんでください。",
@@ -1663,11 +1666,11 @@ window.translations = {
         "card.seoul.title": "ソウル (韓国)",
         "card.seoul.desc": "古代の宮殿と未来的な都市の輝かしいコントラストを体験してください。",
         "card.seoul.btn": "リアルタイムで確認 &rarr;",
-        
+
         "card.jeju.title": "済州島 (韓国)",
         "card.jeju.desc": "美しい白い砂浜、火山地形を体験してください。究極の島の逃避行です。",
         "card.jeju.btn": "リアルタイムで確認 &rarr;",
-        
+
         "card.osaka.title": "大阪 (日本)",
         "card.osaka.desc": "活気ある大阪のグルメシーンと道頓堀の夜景を堪能してください。",
         "card.osaka.btn": "リアルタイムで確認 &rarr;",
@@ -1700,7 +1703,7 @@ window.translations = {
         "osaka.content.p1": "日本のダイナミックな屋台の都、大阪へようこそ。フレンドリーな地元の人々と開放的な雰囲気で知られる大阪では、ネオンが運河に反射し、たこ焼きの香りが漂う道頓堀の賑やかなエネルギーに飛び込んでみてください。",
         "osaka.content.p2": "雄大な大阪城を訪れ、新世界のレトロな魅力を探求し、心斎橋でショッピングを満喫しましょう。楽しさとおいしさが詰まった街です。",
         "img.osaka": "[ 大阪 道頓堀ネオンサイン画像 ]",
-        
+
         "kyoto.title": "京都: 文化の中心地",
         "kyoto.content.p1": "京都でタイムスリップしましょう。何千もの古典的な仏教寺院、穏やかな神道神社、伝統的な木造の町屋で飾られた都市です。祇園の街を歩く優雅な芸者と本格的な茶道の故郷です。",
         "kyoto.content.p2": "伏見稲荷大社の象徴的な朱色の鳥居をくぐり、金閣寺で瞑想し、高くそびえる嵐山の竹林で静けさを見つけてください。",
@@ -2277,7 +2280,7 @@ window.translations = {
         "spot.209.tip": "金閣寺とは対照的な「わびさび」の美。",
         "spot.209.best": "午後 2時",
 
-         "cg.label.rec_time": "おすすめ時間:",
+        "cg.label.rec_time": "おすすめ時間:",
         "cg.label.naver": "NAVER地図",
         "cg.label.google": "Googleマップ",
         "cg.label.directions": "ルート検索",
@@ -2362,7 +2365,7 @@ window.translations = {
 window.currentLang = localStorage.getItem('travel_traffic_lang') || 'ko';
 
 // Helper to get translated string with fallback
-window.t = function(key, fallback = '') {
+window.t = function (key, fallback = '') {
     const lang = window.currentLang || 'ko';
     if (window.translations && window.translations[lang] && window.translations[lang][key]) {
         return window.translations[lang][key];
@@ -2442,7 +2445,7 @@ async function syncGuidesFromDatabase() {
             return;
         }
         const guides = await res.json();
-        
+
         guides.forEach(g => {
             ['ko', 'en', 'ja'].forEach(lang => {
                 const data = g[lang];
@@ -2455,7 +2458,7 @@ async function syncGuidesFromDatabase() {
                 }
             });
         });
-        
+
         console.log('Guide sync complete. Refreshing UI...');
         // Refresh UI with new data
         setLanguage(window.currentLang);
@@ -2467,7 +2470,7 @@ async function syncGuidesFromDatabase() {
 document.addEventListener('DOMContentLoaded', () => {
     // Detect stored lang
     const savedLang = localStorage.getItem('travel_traffic_lang') || 'ko';
-    
+
     // Add event listeners to all selectors
     document.querySelectorAll('#lang-selector').forEach(sel => {
         sel.addEventListener('change', (e) => setLanguage(e.target.value));
