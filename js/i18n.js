@@ -862,7 +862,7 @@ window.translations = {
         "ott.tag.jeju": "JEJU (KOREA)",
         "ott.tag.osaka": "OSAKA (JAPAN)",
         "ott.tag.kyoto": "KYOTO (JAPAN)",
-        "ott.tag.busan": "BUSAN",
+        "ott.tag.busan": "BUSAN (KOREA)",
 
         "card.seoul.title": "Seoul (Korea)",
         "card.seoul.desc": "Experience the dazzling contrast between ancient palaces and futuristic cityscapes.",
