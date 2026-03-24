@@ -167,6 +167,10 @@ window.translations = {
 
         "ott.trending": "지금 뜨는 명소 (Trending Now)",
         "jeju.recommended_activities": "제주 여행 추천 활동 (Recommended Activities)",
+        "busan.recommended_activities": "부산 여행 추천 활동 (Recommended Activities)",
+        "seoul.recommended_activities": "서울 여행 추천 활동 (Recommended Activities)",
+        "osaka.recommended_activities": "오사카 여행 추천 활동 (Recommended Activities)",
+        "kyoto.recommended_activities": "교토 여행 추천 활동 (Recommended Activities)",
         "ott.discover": "다른 지역 탐색하기",
         "ott.home_btn": "HOME",
         "ott.more": "더 많은 소식",
@@ -927,6 +931,10 @@ window.translations = {
 
         "ott.trending": "Trending Now",
         "jeju.recommended_activities": "Recommended Jeju Activities",
+        "busan.recommended_activities": "Recommended Busan Activities",
+        "seoul.recommended_activities": "Recommended Seoul Activities",
+        "osaka.recommended_activities": "Recommended Osaka Activities",
+        "kyoto.recommended_activities": "Recommended Kyoto Activities",
         "ott.discover": "Explore Other Regions",
         "ott.home_btn": "HOME",
         "ott.more": "More Discoveries",
@@ -1657,6 +1665,10 @@ window.translations = {
 
         "ott.trending": "今注目のスポット (Trending Now)",
         "jeju.recommended_activities": "済州島旅行のおすすめアクティビティ",
+        "busan.recommended_activities": "釜山旅行のおすすめアクティビティ",
+        "seoul.recommended_activities": "ソウル旅行のおすすめアクティビティ",
+        "osaka.recommended_activities": "大阪旅行のおすすめアクティビティ",
+        "kyoto.recommended_activities": "京都旅行のおすすめアクティビティ",
         "ott.discover": "他の地域を探索する",
         "ott.home_btn": "HOME",
         "ott.more": "もっと見る",

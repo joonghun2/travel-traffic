@@ -300,7 +300,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
-    <h2 class="section-title" style="margin: 4rem 8% 0.5rem; font-size: 1.5rem; color: var(--text-main);" data-i18n="ott.trending">지금 뜨는 명소 (Trending Now)</h2>
+    <h2 class="section-title" data-i18n="seoul.recommended_activities" style="margin: 4rem 8% 0.5rem; font-size: 1.5rem; color: var(--text-main);">서울 여행 추천 활동 (Recommended Activities)</h2>
+    <section class="klook-widget-section" style="margin: 0 8% 2rem; background: var(--card-bg); border-radius: 12px; padding: 1rem; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        <ins class="klk-aff-widget"  data-adid="1243086" data-lang="" data-currency="" data-cardH="126" data-padding="92" data-lgH="470" data-edgeValue="655" data-cid="13" data-tid="-1" data-amount="3" data-prod="dynamic_widget"><a href="//www.klook.com/">Klook.com</a></ins>
+        <script type="text/javascript">
+          (function (d, sc, u) {
+            var s = d.createElement(sc),
+              p = d.getElementsByTagName(sc)[0];
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = u;
+            p.parentNode.insertBefore(s, p);
+          })(
+            document,
+            "script",
+            "https://affiliate.klook.com/widget/fetch-iframe-init.js"
+          );
+        </script>
+    </section>
+
+    <h2 class="section-title" data-i18n="ott.trending" style="margin-top: 2rem;">지금 뜨는 명소 (Trending Now)</h2>
     <section class="destinations" id="trending-now" style="margin-bottom: 4rem;">
         <a href="jeju.html" class="card">
             <img src="img/poster_hallasan.png" alt="Jeju" class="card-img">
