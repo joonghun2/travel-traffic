@@ -54,27 +54,29 @@
         }
         
         .guide-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: #FFFFFF;
             border-radius: 1.5rem;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid #EBEBEB;
             transition: 0.3s;
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
         }
         .guide-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+            border-color: #DDDDDD;
+            background: #F7F7F7;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
         }
         
         .guide-card-img {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            background: #1e293b;
+            background: transparent;
         }
         
         .guide-card-content {
@@ -107,8 +109,8 @@
         }
 
         .tag {
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--accent);
+            background: #F7F7F7;
+            color: var(--text-muted);
             padding: 0.2rem 0.6rem;
             border-radius: 2rem;
             font-size: 0.8rem;
@@ -133,6 +135,7 @@
                 <div class="nav-dropdown-content">
                     <a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a>
                     <a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a>
+                    <a href="busan.html" data-i18n="nav.busan">부산 (한국)</a>
                 </div>
             </li>
             <li class="nav-dropdown">

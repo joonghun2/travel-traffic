@@ -71,7 +71,7 @@
       gtag('config', 'G-EJC5R171MS');
     </script>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=3">
     <script src="js/i18n.js"></script>
     <script src="js/script.js" defer></script>
 </head>
@@ -87,6 +87,7 @@
                 <div class="nav-dropdown-content">
                     <a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a>
                     <a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a>
+                    <a href="busan.html" data-i18n="nav.busan">부산 (한국)</a>
                 </div>
             </li>
             <li class="nav-dropdown">
@@ -110,30 +111,83 @@
     </nav>
 
     <section class="hero" style="background-image: url('img/bg_seoul_gwanghwamun.png'); background-size: cover; background-position: center;">
-        <h1 data-i18n="hero.title">트래블 트래픽 — <span>서울·제주·오사카·교토</span> 실시간 혼잡도 & 여행 가이드</h1>
-        <p data-i18n="hero.desc">즐거운 여행, 붐비는지 지금 확인하고 출발하세요!</p>
-        <div class="hero-btns">
-            <a href="#brand-tiles" class="tab-btn active" data-i18n="hero.btn">지금 확인하기</a>
-            <a href="guides.html" class="tab-btn secondary" data-i18n="hero.guide_btn">여행 가이드 보기</a>
-            <a href="faq.html" class="tab-btn secondary" data-i18n="hero.faq_btn">자주 묻는 질문(FAQ)</a>
+        <div class="hero-content">
+            <h1 data-i18n="hero.title">트래블 트래픽 — <span>서울·제주·오사카·교토</span> 실시간 혼잡도 & 여행 가이드</h1>
+            <p data-i18n="hero.subtitle">실시간 혼잡도 확인으로 더 여유롭고 완벽한 출발을 준비하세요.</p>
+            <div class="hero-btns">
+                <a href="#brand-tiles" class="tab-btn active" data-i18n="hero.btn">지금 확인하기</a>
+                <a href="guides.html" class="tab-btn secondary" data-i18n="hero.guide_btn">여행 가이드 보기</a>
+                <a href="faq.html" class="tab-btn secondary" data-i18n="hero.faq_btn">자주 묻는 질문(FAQ)</a>
+            </div>
         </div>
     </section>
 
     <div class="brand-tiles" id="brand-tiles">
         <a href="seoul.html" class="brand-tile">
-            <div class="brand-bg" style="background-image: url('img/graphic_seoul.svg');"></div>
+            <div class="brand-icon">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 40 h32 M12 40 v-6 h24 v6 M18 40 v-4 a4 4 0 0 1 8 0 v4" />
+                    <path d="M14 34 v-12 M20 34 v-12 M28 34 v-12 M34 34 v-12 M14 28 h20" />
+                    <path d="M6 22 c4 0 8-2 8-2 h20 c0 0 4 2 8 2 c-2-3-6-4-6-4 H12 c0 0-4 1-6 4 z" />
+                    <path d="M18 16 v-4 M24 16 v-4 M30 16 v-4 M18 12 h12" />
+                    <path d="M10 12 c4 0 6-2 6-2 h16 c0 0 2 2 6 2 c-2-3-5-4-5-4 H15 c0 0-3 1-5 4 z" />
+                </svg>
+            </div>
             <span class="brand-name" data-i18n="ott.tag.seoul">SEOUL</span>
         </a>
         <a href="jeju.html" class="brand-tile">
-            <div class="brand-bg" style="background-image: url('img/graphic_jeju.svg');"></div>
+            <div class="brand-icon">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="10" y1="42" x2="38" y2="42" />
+                    <path d="M 16 42 V 28 v -6 c 0 -3 2 -6 8 -6 s 8 3 8 6 v 6 v 14" />
+                    <line x1="14" y1="16" x2="34" y2="16" />
+                    <path d="M 18 16 C 18 10 21 8 24 8 C 27 8 30 10 30 16" />
+                    <path d="M 24 20 v 5 c 0 1 1.5 1 1.5 1" />
+                    <line x1="20" y1="21" x2="20.5" y2="21" />
+                    <line x1="28" y1="21" x2="27.5" y2="21" />
+                    <path d="M 16 30 h 10 v 4 h 6" />
+                    <path d="M 32 34 h -10 v 4 h -6" />
+                </svg>
+            </div>
             <span class="brand-name" data-i18n="ott.tag.jeju">JEJU</span>
         </a>
+        <a href="busan.html" class="brand-tile">
+            <div class="brand-icon">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 42 c4-3 12-3 16 0 c4-3 12-3 16 0" />
+                    <path d="M16 40 V18 M32 40 V18" />
+                    <path d="M14 26 h4 M30 26 h4" />
+                    <path d="M8 38 Q16 20 16 18 M40 38 Q32 20 32 18" />
+                    <path d="M16 18 Q24 32 32 18" />
+                    <circle cx="24" cy="14" r="4" />
+                </svg>
+            </div>
+            <span class="brand-name" data-i18n="ott.tag.busan">BUSAN</span>
+        </a>
         <a href="osaka.html" class="brand-tile">
-            <div class="brand-bg" style="background-image: url('img/graphic_osaka.svg');"></div>
+            <div class="brand-icon">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="8" y1="42" x2="40" y2="42" />
+                    <path d="M 12 42 L 16 32 h 16 l 4 10" />
+                    <path d="M 16 32 v -8 M 32 32 v -8 M 20 32 v -8 M 28 32 v -8" />
+                    <path d="M 12 24 c 4 -1 6 -3 6 -3 h 12 c 0 0 2 2 6 3 c -2 -3 -5 -4 -5 -4 H 17 c 0 0 -3 1 -5 4 z" />
+                    <path d="M 18 20 v -6 M 30 20 v -6 M 24 20 v -6" />
+                    <path d="M 14 14 c 3 -1 5 -2 5 -2 h 10 c 0 0 2 1 5 2 c -2 -2 -4 -3 -4 -3 H 18 c 0 0 -2 1 -4 3 z" />
+                    <path d="M 20 11 v -4 M 28 11 v -4" />
+                    <path d="M 16 7 c 3 0 4 -1 4 -1 h 8 c 0 0 1 1 4 1 c -1 -1 -3 -2 -3 -2 H 19 c 0 0 -2 1 -3 2 z" />
+                    <path d="M 24 5 v 2 M 22 5 h 4" />
+                </svg>
+            </div>
             <span class="brand-name" data-i18n="ott.tag.osaka">OSAKA (JAPAN)</span>
         </a>
         <a href="kyoto.html" class="brand-tile">
-            <div class="brand-bg" style="background-image: url('img/graphic_kyoto.svg');"></div>
+            <div class="brand-icon">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 42 h28 M16 42 V14 M32 42 V14 M12 26 h24 M24 26 v-10 M12 16 h24" />
+                    <path d="M8 12 Q24 7 40 12" />
+                    <path d="M13 36 h6 v6 h-6 z M29 36 h6 v6 h-6 z" />
+                </svg>
+            </div>
             <span class="brand-name" data-i18n="ott.tag.kyoto">KYOTO (JAPAN)</span>
         </a>
     </div>
@@ -172,7 +226,7 @@
 
         <!-- More Spots -->
         <a href="seoul.html#spot-3" class="card">
-            <img src="img/poster_namsan_real.png" alt="N Seoul Tower" class="card-img" style="background: #0f172a;">
+            <img src="img/poster_namsan_real.png" alt="N Seoul Tower" class="card-img" style="background: transparent;">
             <div class="card-content">
                 <span class="meta-tag" style="margin-bottom: 5px; display: inline-block;">SEOUL</span>
                 <h3 data-i18n="spot.3.name">남산서울타워</h3>
@@ -184,14 +238,14 @@
     <style>
         .faq-section { max-width: 1200px; margin: 80px auto; padding: 0 8%; }
         .faq-item { margin-bottom: 3rem; }
-        .faq-item h2 { font-size: 1.8rem; margin-bottom: 1rem; color: #fff; font-weight: 800; }
+        .faq-item h2 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-main); font-weight: 800; }
         .faq-answer-box { 
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, transparent 100%);
+            background: #F7F7F7;
             border-left: 4px solid var(--primary);
             padding: 1.5rem 2rem;
             border-radius: 0 1rem 1rem 0;
             font-size: 1.15rem;
-            color: #e2e8f0;
+            color: var(--text-muted);
             line-height: 1.6;
         }
     </style>

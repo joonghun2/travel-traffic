@@ -75,16 +75,59 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusLabel = window.translations[window.currentLang][statusKey];
             }
 
+            const kakaoLink = `https://map.kakao.com/link/search/${encodeURIComponent(spot.nameKo)}`;
+            const uberLink = `https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[query]=${encodeURIComponent(spot.nameKo)}`;
+            
+            let statusEmoji = '🌱';
+            let cv = 25;
+            if(spot.score === 1) { statusEmoji = '🌱'; cv = 25; }
+            if(spot.score === 2) { statusEmoji = '🚶'; cv = 50; }
+            if(spot.score === 3) { statusEmoji = '⚠️'; cv = 75; }
+            if(spot.score === 4) { statusEmoji = '🔥'; cv = 90; }
+            
+            const dashOffset = 408 - (408 * cv / 100);
+
             const card = document.createElement('div');
-            card.className = 'cg-card';
+            card.className = 'bento-card';
             card.innerHTML = `
-                <div class="cg-header">
-                    <h3>${displayName}</h3>
-                    <span class="cg-badge ${colorClass}">${statusLabel}</span>
+                <div class="bento-header">
+                    <h3 class="bento-title">${displayName}</h3>
+                    <p class="bento-subtitle">(${spot.msg})</p>
                 </div>
-                <p class="cg-msg">${spot.msg}</p>
+                
+                <div class="gauge-container">
+                    <svg class="gauge-svg" viewBox="0 0 150 150">
+                        <circle class="gauge-bg" cx="75" cy="75" r="65"></circle>
+                        <circle class="gauge-bar ${colorClass}" cx="75" cy="75" r="65" style="stroke-dashoffset: 408;"></circle>
+                    </svg>
+                    <div class="gauge-content">
+                        <div class="gauge-val">${cv}%</div>
+                        <div class="gauge-lbl ${colorClass}">${statusLabel}</div>
+                    </div>
+                </div>
+
+                <div class="status-box">
+                    <div class="status-headline">${window.t ? window.t('cg.label.now', '지금') : '지금'} ${statusLabel} ${statusEmoji}</div>
+                    <div class="context-box ${colorClass}">
+                        <span>⏰ ${(window.t) ? window.t('cg.label.rec_time', '추천 시간:') : '추천 시간:'} ${window.currentLang === 'en' ? 'Anytime' : window.currentLang === 'ja' ? 'いつでも快適' : '언제든 쾌적'}</span>
+                    </div>
+                </div>
+
+                <div class="cta-group">
+                    <a href="${kakaoLink}" class="cta-btn cta-kakao" target="_blank">
+                        🚕 ${window.t ? window.t('cg.btn.kakao', '카카오T 호출하기') : '카카오T 호출하기'}
+                    </a>
+                    <a href="${uberLink}" class="cta-btn cta-uber" target="_blank">
+                        🚗 ${window.t ? window.t('cg.btn.uber', 'Uber 부르기') : 'Uber 부르기'}
+                    </a>
+                </div>
             `;
             grid.appendChild(card);
+            
+            setTimeout(() => {
+                const bar = card.querySelector('.gauge-bar');
+                if (bar) bar.style.strokeDashoffset = dashOffset;
+            }, 50);
         });
     }
 

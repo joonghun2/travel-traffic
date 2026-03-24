@@ -30,15 +30,6 @@
     <script src="js/i18n.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        :root {
-            --primary: #38bdf8;
-            --secondary: #818cf8;
-            --accent: #fb7185;
-            --bg-dark: #0f172a;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
         .blog-container {
             max-width: 900px;
             margin: 120px auto 80px;
@@ -53,7 +44,7 @@
         .blog-title {
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 900;
-            color: #fff;
+            color: var(--text-main);
             margin-bottom: 20px;
             line-height: 1.1;
             letter-spacing: -0.03em;
@@ -69,17 +60,17 @@
         }
 
         .blog-author-tag {
-            background: var(--glass-bg);
+            background: #F7F7F7;
             padding: 0.4rem 1.2rem;
             border-radius: 2rem;
-            border: 1px solid var(--glass-border);
+            border: 1px solid #EBEBEB;
             color: var(--primary);
             font-weight: 600;
         }
 
         .blog-content {
             line-height: 1.8;
-            color: #e2e8f0;
+            color: var(--text-main);
             font-size: 1.15rem;
         }
 
@@ -88,7 +79,7 @@
             position: relative;
             font-size: 2rem;
             margin: 4rem 0 1.5rem;
-            color: #fff;
+            color: var(--text-main);
             font-weight: 800;
             letter-spacing: -0.02em;
         }
@@ -104,14 +95,14 @@
 
         /* Inverted Pyramid Answer Styling */
         .faq-answer {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, transparent 100%);
+            background: #F7F7F7;
             border-left: 4px solid var(--primary);
             padding: 2rem;
             border-radius: 0 1.5rem 1.5rem 0;
             margin-bottom: 2.5rem;
             font-size: 1.25rem;
             font-weight: 500;
-            color: #fff;
+            color: var(--text-muted);
         }
 
         .blog-content p {
@@ -153,6 +144,7 @@
                 <div class="nav-dropdown-content">
                     <a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a>
                     <a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a>
+                    <a href="busan.html" data-i18n="nav.busan">부산 (한국)</a>
                 </div>
             </li>
             <li class="nav-dropdown">

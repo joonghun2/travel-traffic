@@ -8,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #38bdf8;
-            --primary-glow: rgba(56, 189, 248, 0.4);
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --border: rgba(51, 65, 85, 0.5);
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
-            --success: #10b981;
+            --primary: #FF385C;
+            --primary-glow: rgba(255, 56, 92, 0.4);
+            --bg: #F7F7F7;
+            --card-bg: #FFFFFF;
+            --border: #DDDDDD;
+            --text: #222222;
+            --text-muted: #717171;
+            --success: #00A699;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -113,7 +113,7 @@
         .guide-card h3 {
             font-size: 1.125rem;
             margin-bottom: 0.75rem;
-            color: #fff;
+            color: var(--text);
         }
 
         .guide-card p {
@@ -150,7 +150,7 @@
         }
 
         .editor {
-            background: #1e293b;
+            background: #FFFFFF;
             width: 100%;
             max-width: 900px;
             max-height: 90vh;
@@ -171,7 +171,7 @@
 
         .editor-tabs {
             display: flex;
-            background: rgba(15, 23, 42, 0.5);
+            background: #F7F7F7;
             padding: 0.25rem;
             border-radius: 0.75rem;
             margin: 1.5rem 2rem 0;
@@ -204,11 +204,11 @@
         label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 600; color: var(--text-muted); }
         input, textarea {
             width: 100%;
-            background: rgba(15, 23, 42, 0.5);
+            background: #F7F7F7;
             border: 1px solid var(--border);
             border-radius: 0.5rem;
             padding: 0.75rem 1rem;
-            color: #fff;
+            color: var(--text);
             font-family: inherit;
             transition: border-color 0.2s;
         }
@@ -234,7 +234,7 @@
 
         .btn-primary { background: var(--primary); color: #0f172a; }
         .btn-primary:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--primary-glow); }
-        .btn-secondary { background: rgba(51, 65, 85, 0.5); color: #fff; }
+        .btn-secondary { background: #EBEBEB; color: var(--text); }
         
         .btn-add {
             background: linear-gradient(135deg, var(--primary) 0%, #0ea5e9 100%);

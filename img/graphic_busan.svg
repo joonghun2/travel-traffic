@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <g filter="url(#glow)">
+    <!-- Sea Horizon and Waves -->
+    <path d="M200 700 c100 -20 200 -20 300 0 s 200 20 300 0 s 200 -20 300 0 s 200 20 300 0" fill="none" stroke="#00f2fe" stroke-width="8" />
+    <path d="M300 750 c100 -20 200 -20 300 0 s 200 20 300 0 s 200 -20 300 0" fill="none" stroke="#4facfe" stroke-width="4" opacity="0.6"/>
+
+    <!-- Gwangan Bridge Towers -->
+    <path d="M500 700 V300 M1100 700 V300" fill="none" stroke="#ff0844" stroke-width="12" />
+    <path d="M480 400 h40 M1080 400 h40" fill="none" stroke="#ff0844" stroke-width="8" />
+    <path d="M460 550 h80 M1060 550 h80" fill="none" stroke="#ff0844" stroke-width="8" />
+
+    <!-- Gwangan Bridge Main Suspension Cables -->
+    <path d="M200 650 Q500 300 500 300 M1400 650 Q1100 300 1100 300" fill="none" stroke="#ff0844" stroke-width="6" />
+    <path d="M500 300 Q800 600 1100 300" fill="none" stroke="#ff0844" stroke-width="8" />
+    
+    <!-- Vertical Suspension Cables -->
+    <line x1="580" y1="410" x2="580" y2="650" stroke="#ff0844" stroke-width="3" opacity="0.8" />
+    <line x1="660" y1="490" x2="660" y2="650" stroke="#ff0844" stroke-width="3" opacity="0.8" />
+    <line x1="740" y1="550" x2="740" y2="650" stroke="#ff0844" stroke-width="3" opacity="0.8" />
+    <line x1="860" y1="550" x2="860" y2="650" stroke="#ff0844" stroke-width="3" opacity="0.8" />
+    <line x1="940" y1="490" x2="940" y2="650" stroke="#ff0844" stroke-width="3" opacity="0.8" />
+    <line x1="1020" y1="410" x2="1020" y2="650" stroke="#ff0844" stroke-width="3" opacity="0.8" />
+
+    <!-- Bridge Deck -->
+    <path d="M200 650 L1400 650" fill="none" stroke="#ff0844" stroke-width="14" />
+
+    <!-- Haeundae Marina/Buildings on Side -->
+    <path d="M1400 650 v-150 h50 v-80 l30 -20 v250 M1480 650 v-200 h40 v200 M200 650 v-120 h-50 v120" fill="none" stroke="#4facfe" stroke-width="6" />
+
+    <!-- Seagulls -->
+    <path d="M1200 200 q20 -20 40 0 q20 -20 40 0" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+    <path d="M1100 150 q15 -15 30 0 q15 -15 30 0" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+    <path d="M300 250 q25 -25 50 0 q25 -25 50 0" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+  </g>
+  
+  <!-- Text -->
+  <text x="800" y="820" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="900" font-size="80" filter="url(#glow)" opacity="0.9">BUSAN</text>
+</svg>

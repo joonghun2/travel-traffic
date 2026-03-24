@@ -52,7 +52,7 @@
     <script src="js/script.js" defer></script>
 </head>
 
-<body class="city-page" style="background-image: url('img/graphic_osaka.svg');">
+<body class="city-page">
 
     <nav>
         <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
@@ -63,6 +63,7 @@
                 <div class="nav-dropdown-content">
                     <a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a>
                     <a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a>
+                    <a href="busan.html" data-i18n="nav.busan">부산 (한국)</a>
                 </div>
             </li>
             <li class="nav-dropdown">
@@ -181,25 +182,73 @@ function applyFilter(){
 
   list.forEach((p)=>{
     const cv=calc(p);
-    let colorClass = (cv<40)?'relax':(cv<60)?'normal':(cv<80)?'crowded':'severe';
+    let colorClass = '';
+    let statusKey = '';
+
+    if(cv < 40) { colorClass = 'relax'; statusKey = 'cg.status.relaxed'; }
+    else if(cv < 60) { colorClass = 'normal'; statusKey = 'cg.status.normal'; }
+    else if(cv < 80) { colorClass = 'crowded'; statusKey = 'cg.status.crowded'; }
+    else { colorClass = 'severe'; statusKey = 'cg.status.very_crowded'; }
+
+    const statusLabel = window.t(statusKey, (cv < 40) ? '여유' : (cv < 60) ? '보통' : (cv < 80) ? '약간 붐빔' : '매우 붐빔');
+    
+    const tName = window.t(`spot.${p.id}.name`, p.name);
+    const tTip = window.t(`spot.${p.id}.tip`, p.tip);
+    const tBest = window.t(`spot.${p.id}.best`, p.best);
+    const lblTime = window.t("cg.label.rec_time", "추천 시간:");
 
     const card=document.createElement('div');
-    card.className=`cg-card`;
+    card.className=`bento-card`;
     card.id=`spot-${p.id}`;
-    card.innerHTML=`
-      <div class="cg-header">
-          <h3>${window.t(`spot.${p.id}.name`, p.name)}</h3>
-          <span class="cg-badge ${colorClass}">${window.t((cv<40)?'cg.status.relaxed':(cv<60)?'cg.status.normal':(cv<80)?'cg.status.crowded':'cg.status.very_crowded')} ${cv}%</span>
-      </div>
-      <p class="cg-msg" style="margin-bottom: 8px;">📍 ${window.t(`spot.${p.id}.area`, p.area)} | ${window.t(`spot.${p.id}.cat`, p.cat)} ${p.emoji}</p>
-      <p class="cg-msg" style="font-size: 0.85rem;">💡 ${window.t(`spot.${p.id}.tip`, p.tip)} <br/> ⏰ ${window.t("cg.label.rec_time")} ${window.t(`spot.${p.id}.best`, p.best)}</p>
-      <div class="map-btns" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
-        <a href="https://www.google.com/maps/search/${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem;">🗺️ ${window.t("cg.label.directions")} &rarr;</a>
-        <a href="https://www.google.com/search?q=${encodeURIComponent(window.t(`spot.${p.id}.name`, p.name) + ' ' + window.t('cg.label.restaurant_query'))}" target="_blank" class="directions-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: #ffc107; color: #ffc107;">🍽️ ${window.t('card.btn.restaurants')}</a>
 
+    const dashOffset = 408 - (408 * cv / 100);
+    const uberLink = `https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[query]=${encodeURIComponent(tName)}`;
+    const googleTransitLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(tName)}`;
+    
+    let statusEmoji = '🌱';
+    if(cv >= 40 && cv < 60) statusEmoji = '🚶';
+    if(cv >= 60 && cv < 80) statusEmoji = '⚠️';
+    if(cv >= 80) statusEmoji = '🔥';
+
+    card.innerHTML=`
+      <div class="bento-header">
+          <h3 class="bento-title">${tName}</h3>
+          <p class="bento-subtitle">(${tTip})</p>
+      </div>
+      
+      <div class="gauge-container">
+          <svg class="gauge-svg" viewBox="0 0 150 150">
+              <circle class="gauge-bg" cx="75" cy="75" r="65"></circle>
+              <circle class="gauge-bar ${colorClass}" cx="75" cy="75" r="65" style="stroke-dashoffset: 408;"></circle>
+          </svg>
+          <div class="gauge-content">
+              <div class="gauge-val">${cv}%</div>
+              <div class="gauge-lbl ${colorClass}">${statusLabel}</div>
+          </div>
+      </div>
+
+      <div class="status-box">
+          <div class="status-headline">${window.t('cg.label.now', '지금')} ${statusLabel} ${statusEmoji}</div>
+          <div class="context-box ${colorClass}">
+              <span>⏰ ${lblTime} ${tBest}</span>
+          </div>
+      </div>
+
+      <div class="cta-group">
+          <a href="${googleTransitLink}" class="cta-btn cta-google" target="_blank">
+              🚆 ${window.t('cg.btn.google_transit', '구글 지도 경로찾기')}
+          </a>
+          <a href="${uberLink}" class="cta-btn cta-uber" target="_blank">
+              🚗 ${window.t('cg.btn.uber', 'Uber 부르기')}
+          </a>
       </div>
     `;
     grid.appendChild(card);
+    
+    setTimeout(() => {
+        const bar = card.querySelector('.gauge-bar');
+        if (bar) bar.style.strokeDashoffset = dashOffset;
+    }, 50);
   });
 }
 
