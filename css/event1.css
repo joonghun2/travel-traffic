@@ -1,0 +1,424 @@
+/* 
+  CheckEastPoint - Event1 Viral Page CSS 
+  Theme: Ultra-minimal, Google Labs inspired (Airy · Borderless · Soft)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg: #F7F8FA;
+    --card: #FFFFFF;
+    --primary: #3182F6;
+    --primary-light: #EBF3FE;
+    --text: #191F28;
+    --text-sub: #6B7684;
+    --text-muted: #ADB5BD;
+    --border-light: #F1F3F5;
+    --green-pastel: #E8F5E9;
+    --green-text: #2E7D32;
+    --red-pastel: #FFEBEE;
+    --red-text: #C62828;
+    --shadow-sm: 0 2px 12px rgba(0,0,0,0.04);
+    --shadow-md: 0 8px 30px rgba(0,0,0,0.06);
+    --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
+    --radius: 24px;
+    --radius-full: 9999px;
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Base ── */
+.event-body {
+    background: var(--bg);
+    margin: 0;
+    padding: 0;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ── */
+.translucent-nav {
+    background: rgba(247, 248, 250, 0.85) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: none !important;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+    position: fixed;
+    top: 0; width: 100%; z-index: 100;
+    padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+/* ── Container ── */
+.event-container {
+    max-width: 440px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 76px 20px 48px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ── View States ── */
+.view-section {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    padding: 76px 20px 48px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; visibility: hidden;
+}
+
+.view-section.active {
+    opacity: 1; pointer-events: auto; visibility: visible;
+    position: relative;
+}
+
+.hidden { display: none !important; }
+
+/* ── Pill Buttons ── */
+.btn-pill {
+    width: 100%;
+    border-radius: var(--radius-full);
+    border: none;
+    padding: 18px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition);
+    text-align: center;
+    line-height: 1.5;
+    font-family: inherit;
+}
+
+.btn-pill:active { transform: scale(0.97); }
+
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(49, 130, 246, 0.25);
+}
+.btn-primary:hover { box-shadow: 0 6px 24px rgba(49, 130, 246, 0.35); }
+
+.btn-option {
+    background: var(--card);
+    color: var(--text);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 12px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+.btn-option:hover { box-shadow: var(--shadow-md); }
+
+/* ── Typography ── */
+.eyebrow {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    display: block;
+    margin-bottom: 16px;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    color: var(--text);
+}
+
+p {
+    font-size: 1rem;
+    color: var(--text-sub);
+    line-height: 1.7;
+    margin-bottom: 36px;
+}
+
+/* ── Landing ── */
+.landing-content { text-align: center; width: 100%; }
+
+/* ── Progress Bar ── */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--border-light);
+    border-radius: var(--radius-full);
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    width: 0%;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Question ── */
+.question-content { width: 100%; }
+.q-num {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    display: inline-block;
+    letter-spacing: 0.02em;
+}
+#q-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 28px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+}
+.options-container { display: flex; flex-direction: column; }
+
+/* ── Result Card ── */
+#capture-area {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 36px 24px 28px;
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.result-eyebrow {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.result-title {
+    font-size: 1.6rem;
+    color: var(--primary);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.result-emoji {
+    font-size: 4rem;
+    display: block;
+    margin: 16px 0;
+}
+
+.result-desc-box {
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 0;
+}
+.result-desc-box p {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.7;
+}
+
+.watermark {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 16px;
+    letter-spacing: 0.02em;
+}
+
+/* ── Chemistry Section ── */
+.chemistry-section {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Animation initial state (JS controls reveal) */
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.chemistry-item {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.chemistry-badge {
+    flex-shrink: 0;
+    width: auto;
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+}
+.chemistry-badge.best {
+    background: var(--green-pastel);
+    color: var(--green-text);
+}
+.chemistry-badge.worst {
+    background: var(--red-pastel);
+    color: var(--red-text);
+}
+
+.chemistry-text {
+    flex: 1;
+}
+.chemistry-text .chem-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+.chemistry-text .chem-desc {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── Viral CTA Button ── */
+.viral-cta-wrapper {
+    width: 100%;
+    margin-top: 24px;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.btn-viral-cta {
+    width: 100%;
+    border-radius: var(--radius-full);
+    border: none;
+    padding: 20px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3182F6 0%, #5B9CF6 100%);
+    color: #fff;
+    box-shadow: 0 6px 24px rgba(49, 130, 246, 0.3);
+    transition: transform var(--transition), box-shadow var(--transition);
+    font-family: inherit;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+}
+.btn-viral-cta:hover {
+    box-shadow: 0 8px 32px rgba(49, 130, 246, 0.4);
+    transform: translateY(-1px);
+}
+.btn-viral-cta:active { transform: scale(0.97); }
+
+/* ── Sub Share Row ── */
+.action-buttons {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.share-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.share-btn {
+    flex: 1;
+    border: none;
+    border-radius: 14px;
+    padding: 13px 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition);
+    font-family: inherit;
+}
+.share-btn:active { transform: scale(0.97); }
+
+.share-btn.kakao {
+    background: #FEE500;
+    color: #3C1E1E;
+}
+.share-btn.insta {
+    background: linear-gradient(135deg, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888);
+    color: white;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    transition: background var(--transition);
+    font-family: inherit;
+}
+.btn-text:hover { background: var(--border-light); }
+
+/* CTA link (bottom) */
+.cta-bottom { margin-top: 16px; }
+.btn-cta-small {
+    display: inline-block;
+    background: var(--border-light);
+    color: var(--text-sub);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    width: auto;
+    transition: background var(--transition);
+}
+.btn-cta-small:hover { background: #E9ECEF; }
+
+/* ── Loading Spinner ── */
+.spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border-light);
+    border-top: 3px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ── Toast notification ── */
+.toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--text);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 9999;
+    pointer-events: none;
+}
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title data-i18n="event1.seo_title">나의 진짜 여행 자아는? 여행 생존 유형 테스트 | CheckEastPoint</title>
+    <meta name="description" data-i18n="event1.seo_desc" content="분명 즐거우려고 간 여행인데... 7가지 상황으로 알아보는 나의 진짜 여행 자아와 환상의 메이트 찾기!">
+    
+    <!-- GEO Tags -->
+    <meta name="geo.region" content="KR-11" />
+    <meta name="geo.placename" content="Seoul" />
+    <meta name="geo.position" content="37.5665;126.9780" />
+    <meta name="ICBM" content="37.5665, 126.9780" />
+
+    <!-- Open Graph for SNS Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.checkeastpoint.com/event1">
+    <meta property="og:title" data-i18n="event1.og_title" content="나의 진짜 여행 자아는? 여행 생존 유형 테스트">
+    <meta property="og:description" data-i18n="event1.og_desc" content="분명 즐거우려고 간 여행인데... 7가지 상황으로 내 여행 생존 유형과 환상의 메이트를 찾아보세요!">
+    <meta property="og:image" content="https://www.checkeastpoint.com/img/bg_seoul_gwanghwamun.png">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/event1.css">
+    
+    <!-- CheckEastPoint i18n and default scripts -->
+    <script src="js/i18n.js"></script>
+    <script src="js/script.js" defer></script>
+    
+    <!-- html2canvas for Instagram Story sharing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Kakao SDK -->
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js" integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJd/6eUkiww/iuOtnXyyi8u4E" crossorigin="anonymous"></script>
+    <script>
+        // Kakao.init('YOUR_KAKAO_JAVASCRIPT_KEY'); // <-- 카카오 자바스크립트 키를 여기에 입력하세요.
+    </script>
+</head>
+<body class="ott-theme event-body">
+
+    <!-- Top Navigation -->
+    <nav id="navbar" class="translucent-nav">
+        <a href="index.html" class="logo" data-i18n="nav.brand" style="color: var(--text);">트래블 트래픽</a>
+        <div class="lang-switcher">
+            <select id="lang-selector" style="background: rgba(255,255,255,0.8); color: var(--text); border: none;">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+    </nav>
+
+    <div class="event-container">
+        
+        <!-- 1. Landing View -->
+        <div id="view-landing" class="view-section active">
+            <div class="landing-content">
+                <span class="eyebrow" data-i18n="event1.landing.eyebrow">분명 즐거우려고 간 여행인데... 아, 집 가고 싶다.</span>
+                <h1 data-i18n="event1.landing.title">동아시아 여행<br>생존 유형 테스트</h1>
+                <p data-i18n="event1.landing.desc">나도 몰랐던 나의 진짜 여행 자아.<br>7가지 상황으로 내 여행 생존 유형과<br>환상의 메이트를 찾아보세요.</p>
+                <button id="btn-start" class="btn-pill btn-primary" data-i18n="event1.landing.btn">내 여행 자아 확인하기</button>
+            </div>
+        </div>
+
+        <!-- 2. Question View -->
+        <div id="view-question" class="view-section hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="question-content">
+                <span class="q-num" id="q-num">Q1.</span>
+                <h2 id="q-title">비행기 표 예매 완료! 그다음 내 행동은?</h2>
+                <div class="options-container">
+                    <button class="btn-pill btn-option" id="btn-opt-A"></button>
+                    <button class="btn-pill btn-option" id="btn-opt-B"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Result Loading View -->
+        <div id="view-loading" class="view-section hidden">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <h2 data-i18n="event1.loading">나의 여행 자아 분석 중...</h2>
+            </div>
+        </div>
+
+        <!-- 4. Result View -->
+        <div id="view-result" class="view-section hidden">
+
+            <!-- Capture Area (for Instagram sharing) -->
+            <div id="capture-area" class="result-card">
+                <span class="result-eyebrow" data-i18n="event1.result.eyebrow">나의 진짜 여행 자아는?</span>
+                <h1 id="result-title" class="result-title"></h1>
+                <div class="result-image-placeholder">
+                    <span id="result-emoji" class="result-emoji"></span>
+                </div>
+                <div class="result-desc-box">
+                    <p id="result-desc"></p>
+                </div>
+                <div class="watermark">CheckEastPoint.com/event1</div>
+            </div>
+
+            <!-- Chemistry Section (slide-up with delay) -->
+            <div id="chemistry-section" class="chemistry-section">
+                <!-- Best Mate -->
+                <div class="chemistry-item">
+                    <span class="chemistry-badge best">🟢 환상</span>
+                    <div class="chemistry-text">
+                        <span class="chem-label" data-i18n="event1.result.best_mate_title">환상의 여행 메이트</span>
+                        <p id="result-best-mate" class="chem-desc"></p>
+                    </div>
+                </div>
+                <!-- Worst Mate -->
+                <div class="chemistry-item">
+                    <span class="chemistry-badge worst">🔴 환장</span>
+                    <div class="chemistry-text">
+                        <span class="chem-label" data-i18n="event1.result.worst_mate_title">환장의 여행 메이트</span>
+                        <p id="result-worst-mate" class="chem-desc"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Viral CTA (slide-up with delay) -->
+            <div id="viral-cta-wrapper" class="viral-cta-wrapper">
+                <button id="btn-viral-cta" class="btn-viral-cta" data-i18n="event1.share.viral_cta">우리 여행 가면 찰떡일까, 원수일까? 👉 친구에게 공유해서 확인하기</button>
+            </div>
+
+            <!-- Sub Actions (slide-up with delay) -->
+            <div id="action-buttons" class="action-buttons">
+                <div class="share-row">
+                    <button id="btn-share-kakao" class="share-btn kakao" data-i18n="event1.share.kakao">💬 카카오톡</button>
+                    <button id="btn-share-insta" class="share-btn insta" data-i18n="event1.share.insta">📸 이미지 저장</button>
+                </div>
+                <button id="btn-restart" class="btn-text" data-i18n="event1.btn.restart">↻ 다시하기</button>
+                
+                <div class="cta-bottom">
+                    <a href="index.html" class="btn-pill btn-cta-small">
+                        <span id="cta-text"></span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Load Motion (Vanilla JS Framer Motion) -->
+    <script type="module" src="js/event1.js"></script>
+</body>
+</html>
