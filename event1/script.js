@@ -439,9 +439,9 @@ function getResultTitlePlain() {
 function getShareText() {
     const title = getResultTitlePlain();
     if (!title) {
-        if (currentLang === 'ja') return '東アジア旅行生存タイプテスト、やってみて！';
-        if (currentLang === 'en') return 'Take the East Asia Travel Survival Test!';
-        return '동아시아 여행 생존 유형 테스트 해보세요!';
+        if (currentLang === 'ja') return '旅行生存タイプ診断、やってみて！';
+        if (currentLang === 'en') return 'Take the Travel Survival Type Test!';
+        return '여행 생존 유형 테스트 해보세요!';
     }
     
     const resData = results[finalResultType][currentLang] || results[finalResultType]['en'];
