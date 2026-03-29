@@ -5,10 +5,18 @@ const I18n = {
     currentLang: 'ko',
     
     init() {
-        // 1. Auto detect browser language
-        const browserLang = (navigator.language || navigator.userLanguage).split('-')[0].toLowerCase();
+        // 1. Check URL param first (shared links carry ?lang=)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
         const supported = ['ko', 'en', 'ja'];
-        this.currentLang = supported.includes(browserLang) ? browserLang : 'ko';
+        
+        if (urlLang && supported.includes(urlLang)) {
+            this.currentLang = urlLang;
+        } else {
+            // 2. Auto detect browser language
+            const browserLang = (navigator.language || navigator.userLanguage).split('-')[0].toLowerCase();
+            this.currentLang = supported.includes(browserLang) ? browserLang : 'ko';
+        }
 
         // 2. Set selector value
         const selector = document.getElementById('lang-selector');

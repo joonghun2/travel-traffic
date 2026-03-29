@@ -8,13 +8,64 @@
     <meta name="description" data-i18n="event1.seo_desc"
         content="분명 즐거우려고 간 여행인데... 10가지 상황으로 알아보는 나의 진짜 여행 자아와 환상의 메이트 찾기!">
 
-    <!-- Open Graph for SNS Sharing -->
+    <!-- Open Graph for SNS Sharing (dynamically set by lang param) -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.checkeastpoint.com/event1">
-    <meta property="og:title" data-i18n="event1.og_title" content="나의 진짜 여행 자아는? 여행 생존 유형 테스트">
-    <meta property="og:description" data-i18n="event1.og_desc"
-        content="분명 즐거우려고 간 여행인데... 10가지 상황으로 내 여행 생존 유형과 환상의 메이트를 찾아보세요!">
-    <meta property="og:image" content="https://www.checkeastpoint.com/event1/og_thumb.png">
+    <meta property="og:url" id="og-url" content="https://www.checkeastpoint.com/event1">
+    <meta property="og:title" id="og-title" content="나의 진짜 여행 자아는? 여행 생존 유형 테스트">
+    <meta property="og:description" id="og-desc" content="분명 즐거우려고 간 여행인데... 10가지 상황으로 내 여행 생존 유형과 환상의 메이트를 찾아보세요!">
+    <meta property="og:image" id="og-image" content="https://www.checkeastpoint.com/event1/og_thumb.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ja_JP">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="tw-title" content="나의 진짜 여행 자아는? 여행 생존 유형 테스트">
+    <meta name="twitter:description" id="tw-desc" content="분명 즐거우려고 간 여행인데... 10가지 상황으로 내 여행 생존 유형과 환상의 메이트를 찾아보세요!">
+    <meta name="twitter:image" id="tw-image" content="https://www.checkeastpoint.com/event1/og_thumb.png">
+    <script>
+    // Immediately set OG meta based on ?lang= param (runs before crawlers read DOM)
+    (function() {
+        var params = new URLSearchParams(window.location.search);
+        var lang = params.get('lang');
+        if (!lang) {
+            var bl = (navigator.language || '').split('-')[0].toLowerCase();
+            if (bl === 'ja') lang = 'ja';
+            else if (bl !== 'ko') lang = 'en';
+            else lang = 'ko';
+        }
+        var ogData = {
+            ko: {
+                title: '나의 진짜 여행 자아는? 여행 생존 유형 테스트',
+                desc: '분명 즐거우려고 간 여행인데... 10가지 상황으로 내 여행 생존 유형과 환상의 메이트를 찾아보세요!',
+                image: 'https://www.checkeastpoint.com/event1/og_thumb.png',
+                locale: 'ko_KR'
+            },
+            en: {
+                title: 'What\'s Your True Travel Persona? Travel Survival Type Test',
+                desc: 'I went on a trip to have fun... but why do I want to go home? Discover your travel survival type!',
+                image: 'https://www.checkeastpoint.com/event1/og_thumb_en.png',
+                locale: 'en_US'
+            },
+            ja: {
+                title: '私の本当の旅行タイプは？旅行生存タイプ診断',
+                desc: '楽しむための旅行のはずだったのに…10の状況であなたの旅行生存タイプと最高のパートナーを見つけよう！',
+                image: 'https://www.checkeastpoint.com/event1/og_thumb_ja.png',
+                locale: 'ja_JP'
+            }
+        };
+        var d = ogData[lang] || ogData['ko'];
+        var setContent = function(id, val) { var el = document.getElementById(id); if (el) el.setAttribute('content', val); };
+        setContent('og-title', d.title);
+        setContent('og-desc', d.desc);
+        setContent('og-image', d.image);
+        setContent('tw-title', d.title);
+        setContent('tw-desc', d.desc);
+        setContent('tw-image', d.image);
+        // Update locale
+        var localeEl = document.querySelector('meta[property="og:locale"]');
+        if (localeEl) localeEl.setAttribute('content', d.locale);
+    })();
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

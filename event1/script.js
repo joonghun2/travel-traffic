@@ -200,8 +200,13 @@ let currentLang = 'ko';
 let finalResultType = null;
 
 function getBestLanguage() {
-    const browserLang = (navigator.language || navigator.userLanguage).split('-')[0].toLowerCase();
     const supported = ['ko', 'en', 'ja'];
+    // Check URL param first (from shared links)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    if (urlLang && supported.includes(urlLang)) return urlLang;
+    // Fallback to browser language
+    const browserLang = (navigator.language || navigator.userLanguage).split('-')[0].toLowerCase();
     return supported.includes(browserLang) ? browserLang : 'en';
 }
 
@@ -420,6 +425,8 @@ function renderResultData() {
 function getShareUrl() {
     const url = new URL(window.location.href);
     if (finalResultType) url.searchParams.set('result', finalResultType);
+    // Include lang param so the recipient sees OG content in the correct language
+    url.searchParams.set('lang', currentLang);
     return url.toString();
 }
 
@@ -436,9 +443,18 @@ function getShareText() {
         if (currentLang === 'en') return 'Take the East Asia Travel Survival Test!';
         return '동아시아 여행 생존 유형 테스트 해보세요!';
     }
-    if (currentLang === 'ja') return `私は「${title}」！あなたと旅行したら最高？それとも最悪？テストしてみて！`;
-    if (currentLang === 'en') return `I'm "${title}"! Are we a travel match or total chaos? Take the test!`;
-    return `난 "${title}"! 우리는 여행 가면 환상일까 환장일까? 테스트 해보기 👉`;
+    
+    const resData = results[finalResultType][currentLang] || results[finalResultType]['en'];
+    const bestHeader = (currentLang === 'ja') ? '💚 最高のパートナー: ' : (currentLang === 'en' ? '💚 Best Mate: ' : '💚 환상의 여행 메이트: ');
+    const worstHeader = (currentLang === 'ja') ? '💔 最悪のパートナー: ' : (currentLang === 'en' ? '💔 Worst Mate: ' : '💔 환장의 여행 메이트: ');
+
+    if (currentLang === 'ja') {
+        return `私の旅行タイプは「${title}」！\n\n"${resData.desc}"\n\n${bestHeader}${resData.bestMate}\n${worstHeader}${resData.worstMate}\n\n診断はこちら 👇`;
+    }
+    if (currentLang === 'en') {
+        return `My travel persona is "${title}"!\n\n"${resData.desc}"\n\n${bestHeader}${resData.bestMate}\n${worstHeader}${resData.worstMate}\n\nTake the test here 👇`;
+    }
+    return `나의 여행 자아는 "${title}"!\n\n"${resData.desc}"\n\n${bestHeader}${resData.bestMate}\n${worstHeader}${resData.worstMate}\n\n테스트 해보기 👇`;
 }
 
 function shareNative() {
@@ -479,17 +495,18 @@ function shareKakao() {
     if (window.Kakao && window.Kakao.isInitialized()) {
         const shareUrl = getShareUrl();
         const resultTitle = getResultTitlePlain();
-        const title = resultTitle
-            ? ((currentLang === 'ja') ? `私は「${resultTitle}」！` : (currentLang === 'en' ? `I'm "${resultTitle}"!` : `난 "${resultTitle}"!`))
-            : ((currentLang === 'ja') ? '東アジア旅行生存タイプテスト' : (currentLang === 'en' ? 'East Asia Travel Survival Test' : '동아시아 여행 생존 유형 테스트'));
-        const desc = (currentLang === 'ja') ? 'あなたと旅行したら最高？それとも最悪？テストしてみて！' : (currentLang === 'en' ? 'Are we a travel match or total chaos? Take the test!' : '우리는 여행 가면 환상일까 환장일까? 테스트 해보기!');
+        const resData = results[finalResultType][currentLang] || results[finalResultType]['en'];
+        const title = (currentLang === 'ja') ? `私は「${resultTitle}」！` : (currentLang === 'en' ? `I'm "${resultTitle}"!` : `나의 여행 자아는 "${resultTitle}"!`);
+        
+        const bestHeader = (currentLang === 'ja') ? '💚 最高のパートナー: ' : (currentLang === 'en' ? '💚 Best Mate: ' : '💚 환상의 메이트: ');
+        const desc = `${resData.desc}\n\n${bestHeader}${resData.bestMate}`;
         
         Kakao.Share.sendDefault({
             objectType: 'feed',
             content: {
                 title: title,
                 description: desc,
-                imageUrl: 'https://www.checkeastpoint.com/event1/og_thumb.png',
+                imageUrl: (currentLang === 'ja') ? 'https://www.checkeastpoint.com/event1/og_thumb_ja.png' : (currentLang === 'en' ? 'https://www.checkeastpoint.com/event1/og_thumb_en.png' : 'https://www.checkeastpoint.com/event1/og_thumb.png'),
                 link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
             },
             buttons: [{
