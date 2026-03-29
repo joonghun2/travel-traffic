@@ -195,6 +195,7 @@ const results = {
 
 let currentQ = 0;
 let scores = { type1: 0, type2: 0, type3: 0, type4: 0 };
+let answers = []; // stores 'A' or 'B' for each answered question
 let currentLang = 'ko';
 let finalResultType = null;
 
@@ -230,14 +231,20 @@ function initTest() {
     document.getElementById('btn-start')?.addEventListener('click', () => {
         currentQ = 0;
         scores = { type1: 0, type2: 0, type3: 0, type4: 0 };
+        answers = [];
         renderQuestion();
         switchView('view-landing', 'view-question');
     });
 
     document.getElementById('btn-opt-A')?.addEventListener('click', () => handleAnswer('A'));
     document.getElementById('btn-opt-B')?.addEventListener('click', () => handleAnswer('B'));
+    document.getElementById('btn-back')?.addEventListener('click', handleBack);
     document.getElementById('btn-restart')?.addEventListener('click', (e) => {
         e.preventDefault();
+        // Clear result param from URL
+        const url = new URL(window.location.href);
+        url.searchParams.delete('result');
+        window.history.replaceState({}, '', url);
         location.reload();
     });
     
@@ -291,16 +298,48 @@ function updateStepDots(currentIndex) {
     }
 }
 
+function handleBack() {
+    if (currentQ <= 0) return;
+    // Remove last answer's scores
+    const prevAns = answers.pop();
+    currentQ--;
+    const q = questions[currentQ];
+    const scoreKeys = (prevAns === 'A') ? q.scoreA : q.scoreB;
+    scoreKeys.forEach(type => scores[type]--);
+    renderQuestion();
+    updateBackButton();
+}
+
+function updateBackButton() {
+    const btn = document.getElementById('btn-back');
+    if (!btn) return;
+    btn.style.display = currentQ > 0 ? 'flex' : 'none';
+}
+
 function handleAnswer(opt) {
     const q = questions[currentQ];
     const scoreKeys = (opt === 'A') ? q.scoreA : q.scoreB;
     scoreKeys.forEach(type => scores[type]++);
+    answers.push(opt);
 
     currentQ++;
     if (currentQ < questions.length) {
         renderQuestion();
+        updateBackButton();
     } else {
         showResult();
+    }
+}
+
+function showAdByLang() {
+    const cpAd = document.getElementById('coupang-ad');
+    const klAd = document.getElementById('klook-ad');
+    if (currentLang === 'ko') {
+        if (cpAd) cpAd.style.display = 'block';
+        if (klAd) klAd.style.display = 'none';
+    } else {
+        if (cpAd) cpAd.style.display = 'none';
+        if (klAd) klAd.style.display = 'block';
     }
 }
 
@@ -311,17 +350,7 @@ function showResult() {
     setTimeout(() => {
         calculateAndRenderResult();
         switchView('view-loading', 'view-result');
-        
-        // Display appropriate affiliate ad based on language
-        const cpAd = document.getElementById('coupang-ad');
-        const klAd = document.getElementById('klook-ad');
-        if (currentLang === 'ko') {
-            if (cpAd) cpAd.style.display = 'block';
-            if (klAd) klAd.style.display = 'none';
-        } else {
-            if (cpAd) cpAd.style.display = 'none';
-            if (klAd) klAd.style.display = 'block';
-        }
+        showAdByLang();
 
         setTimeout(() => {
             animateSlideUp('#chemistry-section', 0);
@@ -352,6 +381,15 @@ function calculateAndRenderResult() {
     }
     
     finalResultType = winner;
+    // Update URL with result so sharing includes the result
+    const url = new URL(window.location.href);
+    url.searchParams.set('result', finalResultType);
+    window.history.replaceState({}, '', url);
+    renderResultData();
+}
+
+function calculateAndRenderResult_direct() {
+    // Used when loading from shared URL — result type already set
     renderResultData();
 }
 
@@ -379,10 +417,16 @@ function renderResultData() {
     }
 }
 
+function getShareUrl() {
+    const url = new URL(window.location.href);
+    if (finalResultType) url.searchParams.set('result', finalResultType);
+    return url.toString();
+}
+
 function shareNative() {
     const title = 'Travel Personality Test';
     const text = (currentLang === 'ja') ? '相性バッチリ？それとも最悪？テストして確認しよう！' : (currentLang === 'en' ? 'Are we a travel match or total chaos? Take the test!' : '우리는 여행 가면 환상일까 환장일까? 👉 친구에게 테스트 공유하기');
-    const url = window.location.href;
+    const url = getShareUrl();
     if (navigator.share) {
         navigator.share({ title, text, url }).catch(console.error);
     } else {
@@ -394,13 +438,13 @@ function shareNative() {
 }
 
 function shareX() {
-    const url = window.location.href;
+    const url = getShareUrl();
     const text = (currentLang === 'ja') ? '私の旅行ペルソナを確認してみて！' : (currentLang === 'en' ? 'Check out my travel persona!' : '나의 여행 자아를 확인해 보세요!');
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
 }
 
 function shareReddit() {
-    const url = window.location.href;
+    const url = getShareUrl();
     const title = (currentLang === 'ja') ? '旅行生存タイプテスト' : (currentLang === 'en' ? 'Travel Survival Test' : '여행 생존 유형 테스트');
     window.open(`https://www.reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`, '_blank');
 }
@@ -415,6 +459,7 @@ function showToast(message) {
 
 function shareKakao() {
     if (window.Kakao && window.Kakao.isInitialized()) {
+        const shareUrl = getShareUrl();
         const title = (currentLang === 'ja') ? '東アジア旅行生存タイプテスト' : (currentLang === 'en' ? 'East Asia Travel Survival Test' : '동아시아 여행 생존 유형 테스트');
         const desc = (currentLang === 'ja') ? '自分でも知らなかった本当の旅行ペルソナ！' : (currentLang === 'en' ? 'Find out your true travel persona!' : '나도 몰랐던 나의 진짜 여행 자아는?');
         
@@ -423,12 +468,12 @@ function shareKakao() {
             content: {
                 title: title,
                 description: desc,
-                imageUrl: 'https://www.checkeastpoint.com/img/event1_og_thumbnail.png',
-                link: { mobileWebUrl: window.location.href, webUrl: window.location.href },
+                imageUrl: 'https://www.checkeastpoint.com/event1/og_thumb.png',
+                link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
             },
             buttons: [{
-                title: (currentLang === 'ja') ? 'テストを始める' : (currentLang === 'en' ? 'Take the test' : '테스트 하러 가기'),
-                link: { mobileWebUrl: window.location.href, webUrl: window.location.href },
+                title: (currentLang === 'ja') ? '결과 확인하기' : (currentLang === 'en' ? 'See my result' : '내 결과 확인하기'),
+                link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
             }],
         });
     } else {

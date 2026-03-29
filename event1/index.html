@@ -14,7 +14,7 @@
     <meta property="og:title" data-i18n="event1.og_title" content="나의 진짜 여행 자아는? 여행 생존 유형 테스트">
     <meta property="og:description" data-i18n="event1.og_desc"
         content="분명 즐거우려고 간 여행인데... 10가지 상황으로 내 여행 생존 유형과 환상의 메이트를 찾아보세요!">
-    <meta property="og:image" content="https://www.checkeastpoint.com/img/bg_seoul_gwanghwamun.png">
+    <meta property="og:image" content="https://www.checkeastpoint.com/event1/og_thumb.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -104,6 +104,9 @@
 
             <div class="question-content">
                 <div class="q-section-header">
+                    <button id="btn-back" class="btn-back" aria-label="이전 질문으로" style="display:none">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                    </button>
                     <span class="q-num" id="q-num">Q1.</span>
                 </div>
                 <h2 id="q-title"></h2>
@@ -126,7 +129,7 @@
         <div id="view-result" class="view-section hidden">
 
             <div id="capture-area" class="result-card">
-                <span class="result-eyebrow" data-i18n="event1.result.eyebrow">✦ 나의 진짜 여행 자아는? ✦</span>
+                <span class="result-eyebrow">✦ <span data-i18n="event1.result.eyebrow">나의 진짜 여행 자아는?</span> ✦</span>
                 <h1 id="result-title" class="result-title"></h1>
                 <span id="result-emoji" class="result-emoji"></span>
                 <div class="result-desc-box">
