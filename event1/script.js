@@ -423,14 +423,32 @@ function getShareUrl() {
     return url.toString();
 }
 
+function getResultTitlePlain() {
+    if (!finalResultType) return '';
+    const resData = results[finalResultType][currentLang] || results[finalResultType]['en'];
+    return resData.title.replace(/<br\s*\/?>/gi, ' ').trim();
+}
+
+function getShareText() {
+    const title = getResultTitlePlain();
+    if (!title) {
+        if (currentLang === 'ja') return '東アジア旅行生存タイプテスト、やってみて！';
+        if (currentLang === 'en') return 'Take the East Asia Travel Survival Test!';
+        return '동아시아 여행 생존 유형 테스트 해보세요!';
+    }
+    if (currentLang === 'ja') return `私は「${title}」！あなたと旅行したら最高？それとも最悪？テストしてみて！`;
+    if (currentLang === 'en') return `I'm "${title}"! Are we a travel match or total chaos? Take the test!`;
+    return `난 "${title}"! 우리는 여행 가면 환상일까 환장일까? 테스트 해보기 👉`;
+}
+
 function shareNative() {
-    const title = 'Travel Personality Test';
-    const text = (currentLang === 'ja') ? '相性バッチリ？それとも最悪？テストして確認しよう！' : (currentLang === 'en' ? 'Are we a travel match or total chaos? Take the test!' : '우리는 여행 가면 환상일까 환장일까? 👉 친구에게 테스트 공유하기');
+    const title = (currentLang === 'ja') ? '旅行生存タイプテスト' : (currentLang === 'en' ? 'Travel Survival Test' : '여행 생존 유형 테스트');
+    const text = getShareText();
     const url = getShareUrl();
     if (navigator.share) {
         navigator.share({ title, text, url }).catch(console.error);
     } else {
-        navigator.clipboard.writeText(url).then(() => {
+        navigator.clipboard.writeText(`${text}\n${url}`).then(() => {
             const msg = (currentLang === 'ja') ? 'リンクがコピーされました！' : (currentLang === 'en' ? 'Link copied!' : '링크가 복사되었어요!');
             showToast(msg);
         });
@@ -439,7 +457,7 @@ function shareNative() {
 
 function shareX() {
     const url = getShareUrl();
-    const text = (currentLang === 'ja') ? '私の旅行ペルソナを確認してみて！' : (currentLang === 'en' ? 'Check out my travel persona!' : '나의 여행 자아를 확인해 보세요!');
+    const text = getShareText();
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
 }
 
@@ -460,8 +478,11 @@ function showToast(message) {
 function shareKakao() {
     if (window.Kakao && window.Kakao.isInitialized()) {
         const shareUrl = getShareUrl();
-        const title = (currentLang === 'ja') ? '東アジア旅行生存タイプテスト' : (currentLang === 'en' ? 'East Asia Travel Survival Test' : '동아시아 여행 생존 유형 테스트');
-        const desc = (currentLang === 'ja') ? '自分でも知らなかった本当の旅行ペルソナ！' : (currentLang === 'en' ? 'Find out your true travel persona!' : '나도 몰랐던 나의 진짜 여행 자아는?');
+        const resultTitle = getResultTitlePlain();
+        const title = resultTitle
+            ? ((currentLang === 'ja') ? `私は「${resultTitle}」！` : (currentLang === 'en' ? `I'm "${resultTitle}"!` : `난 "${resultTitle}"!`))
+            : ((currentLang === 'ja') ? '東アジア旅行生存タイプテスト' : (currentLang === 'en' ? 'East Asia Travel Survival Test' : '동아시아 여행 생존 유형 테스트'));
+        const desc = (currentLang === 'ja') ? 'あなたと旅行したら最高？それとも最悪？テストしてみて！' : (currentLang === 'en' ? 'Are we a travel match or total chaos? Take the test!' : '우리는 여행 가면 환상일까 환장일까? 테스트 해보기!');
         
         Kakao.Share.sendDefault({
             objectType: 'feed',
@@ -472,7 +493,7 @@ function shareKakao() {
                 link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
             },
             buttons: [{
-                title: (currentLang === 'ja') ? '결과 확인하기' : (currentLang === 'en' ? 'See my result' : '내 결과 확인하기'),
+                title: (currentLang === 'ja') ? 'テストしてみる' : (currentLang === 'en' ? 'Take the test' : '테스트 해보기'),
                 link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
             }],
         });
