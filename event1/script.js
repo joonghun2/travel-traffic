@@ -232,6 +232,7 @@ function initTest() {
     }
 
     initStepDots();
+    showAdByLang();
     
     document.getElementById('btn-start')?.addEventListener('click', () => {
         currentQ = 0;
@@ -337,13 +338,27 @@ function handleAnswer(opt) {
 }
 
 function showAdByLang() {
-    const cpAd = document.getElementById('coupang-ad');
+    const kakaoLanding = document.getElementById('kakao-ad-landing');
+    const kakaoResult = document.getElementById('kakao-ad-result');
     const klAd = document.getElementById('klook-ad');
-    if (currentLang === 'ko') {
-        if (cpAd) cpAd.style.display = 'block';
+
+    const isKo = (currentLang === 'ko');
+
+    if (isKo) {
+        if (kakaoLanding) {
+            kakaoLanding.style.display = 'block';
+            const ins = kakaoLanding.querySelector('ins');
+            if (ins) ins.style.display = 'block';
+        }
+        if (kakaoResult) {
+            kakaoResult.style.display = 'block';
+            const ins = kakaoResult.querySelector('ins');
+            if (ins) ins.style.display = 'block';
+        }
         if (klAd) klAd.style.display = 'none';
     } else {
-        if (cpAd) cpAd.style.display = 'none';
+        if (kakaoLanding) kakaoLanding.style.display = 'none';
+        if (kakaoResult) kakaoResult.style.display = 'none';
         if (klAd) klAd.style.display = 'block';
     }
 }

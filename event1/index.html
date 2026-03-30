@@ -19,6 +19,8 @@
       gtag('config', 'G-EJC5R171MS');
     </script>
 
+    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
     <!-- Open Graph for SNS Sharing (dynamically set by lang param) -->
     <meta property="og:type" content="website">
     <meta property="og:url" id="og-url" content="https://www.checkeastpoint.com/event1">
@@ -156,6 +158,14 @@
                 <h1 data-i18n="event1.landing.title">여행<br>생존 유형 테스트</h1>
                 <p data-i18n="event1.landing.desc">나도 몰랐던 나의 진짜 여행 자아.<br>10가지 상황으로 내 여행 생존 유형과<br>환상의 메이트를 찾아보세요.</p>
                 <button id="btn-start" class="btn-pill" data-i18n="event1.landing.btn">테스트 시작하기 ✈️</button>
+                
+                <!-- Kakao Landing Ad (ko only) -->
+                <div id="kakao-ad-landing" style="display: none; margin-top: 2rem;">
+                  <ins class="kakao_ad_area" style="display:none;"
+                    data-ad-unit = "DAN-NWvd2ocId4r515qV"
+                    data-ad-width = "300"
+                    data-ad-height = "250"></ins>
+                </div>
             </div>
         </div>
 
@@ -216,12 +226,12 @@
 
             <!-- Affiliate Ads Area -->
             <div id="affiliate-ads" style="margin: 30px 0; text-align: center; width: 100%;">
-                <!-- Coupang (ko) -->
-                <div id="coupang-ad" style="display: none; width: 100%; overflow: hidden; border-radius: 12px;">
-                    <script src="https://ads-partners.coupang.com/g.js"></script>
-                    <script>
-                        new PartnersCoupang.G({ "id": 976071, "trackingCode": "AF7289134", "subId": null, "template": "carousel", "width": "100%", "height": "140" });
-                    </script>
+                <!-- Kakao Result Ad (ko) -->
+                <div id="kakao-ad-result" style="display: none; margin: 0 auto;">
+                    <ins class="kakao_ad_area" style="display:none;"
+                      data-ad-unit = "DAN-NWvd2ocId4r515qV"
+                      data-ad-width = "300"
+                      data-ad-height = "250"></ins>
                 </div>
 
                 <!-- Klook (en, ja) -->
