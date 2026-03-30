@@ -85,6 +85,14 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://www.checkeastpoint.com/en/event1/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/event1/index.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/event1/index.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/event1/index.html"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://www.checkeastpoint.com/en/privacy.html</loc>
     <priority>0.2</priority>
   </url>
@@ -144,6 +152,11 @@
     <priority>0.7</priority>
     <changefreq>weekly</changefreq>
   </url>
+  <url>
+    <loc>https://www.checkeastpoint.com/ko/event1/index.html</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 
   <!-- ===== Japanese (JA) Pages ===== -->
   <url>
@@ -194,6 +207,11 @@
   <url>
     <loc>https://www.checkeastpoint.com/ja/blog_list.html</loc>
     <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.checkeastpoint.com/ja/event1/index.html</loc>
+    <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
 

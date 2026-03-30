@@ -21,6 +21,7 @@ export default async function handler(req, res) {
         'privacy.html',
         'terms.html',
         'blog_list.html',
+        'event1/index.html',
         'admin.html',
         'admin_blog.html'
     ];
