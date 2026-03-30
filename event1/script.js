@@ -345,6 +345,7 @@ function showAdByLang() {
     const isKo = (currentLang === 'ko');
 
     if (isKo) {
+        // Show Kakao ads, hide Klook
         if (kakaoLanding) {
             kakaoLanding.style.display = 'block';
             const ins = kakaoLanding.querySelector('ins');
@@ -357,6 +358,7 @@ function showAdByLang() {
         }
         if (klAd) klAd.style.display = 'none';
     } else {
+        // Hide Kakao ads, show Klook
         if (kakaoLanding) kakaoLanding.style.display = 'none';
         if (kakaoResult) kakaoResult.style.display = 'none';
         if (klAd) klAd.style.display = 'block';
@@ -551,7 +553,10 @@ function shareInsta() {
 
 window.addEventListener('languageChanged', (e) => {
     currentLang = e.detail?.lang || e.detail || 'ko';
-    const landingView = document.getElementById('view-landing');
+    
+    // Sync ads with the new language
+    showAdByLang();
+
     const questionView = document.getElementById('view-question');
     const resultView = document.getElementById('view-result');
     if (questionView?.classList.contains('active')) {
