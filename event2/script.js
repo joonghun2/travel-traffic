@@ -77,9 +77,34 @@
         document.getElementById('kakao-ad-result').style.display = currentLang === 'ko' ? 'block' : 'none';
         document.getElementById('klook-ad-result').style.display = currentLang !== 'ko' ? 'block' : 'none';
         
+        if (currentLang !== 'ko') {
+            setTimeout(injectKlookAds, 100);
+        }
+        
         document.getElementById('share-btn-text').innerText = d.sharing.shareBtn;
         document.getElementById('restart-btn-text').innerText = d.sharing.restartBtn;
         document.getElementById('cta-text').innerText = d.result.cta;
+    }
+
+    function injectKlookAds() {
+        if (document.getElementById('klook-script-injected')) return;
+        
+        const kStart = document.getElementById('klook-ad-start');
+        const kRes = document.getElementById('klook-ad-result');
+        
+        if (kStart) {
+            kStart.innerHTML = '<ins class="klk-aff-widget" data-adid="1247538" data-lang="" data-currency="" data-cardH="126" data-padding="92" data-lgH="470" data-edgeValue="655" data-cid="-1" data-tid="-1" data-amount="3" data-prod="dynamic_widget"><a href="//www.klook.com/">Klook.com</a></ins>';
+        }
+        if (kRes) {
+            kRes.innerHTML = '<ins class="klk-aff-widget" data-adid="1247538" data-lang="" data-currency="" data-cardH="126" data-padding="92" data-lgH="470" data-edgeValue="655" data-cid="-1" data-tid="-1" data-amount="3" data-prod="dynamic_widget"><a href="//www.klook.com/">Klook.com</a></ins>';
+        }
+
+        const script = document.createElement('script');
+        script.id = 'klook-script-injected';
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = 'https://affiliate.klook.com/widget/fetch-iframe-init.js';
+        document.body.appendChild(script);
     }
 
     function switchView(viewId) {
@@ -316,7 +341,7 @@
                 content: {
                     title: data.title,
                     description: data.text,
-                    imageUrl: 'https://www.checkeastpoint.com/event1/og_thumb.png', // Fallback, could be custom event2 image
+                    imageUrl: (currentLang === 'ja') ? 'https://www.checkeastpoint.com/event2/og_thumb_ja.png' : (currentLang === 'en' ? 'https://www.checkeastpoint.com/event2/og_thumb_en.png' : 'https://www.checkeastpoint.com/event2/og_thumb.png'),
                     link: { mobileWebUrl: data.url, webUrl: data.url },
                 },
                 buttons: [{
