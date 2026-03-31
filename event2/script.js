@@ -72,8 +72,10 @@
             card.innerText = d.gateway.cities[cName];
         });
 
+        document.getElementById('kakao-ad-start').style.display = currentLang === 'ko' ? 'block' : 'none';
+        document.getElementById('klook-ad-start').style.display = currentLang !== 'ko' ? 'block' : 'none';
         document.getElementById('kakao-ad-result').style.display = currentLang === 'ko' ? 'block' : 'none';
-        document.getElementById('klook-ad').style.display = currentLang !== 'ko' ? 'block' : 'none';
+        document.getElementById('klook-ad-result').style.display = currentLang !== 'ko' ? 'block' : 'none';
         
         document.getElementById('share-btn-text').innerText = d.sharing.shareBtn;
         document.getElementById('restart-btn-text').innerText = d.sharing.restartBtn;
