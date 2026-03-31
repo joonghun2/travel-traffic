@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
+Allow: /event1/
+Allow: /event2/
+Allow: /links.html
 
 Sitemap: https://www.checkeastpoint.com/sitemap.xml
 
