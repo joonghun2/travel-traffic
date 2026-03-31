@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Local Survival Test | CheckEastPoint</title>
+    
+    <!-- Open Graph for SNS Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" id="og-url" content="https://www.checkeastpoint.com/event2">
+    <meta property="og:title" id="og-title" content="The Local Survival Test">
+    <meta property="og:description" id="og-desc" content="Survive the local experience.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"></script>
+    <script>
+        // Kakao SDK 초기화 (App Key 필요 시 event1의 key 재사용)
+        (function() {
+            if (window.Kakao && !window.Kakao.isInitialized()) {
+                try { Kakao.init('YOUR_KAKAO_APP_KEY'); } catch(e) {}
+            }
+        })();
+    </script>
+    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+</head>
+
+<body class="event-body dark-theme">
+
+    <div class="red-flash" id="flash-overlay"></div>
+    <img src="https://via.placeholder.com/300x300/ff0000/ffffff?text=WASTED" id="meme-popup" class="meme-popup">
+
+    <nav id="navbar" class="neon-nav">
+        <a href="../index.html" class="logo">트래블 트래픽</a>
+        <div class="lang-switcher">
+            <select id="lang-selector">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </nav>
+
+    <div class="event-container main-container" id="main-container">
+
+        <!-- 1. Gateway View -->
+        <div id="view-gateway" class="view-section active">
+            <div class="gateway-content">
+                <span class="eyebrow neon-text-pink" id="gw-eyebrow">Are you an insider?</span>
+                <h1 class="neon-text-blue" id="gw-title">The Local Survival Test</h1>
+                <p id="gw-desc">Choose a city and test your local survival skills.</p>
+                
+                <div class="city-grid">
+                    <button class="city-card neon-border-blue" data-city="seoul">Seoul</button>
+                    <button class="city-card neon-border-cyan" data-city="busan">Busan</button>
+                    <button class="city-card neon-border-pink" data-city="osaka">Osaka</button>
+                    <button class="city-card neon-border-green" data-city="kyoto">Kyoto</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Question View -->
+        <div id="view-question" class="view-section hidden">
+            <div class="q-progress-wrapper neon-border-current">
+                <div class="q-progress-fill" id="q-progress-fill"></div>
+            </div>
+
+            <div class="question-content">
+                <div class="q-header">
+                    <button id="btn-back" class="btn-back" aria-label="Back">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                    </button>
+                    <span class="q-num neon-text-current" id="q-num">Q1.</span>
+                    <span class="current-city-tag" id="q-city-tag">Seoul</span>
+                </div>
+                <h2 id="q-title" class="q-title"></h2>
+                <div class="options-container">
+                    <button class="btn-option neon-btn" id="btn-opt-A"></button>
+                    <button class="btn-option neon-btn" id="btn-opt-B"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Result View -->
+        <div id="view-result" class="view-section hidden">
+            
+            <div id="capture-area" class="result-card neon-border-current">
+                <h2 class="result-eyebrow" id="result-eyebrow">Your Survival Score</h2>
+                <div class="slot-machine-box">
+                    <span id="score-counter" class="score-counter neon-text-current">0</span>
+                    <span class="score-unit">PTS</span>
+                </div>
+                <!-- Adding tier badge -->
+                <div class="tier-badge" id="tier-badge">Tier 2</div>
+                <h1 id="result-title" class="result-title">Calculating...</h1>
+                <p id="result-desc" class="result-desc"></p>
+                <div class="watermark">✦ powered by checkeastpoint ✦</div>
+            </div>
+
+            <!-- Affiliate Ads Area -->
+            <div id="affiliate-ads" class="ads-container">
+                <!-- Kakao Ad -->
+                <div id="kakao-ad-result" class="ad-wrapper hidden">
+                    <ins class="kakao_ad_area" style="display:none;"
+                      data-ad-unit = "DAN-NWvd2ocId4r515qV"
+                      data-ad-width = "300"
+                      data-ad-height = "250"></ins>
+                </div>
+
+                <!-- Klook Ad -->
+                <div id="klook-ad" class="ad-wrapper hidden">
+                    <ins class="klk-aff-widget" data-adid="1246145" data-lang="" data-currency="" data-cardH="126"
+                        data-padding="92" data-lgH="470" data-edgeValue="655" data-cid="-1" data-tid="-1"
+                        data-amount="3" data-prod="dynamic_widget"><a href="//www.klook.com/">Klook.com</a></ins>
+                    <script type="text/javascript">
+                        (function (d, sc, u) {
+                            var s = d.createElement(sc),
+                                p = d.getElementsByTagName(sc)[0];
+                            s.type = "text/javascript";
+                            s.async = true;
+                            s.src = u;
+                            p.parentNode.insertBefore(s, p);
+                        })(document, "script", "https://affiliate.klook.com/widget/fetch-iframe-init.js");
+                    </script>
+                </div>
+            </div>
+
+            <!-- Action Buttons for Viral Sharing -->
+            <div id="action-buttons" class="action-buttons-container">
+                <button id="btn-viral-cta" class="btn-share-large neon-btn-alt">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" />
+                    </svg>
+                    <span id="share-btn-text">Share Results</span>
+                </button>
+
+                <a href="#" id="btn-restart" class="restart-link">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M1 4v6h6M23 20v-6h-6M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" />
+                    </svg>
+                    <span id="restart-btn-text">Restart Test</span>
+                </a>
+
+                <div class="sns-row">
+                    <button class="sns-mini" id="btn-share-kakao" title="Kakao">💬</button>
+                    <button class="sns-mini" id="btn-share-insta" title="Insta (Save Image)">📸</button>
+                    <button class="sns-mini" id="btn-share-x" title="X (Twitter)">𝕏</button>
+                    <button class="sns-mini" id="btn-share-reddit" title="Reddit">🧡</button>
+                </div>
+            </div>
+            
+            <div style="height: 100px;"></div> <!-- Bottom Spacing for Sticky CTA -->
+
+            <!-- Sticky CTA -->
+            <a href="https://checkeastpoint.com/links.html" class="btn-ultimate-cta" id="btn-links-cta">
+                <span id="cta-text">🔥 CHECK ALL USEFUL LINKS 🔥</span>
+            </a>
+        </div>
+
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="i18n.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
