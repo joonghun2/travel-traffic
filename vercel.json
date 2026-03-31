@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/event1", "destination": "/event1.html" },
+    { "source": "/links", "destination": "/links.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/admin_blog", "destination": "/admin_blog.html" },
     { "source": "/sitemap.xml", "destination": "/api/sitemap" }
