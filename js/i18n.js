@@ -37,7 +37,7 @@ window.translations = {
         "event1.og_title": "나의 진짜 여행 자아는? 여행 생존 유형 테스트",
         "event1.og_desc": "분명 즐거우려고 간 여행인데... 7가지 상황으로 내 여행 생존 유형과 환상의 메이트를 찾아보세요!",
         "event1.landing.eyebrow": "분명 즐거우려고 간 여행인데... 아, 집 가고 싶다.",
-        "event1.landing.title": "동아시아 여행<br>생존 유형 테스트",
+        "event1.landing.title": "여행<br>생존 유형 테스트",
         "event1.landing.desc": "나도 몰랐던 나의 진짜 여행 자아.<br>7가지 상황으로 내 여행 생존 유형과<br>환상의 메이트를 찾아보세요.",
         "event1.landing.btn": "내 여행 자아 확인하기",
         "event1.loading": "나의 여행 자아 분석 중...",
@@ -113,7 +113,7 @@ window.translations = {
         "footer.contact": "문의하기",
 
         "hero.title": "떠나기 직전 1초, <br> <span>당신의 여행 컨디션이 바뀝니다.</span>",
-        "hero.desc": "실시간 혼잡도 확인으로 더 여유롭고 완벽한 출발을 준비하세요.",
+        "hero.subtitle": "실시간 혼잡도 확인으로 더 여유롭고 완벽한 출발을 준비하세요.",
         "hero.btn": "지금 확인하기",
         "hero.guide_btn": "여행 가이드 보기",
         "hero.blog_btn": "에디터 블로그",
@@ -829,7 +829,7 @@ window.translations = {
         "event1.og_title": "What is Your True Travel Persona?",
         "event1.og_desc": "Are you a planner or a free spirit? Take the travel survival test and find out!",
         "event1.landing.eyebrow": "Travel is supposed to be fun... but I want to go home.",
-        "event1.landing.title": "East Asia Travel<br>Survival Test",
+        "event1.landing.title": "Travel<br>Survival Test",
         "event1.landing.desc": "Discover your true travel persona.<br>Find your survival type and<br>ideal mate through 7 situations.",
         "event1.landing.btn": "Find My Travel Persona",
         "event1.loading": "Analyzing your travel soul...",
@@ -905,7 +905,7 @@ window.translations = {
         "footer.contact": "Contact Us",
 
         "hero.title": "One second before you leave, <br> <span>your travel condition changes.</span>",
-        "hero.desc": "Prepare for a more relaxed and perfect departure with real-time congestion checks.",
+        "hero.subtitle": "Prepare for a more relaxed and perfect departure with real-time congestion checks.",
         "hero.btn": "Explore Now",
         "hero.guide_btn": "View Travel Guides",
         "hero.blog_btn": "Editor Blog",
@@ -1636,7 +1636,7 @@ window.translations = {
         "event1.og_title": "本当の旅行のプレソナは？旅行生存テスト",
         "event1.og_desc": "楽しいはずの旅行が…7つの状況からあなたの本当の旅行ペルソナと理想のメイトを見つけよう！",
         "event1.landing.eyebrow": "楽しいはずの旅行が…あ、家に帰りたい。",
-        "event1.landing.title": "東アジア旅行<br>生存タイプテスト",
+        "event1.landing.title": "旅行<br>生存タイプテスト",
         "event1.landing.desc": "自分でも知らなかった本当の旅行ペルソナ。<br>7つの状況であなたの生存タイプと<br>理想のメイトを見つけましょう。",
         "event1.landing.btn": "旅行ペルソナを確認する",
         "event1.loading": "旅行の魂を分析中...",
@@ -2507,6 +2507,12 @@ function setLanguage(lang) {
         sel.value = lang;
     });
 
+    // Show/Hide Kakao Ad on Main Page
+    const kakaoAdMain = document.getElementById('kakao-ad-main');
+    if (kakaoAdMain) {
+        kakaoAdMain.style.display = (lang === 'ko') ? 'block' : 'none';
+    }
+
     // Custom event for dynamic parts like cards
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
 }
@@ -2543,8 +2549,14 @@ async function syncGuidesFromDatabase() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Detect stored lang
-    const savedLang = localStorage.getItem('travel_traffic_lang') || 'ko';
+    // Detect stored lang or browser language
+    let savedLang = localStorage.getItem('travel_traffic_lang');
+    if (!savedLang) {
+        const bl = (navigator.language || '').split('-')[0].toLowerCase();
+        if (bl === 'ja') savedLang = 'ja';
+        else if (bl === 'en') savedLang = 'en';
+        else savedLang = 'ko'; // Default to Korean
+    }
 
     // Add event listeners to all selectors
     document.querySelectorAll('#lang-selector').forEach(sel => {
