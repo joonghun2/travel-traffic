@@ -2510,7 +2510,26 @@ function setLanguage(lang) {
     // Show/Hide Kakao Ad on Main Page
     const kakaoAdMain = document.getElementById('kakao-ad-main');
     if (kakaoAdMain) {
-        kakaoAdMain.style.display = (lang === 'ko') ? 'block' : 'none';
+        if (lang === 'ko') {
+            kakaoAdMain.style.display = 'block';
+            if (!kakaoAdMain.hasAttribute('data-ad-loaded')) {
+                kakaoAdMain.innerHTML = `
+                    <ins class="kakao_ad_area" style="display:none;"
+                        data-ad-unit="DAN-dtTgaQki8TeayQUI"
+                        data-ad-width="300"
+                        data-ad-height="250"></ins>
+                `;
+                const adScript = document.createElement('script');
+                adScript.src = '//t1.daumcdn.net/kas/static/ba.min.js';
+                adScript.async = true;
+                kakaoAdMain.appendChild(adScript);
+                kakaoAdMain.setAttribute('data-ad-loaded', 'true');
+            }
+        } else {
+            kakaoAdMain.style.display = 'none';
+            kakaoAdMain.innerHTML = '';
+            kakaoAdMain.removeAttribute('data-ad-loaded');
+        }
     }
 
     // Custom event for dynamic parts like cards
