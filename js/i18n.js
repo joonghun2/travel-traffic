@@ -2532,6 +2532,31 @@ function setLanguage(lang) {
         }
     }
 
+    // Show/Hide Kakao Ad on City Pages (Seoul, Jeju, Busan, Osaka, Kyoto)
+    const kakaoAdCity = document.getElementById('kakao-ad-city');
+    if (kakaoAdCity) {
+        if (lang === 'ko') {
+            kakaoAdCity.style.display = 'block';
+            if (!kakaoAdCity.hasAttribute('data-ad-loaded')) {
+                kakaoAdCity.innerHTML = `
+                    <ins class="kakao_ad_area" style="display:none;"
+                        data-ad-unit="DAN-3AoY158moOHDzJXk"
+                        data-ad-width="320"
+                        data-ad-height="100"></ins>
+                `;
+                const adScript = document.createElement('script');
+                adScript.src = '//t1.daumcdn.net/kas/static/ba.min.js';
+                adScript.async = true;
+                kakaoAdCity.appendChild(adScript);
+                kakaoAdCity.setAttribute('data-ad-loaded', 'true');
+            }
+        } else {
+            kakaoAdCity.style.display = 'none';
+            kakaoAdCity.innerHTML = '';
+            kakaoAdCity.removeAttribute('data-ad-loaded');
+        }
+    }
+
     // Custom event for dynamic parts like cards
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
 }
