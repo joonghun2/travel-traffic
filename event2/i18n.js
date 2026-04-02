@@ -3,6 +3,7 @@ window.i18nData = {
         sharing: {
             shareBtn: "결과 공유하기",
             restartBtn: "테스트 다시하기",
+            otherTestsBtn: "다른 테스트 해보기",
             copySuccess: "링크가 복사되었습니다!",
             imgSuccess: "결과 이미지가 저장되었습니다!",
             testBtn: "테스트 해보기",
@@ -103,6 +104,7 @@ window.i18nData = {
         sharing: {
             shareBtn: "Share Results",
             restartBtn: "Restart Test",
+            otherTestsBtn: "Try other tests",
             copySuccess: "Link copied to clipboard!",
             imgSuccess: "Image saved successfully!",
             testBtn: "Take the test",
@@ -203,6 +205,7 @@ window.i18nData = {
         sharing: {
             shareBtn: "結果をシェア",
             restartBtn: "もう一度診断",
+            otherTestsBtn: "他のテストも受ける",
             copySuccess: "リンクをコピーしました！",
             imgSuccess: "画像を保存しました！",
             testBtn: "診断してみる",
