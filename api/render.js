@@ -99,7 +99,7 @@ export default async function handler(req, res) {
                 // GEO-targeted English SEO copy with target keywords
                 if (filepath === 'index.html') {
                     title = 'Check Live Peak Crowd Times – Seoul, Jeju, Osaka, Kyoto | CheckEastPoint';
-                    desc = 'Check live peak crowd times for top East Asia travel spots. Avoid crowds in Seoul, Jeju Island, Osaka & Kyoto, and plan the perfect trip.';
+                    desc = 'Check live peak crowd times for top travel spots. Avoid crowds in Seoul, Jeju Island, Osaka & Kyoto, and plan the perfect trip.';
                 } else if (filepath === 'seoul.html') {
                     title = 'Seoul Crowd Times – Check Live Busyness at Hongdae, Gangnam & More';
                     desc = 'Check live peak crowd times in Seoul. Real-time busyness for Hongdae, Myeongdong, Gangnam, N Seoul Tower and more. Plan your visit to avoid the rush.';
@@ -113,16 +113,16 @@ export default async function handler(req, res) {
                     title = 'Kyoto Crowd Times – Check Live Busyness at Arashiyama, Fushimi & More';
                     desc = 'Check live peak crowd times in Kyoto. Discover the best times to visit Fushimi Inari, Arashiyama Bamboo Grove, Kinkakuji and Gion without the crowds.';
                 } else if (filepath === 'guides.html') {
-                    title = 'East Asia Travel Guides – Best Times to Visit Without Crowds | CheckEastPoint';
+                    title = 'Travel Guides – Best Times to Visit Without Crowds | CheckEastPoint';
                     desc = 'Browse expert travel guides for Seoul, Jeju, Osaka, and Kyoto. Learn the peak crowd times and best hours to explore must-see attractions crowd-free.';
                 } else if (filepath === 'faq.html') {
                     title = 'FAQ – When Are Popular Spots Least Crowded? | CheckEastPoint';
-                    desc = 'Answers to common questions about peak crowd times in East Asia. Find out when Seoul, Jeju, Osaka, and Kyoto tourist spots are least busy.';
+                    desc = 'Answers to common questions about peak crowd times. Find out when Seoul, Jeju, Osaka, and Kyoto tourist spots are least busy.';
                 } else if (filepath === 'blog_list.html') {
-                    title = 'Travel Blog – Tips to Avoid Peak Crowds in East Asia | CheckEastPoint';
+                    title = 'Travel Blog – Tips to Avoid Peak Crowds | CheckEastPoint';
                     desc = 'Real traveler insights on avoiding peak crowd times in Seoul, Jeju, Osaka, and Kyoto. Plan smarter and enjoy popular attractions without the wait.';
                 } else {
-                    title = 'CheckEastPoint – Check Live Crowd Times for East Asia Travel';
+                    title = 'CheckEastPoint – Check Live Crowd Times for Travel';
                     desc = 'Real-time crowd information for top travel destinations in South Korea and Japan. Check live peak times before you visit.';
                 }
             } else if (lang === 'ja') {
@@ -228,10 +228,8 @@ export default async function handler(req, res) {
             }
         );
 
-        // Inject hreflang tags
         const baseUrl = 'https://www.checkeastpoint.com';
-        let canonicalPath = `/${filepath}`;
-        if (filepath === 'index.html') canonicalPath = '/';
+        let canonicalPath = filepath === 'index.html' ? '' : (filepath.startsWith('/') ? filepath : `/${filepath}`);
         
         let queryString = '';
         const queryEntries = Object.entries(req.query).filter(([k]) => k !== 'lang' && k !== 'filepath');
@@ -241,11 +239,16 @@ export default async function handler(req, res) {
             queryString = '?' + queryParams.toString();
         }
         
-        const cleanUrlEn = `${baseUrl}/en${canonicalPath === '/' ? '' : canonicalPath}${queryString}`.replace(/\/+/g, '/').replace('https:/w', 'https://w');
-        const cleanUrlKo = `${baseUrl}/ko${canonicalPath === '/' ? '' : canonicalPath}${queryString}`.replace(/\/+/g, '/').replace('https:/w', 'https://w');
-        const cleanUrlJa = `${baseUrl}/ja${canonicalPath === '/' ? '' : canonicalPath}${queryString}`.replace(/\/+/g, '/').replace('https:/w', 'https://w');
+        const cleanUrlEn = `${baseUrl}/en${canonicalPath}${queryString}`;
+        const cleanUrlKo = `${baseUrl}/ko${canonicalPath}${queryString}`;
+        const cleanUrlJa = `${baseUrl}/ja${canonicalPath}${queryString}`;
+        const cleanUrlSelf = `${baseUrl}/${lang}${canonicalPath}${queryString}`;
+
+        // Remove the static canonical tag from the HTML so we can inject the correct dynamic one
+        html = html.replace(/<link\s+rel=["']canonical["'][^>]*>/i, '');
 
         const hreflangTags = `
+            <link rel="canonical" href="${cleanUrlSelf}" />
             <link rel="alternate" hreflang="ko" href="${cleanUrlKo}" />
             <link rel="alternate" hreflang="en" href="${cleanUrlEn}" />
             <link rel="alternate" hreflang="ja" href="${cleanUrlJa}" />
