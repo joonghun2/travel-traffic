@@ -324,6 +324,9 @@
     </a>
 
   </main>
+  
+  <!-- Kakao Ad (ko only) -->
+  <div id="kakao-ad-links" style="display: none; text-align: center; margin-bottom: 2rem;"></div>
 
   <footer class="footer">
     <p>© 2026 CheckEastPoint. All rights reserved.</p>
@@ -370,6 +373,32 @@
     document.querySelectorAll('[data-' + lang + ']').forEach(el => {
       el.textContent = el.getAttribute('data-' + lang);
     });
+
+    // Handle Kakao Ad injection
+    const adContainer = document.getElementById('kakao-ad-links');
+    if (adContainer) {
+      if (lang === 'ko') {
+        adContainer.style.display = 'block';
+        if (!adContainer.hasAttribute('data-ad-loaded')) {
+          adContainer.innerHTML = `
+            <ins class="kakao_ad_area" style="display:none;"
+              data-ad-unit="DAN-nAEtkiAtLikOY2ra"
+              data-ad-width="320"
+              data-ad-height="100"></ins>
+          `;
+          const script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = '//t1.daumcdn.net/kas/static/ba.min.js';
+          script.async = true;
+          adContainer.appendChild(script);
+          adContainer.setAttribute('data-ad-loaded', 'true');
+        }
+      } else {
+        adContainer.style.display = 'none';
+        adContainer.innerHTML = '';
+        adContainer.removeAttribute('data-ad-loaded');
+      }
+    }
 
     // Save language preference
     localStorage.setItem('preferred_lang', lang);
