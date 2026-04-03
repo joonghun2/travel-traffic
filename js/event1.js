@@ -244,8 +244,8 @@ function restartTest() {
 function shareViralCTA() {
     const shareData = {
         title: currentLang === 'en' 
-            ? 'East Asia Travel Survival Test' 
-            : '동아시아 여행 생존 유형 테스트',
+            ? 'Travel Survival Test' 
+            : '여행 생존 유형 테스트',
         text: currentLang === 'en'
             ? "Are we a perfect travel match or total chaos? Take the test! 👉"
             : "우리 여행 가면 찰떡일까, 원수일까? 테스트 해보기 👉",
@@ -276,7 +276,7 @@ function shareKakao() {
         Kakao.Share.sendDefault({
             objectType: 'feed',
             content: {
-                title: currentLang === 'en' ? 'East Asia Travel Survival Test' : '동아시아 여행 생존 유형 테스트',
+                title: currentLang === 'en' ? 'Travel Survival Test' : '여행 생존 유형 테스트',
                 description: currentLang === 'en' 
                     ? 'Find out your true travel persona! Take the free test now!' 
                     : '나의 진짜 여행 자아는? 지금 무료로 확인해보세요!',

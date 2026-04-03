@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-3755818526713804">
+    <link rel="canonical" href="https://www.checkeastpoint.com/about.html">
+    <meta name="robots" content="index, follow">
+    
+    <title data-i18n="about.title">로컬 인사이더: Leo | 트래블 트래픽 운영자 소개</title>
+    <meta name="description" content="10년 차 로컬 인사이더 Leo가 직접 전하는 진짜 여행 이야기. 한국과 일본 생활 10년의 노하우가 담긴 Travel Traffic의 설립 철학과 가치를 확인하세요.">
+    
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <style>
+        /* Specific Styles for About Page (Media-Free Premium) */
+        .about-hero {
+            padding: 12rem 8% 6rem;
+            background: linear-gradient(135deg, #FF385C 0%, #D70466 100%);
+            color: #FFFFFF;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero::before {
+            content: "LOCAL INSIDER";
+            position: absolute;
+            top: 10%;
+            right: -5%;
+            font-size: 15vw;
+            font-weight: 900;
+            opacity: 0.05;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .about-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #FFFFFF !important;
+            text-shadow: none;
+        }
+
+        .about-hero h1 span {
+            color: rgba(255,255,255,0.7) !important;
+            text-shadow: none;
+        }
+
+        .about-hero p {
+            font-size: 1.4rem;
+            max-width: 600px;
+            color: rgba(255,255,255,0.9) !important;
+            text-shadow: none;
+        }
+
+        .about-main {
+            max-width: 900px;
+            margin: -4rem auto 6rem;
+            background: #FFFFFF;
+            padding: 5rem 10%;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .about-section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--text-main);
+            letter-spacing: -1px;
+        }
+
+        .about-content {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: var(--text-muted);
+        }
+
+        .about-content b {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .services-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem 2rem;
+            background: #F7F7F7;
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .service-item:hover {
+            background: #FFFFFF;
+            border-color: var(--primary);
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(255,56,92,0.1);
+        }
+
+        .service-icon {
+            font-size: 1.8rem;
+        }
+
+        .service-item h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .about-cta {
+            text-align: center;
+            padding: 6rem 5%;
+            background: #F7F7F7;
+            border-radius: 40px;
+            margin: 0 5% 5rem;
+        }
+
+        .about-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .about-cta-btn {
+            display: inline-block;
+            background: var(--text-main);
+            color: #FFFFFF;
+            padding: 1.2rem 3rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .about-cta-btn:hover {
+            transform: scale(1.05);
+            background: #000000;
+        }
+
+        @media (max-width: 768px) {
+            .about-hero { padding-top: 10rem; }
+            .about-main { margin-top: -2rem; padding: 3rem 8%; }
+            .about-cta { margin: 0 0 4rem; border-radius: 0; }
+        }
+    </style>
+    <script src="js/i18n.js"></script>
+    <script src="js/script.js" defer></script>
+</head>
+
+<body class="ott-theme">
+
+    <nav id="navbar">
+        <a href="index.html" class="logo" data-i18n="nav.brand">트래블 트래픽</a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-i18n="nav.home">홈</a></li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.korea">한국</a>
+                <div class="nav-dropdown-content">
+                    <a href="seoul.html" data-i18n="nav.seoul">서울 (한국)</a>
+                    <a href="jeju.html" data-i18n="nav.jeju">제주 (한국)</a>
+                    <a href="busan.html" data-i18n="nav.busan">부산 (한국)</a>
+                </div>
+            </li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.japan">일본</a>
+                <div class="nav-dropdown-content">
+                    <a href="osaka.html" data-i18n="nav.osaka">오사카 (일본)</a>
+                    <a href="kyoto.html" data-i18n="nav.kyoto">교토 (일본)</a>
+                </div>
+            </li>
+            <li class="nav-dropdown">
+                <a href="#" data-i18n="nav.tips">여행 팁</a>
+                <div class="nav-dropdown-content">
+                    <a href="guides.html" data-i18n="nav.guides">여행 가이드</a>
+                    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+                    <a href="route.html" data-i18n="nav.planner">최적 여행 동선 플래너</a>
+                </div>
+            </li>
+            <li><a href="about.html" data-i18n="nav.about" class="active">About Us</a></li>
+        </ul>
+
+        <div class="lang-switcher">
+            <select id="lang-selector">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
+    </nav>
+
+    <header class="about-hero">
+        <div class="hero-content">
+            <h1 data-i18n="about.hero.title"><span>다시 찾아낸 여행의 설렘</span></h1>
+            <p data-i18n="about.hero.subtitle">떠나기 전, 조금 더 여유로운 여행을 시작해보세요.</p>
+        </div>
+    </header>
+
+    <main class="about-main">
+        <section>
+            <h2 class="about-section-title" data-i18n="about.title"></h2>
+            <div class="about-content" data-i18n="about.content">
+                <!-- i18n content will be injected here -->
+            </div>
+        </section>
+
+        <section style="margin-top: 6rem;">
+            <h2 class="about-section-title" data-i18n="about.services.intro">Travel Traffic 제공하는 서비스</h2>
+            <div class="services-list">
+                <a href="index.html" class="service-item">
+                    <h3 data-i18n="about.service1.title">여행 명소 혼잡도 확인 (홈)</h3>
+                </a>
+                <a href="route.html" class="service-item">
+                    <h3 data-i18n="about.service2.title">최적 여행 동선 플래너</h3>
+                </a>
+                <a href="guides.html" class="service-item">
+                    <h3 data-i18n="about.service3.title">명소 가이드</h3>
+                </a>
+                <a href="faq.html" class="service-item">
+                    <h3 data-i18n="about.service4.title">한국·일본 여행 FAQ</h3>
+                </a>
+                <a href="links.html" class="service-item">
+                    <h3 data-i18n="about.service5.title">여행 이벤트 & 심리 테스트</h3>
+                </a>
+            </div>
+        </section>
+    </main>
+
+
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Travel Traffic. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html" data-i18n="nav.about">About Us</a></li>
+                <li><a href="privacy.html" data-i18n="footer.privacy">개인정보처리방침</a></li>
+                <li><a href="terms.html" data-i18n="footer.terms">이용약관</a></li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+</html>

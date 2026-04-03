@@ -22,6 +22,8 @@ export default async function handler(req, res) {
         'terms.html',
         'blog_list.html',
         'event1/index.html',
+        'event2/index.html',
+        'links.html',
         'admin.html',
         'admin_blog.html'
     ];

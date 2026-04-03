@@ -1319,12 +1319,11 @@ nav.scrolled {
 .cta-google {
     background: #faf4c0;
     color: #2f2f35;
-    border: 1px solid ##faf4c0;
+    border: 1px solid #faf4c0;
 }
 
 .cta-google:hover {
     background: #E5CD00;
-    ;
     color: #E5CD00;
 }
 
