@@ -85,7 +85,7 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
     other: {
-      'naver-site-verification': process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION || '',
+      'naver-site-verification': 'b6b53f6062442ad6d7797a47e163a2fda6edd7f5',
     },
   },
 };
@@ -125,6 +125,20 @@ export default function RootLayout({
         <ThemeProvider>
           <TranslationProvider>{children}</TranslationProvider>
         </ThemeProvider>
+        {/* Google Analytics (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-EJC5R171MS"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-EJC5R171MS');
+          `}
+        </Script>
+        {/* Kakao AdFit SDK */}
         <Script
           src="//t1.kakaocdn.net/kas/static/ba.min.js"
           strategy="afterInteractive"
