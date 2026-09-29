@@ -1,12 +1,11 @@
+# robots.txt for https://www.checkeastpoint.com/
 User-agent: *
 Allow: /
+Allow: /play
 Allow: /event1/
 Allow: /event2/
-Allow: /links.html
+
+# Disallow internal API endpoints from search index
+Disallow: /api/
 
 Sitemap: https://www.checkeastpoint.com/sitemap.xml
-
-# Disallow administrative pages
-Disallow: /admin.html
-Disallow: /admin_blog.html
-Disallow: /api/

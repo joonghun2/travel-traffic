@@ -2,318 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- ===== English (EN) Pages ===== -->
+  <!-- 메인 실시간 혼잡도 대시보드 -->
   <url>
-    <loc>https://www.checkeastpoint.com/en</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.checkeastpoint.com/en"/>
+    <loc>https://www.checkeastpoint.com/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/?lang=ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.checkeastpoint.com/"/>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>hourly</changefreq>
     <priority>1.0</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/seoul.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/seoul.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/seoul.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/seoul.html"/>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/jeju.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/jeju.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/jeju.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/jeju.html"/>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/osaka.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/osaka.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/osaka.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/osaka.html"/>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/kyoto.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/kyoto.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/kyoto.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/kyoto.html"/>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/busan.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/busan.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/busan.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/busan.html"/>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/route.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/route.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/route.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/route.html"/>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/guides.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/guides.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/guides.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/guides.html"/>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/faq.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/faq.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/faq.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/faq.html"/>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/blog_list.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/blog_list.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/blog_list.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/blog_list.html"/>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/event1/index.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/event1/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/event1/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/event1/index.html"/>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/event2/index.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/event2/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/event2/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/event2/index.html"/>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/links.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/en/links.html"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/ko/links.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/ja/links.html"/>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/privacy.html</loc>
-    <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/en/terms.html</loc>
-    <priority>0.2</priority>
   </url>
 
-  <!-- ===== Korean (KO) Pages ===== -->
+  <!-- 놀이 & 테스트 허브 -->
   <url>
-    <loc>https://www.checkeastpoint.com/ko</loc>
-    <priority>1.0</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/seoul.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/jeju.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/osaka.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/kyoto.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/busan.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/route.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/guides.html</loc>
-    <priority>0.8</priority>
+    <loc>https://www.checkeastpoint.com/play</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/play"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/play?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/play?lang=ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.checkeastpoint.com/play"/>
+    <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/faq.html</loc>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/blog_list.html</loc>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/event1/index.html</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/event2/index.html</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ko/links.html</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
-  <!-- ===== Japanese (JA) Pages ===== -->
+  <!-- 심리테스트 1: 여행 생존 유형 테스트 -->
   <url>
-    <loc>https://www.checkeastpoint.com/ja</loc>
-    <priority>1.0</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/seoul.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/jeju.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/osaka.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/kyoto.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/busan.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/route.html</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/guides.html</loc>
+    <loc>https://www.checkeastpoint.com/event1/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/event1/index.html?lang=ko"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/event1/index.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/event1/index.html?lang=ja"/>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/faq.html</loc>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/blog_list.html</loc>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/event1/index.html</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/event2/index.html</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.checkeastpoint.com/ja/links.html</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
   </url>
 
-  <!-- ===== Guide Pages (EN / KO / JA) ===== -->
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide1.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide1.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide1.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide2.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide2.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide2.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide3.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide3.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide3.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide4.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide4.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide4.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide5.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide5.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide5.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide6.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide6.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide6.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide7.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide7.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide7.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide8.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide8.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide8.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide9.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide9.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide9.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide10.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide10.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide10.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide11.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide11.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide11.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide12.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide12.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide12.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide13.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide13.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide13.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide14.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide14.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide14.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide15.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide15.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide15.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide16.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide16.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide16.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide17.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide17.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide17.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide18.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide18.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide18.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide19.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide19.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide19.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide20.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide20.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide20.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/en/guides/guide21.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ko/guides/guide21.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.checkeastpoint.com/ja/guides/guide21.html</loc><priority>0.6</priority></url>
+  <!-- 심리테스트 2: 로컬 찐바이브 생존 테스트 -->
+  <url>
+    <loc>https://www.checkeastpoint.com/event2/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.checkeastpoint.com/event2/index.html?lang=ko"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.checkeastpoint.com/event2/index.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.checkeastpoint.com/event2/index.html?lang=ja"/>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
 </urlset>
