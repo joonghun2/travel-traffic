@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Default Dark Mode */
+  :root,
+  html.dark {
+    --bg-main: #0b0f19;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --card-bg: rgba(18, 24, 38, 0.8);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --subtle-bg: rgba(255, 255, 255, 0.04);
+    --subtle-border: rgba(255, 255, 255, 0.1);
+    --header-bg: rgba(11, 15, 25, 0.85);
+  }
+
+  /* Light Mode */
+  html.light {
+    --bg-main: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --card-border: rgba(15, 23, 42, 0.08);
+    --subtle-bg: rgba(15, 23, 42, 0.03);
+    --subtle-border: rgba(15, 23, 42, 0.08);
+    --header-bg: rgba(255, 255, 255, 0.88);
+  }
+
+  /* Accent Color Variants */
+  :root[data-accent='crimson'],
+  html[data-accent='crimson'] {
+    --brand-primary: #ff385c;
+    --brand-hover: #e01e43;
+    --brand-glow: rgba(255, 56, 92, 0.35);
+  }
+
+  :root[data-accent='ocean'],
+  html[data-accent='ocean'] {
+    --brand-primary: #0ea5e9;
+    --brand-hover: #0284c7;
+    --brand-glow: rgba(14, 165, 233, 0.35);
+  }
+
+  :root[data-accent='emerald'],
+  html[data-accent='emerald'] {
+    --brand-primary: #10b981;
+    --brand-hover: #059669;
+    --brand-glow: rgba(16, 185, 129, 0.35);
+  }
+
+  :root[data-accent='violet'],
+  html[data-accent='violet'] {
+    --brand-primary: #8b5cf6;
+    --brand-hover: #7c3aed;
+    --brand-glow: rgba(139, 92, 246, 0.35);
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html.dark ::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+/* Semantic Theme Helpers */
+.theme-card {
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.theme-subtle {
+  background-color: var(--subtle-bg);
+  border-color: var(--subtle-border);
+}
+
+.theme-header {
+  background-color: var(--header-bg);
+  border-color: var(--card-border);
+}
+
+.brand-btn-gradient {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-hover));
+  box-shadow: 0 4px 20px var(--brand-glow);
+}
+
+/* Mobile App-like Helpers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.pb-safe {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+@keyframes pulse-radar {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(0.95); opacity: 0; }
+}
+
+.animate-radar {
+  animation: pulse-radar 2.2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+

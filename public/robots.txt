@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /event1/
+Allow: /event2/
+Allow: /links.html
+
+Sitemap: https://www.checkeastpoint.com/sitemap.xml
+
+# Disallow administrative pages
+Disallow: /admin.html
+Disallow: /admin_blog.html
+Disallow: /api/
