@@ -27,29 +27,27 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.checkeastpoint.com'),
   title: {
-    default: 'SeoulLive - 서울 실시간 혼잡도 & 스마트 길찾기 가이드',
-    template: '%s | SeoulLive',
+    default: 'Check East Point | 서울 주요 관광지 실시간 혼잡도 확인',
+    template: '%s | Check East Point',
   },
   description:
-    '서울시 실시간 도시데이터 121개 주요 핫스팟 기반 인파 혼잡 지수, 대기시간, 현위치 기준 이동 시간 및 도보 우회 히든 스팟 안내',
+    '경복궁, 명동, 홍대, 성수 등 서울 주요 관광지와 핫플레이스의 실시간 혼잡도를 확인하세요. 쾌적한 서울 여행과 나들이 일정을 위한 실시간 가이드 서비스.',
   keywords: [
     '서울 실시간 혼잡도',
-    '서울 관광지 인파',
-    '서울 여행 코스',
+    '서울 관광지 혼잡도',
+    '서울 여행 혼잡도',
     '경복궁 혼잡도',
-    '홍대 실시간',
-    '성수동 실시간',
-    '명동 실시간',
-    '서울 도보 길찾기',
-    '서울 우회 명소',
-    '서울시 실시간 도시데이터',
-    'CheckEastPoint',
+    '성수동 혼잡도',
+    '홍대 혼잡도',
+    '명동 혼잡도',
+    'Check East Point',
+    '체크이스트포인트',
   ],
-  authors: [{ name: 'SeoulLive' }],
-  creator: 'SeoulLive',
-  publisher: 'SeoulLive',
+  authors: [{ name: 'Check East Point' }],
+  creator: 'Check East Point',
+  publisher: 'Check East Point',
   alternates: {
-    canonical: 'https://www.checkeastpoint.com',
+    canonical: 'https://www.checkeastpoint.com/',
     languages: {
       'ko': 'https://www.checkeastpoint.com/',
       'en': 'https://www.checkeastpoint.com/?lang=en',
@@ -57,19 +55,28 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'SeoulLive - 서울 실시간 혼잡도 & 스마트 길찾기',
+    title: 'Check East Point | 서울 주요 관광지 실시간 혼잡도 확인',
     description:
-      '서울시 공공데이터 기반 121개 핫스팟 실시간 혼잡도와 대기시간, 내 위치 기준 이동 시간 안내',
-    url: 'https://www.checkeastpoint.com',
-    siteName: 'SeoulLive',
+      '경복궁, 명동, 홍대, 성수 등 서울 주요 관광지와 핫플레이스의 실시간 혼잡도를 확인하세요. 쾌적한 서울 여행과 나들이 일정을 위한 실시간 가이드 서비스.',
+    url: 'https://www.checkeastpoint.com/',
+    siteName: 'Check East Point',
     locale: 'ko_KR',
     type: 'website',
+    images: [
+      {
+        url: 'https://www.checkeastpoint.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Check East Point - 서울 주요 관광지 실시간 혼잡도 확인',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SeoulLive - 서울 실시간 혼잡도 & 스마트 길찾기',
+    title: 'Check East Point | 서울 주요 관광지 실시간 혼잡도 확인',
     description:
-      '서울시 공공데이터 기반 121개 핫스팟 실시간 혼잡도와 대기시간, 내 위치 기준 이동 시간 안내',
+      '경복궁, 명동, 홍대, 성수 등 서울 주요 관광지와 핫플레이스의 실시간 혼잡도를 확인하세요. 쾌적한 서울 여행과 나들이 일정을 위한 실시간 가이드 서비스.',
+    images: ['https://www.checkeastpoint.com/og-image.png'],
   },
   robots: {
     index: true,
@@ -93,10 +100,11 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'SeoulLive',
-  url: 'https://www.checkeastpoint.com',
+  name: 'Check East Point',
+  alternateName: ['체크이스트포인트', 'SeoulLive', 'Travel Traffic'],
+  url: 'https://www.checkeastpoint.com/',
   description:
-    '서울시 실시간 도시데이터 121개 핫스팟 기반 인파 혼잡 지수 및 스마트 길찾기 가이드',
+    '경복궁, 명동, 홍대, 성수 등 서울 주요 관광지와 핫플레이스의 실시간 혼잡도를 확인하세요. 쾌적한 서울 여행과 나들이 일정을 위한 실시간 가이드 서비스.',
   applicationCategory: 'TravelApplication',
   operatingSystem: 'All',
   offers: {
