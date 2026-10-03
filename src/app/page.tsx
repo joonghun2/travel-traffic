@@ -234,12 +234,44 @@ export default function Home() {
     searchSelectedSpotId,
   ]);
 
+  // 5. Progressive rendering: initial 18 cards to keep initial DOM < 600 nodes and LCP blazing fast
+  const [visibleCount, setVisibleCount] = useState<number>(18);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  // Reset visibleCount whenever filters or sort change
+  useEffect(() => {
+    setVisibleCount(18);
+  }, [activeDistrict, activeCategory, crowdFilter, sortByDistance, searchSelectedSpotId]);
+
+  // Progressive infinite scroll loading via IntersectionObserver
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount((prev) => Math.min(prev + 18, displaySpots.length));
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [displaySpots.length]);
+
+  const visibleSpots = useMemo(() => {
+    return displaySpots.slice(0, visibleCount);
+  }, [displaySpots, visibleCount]);
+
   // Handle autocomplete spot selection
   const handleSelectSpot = (spot: LiveSpotMetric) => {
     setSearchSelectedSpotId(spot.id);
     setActiveDistrict('all');
     setActiveCategory('all');
     setCrowdFilter('all');
+    setVisibleCount(18);
     // Scroll to spot card
     setTimeout(() => {
       spotListRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -400,22 +432,31 @@ export default function Home() {
 
         {/* Spot Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-          {displaySpots.map((spot, index) => {
-            const isMiddle = index === Math.floor(displaySpots.length / 2);
+          {visibleSpots.map((spot, index) => {
+            const isMiddle = index === Math.floor(visibleSpots.length / 2);
             return (
               <React.Fragment key={spot.id}>
                 {isMiddle && <NativeInFeedAdCard />}
-                <CrowdCard
-                  spot={spot}
-                  userLat={userLocation?.lat}
-                  userLng={userLocation?.lng}
-                />
+                <div className="content-visibility-auto">
+                  <CrowdCard
+                    spot={spot}
+                    userLat={userLocation?.lat}
+                    userLng={userLocation?.lng}
+                  />
+                </div>
               </React.Fragment>
             );
           })}
           {/* Bottom Ad Card: Aligned naturally inside the grid */}
-          {displaySpots.length > 0 && <NativeInFeedAdCard />}
+          {visibleSpots.length > 0 && <NativeInFeedAdCard />}
         </div>
+
+        {/* Sentinel for progressive infinite scroll loading */}
+        {visibleCount < displaySpots.length && (
+          <div ref={sentinelRef} className="h-12 w-full flex items-center justify-center py-4">
+            <span className="w-5 h-5 border-2 border-blue-600/30 border-t-blue-600 rounded-full animate-spin" aria-hidden="true" />
+          </div>
+        )}
 
         {/* Empty state */}
         {displaySpots.length === 0 && (
