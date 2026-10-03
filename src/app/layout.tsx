@@ -148,6 +148,11 @@ export default function RootLayout({
             gtag('config', 'G-EJC5R171MS');
           `}
         </Script>
+        {/* Kakao AdFit Script - lazyOnload */}
+        <Script
+          src="//t1.kakaocdn.net/kas/static/ba.min.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );

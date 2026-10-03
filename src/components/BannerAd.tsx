@@ -1,24 +1,24 @@
+'use client';
+
 import React from 'react';
 import KakaoAdfitBanner from './KakaoAdfitBanner';
 
 interface BannerAdProps {
-  slotId?: string;
-  format?: 'horizontal' | 'rectangle' | 'in-feed';
   className?: string;
 }
 
 /**
- * Kakao AdFit real banner ad unit.
+ * Kakao AdFit 320x100 Horizontal Banner Unit
+ * - Unit: DAN-3AoY158moOHDzJXk
  */
-export default function BannerAd({
-  className = '',
-}: BannerAdProps) {
+export default function BannerAd({ className = '' }: BannerAdProps) {
   return (
-    <KakaoAdfitBanner
-      unit="DAN-3AoY158moOHDzJXk"
-      width="320"
-      height="100"
-      className={className}
-    />
+    <div className={`w-full flex justify-center items-center py-2 ${className}`}>
+      <KakaoAdfitBanner
+        unit="DAN-3AoY158moOHDzJXk"
+        width="320"
+        height="100"
+      />
+    </div>
   );
 }

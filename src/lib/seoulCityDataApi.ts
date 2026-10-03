@@ -25,11 +25,11 @@ function congestionToScore(level: string, popMin: number, popMax: number): numbe
     case '여유':
       return Math.round(20 + popFactor * 15); // 20-35
     case '보통':
-      return Math.round(45 + popFactor * 10); // 45-55
+      return Math.round(45 + popFactor * 18); // 45-63
     case '약간 혼잡':
-      return Math.round(60 + popFactor * 12); // 60-72
+      return Math.round(68 + popFactor * 14); // 68-82
     case '혼잡':
-      return Math.round(75 + popFactor * 17); // 75-92
+      return Math.round(84 + popFactor * 12); // 84-96
     default:
       return 50;
   }
@@ -39,8 +39,8 @@ function congestionToStatus(level: string): CrowdStatus {
   switch (level) {
     case '여유': return 'relaxed';
     case '보통': return 'moderate';
-    case '약간 혼잡': return 'moderate';
-    case '혼잡': return 'packed';
+    case '약간 혼잡': return 'crowded';
+    case '혼잡': return 'very_crowded';
     default: return 'moderate';
   }
 }

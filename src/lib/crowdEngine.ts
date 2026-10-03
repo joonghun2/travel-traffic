@@ -16,50 +16,70 @@ export function computeLiveSpotMetric(spot: Spot, targetDate: Date = new Date())
 
   const isPeak = spot.peakHours.includes(hour);
 
-  let score = spot.baseScore;
+  let rawScore = spot.baseScore;
 
   // Peak hour adjustment
   if (isPeak) {
-    score += 18;
+    rawScore += 16;
   } else if (hour >= 0 && hour <= 6) {
     // Night/dawn lull
-    score -= 40;
+    rawScore -= 38;
   } else if (hour >= 7 && hour <= 9) {
-    score -= 15;
+    rawScore -= 18;
   } else if (hour >= 22) {
-    score -= 20;
+    rawScore -= 22;
   }
 
   // Weekend boost
   if (isWeekend) {
-    score += 10;
+    rawScore += 9;
   }
 
-  // Minute-based smooth micro-variation
+  // Minute-based smooth micro-variation per spot
   const numId = typeof spot.id === 'number' ? spot.id : String(spot.id).charCodeAt(0) || 1;
   const seed = (numId * 17 + minute * 3) % 11 - 5;
-  score = Math.max(10, Math.min(99, score + seed));
+  rawScore += seed;
 
-  // Determine status level
+  // Soft Capping (Non-linear decay above 75 to prevent 99 score saturation)
+  let score: number;
+  if (rawScore <= 75) {
+    score = Math.max(12, rawScore);
+  } else {
+    // Diminishing returns: score smoothly asymptotes towards 97-98 without clamping identically
+    const excess = rawScore - 75;
+    const compressedExcess = Math.round(22 * (1 - Math.exp(-excess / 20)));
+    score = Math.min(98, 75 + compressedExcess);
+  }
+
+  // 4-tier CrowdStatus (relaxed: 0-39, moderate: 40-69, crowded: 70-84, very_crowded: 85-100)
   let status: CrowdStatus = 'relaxed';
-  if (score > 70) {
-    status = 'packed';
+  if (score >= 85) {
+    status = 'very_crowded';
+  } else if (score >= 70) {
+    status = 'crowded';
   } else if (score >= 40) {
     status = 'moderate';
+  } else {
+    status = 'relaxed';
   }
 
   // Wait time calculation based on category & score
   let waitTimeMinutes = 0;
-  if (status === 'packed') {
-    waitTimeMinutes = Math.round(25 + ((score - 70) / 30) * 55); // 25 - 80 mins
+  const isWaitHeavy = spot.category === 'food' || spot.category === 'shopping';
+  const waitMultiplier = isWaitHeavy ? 1.2 : 0.7;
+
+  if (status === 'very_crowded') {
+    waitTimeMinutes = Math.round((35 + ((score - 85) / 13) * 35) * waitMultiplier);
+  } else if (status === 'crowded') {
+    waitTimeMinutes = Math.round((15 + ((score - 70) / 15) * 20) * waitMultiplier);
   } else if (status === 'moderate') {
-    waitTimeMinutes = Math.round(5 + ((score - 40) / 30) * 15); // 5 - 20 mins
+    waitTimeMinutes = Math.round((5 + ((score - 40) / 30) * 10) * waitMultiplier);
   } else {
-    waitTimeMinutes = Math.round((score / 40) * 5); // 0 - 5 mins
+    waitTimeMinutes = Math.round(((score / 40) * 5) * waitMultiplier);
   }
 
-  // Surge alert if score is critically high or spiking
-  const surgeAlert = score >= 82 || (isPeak && score >= 75);
+  // Surge alert is only for spiking/very crowded locations
+  const surgeAlert = score >= 90 || (isPeak && score >= 85);
 
   // Trend detection
   let trend: 'rising' | 'falling' | 'stable' = 'stable';

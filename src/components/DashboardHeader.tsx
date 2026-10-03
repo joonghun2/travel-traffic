@@ -27,12 +27,12 @@ export default function DashboardHeader({
         {/* Logo & Brand */}
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-black text-base sm:text-lg shadow-md shadow-blue-500/20">
-              S
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-black text-sm sm:text-base shadow-md shadow-blue-500/20">
+              C
             </div>
             <div className="flex items-center gap-1.5">
               <span className="font-extrabold text-gray-900 dark:text-white tracking-tight text-base sm:text-lg">
-                SeoulLive
+                Check East Point
               </span>
               <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 font-mono text-[10px] font-bold">
                 <span className="relative flex h-1.5 w-1.5" aria-hidden="true">

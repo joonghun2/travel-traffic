@@ -46,21 +46,21 @@ export async function GET(request: Request) {
                   spot.currentScore = realData.score;
                   spot.status = realData.status;
 
-                  // Recalculate wait time based on real score
-                  if (realData.status === 'packed') {
-                    spot.waitTimeMinutes = Math.round(
-                      25 + ((realData.score - 70) / 30) * 55
-                    );
+                  // Recalculate wait time based on real score & category
+                  const isWaitHeavy = spot.category === 'food' || spot.category === 'shopping';
+                  const waitMultiplier = isWaitHeavy ? 1.2 : 0.7;
+
+                  if (realData.status === 'very_crowded' || (realData.status as any) === 'packed') {
+                    spot.waitTimeMinutes = Math.round((35 + ((realData.score - 85) / 13) * 35) * waitMultiplier);
+                  } else if (realData.status === 'crowded') {
+                    spot.waitTimeMinutes = Math.round((15 + ((realData.score - 70) / 15) * 20) * waitMultiplier);
                   } else if (realData.status === 'moderate') {
-                    spot.waitTimeMinutes = Math.round(
-                      5 + ((realData.score - 40) / 30) * 15
-                    );
+                    spot.waitTimeMinutes = Math.round((5 + ((realData.score - 40) / 30) * 10) * waitMultiplier);
                   } else {
-                    spot.waitTimeMinutes = Math.round((realData.score / 40) * 5);
+                    spot.waitTimeMinutes = Math.round(((realData.score / 40) * 5) * waitMultiplier);
                   }
 
-                  spot.surgeAlert =
-                    realData.score >= 82 || (spot.isPeak && realData.score >= 75);
+                  spot.surgeAlert = realData.score >= 90 || (spot.isPeak && realData.score >= 85);
                   seoulApiCount++;
                 }
               }

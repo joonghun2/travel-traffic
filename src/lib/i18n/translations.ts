@@ -2,12 +2,12 @@ import { Lang } from '@/types';
 
 export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
   ko: {
-    'brand.title': 'SeoulLive - 서울 실시간 혼잡도 & 도보 우회 가이드',
-    'brand.subtitle': '서울시 실시간 도시데이터 기반 5분 단위 혼잡도 & 스마트 길찾기',
+    'brand.title': 'Check East Point - 서울 주요 관광지 실시간 혼잡도',
+    'brand.subtitle': '서울시 실시간 도시데이터 연동 5분 단위 혼잡 지수 & 스마트 길찾기',
 
-    'hero.badge': '서울시 공식 121개 핫스팟 실시간 도시데이터',
-    'hero.title': '서울 관광 명소 실시간 혼잡도',
-    'hero.subtitle': '서울시 121개 주요 핫스팟의 실시간 인파와 대기시간, 현위치 기준 이동 시간을 한눈에 확인하세요.',
+    'hero.badge': '서울시 실시간 공공데이터 연동',
+    'hero.title': '서울 주요 관광지 실시간 혼잡도',
+    'hero.subtitle': '서울 52개 핵심 명소의 실시간 인파와 대기시간, 현위치 기준 이동 시간을 한눈에 확인하세요.',
 
     'location.unsupported': '이 브라우저는 위치 정보를 지원하지 않습니다.',
     'location.permission_prompt': '위치 권한을 허용하시면 실시간 거리와 이동시간이 계산됩니다.',
@@ -16,6 +16,8 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
 
     'card.status.relaxed': '여유',
     'card.status.moderate': '보통',
+    'card.status.crowded': '혼잡',
+    'card.status.very_crowded': '매우 혼잡',
     'card.status.packed': '혼잡',
     'card.crowdIndex': '실시간 혼잡 지수',
     'card.waitTime': '예상 대기시간',
@@ -84,6 +86,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'category.view': '전망·야경',
     'category.attraction': '랜드마크',
 
+    'calm.title': '지금 가장 여유로운 핫스팟',
+    'calm.subtitle': '인파 걱정 없이 쾌적하게 둘러볼 수 있는 추천 명소',
+    'calm.badge': '실시간 여유',
+
     'nav.live': '혼잡도',
     'nav.play': '놀이 (심리테스트)',
     'nav.nearby': '내 주변',
@@ -132,12 +138,12 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'ad.card3.cta': '예약 및 시간표 →',
   },
   en: {
-    'brand.title': 'SeoulLive - Real-time Seoul Crowd & Escape Guide',
+    'brand.title': 'Check East Point - Real-time Seoul Crowd & Navigation Guide',
     'brand.subtitle': '5-minute real-time crowd metrics powered by Seoul Open Data',
 
-    'hero.badge': 'Seoul Official 121 Hotspots Live City Data',
-    'hero.title': 'Seoul Real-Time Tourist Crowd Index',
-    'hero.subtitle': 'Check live foot traffic, wait times, and travel distance from your location across Seoul.',
+    'hero.badge': 'Official Seoul Real-time City Data',
+    'hero.title': 'Seoul Attractions Live Crowd Tracker',
+    'hero.subtitle': 'Check live foot traffic, wait times, and travel distance from your location across 52 curated Seoul hotspots.',
 
     'location.unsupported': 'Location services are not supported by this browser.',
     'location.permission_prompt': 'Enable location access to calculate real-time distance and travel times.',
@@ -146,6 +152,8 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
 
     'card.status.relaxed': 'Relaxed',
     'card.status.moderate': 'Moderate',
+    'card.status.crowded': 'Crowded',
+    'card.status.very_crowded': 'Very Crowded',
     'card.status.packed': 'Crowded',
     'card.crowdIndex': 'Live Crowd Score',
     'card.waitTime': 'Estimated Wait',
@@ -214,6 +222,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'category.view': 'Night View & Towers',
     'category.attraction': 'Landmarks',
 
+    'calm.title': 'Most Relaxed Spots Right Now',
+    'calm.subtitle': 'Recommended places to enjoy without crowd stress',
+    'calm.badge': 'Live Relaxed',
+
     'nav.live': 'Live Crowd',
     'nav.play': 'Play & Quiz',
     'nav.nearby': 'Nearby',
@@ -262,12 +274,12 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'ad.card3.cta': 'Book Cruise →',
   },
   ja: {
-    'brand.title': 'SeoulLive - ソウルリアルタイム混雑度＆抜け道ガイド',
+    'brand.title': 'Check East Point - ソウルリアルタイム混雑度＆道案内',
     'brand.subtitle': 'ソウル市オープンデータ連動 5分間隔のリアルタイム混雑指標',
 
-    'hero.badge': 'ソウル市公式 121箇所リアルタイム都市データ',
+    'hero.badge': 'ソウル市公式 リアルタイム都市データ連動',
     'hero.title': 'ソウル人気スポットリアルタイム混雑度',
-    'hero.subtitle': 'ソウル121箇所のリアルタイム混雑度、待ち時間、現在地からの移動時間を一目で確認。',
+    'hero.subtitle': '厳選されたソウル52箇所のリアルタイム混雑度、待ち時間、現在地からの移動時間を一目で確認。',
 
     'location.unsupported': 'このブラウザは位置情報に対応していません。',
     'location.permission_prompt': '位置情報の利用を許可すると、現在地からの距離と移動時間が計算されます。',
@@ -276,6 +288,8 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
 
     'card.status.relaxed': '空いている',
     'card.status.moderate': '普通',
+    'card.status.crowded': '混雑',
+    'card.status.very_crowded': '大変混雑',
     'card.status.packed': '混雑',
     'card.crowdIndex': '混雑度指数',
     'card.waitTime': '予想待ち時間',
@@ -343,6 +357,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'category.nature': '漢江・公園',
     'category.view': '夜景・展望',
     'category.attraction': 'ランドマーク',
+
+    'calm.title': '今もっとも空いているスポット',
+    'calm.subtitle': '混雑を避けて快適に過ごせるおすすめの名所',
+    'calm.badge': 'リアルタイム空き',
 
     'nav.live': '混雑度',
     'nav.play': '遊び・診断',

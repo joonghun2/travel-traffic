@@ -1,4 +1,4 @@
-export type CrowdStatus = 'relaxed' | 'moderate' | 'packed';
+export type CrowdStatus = 'relaxed' | 'moderate' | 'crowded' | 'very_crowded' | 'packed';
 
 export type CityId = 'seoul';
 

@@ -28,9 +28,12 @@ import Link from 'next/link';
 const NativeInFeedAdCard = dynamic(() => import('@/components/NativeInFeedAdCard'), {
   ssr: false,
 });
+const BannerAd = dynamic(() => import('@/components/BannerAd'), {
+  ssr: false,
+});
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
 
   // Baseline spots metric state
   const [spots, setSpots] = useState<LiveSpotMetric[]>(() =>
@@ -234,6 +237,14 @@ export default function Home() {
     searchSelectedSpotId,
   ]);
 
+  // Calm spots highlight (Top 4 spots with lowest crowd score)
+  const calmSpots = useMemo(() => {
+    return [...spotsWithDistance]
+      .filter((s) => s.status === 'relaxed' || s.status === 'moderate')
+      .sort((a, b) => a.currentScore - b.currentScore)
+      .slice(0, 4);
+  }, [spotsWithDistance]);
+
   // 5. Progressive rendering: initial 18 cards to keep initial DOM < 600 nodes and LCP blazing fast
   const [visibleCount, setVisibleCount] = useState<number>(18);
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -361,6 +372,55 @@ export default function Home() {
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16" ref={spotListRef}>
         <h2 className="sr-only">{t('hero.title')} - {t('filter.count')}</h2>
+
+        {/* Real-time Calm Spots Recommendation Strip */}
+        {calmSpots.length > 0 && (
+          <section className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-cyan-500/10 border border-emerald-500/20 dark:border-emerald-500/30">
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-600 text-white shadow-xs">
+                  {t('calm.badge')}
+                </span>
+                <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                  {t('calm.title')}
+                </h3>
+              </div>
+              <span className="text-[11px] text-gray-500 dark:text-gray-400 hidden sm:inline">
+                {t('calm.subtitle')}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {calmSpots.map((spot) => (
+                <button
+                  key={spot.id}
+                  onClick={() => handleSelectSpot(spot)}
+                  className="p-2.5 rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 border border-emerald-100 dark:border-emerald-950/40 hover:border-emerald-400 dark:hover:border-emerald-500 transition-all text-left shadow-xs hover:shadow-sm group flex flex-col justify-between"
+                >
+                  <div className="flex items-start justify-between gap-1 w-full">
+                    <span className="text-xs font-bold text-gray-900 dark:text-white truncate group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                      {spot.name[lang] || spot.name.ko}
+                    </span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-md font-extrabold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex-shrink-0">
+                      {spot.currentScore}
+                    </span>
+                  </div>
+                  <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400 w-full">
+                    <span className="truncate">{(spot.area?.[lang] || spot.area?.ko) || t(`district.${spot.district}_name`, spot.district)}</span>
+                    {spot.distanceKm !== undefined && (
+                      <span className="text-blue-600 dark:text-blue-400 font-medium ml-1 flex-shrink-0">
+                        {spot.distanceKm < 1
+                          ? `${Math.round(spot.distanceKm * 1000)}m`
+                          : `${spot.distanceKm.toFixed(1)}km`}
+                      </span>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* District & Theme Filter Tabs */}
         <DistrictTabs
           activeDistrict={activeDistrict}
@@ -378,6 +438,11 @@ export default function Home() {
           hasUserLocation={!!userLocation}
           onRequestLocation={handleRequestLocation}
         />
+
+        {/* Horizontal Banner Ad (Kakao AdFit 320x100) */}
+        <div className="my-4 flex justify-center w-full">
+          <BannerAd />
+        </div>
 
         {/* Quick Filter Bar & Count */}
         <div className="flex items-center justify-between gap-3 mb-5 text-xs text-gray-500 dark:text-gray-400">

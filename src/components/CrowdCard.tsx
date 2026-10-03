@@ -36,27 +36,38 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
     (spot.tip?.[lang] || spot.tip?.ko) ||
     '';
 
-  // Status colors & labels (WCAG AA 4.5:1 compliant contrast)
+  // Status colors & labels (WCAG AA 4.5:1 compliant contrast) - 4-tier single source of truth
   const getStatusBadge = () => {
     switch (spot.status) {
       case 'relaxed':
         return {
           bg: 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700',
           dot: 'bg-emerald-600 dark:bg-emerald-400',
+          radar: 'bg-emerald-500',
           text: t('card.status.relaxed'),
         };
       case 'moderate':
         return {
           bg: 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-700',
           dot: 'bg-amber-600 dark:bg-amber-400',
+          radar: 'bg-amber-500',
           text: t('card.status.moderate'),
         };
+      case 'crowded':
+        return {
+          bg: 'bg-orange-50 dark:bg-orange-950/60 text-orange-800 dark:text-orange-300 border-orange-300 dark:border-orange-700',
+          dot: 'bg-orange-600 dark:bg-orange-400',
+          radar: 'bg-orange-500',
+          text: t('card.status.crowded'),
+        };
+      case 'very_crowded':
       case 'packed':
       default:
         return {
           bg: 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-700',
           dot: 'bg-rose-600 dark:bg-rose-400 animate-pulse',
-          text: t('card.status.packed'),
+          radar: 'bg-rose-500',
+          text: t('card.status.very_crowded'),
         };
     }
   };
@@ -92,28 +103,17 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
             <h2 className="font-bold text-gray-900 dark:text-white text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               {name}
             </h2>
-            {spot.surgeAlert && (
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/60">
-                {t('surge.alert')}
-              </span>
-            )}
           </div>
           {address && (
             <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">{address}</p>
           )}
         </div>
 
-        {/* Live Status Badge */}
+        {/* Live Status Badge (Single unified status) */}
         <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-semibold ${badge.bg}`}>
           <span className="relative flex h-2 w-2" aria-hidden="true">
             <span
-              className={`animate-radar absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                spot.status === 'packed'
-                  ? 'bg-rose-500'
-                  : spot.status === 'moderate'
-                  ? 'bg-amber-500'
-                  : 'bg-emerald-500'
-              }`}
+              className={`animate-radar absolute inline-flex h-full w-full rounded-full opacity-75 ${badge.radar}`}
             />
             <span className={`relative inline-flex rounded-full h-2 w-2 ${badge.dot}`} />
           </span>
