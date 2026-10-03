@@ -328,45 +328,6 @@ export default function Home() {
             {t(locationErrorKey)}
           </div>
         )}
-
-        {/* Figma Style Play Test Quick Launcher */}
-        <div className="mt-4 sm:mt-6 max-w-xl mx-auto grid grid-cols-2 gap-2 sm:gap-2.5">
-          <Link
-            href="/play"
-            className="p-2.5 sm:p-3 rounded-2xl bg-gradient-to-r from-purple-950/40 via-purple-900/30 to-indigo-950/40 border border-purple-800/40 hover:border-purple-600/60 transition-all flex items-center gap-2.5 sm:gap-3 text-left group shadow-sm hover:shadow-md active:scale-95 duration-150"
-          >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#6b21a8] to-[#a855f7] flex items-center justify-center text-base sm:text-lg flex-shrink-0 shadow-xs">
-              ✈️
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors truncate">
-                {t('play.card2.title')}
-              </div>
-              <div className="text-[10px] text-gray-400 truncate">
-                {t('play.card2.sub')}
-              </div>
-            </div>
-            <span className="text-gray-500 group-hover:text-white text-xs pr-1">›</span>
-          </Link>
-
-          <Link
-            href="/play"
-            className="p-2.5 sm:p-3 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-teal-900/30 to-blue-950/40 border border-cyan-800/40 hover:border-cyan-600/60 transition-all flex items-center gap-2.5 sm:gap-3 text-left group shadow-sm hover:shadow-md active:scale-95 duration-150"
-          >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#0891b2] to-[#22d3ee] flex items-center justify-center text-base sm:text-lg flex-shrink-0 shadow-xs">
-              🌃
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors truncate">
-                {t('play.card3.title')}
-              </div>
-              <div className="text-[10px] text-gray-400 truncate">
-                {t('play.card3.sub')}
-              </div>
-            </div>
-            <span className="text-gray-500 group-hover:text-white text-xs pr-1">›</span>
-          </Link>
-        </div>
       </section>
 
       {/* Main Content Area */}

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { LiveSpotMetric } from '@/types';
 import { useTranslation } from '@/lib/i18n/context';
 import dynamic from 'next/dynamic';
+import NavigationSheet from './NavigationSheet';
 import {
   formatDistance,
   getKakaoNavUrl,
@@ -24,6 +25,7 @@ interface CrowdCardProps {
 export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
   const { lang, t } = useTranslation();
   const [showEscape, setShowEscape] = useState(false);
+  const [showNavSheet, setShowNavSheet] = useState(false);
 
   const name = spot.name[lang] || spot.name.ko;
   const address =
@@ -36,37 +38,41 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
     (spot.tip?.[lang] || spot.tip?.ko) ||
     '';
 
-  // Status colors & labels (WCAG AA 4.5:1 compliant contrast) - 4-tier single source of truth
+  // Status tokens with WCAG AA 4.5:1 compliant contrast & semantic colors
   const getStatusBadge = () => {
     switch (spot.status) {
       case 'relaxed':
         return {
+          colorText: 'text-emerald-600 dark:text-emerald-400',
           bg: 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700',
           dot: 'bg-emerald-600 dark:bg-emerald-400',
-          radar: 'bg-emerald-500',
+          bar: 'bg-emerald-500',
           text: t('card.status.relaxed'),
         };
       case 'moderate':
         return {
+          colorText: 'text-amber-600 dark:text-amber-400',
           bg: 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-700',
           dot: 'bg-amber-600 dark:bg-amber-400',
-          radar: 'bg-amber-500',
+          bar: 'bg-amber-500',
           text: t('card.status.moderate'),
         };
       case 'crowded':
         return {
+          colorText: 'text-orange-600 dark:text-orange-400',
           bg: 'bg-orange-50 dark:bg-orange-950/60 text-orange-800 dark:text-orange-300 border-orange-300 dark:border-orange-700',
           dot: 'bg-orange-600 dark:bg-orange-400',
-          radar: 'bg-orange-500',
+          bar: 'bg-orange-500',
           text: t('card.status.crowded'),
         };
       case 'very_crowded':
       case 'packed':
       default:
         return {
+          colorText: 'text-rose-600 dark:text-rose-400',
           bg: 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-700',
-          dot: 'bg-rose-600 dark:bg-rose-400 animate-pulse',
-          radar: 'bg-rose-500',
+          dot: 'bg-rose-600 dark:bg-rose-400',
+          bar: 'bg-rose-500',
           text: t('card.status.very_crowded'),
         };
     }
@@ -91,174 +97,171 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
     userLng || undefined
   );
 
-  const navSuffix = lang === 'ko' ? '길찾기' : lang === 'ja' ? '道案内' : 'Directions';
-
   return (
-    <div className="group relative bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-5 hover:shadow-lg transition-all duration-300">
-      {/* Header: Name, Address, Status */}
-      <div className="flex items-start justify-between gap-3 mb-3">
+    <>
+      <article className="group relative bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800/90 p-5 hover:shadow-xl transition-all duration-200 flex flex-col justify-between shadow-xs">
+        {/* Row 1: Header (Spot Name, District/Address, 4-tier Badge) */}
         <div>
-          <div className="flex items-center gap-2">
-            {spot.emoji && <span className="text-base" aria-hidden="true">{spot.emoji}</span>}
-            <h2 className="font-bold text-gray-900 dark:text-white text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-              {name}
-            </h2>
+          <div className="flex items-start justify-between gap-2.5 mb-3">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                {spot.emoji && (
+                  <span className="text-base select-none" aria-hidden="true">
+                    {spot.emoji}
+                  </span>
+                )}
+                <h2 className="font-bold text-gray-900 dark:text-white text-base sm:text-lg group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+                  {name}
+                </h2>
+              </div>
+              {address && (
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 truncate">
+                  {address}
+                </p>
+              )}
+            </div>
+
+            {/* Single 4-tier status badge */}
+            <div
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-bold flex-shrink-0 shadow-2xs ${badge.bg}`}
+            >
+              <span className={`inline-block w-2 h-2 rounded-full ${badge.dot}`} aria-hidden="true" />
+              <span>{badge.text}</span>
+            </div>
           </div>
-          {address && (
-            <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">{address}</p>
+
+          {/* Row 2: HeyDealer Big Number Hierarchy (Giant Score + /100 + Wait Time) */}
+          <div className="my-3 p-4 rounded-2xl bg-gray-50/80 dark:bg-gray-800/50 border border-gray-100/80 dark:border-gray-800/60">
+            <div className="flex items-baseline justify-between">
+              <div>
+                <span className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 block mb-0.5">
+                  {t('card.crowdIndex')}
+                </span>
+                <div className="flex items-baseline gap-1">
+                  <span className={`text-4xl sm:text-5xl font-black tabular-nums tracking-tight ${badge.colorText}`}>
+                    {spot.currentScore}
+                  </span>
+                  <span className="text-xs font-bold text-gray-400 dark:text-gray-500">
+                    /100
+                  </span>
+                </div>
+              </div>
+
+              {/* Wait Time Pill */}
+              <div className="text-right">
+                <span className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 block mb-0.5">
+                  {t('card.waitTime')}
+                </span>
+                <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-white dark:bg-gray-900 font-extrabold text-xs sm:text-sm text-gray-900 dark:text-white border border-gray-200/80 dark:border-gray-700/80 shadow-2xs">
+                  ⏱️ 약 {spot.waitTimeMinutes}{t('card.waitMins')}
+                </span>
+              </div>
+            </div>
+
+            {/* Gauge progress bar */}
+            <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full mt-3 overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${badge.bar}`}
+                style={{ width: `${Math.min(100, Math.max(5, spot.currentScore))}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Row 3: Recommended Visit Time & Tip (Clean 1-line) */}
+          <div className="space-y-1.5 mb-4 text-xs">
+            {bestTime && (
+              <div className="flex items-center gap-1.5 text-gray-600 dark:text-gray-300 font-medium truncate">
+                <span className="text-emerald-500 font-bold" aria-hidden="true">⏰</span>
+                <span className="truncate">
+                  <strong className="text-gray-800 dark:text-gray-200 font-semibold">{t('card.bestTime')}:</strong> {bestTime}
+                </span>
+              </div>
+            )}
+            {secretTip && (
+              <div className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 text-[11px] truncate">
+                <span className="text-amber-500 font-bold" aria-hidden="true">💡</span>
+                <span className="truncate">{secretTip}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Row 4: Single [길찾기] Button + Escape Route Tag */}
+        <div>
+          {/* Distance Bar if user location available */}
+          {typeof spot.distanceKm === 'number' && (
+            <div className="mb-2.5 px-2.5 py-1.5 rounded-xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-100/60 dark:border-blue-900/30 flex items-center justify-between text-[11px]">
+              <span className="text-blue-700 dark:text-blue-300 font-bold">
+                📍 {formatDistance(spot.distanceKm)}
+              </span>
+              <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 font-medium">
+                {typeof spot.walkTimeMinutes === 'number' && (
+                  <span>도보 ~{spot.walkTimeMinutes}분</span>
+                )}
+                {typeof spot.transitTimeMinutes === 'number' && (
+                  <span className="text-indigo-600 dark:text-indigo-400 font-semibold">
+                    교통 ~{spot.transitTimeMinutes}분
+                  </span>
+                )}
+              </div>
+            </div>
           )}
+
+          {/* Action Row: Single [길찾기] button + Escape Gem toggle */}
+          <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+            <button
+              onClick={() => setShowNavSheet(true)}
+              className="flex-1 h-11 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md transition-all duration-150 cursor-pointer"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polygon points="3 11 22 2 13 21 11 13 3 11" />
+              </svg>
+              <span>길찾기 안내</span>
+            </button>
+
+            {spot.escapeRoute && (
+              <button
+                onClick={() => setShowEscape(!showEscape)}
+                className={`h-11 px-3 rounded-xl text-xs font-bold transition-all flex items-center gap-1 border cursor-pointer active:scale-95 ${
+                  showEscape
+                    ? 'bg-amber-500 text-white border-amber-500 shadow-xs'
+                    : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800 hover:bg-amber-100'
+                }`}
+                title="인파 회피 히든 스팟 확인"
+              >
+                <span>✨</span>
+                <span className="hidden sm:inline">{showEscape ? t('escape.close') : t('escape.open')}</span>
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Live Status Badge (Single unified status) */}
-        <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-semibold ${badge.bg}`}>
-          <span className="relative flex h-2 w-2" aria-hidden="true">
-            <span
-              className={`animate-radar absolute inline-flex h-full w-full rounded-full opacity-75 ${badge.radar}`}
+        {/* Escape Route Box */}
+        {showEscape && spot.escapeRoute && (
+          <div className="mt-3">
+            <EscapeRouteCard
+              escapeRoute={spot.escapeRoute}
+              parentSpotName={name}
+              originLat={spot.lat}
+              originLng={spot.lng}
             />
-            <span className={`relative inline-flex rounded-full h-2 w-2 ${badge.dot}`} />
-          </span>
-          <span>{badge.text}</span>
-        </div>
-      </div>
-
-      {/* Real-time Distance & Travel Time from User Location */}
-      {typeof spot.distanceKm === 'number' && (
-        <div className="mb-3.5 px-3 py-2 rounded-xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/40 flex items-center justify-between text-xs">
-          <div className="flex items-center gap-1.5 text-blue-700 dark:text-blue-300 font-semibold">
-            <span>📍 {t('dist.from_me')}</span>
-            <span className="font-bold">{formatDistance(spot.distanceKm)}</span>
-          </div>
-          <div className="flex items-center gap-2.5 text-gray-600 dark:text-gray-300">
-            {typeof spot.walkTimeMinutes === 'number' && (
-              <span className="flex items-center gap-0.5">
-                🚶 {t('dist.walk')} <strong>{spot.walkTimeMinutes}{t('dist.min')}</strong>
-              </span>
-            )}
-            {typeof spot.transitTimeMinutes === 'number' && (
-              <span className="flex items-center gap-0.5 text-indigo-600 dark:text-indigo-400">
-                🚌 {t('dist.transit')} <strong>{spot.transitTimeMinutes}{t('dist.min')}</strong>
-              </span>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Metrics Bar: Crowd Score & Wait Time */}
-      <div className="grid grid-cols-2 gap-2 mb-4 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/60 text-center">
-        <div>
-          <span className="text-[11px] text-gray-600 dark:text-gray-300 block font-medium">
-            {t('card.crowdIndex')}
-          </span>
-          <span className="text-xl font-black text-gray-900 dark:text-white">
-            {spot.currentScore}
-            <span className="text-xs font-medium text-gray-600 dark:text-gray-400 ml-0.5">/100</span>
-          </span>
-        </div>
-        <div>
-          <span className="text-[11px] text-gray-600 dark:text-gray-300 block font-medium">
-            {t('card.waitTime')}
-          </span>
-          <span className="text-xl font-black text-gray-900 dark:text-white">
-            {spot.waitTimeMinutes}
-            <span className="text-xs font-medium text-gray-600 dark:text-gray-400 ml-0.5">{t('card.waitMins')}</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Tips: Best Time & Secret Tip */}
-      <div className="space-y-1.5 mb-4 text-xs">
-        {bestTime && (
-          <div className="flex items-start gap-1.5 text-gray-600 dark:text-gray-400">
-            <span className="text-emerald-500 font-bold flex-shrink-0" aria-hidden="true">⏰</span>
-            <span>
-              <strong className="text-gray-700 dark:text-gray-300">{t('card.bestTime')}:</strong>{' '}
-              {bestTime}
-            </span>
           </div>
         )}
-        {secretTip && (
-          <div className="flex items-start gap-1.5 text-gray-600 dark:text-gray-400">
-            <span className="text-amber-500 font-bold flex-shrink-0" aria-hidden="true">💡</span>
-            <span>
-              <strong className="text-gray-700 dark:text-gray-300">{t('card.secretTip')}:</strong>{' '}
-              {secretTip}
-            </span>
-          </div>
-        )}
-      </div>
+      </article>
 
-      {/* Card Actions: Multi-Map Navigation & Escape Route Toggle */}
-      <div className="pt-2 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center justify-between gap-2">
-        {/* Map Links (Kakao, Naver, Google) */}
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <a
-            href={kakaoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[#FEE500] hover:bg-[#FDD835] text-[#191919] transition-all flex items-center gap-1 shadow-2xs hover:scale-105 active:scale-95"
-            title={`${name} - ${t('map.kakao')}`}
-            aria-label={`${t('map.kakao')} - ${name} ${navSuffix}`}
-          >
-            <span className="w-4 h-4 rounded-full bg-[#191919] text-[#FEE500] text-[10px] font-black flex items-center justify-center" aria-hidden="true">
-              K
-            </span>
-            <span>{t('map.kakao')}</span>
-          </a>
-
-          <a
-            href={naverUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[#03C75A] hover:bg-[#02b351] text-white transition-all flex items-center gap-1 shadow-2xs hover:scale-105 active:scale-95"
-            title={`${name} - ${t('map.naver')}`}
-            aria-label={`${t('map.naver')} - ${name} ${navSuffix}`}
-          >
-            <span className="w-4 h-4 rounded-full bg-white text-[#03C75A] text-[10px] font-black flex items-center justify-center" aria-hidden="true">
-              N
-            </span>
-            <span>{t('map.naver')}</span>
-          </a>
-
-          <a
-            href={googleUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 transition-all flex items-center gap-1 shadow-2xs hover:scale-105 active:scale-95"
-            title={`${name} - ${t('map.google')}`}
-            aria-label={`${t('map.google')} - ${name} ${navSuffix}`}
-          >
-            <span className="w-4 h-4 rounded-full bg-blue-600 text-white text-[10px] font-black flex items-center justify-center" aria-hidden="true">
-              G
-            </span>
-            <span>{t('map.google')}</span>
-          </a>
-        </div>
-
-        {/* Toggle Hidden Gem Escape Route */}
-        {spot.escapeRoute && (
-          <button
-            onClick={() => setShowEscape(!showEscape)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
-              showEscape
-                ? 'bg-amber-500 text-white shadow-sm'
-                : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50'
-            }`}
-          >
-            <span>✨</span>
-            <span>{showEscape ? t('escape.close') : t('escape.open')}</span>
-          </button>
-        )}
-      </div>
-
-      {/* Render Escape Route Card */}
-      {showEscape && spot.escapeRoute && (
-        <EscapeRouteCard
-          escapeRoute={spot.escapeRoute}
-          parentSpotName={name}
-          originLat={spot.lat}
-          originLng={spot.lng}
-        />
-      )}
-    </div>
+      {/* Navigation Bottom Sheet */}
+      <NavigationSheet
+        isOpen={showNavSheet}
+        onClose={() => setShowNavSheet(false)}
+        spotName={name}
+        kakaoUrl={kakaoUrl}
+        naverUrl={naverUrl}
+        googleUrl={googleUrl}
+        address={address}
+        distanceKm={spot.distanceKm}
+        walkMinutes={spot.walkTimeMinutes}
+        transitMinutes={spot.transitTimeMinutes}
+      />
+    </>
   );
 }

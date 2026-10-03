@@ -20,70 +20,68 @@ export default function BottomNav({
   const isPlay = pathname.startsWith('/play');
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/90 dark:bg-[#0c101d]/90 backdrop-blur-xl border-t border-gray-200/80 dark:border-gray-800/80 px-3 py-1.5 pb-safe shadow-[0_-8px_24px_rgba(0,0,0,0.12)]">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl border-t border-gray-200/80 dark:border-gray-800/80 px-4 py-2 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
       <div className="max-w-md mx-auto flex items-center justify-around">
         {/* 1. Live Crowd (Home) */}
         <Link
           href="/"
-          className={`relative flex flex-col items-center gap-0.5 py-1 px-4 rounded-2xl transition-all duration-150 active:scale-90 ${
+          className={`flex flex-col items-center gap-1 py-1 px-4 rounded-xl transition-all duration-150 active:scale-90 ${
             isHome && !isNearbyActive
-              ? 'text-indigo-600 dark:text-cyan-400 font-bold'
-              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium'
+              ? 'text-blue-600 dark:text-blue-400 font-bold'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium'
           }`}
         >
-          <span className="text-xl">🏠</span>
-          <span className="text-[11px] tracking-tight leading-none">{t('nav.live')}</span>
-          {isHome && !isNearbyActive ? (
-            <span className="w-1 h-1 rounded-full bg-indigo-600 dark:bg-cyan-400 shadow-[0_0_6px_rgba(76,215,246,0.8)] mt-1" />
-          ) : (
-            <span className="w-1 h-1 mt-1" />
-          )}
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth={isHome && !isNearbyActive ? '2.5' : '2'} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          <span className="text-[11px] tracking-tight">{t('nav.live')}</span>
         </Link>
 
         {/* 2. Play / Tests */}
         <Link
           href="/play"
-          className={`relative flex flex-col items-center gap-0.5 py-1 px-4 rounded-2xl transition-all duration-150 active:scale-90 ${
+          className={`flex flex-col items-center gap-1 py-1 px-4 rounded-xl transition-all duration-150 active:scale-90 ${
             isPlay
-              ? 'text-purple-600 dark:text-purple-400 font-bold'
-              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium'
+              ? 'text-blue-600 dark:text-blue-400 font-bold'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium'
           }`}
         >
-          <span className="text-xl">🎮</span>
-          <span className="text-[11px] tracking-tight leading-none">{t('nav.play')}</span>
-          {isPlay ? (
-            <span className="w-1 h-1 rounded-full bg-purple-600 dark:bg-purple-400 shadow-[0_0_6px_rgba(168,85,247,0.8)] mt-1" />
-          ) : (
-            <span className="w-1 h-1 mt-1" />
-          )}
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth={isPlay ? '2.5' : '2'} strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="6" width="20" height="12" rx="3" />
+            <path d="M6 12h4m-2-2v4" />
+            <circle cx="17" cy="10" r="1" fill="currentColor" />
+            <circle cx="15" cy="13" r="1" fill="currentColor" />
+          </svg>
+          <span className="text-[11px] tracking-tight">{t('nav.play')}</span>
         </Link>
 
         {/* 3. Nearby Spots (Quick action) */}
         {onNearbyClick ? (
           <button
             onClick={onNearbyClick}
-            className={`relative flex flex-col items-center gap-0.5 py-1 px-4 rounded-2xl transition-all duration-150 active:scale-90 ${
+            className={`flex flex-col items-center gap-1 py-1 px-4 rounded-xl transition-all duration-150 active:scale-90 cursor-pointer ${
               isNearbyActive
-                ? 'text-emerald-600 dark:text-emerald-400 font-bold'
-                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium'
+                ? 'text-blue-600 dark:text-blue-400 font-bold'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium'
             }`}
           >
-            <span className="text-xl">🎯</span>
-            <span className="text-[11px] tracking-tight leading-none">{t('nav.nearby')}</span>
-            {isNearbyActive ? (
-              <span className="w-1 h-1 rounded-full bg-emerald-600 dark:bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] mt-1" />
-            ) : (
-              <span className="w-1 h-1 mt-1" />
-            )}
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth={isNearbyActive ? '2.5' : '2'} strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill={isNearbyActive ? 'currentColor' : 'none'} />
+            </svg>
+            <span className="text-[11px] tracking-tight">{t('nav.nearby')}</span>
           </button>
         ) : (
           <Link
             href="/?sort=distance"
-            className="relative flex flex-col items-center gap-0.5 py-1 px-4 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all duration-150 active:scale-90"
+            className="flex flex-col items-center gap-1 py-1 px-4 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all duration-150 active:scale-90"
           >
-            <span className="text-xl">🎯</span>
-            <span className="text-[11px] tracking-tight leading-none">{t('nav.nearby')}</span>
-            <span className="w-1 h-1 mt-1" />
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+            </svg>
+            <span className="text-[11px] tracking-tight">{t('nav.nearby')}</span>
           </Link>
         )}
       </div>

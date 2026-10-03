@@ -29,16 +29,14 @@ export default function DistrictTabs({
 
   const districtList: {
     id: SeoulDistrict;
-    icon: string;
     nameKey: string;
-    subKey: string;
   }[] = [
-    { id: 'all', icon: '📍', nameKey: 'district.all_name', subKey: 'district.all_sub' },
-    { id: 'downtown', icon: '🏛️', nameKey: 'district.downtown_name', subKey: 'district.downtown_sub' },
-    { id: 'west', icon: '🎸', nameKey: 'district.west_name', subKey: 'district.west_sub' },
-    { id: 'east', icon: '☕', nameKey: 'district.east_name', subKey: 'district.east_sub' },
-    { id: 'south', icon: '🏙️', nameKey: 'district.south_name', subKey: 'district.south_sub' },
-    { id: 'southwest', icon: '🌳', nameKey: 'district.southwest_name', subKey: 'district.southwest_sub' },
+    { id: 'all', nameKey: 'district.all_name' },
+    { id: 'downtown', nameKey: 'district.downtown_name' },
+    { id: 'west', nameKey: 'district.west_name' },
+    { id: 'east', nameKey: 'district.east_name' },
+    { id: 'south', nameKey: 'district.south_name' },
+    { id: 'southwest', nameKey: 'district.southwest_name' },
   ];
 
   const categoryList: { id: SpotCategory; key: string; icon: string }[] = [
@@ -52,106 +50,75 @@ export default function DistrictTabs({
   ];
 
   return (
-    <div className="w-full space-y-3 mb-5">
-      {/* 1. Header Bar: District Section Title + Location Distance Button */}
+    <div className="w-full space-y-2.5 mb-4">
+      {/* 1. Single Row Horizontal Scrollable District Chips */}
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5">
-          <span className="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1">
-            <span>🗺️</span>
-            <span>{t('district.section_title')}</span>
-          </span>
-          <span className="text-[11px] text-gray-600 dark:text-gray-400 font-medium">
-            ({t('district.section_sub')})
-          </span>
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 -mx-4 px-4 sm:mx-0 sm:px-0 flex-1">
+          {districtList.map((d) => {
+            const isSelected = activeDistrict === d.id;
+            return (
+              <button
+                key={d.id}
+                onClick={() => onSelectDistrict(d.id)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all duration-150 flex-shrink-0 cursor-pointer active:scale-95 ${
+                  isSelected
+                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-xs'
+                    : 'bg-white dark:bg-gray-800/80 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-gray-700/80 hover:border-gray-400'
+                }`}
+              >
+                {t(d.nameKey)}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Location Action Button / Distance Sort Toggle */}
-        <div className="flex items-center gap-1.5 flex-shrink-0">
+        {/* Location Toggle Button */}
+        <div className="flex-shrink-0 pl-1">
           {hasUserLocation ? (
             <button
               onClick={onToggleSortByDistance}
-              className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold transition-all duration-150 active:scale-95 flex items-center gap-1 border shadow-2xs ${
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-150 active:scale-95 flex items-center gap-1 cursor-pointer border ${
                 sortByDistance
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-blue-500/20'
-                  : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-800 hover:border-blue-500'
+                  ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-500'
               }`}
             >
               <span>📍</span>
-              <span>{sortByDistance ? t('filter.sorting_distance') : t('filter.sort_distance')}</span>
+              <span className="hidden sm:inline">{sortByDistance ? t('filter.sorting_distance') : t('filter.sort_distance')}</span>
+              <span className="sm:hidden">{sortByDistance ? '가까운순' : '거리순'}</span>
             </button>
           ) : (
             <button
               onClick={onRequestLocation}
-              className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/50 dark:hover:bg-blue-900/60 text-blue-600 dark:text-blue-400 border border-blue-200/90 dark:border-blue-800/80 transition-all duration-150 active:scale-95 flex items-center gap-1 shadow-2xs"
+              className="px-3 py-1.5 rounded-full text-xs font-bold bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 transition-all duration-150 active:scale-95 flex items-center gap-1 cursor-pointer"
             >
               <span>🎯</span>
-              <span>{t('filter.check_location')}</span>
+              <span className="hidden sm:inline">{t('filter.check_location')}</span>
+              <span className="sm:hidden">내 위치</span>
             </button>
           )}
         </div>
       </div>
 
-      {/* 2. District Filter Buttons: 3-column Grid on Mobile, 6-column on Desktop */}
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 sm:gap-2">
-        {districtList.map((d) => {
-          const isSelected = activeDistrict === d.id;
+      {/* 2. Theme Category Chips Row (Horizontal Scroll) */}
+      <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 -mx-4 px-4 sm:mx-0 sm:px-0">
+        {categoryList.map((cat) => {
+          const isSelected = activeCategory === cat.id;
           return (
             <button
-              key={d.id}
-              onClick={() => onSelectDistrict(d.id)}
-              className={`px-2 py-2 sm:py-2.5 rounded-xl text-center transition-all duration-150 active:scale-95 flex flex-col items-center justify-center border shadow-2xs min-h-[52px] sm:min-h-[58px] ${
+              key={cat.id}
+              onClick={() => onSelectCategory(cat.id)}
+              className={`px-3 py-1 rounded-lg text-[11px] font-semibold transition-all duration-150 flex items-center gap-1 flex-shrink-0 cursor-pointer active:scale-95 ${
                 isSelected
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-500/25 dark:bg-blue-500 dark:border-blue-500'
-                  : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200/90 dark:border-gray-800'
+                  ? 'bg-blue-50 dark:bg-blue-950/70 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
+                  : 'bg-transparent text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
-              <span className="flex items-center gap-1 text-xs font-bold leading-tight">
-                <span className="text-sm">{d.icon}</span>
-                <span>{t(d.nameKey)}</span>
-              </span>
-              <span
-                className={`text-[10px] mt-0.5 leading-none truncate max-w-full font-medium ${
-                  isSelected
-                    ? 'text-blue-100 dark:text-blue-100'
-                    : 'text-gray-600 dark:text-gray-400'
-                }`}
-              >
-                {t(d.subKey)}
-              </span>
+              <span aria-hidden="true">{cat.icon}</span>
+              <span>{t(cat.key)}</span>
             </button>
           );
         })}
-      </div>
-
-      {/* 3. Category / Theme Adaptive Filter Chips */}
-      <div className="pt-1">
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <span className="text-[11px] font-bold text-gray-600 dark:text-gray-400 flex items-center gap-1">
-            <span>🏷️</span>
-            <span>{t('category.section_title')}</span>
-          </span>
-        </div>
-
-        {/* Adaptive Layout: automatically reflows with browser size */}
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-          {categoryList.map((cat) => {
-            const isSelected = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => onSelectCategory(cat.id)}
-                className={`flex-1 sm:flex-initial min-w-[72px] sm:min-w-0 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold transition-all duration-150 active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 border shadow-2xs text-center ${
-                  isSelected
-                    ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-950 border-gray-900 dark:border-white shadow-xs'
-                    : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200/90 dark:border-gray-800'
-                }`}
-              >
-                <span className="text-sm flex-shrink-0">{cat.icon}</span>
-                <span className="whitespace-nowrap">{t(cat.key)}</span>
-              </button>
-            );
-          })}
-        </div>
       </div>
     </div>
   );
