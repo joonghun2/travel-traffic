@@ -133,12 +133,12 @@ export default function RootLayout({
         <ThemeProvider>
           <TranslationProvider>{children}</TranslationProvider>
         </ThemeProvider>
-        {/* Google Analytics (gtag.js) */}
+        {/* Google Analytics (gtag.js) - lazyOnload to prioritize LCP and minimize TBT */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-EJC5R171MS"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -146,11 +146,6 @@ export default function RootLayout({
             gtag('config', 'G-EJC5R171MS');
           `}
         </Script>
-        {/* Kakao AdFit SDK */}
-        <Script
-          src="//t1.kakaocdn.net/kas/static/ba.min.js"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );

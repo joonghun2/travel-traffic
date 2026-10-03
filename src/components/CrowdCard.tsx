@@ -3,13 +3,17 @@
 import React, { useState } from 'react';
 import { LiveSpotMetric } from '@/types';
 import { useTranslation } from '@/lib/i18n/context';
-import EscapeRouteCard from './EscapeRouteCard';
+import dynamic from 'next/dynamic';
 import {
   formatDistance,
   getKakaoNavUrl,
   getNaverNavUrl,
   getGoogleNavUrl,
 } from '@/lib/geoUtils';
+
+const EscapeRouteCard = dynamic(() => import('./EscapeRouteCard'), {
+  ssr: false,
+});
 
 interface CrowdCardProps {
   spot: LiveSpotMetric;

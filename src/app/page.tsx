@@ -17,13 +17,17 @@ import {
   estimateTransitMinutes,
 } from '@/lib/geoUtils';
 
+import dynamic from 'next/dynamic';
 import DashboardHeader from '@/components/DashboardHeader';
 import SpotSearchAutocomplete from '@/components/SpotSearchAutocomplete';
 import DistrictTabs from '@/components/DistrictTabs';
 import CrowdCard from '@/components/CrowdCard';
-import NativeInFeedAdCard from '@/components/NativeInFeedAdCard';
 import BottomNav from '@/components/BottomNav';
 import Link from 'next/link';
+
+const NativeInFeedAdCard = dynamic(() => import('@/components/NativeInFeedAdCard'), {
+  ssr: false,
+});
 
 export default function Home() {
   const { t } = useTranslation();
