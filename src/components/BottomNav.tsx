@@ -28,7 +28,7 @@ export default function BottomNav({
           className={`relative flex flex-col items-center gap-0.5 py-1 px-4 rounded-2xl transition-all duration-150 active:scale-90 ${
             isHome && !isNearbyActive
               ? 'text-indigo-600 dark:text-cyan-400 font-bold'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium'
           }`}
         >
           <span className="text-xl">🏠</span>
@@ -46,7 +46,7 @@ export default function BottomNav({
           className={`relative flex flex-col items-center gap-0.5 py-1 px-4 rounded-2xl transition-all duration-150 active:scale-90 ${
             isPlay
               ? 'text-purple-600 dark:text-purple-400 font-bold'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium'
           }`}
         >
           <span className="text-xl">🎮</span>
@@ -65,7 +65,7 @@ export default function BottomNav({
             className={`relative flex flex-col items-center gap-0.5 py-1 px-4 rounded-2xl transition-all duration-150 active:scale-90 ${
               isNearbyActive
                 ? 'text-emerald-600 dark:text-emerald-400 font-bold'
-                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium'
             }`}
           >
             <span className="text-xl">🎯</span>

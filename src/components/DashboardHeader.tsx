@@ -34,8 +34,8 @@ export default function DashboardHeader({
               <span className="font-extrabold text-gray-900 dark:text-white tracking-tight text-base sm:text-lg">
                 SeoulLive
               </span>
-              <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] font-bold">
-                <span className="relative flex h-1.5 w-1.5">
+              <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 font-mono text-[10px] font-bold">
+                <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
                   <span className="animate-radar absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
                 </span>
@@ -76,8 +76,8 @@ export default function DashboardHeader({
         <div className="flex items-center gap-2">
           {/* Live indicator badge */}
           {connectedCount > 0 && (
-            <div className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <div className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 text-[11px] font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true" />
               <span>
                 {t('header.live_api')} {connectedCount}
                 {lang === 'ko' ? '곳' : lang === 'ja' ? '箇所' : ' spots'}

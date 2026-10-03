@@ -84,8 +84,9 @@ export default function EscapeRouteCard({
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[#FEE500] hover:bg-[#FDD835] text-[#191919] transition-all shadow-2xs hover:scale-105 active:scale-95"
           title={t('escape.navKakao')}
+          aria-label={`${t('map.kakao')} - ${gemName} ${lang === 'ko' ? '우회 경로 길찾기' : lang === 'ja' ? '抜け道案内' : 'Escape Route Directions'}`}
         >
-          <span className="w-3.5 h-3.5 rounded-full bg-[#191919] text-[#FEE500] text-[9px] font-black flex items-center justify-center">
+          <span className="w-3.5 h-3.5 rounded-full bg-[#191919] text-[#FEE500] text-[9px] font-black flex items-center justify-center" aria-hidden="true">
             K
           </span>
           <span>{t('map.kakao')}</span>
@@ -97,8 +98,9 @@ export default function EscapeRouteCard({
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[#03C75A] hover:bg-[#02b351] text-white transition-all shadow-2xs hover:scale-105 active:scale-95"
           title={t('escape.navNaver')}
+          aria-label={`${t('map.naver')} - ${gemName} ${lang === 'ko' ? '우회 경로 길찾기' : lang === 'ja' ? '抜け道案内' : 'Escape Route Directions'}`}
         >
-          <span className="w-3.5 h-3.5 rounded-full bg-white text-[#03C75A] text-[9px] font-black flex items-center justify-center">
+          <span className="w-3.5 h-3.5 rounded-full bg-white text-[#03C75A] text-[9px] font-black flex items-center justify-center" aria-hidden="true">
             N
           </span>
           <span>{t('map.naver')}</span>
@@ -110,8 +112,9 @@ export default function EscapeRouteCard({
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 transition-all shadow-2xs hover:scale-105 active:scale-95"
           title={t('escape.navGoogle')}
+          aria-label={`${t('map.google')} - ${gemName} ${lang === 'ko' ? '우회 경로 길찾기' : lang === 'ja' ? '抜け道案内' : 'Escape Route Directions'}`}
         >
-          <span className="w-3.5 h-3.5 rounded-full bg-blue-600 text-white text-[9px] font-black flex items-center justify-center">
+          <span className="w-3.5 h-3.5 rounded-full bg-blue-600 text-white text-[9px] font-black flex items-center justify-center" aria-hidden="true">
             G
           </span>
           <span>{t('map.google')}</span>

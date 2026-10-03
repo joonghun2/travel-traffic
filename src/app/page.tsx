@@ -324,6 +324,7 @@ export default function Home() {
 
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16" ref={spotListRef}>
+        <h2 className="sr-only">{t('hero.title')} - {t('filter.count')}</h2>
         {/* District & Theme Filter Tabs */}
         <DistrictTabs
           activeDistrict={activeDistrict}
