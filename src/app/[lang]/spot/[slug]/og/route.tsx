@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
 import { LANGS, isLang } from '@/lib/i18n/routing';
 import { TRANSLATIONS } from '@/lib/i18n/translations';
 import { getAllSpotSlugs, getHourlyForecast, getSpotBySlug } from '@/lib/spots';
@@ -11,20 +12,6 @@ export const dynamicParams = false;
 
 export function generateStaticParams() {
   return LANGS.flatMap((lang) => getAllSpotSlugs().map((slug) => ({ lang, slug })));
-}
-
-// Satori has no CJK glyphs, so fetch a Google Fonts subset containing only the text we draw.
-async function loadFont(family: string, text: string): Promise<ArrayBuffer | null> {
-  try {
-    const css = await (
-      await fetch(`https://fonts.googleapis.com/css2?family=${family}:wght@700&text=${encodeURIComponent(text)}`)
-    ).text();
-    const src = css.match(/src: url\((.+?)\) format\('(opentype|truetype)'\)/)?.[1];
-    if (!src) return null;
-    return await (await fetch(src)).arrayBuffer();
-  } catch {
-    return null;
-  }
 }
 
 function barColor(score: number) {
@@ -51,12 +38,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
   const forecast = getHourlyForecast(spot, false).filter((p) => p.hour >= 7);
 
   const text = `${name}${area}${bestTime}${heading}${bestLabel}${forecastLabel}Check East Point LIVE 0123456789`;
-  const fonts = (
-    await Promise.all([
-      loadFont('Noto+Sans+KR', text).then((data) => data && { name: 'NotoKR', data, weight: 700 as const }),
-      loadFont('Noto+Sans+JP', text).then((data) => data && { name: 'NotoJP', data, weight: 700 as const }),
-    ])
-  ).filter((f): f is NonNullable<typeof f> => f !== null);
+  const fonts = await loadCjkFonts(text, 700);
 
   return new ImageResponse(
     (
@@ -70,7 +52,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
           padding: '56px 64px',
           background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)',
           color: 'white',
-          fontFamily: lang === 'ja' ? 'NotoJP, NotoKR' : 'NotoKR, NotoJP',
+          fontFamily: cjkFontFamily(lang),
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -134,6 +116,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
         </div>
       </div>
     ),
-    { ...size, fonts: fonts.length ? fonts : undefined }
+    { ...size, fonts }
   );
 }

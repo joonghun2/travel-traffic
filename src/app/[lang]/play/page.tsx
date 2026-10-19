@@ -100,6 +100,36 @@ export default function PlayPage() {
             </div>
           </Link>
 
+          {/* Card: 서울 오늘의 메뉴 테스트 */}
+          <Link
+            href={localePath('/play/seoul-food-test')}
+            className="group w-full p-4 sm:p-5 rounded-2xl bg-[#16171d] hover:bg-[#1d1f27] border border-rose-700/50 hover:border-rose-500/70 transition-all duration-200 flex items-center justify-between gap-4 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.99]"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-[#f43f5e] via-[#ef4444] to-[#f97316] flex items-center justify-center text-2xl sm:text-3xl shadow-md shadow-rose-500/20 flex-shrink-0">
+                🍽️
+              </div>
+              <div className="text-left">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-rose-400 transition-colors">
+                    {t('play.card5.title')}
+                  </h3>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                    {t('play.card5.badge')}
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-gray-400 mt-0.5 font-medium">
+                  {t('play.card5.sub')}
+                </p>
+              </div>
+            </div>
+            <div className="text-gray-500 group-hover:text-rose-300 group-hover:translate-x-1 transition-all flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </div>
+          </Link>
+
           {/* Card: 음식 이상형 월드컵 */}
           <Link
             href={localePath('/play/food-worldcup')}
