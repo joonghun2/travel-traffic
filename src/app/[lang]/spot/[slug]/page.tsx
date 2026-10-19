@@ -75,9 +75,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       url,
       siteName: 'Check East Point',
       type: 'article',
-      images: [{ url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: title }],
+      images: [{ url: `${url}/og`, width: 1200, height: 630, alt: title }],
     },
-    twitter: { card: 'summary_large_image', title, description, images: [`${SITE_URL}/og-image.png`] },
+    twitter: { card: 'summary_large_image', title, description, images: [`${url}/og`] },
   };
 }
 
@@ -209,7 +209,12 @@ export default async function SpotPage({ params }: { params: Params }) {
           {area && <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{area}</p>}
         </header>
 
-        <SpotLivePanel initial={initial} />
+        <SpotLivePanel
+          initial={initial}
+          name={name}
+          sharePath={path}
+          shareImageUrl={`${url}/og`}
+        />
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs space-y-3 text-sm">
           <p className="text-gray-700 dark:text-gray-200">

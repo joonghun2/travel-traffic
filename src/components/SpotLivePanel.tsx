@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { CrowdStatus, LiveSpotMetric } from '@/types';
 import { useTranslation } from '@/lib/i18n/context';
+import ShareButton from './ShareButton';
 
 const STATUS_STYLE: Record<CrowdStatus, { text: string; badge: string; bar: string; label: string }> = {
   relaxed: {
@@ -37,7 +38,14 @@ const STATUS_STYLE: Record<CrowdStatus, { text: string; badge: string; bar: stri
   },
 };
 
-export default function SpotLivePanel({ initial }: { initial: LiveSpotMetric }) {
+interface SpotLivePanelProps {
+  initial: LiveSpotMetric;
+  name: string;
+  sharePath: string;
+  shareImageUrl: string;
+}
+
+export default function SpotLivePanel({ initial, name, sharePath, shareImageUrl }: SpotLivePanelProps) {
   const { t } = useTranslation();
   const [metric, setMetric] = useState(initial);
 
@@ -58,6 +66,10 @@ export default function SpotLivePanel({ initial }: { initial: LiveSpotMetric }) 
 
   const style = STATUS_STYLE[metric.status] || STATUS_STYLE.moderate;
   const trend = metric.trend || 'stable';
+  const shareText = t('share.text')
+    .replace('{name}', name)
+    .replace('{score}', String(metric.currentScore))
+    .replace('{status}', t(style.label));
 
   return (
     <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
@@ -96,6 +108,14 @@ export default function SpotLivePanel({ initial }: { initial: LiveSpotMetric }) 
         </span>
         <span>{t('spot.updated')}</span>
       </div>
+
+      <ShareButton
+        path={sharePath}
+        title={name}
+        text={shareText}
+        imageUrl={shareImageUrl}
+        className="mt-4 w-full"
+      />
     </section>
   );
 }
