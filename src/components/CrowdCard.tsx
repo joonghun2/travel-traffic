@@ -153,7 +153,7 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
                   {t('card.waitTime')}
                 </span>
                 <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-white dark:bg-gray-900 font-extrabold text-xs sm:text-sm text-gray-900 dark:text-white border border-gray-200/80 dark:border-gray-700/80 shadow-2xs">
-                  ⏱️ 약 {spot.waitTimeMinutes}{t('card.waitMins')}
+                  ⏱️ {t('card.approx')} {spot.waitTimeMinutes}{t('card.waitMins')}
                 </span>
               </div>
             </div>
@@ -196,11 +196,11 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
               </span>
               <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 font-medium">
                 {typeof spot.walkTimeMinutes === 'number' && (
-                  <span>도보 ~{spot.walkTimeMinutes}분</span>
+                  <span>{t('dist.walk')} {spot.walkTimeMinutes}{t('dist.min')}</span>
                 )}
                 {typeof spot.transitTimeMinutes === 'number' && (
                   <span className="text-indigo-600 dark:text-indigo-400 font-semibold">
-                    교통 ~{spot.transitTimeMinutes}분
+                    {t('dist.transit')} {spot.transitTimeMinutes}{t('dist.min')}
                   </span>
                 )}
               </div>
@@ -216,7 +216,7 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <polygon points="3 11 22 2 13 21 11 13 3 11" />
               </svg>
-              <span>길찾기 안내</span>
+              <span>{t('card.navigate')}</span>
             </button>
 
             {spot.escapeRoute && (
@@ -227,7 +227,7 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
                     ? 'bg-amber-500 text-white border-amber-500 shadow-xs'
                     : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800 hover:bg-amber-100'
                 }`}
-                title="인파 회피 히든 스팟 확인"
+                title={t('escape.open')}
               >
                 <span>✨</span>
                 <span className="hidden sm:inline">{showEscape ? t('escape.close') : t('escape.open')}</span>

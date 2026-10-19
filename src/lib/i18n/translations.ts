@@ -29,6 +29,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'map.kakao': '카카오맵',
     'map.naver': '네이버지도',
     'map.google': '구글지도',
+    'map.title': '스마트 길찾기',
+    'map.open': '열기',
+    'card.navigate': '길찾기 안내',
+    'card.approx': '약',
 
     'escape.badge': '인파 회피 추천',
     'escape.navKakao': '카카오맵 길찾기',
@@ -165,6 +169,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'map.kakao': 'Kakao Map',
     'map.naver': 'Naver Map',
     'map.google': 'Google Maps',
+    'map.title': 'Smart Directions',
+    'map.open': 'Open',
+    'card.navigate': 'Get Directions',
+    'card.approx': '~',
 
     'escape.badge': 'Crowd Escape',
     'escape.navKakao': 'Kakao Map Directions',
@@ -301,6 +309,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'map.kakao': 'カカオマップ',
     'map.naver': 'NAVERマップ',
     'map.google': 'Googleマップ',
+    'map.title': 'スマート道案内',
+    'map.open': '開く',
+    'card.navigate': '道案内',
+    'card.approx': '約',
 
     'escape.badge': '混雑回避スポット',
     'escape.navKakao': 'Kakaoマップ案内',

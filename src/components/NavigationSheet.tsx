@@ -63,7 +63,7 @@ export default function NavigationSheet({
         <div className="flex items-start justify-between gap-3 mb-4">
           <div>
             <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 tracking-wide uppercase">
-              {t('map.title', '스마트 길찾기')}
+              {t('map.title')}
             </span>
             <h2 id="nav-sheet-title" className="text-lg font-bold text-gray-900 dark:text-white mt-0.5">
               {spotName}
@@ -85,11 +85,11 @@ export default function NavigationSheet({
         {typeof distanceKm === 'number' && (
           <div className="mb-4 p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/40 flex items-center justify-between text-xs">
             <span className="font-semibold text-blue-700 dark:text-blue-300">
-              📍 내 위치에서 약 {distanceKm < 1 ? `${Math.round(distanceKm * 1000)}m` : `${distanceKm.toFixed(1)}km`}
+              📍 {t('dist.from_me')} {distanceKm < 1 ? `${Math.round(distanceKm * 1000)}m` : `${distanceKm.toFixed(1)}km`}
             </span>
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 font-medium">
-              {walkMinutes && <span>도보 ~{walkMinutes}분</span>}
-              {transitMinutes && <span className="text-indigo-600 dark:text-indigo-400">대중교통 ~{transitMinutes}분</span>}
+              {walkMinutes && <span>{t('dist.walk')} {walkMinutes}{t('dist.min')}</span>}
+              {transitMinutes && <span className="text-indigo-600 dark:text-indigo-400">{t('dist.transit')} {transitMinutes}{t('dist.min')}</span>}
             </div>
           </div>
         )}
@@ -111,7 +111,7 @@ export default function NavigationSheet({
               <span>{t('map.kakao')}</span>
             </div>
             <span className="text-xs text-black/60 group-hover:translate-x-0.5 transition-transform">
-              열기 →
+              {t('map.open')} →
             </span>
           </a>
 
@@ -130,7 +130,7 @@ export default function NavigationSheet({
               <span>{t('map.naver')}</span>
             </div>
             <span className="text-xs text-white/80 group-hover:translate-x-0.5 transition-transform">
-              열기 →
+              {t('map.open')} →
             </span>
           </a>
 
@@ -149,7 +149,7 @@ export default function NavigationSheet({
               <span>{t('map.google')}</span>
             </div>
             <span className="text-xs text-gray-500 dark:text-gray-400 group-hover:translate-x-0.5 transition-transform">
-              열기 →
+              {t('map.open')} →
             </span>
           </a>
         </div>
