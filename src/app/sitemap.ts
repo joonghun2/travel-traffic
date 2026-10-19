@@ -1,9 +1,15 @@
 import type { MetadataRoute } from 'next';
 import { LANGS, SITE_URL, languageAlternates, localizePath } from '@/lib/i18n/routing';
+import { getAllSpotSlugs } from '@/lib/spots';
 
 const PAGES: { path: string; changeFrequency: 'hourly' | 'weekly'; priority: number }[] = [
   { path: '/', changeFrequency: 'hourly', priority: 1.0 },
   { path: '/play', changeFrequency: 'weekly', priority: 0.9 },
+  ...getAllSpotSlugs().map((slug) => ({
+    path: `/spot/${slug}`,
+    changeFrequency: 'hourly' as const,
+    priority: 0.8,
+  })),
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

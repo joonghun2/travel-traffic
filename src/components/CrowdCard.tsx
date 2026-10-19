@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { LiveSpotMetric } from '@/types';
 import { useTranslation } from '@/lib/i18n/context';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import { getSpotSlug } from '@/lib/spots';
 import NavigationSheet from './NavigationSheet';
 import {
   formatDistance,
@@ -23,7 +25,7 @@ interface CrowdCardProps {
 }
 
 export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
-  const { lang, t } = useTranslation();
+  const { lang, t, localePath } = useTranslation();
   const [showEscape, setShowEscape] = useState(false);
   const [showNavSheet, setShowNavSheet] = useState(false);
 
@@ -111,7 +113,9 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
                   </span>
                 )}
                 <h2 className="font-bold text-gray-900 dark:text-white text-base sm:text-lg group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
-                  {name}
+                  <Link href={localePath(`/spot/${getSpotSlug(spot)}`)} className="hover:underline underline-offset-2">
+                    {name}
+                  </Link>
                 </h2>
               </div>
               {address && (
