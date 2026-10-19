@@ -193,6 +193,7 @@
         setTimeout(() => {
             switchView('view-result');
             displayResult();
+            if (window.mountAdfit) window.mountAdfit('adfit-result');
         }, 300);
     }
 

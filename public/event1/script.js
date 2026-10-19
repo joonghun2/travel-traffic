@@ -338,7 +338,7 @@ function handleAnswer(opt) {
 }
 
 function showAdByLang() {
-    // Ad slots removed
+    if (window.mountAdfit) window.mountAdfit('adfit-result');
 }
 
 function showResult() {

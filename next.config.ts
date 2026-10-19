@@ -26,6 +26,7 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         { source: '/', destination: '/ko' },
         { source: '/play', destination: '/ko/play' },
+        { source: '/play/:path*', destination: '/ko/play/:path*' },
         { source: '/spot/:path*', destination: '/ko/spot/:path*' },
       ],
       afterFiles: [],

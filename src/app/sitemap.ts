@@ -5,6 +5,7 @@ import { getAllSpotSlugs } from '@/lib/spots';
 const PAGES: { path: string; changeFrequency: 'hourly' | 'weekly'; priority: number }[] = [
   { path: '/', changeFrequency: 'hourly', priority: 1.0 },
   { path: '/play', changeFrequency: 'weekly', priority: 0.9 },
+  { path: '/play/food-worldcup', changeFrequency: 'weekly', priority: 0.9 },
   ...getAllSpotSlugs().map((slug) => ({
     path: `/spot/${slug}`,
     changeFrequency: 'hourly' as const,

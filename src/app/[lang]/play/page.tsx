@@ -5,6 +5,9 @@ import Link from 'next/link';
 import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
 import { useTranslation } from '@/lib/i18n/context';
+import dynamic from 'next/dynamic';
+
+const KakaoAdfitBanner = dynamic(() => import('@/components/KakaoAdfitBanner'), { ssr: false });
 
 export default function PlayPage() {
   const { lang, t, localePath } = useTranslation();
@@ -92,6 +95,36 @@ export default function PlayPage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </div>
+          </Link>
+
+          {/* Card: 음식 이상형 월드컵 */}
+          <Link
+            href={localePath('/play/food-worldcup')}
+            className="group w-full p-4 sm:p-5 rounded-2xl bg-[#16171d] hover:bg-[#1d1f27] border border-amber-700/50 hover:border-amber-500/70 transition-all duration-200 flex items-center justify-between gap-4 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.99]"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-[#f59e0b] via-[#f97316] to-[#f43f5e] flex items-center justify-center text-2xl sm:text-3xl shadow-md shadow-orange-500/20 flex-shrink-0">
+                🍗
+              </div>
+              <div className="text-left">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
+                    {t('play.card4.title')}
+                  </h3>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    {t('play.card4.badge')}
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-gray-400 mt-0.5 font-medium">
+                  {t('play.card4.sub')}
+                </p>
+              </div>
+            </div>
+            <div className="text-gray-500 group-hover:text-amber-300 group-hover:translate-x-1 transition-all flex-shrink-0">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </div>
@@ -187,6 +220,11 @@ export default function PlayPage() {
             <strong className="text-purple-400">{t('play.tip_highlight')}</strong>
             {t('play.tip_suffix')}
           </p>
+        </div>
+
+        {/* Kakao AdFit 300x250 */}
+        <div className="mt-6">
+          <KakaoAdfitBanner unit="DAN-1KAy0L6HlzeWlDlY" width="300" height="250" />
         </div>
       </main>
 
