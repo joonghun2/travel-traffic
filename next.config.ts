@@ -12,27 +12,24 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      {
-        source: '/ko',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/ko/:path*',
-        destination: '/:path*',
-        permanent: true,
-      },
-      {
-        source: '/en',
-        destination: '/?lang=en',
-        permanent: true,
-      },
-      {
-        source: '/ja',
-        destination: '/?lang=ja',
-        permanent: true,
-      },
+      // Korean lives on the unprefixed URL.
+      { source: '/ko', destination: '/', permanent: true },
+      { source: '/ko/:path*', destination: '/:path*', permanent: true },
+      // Legacy ?lang= links -> language URLs.
+      { source: '/', has: [{ type: 'query', key: 'lang', value: '(?<lang>en|ja)' }], destination: '/:lang', permanent: true },
+      { source: '/play', has: [{ type: 'query', key: 'lang', value: '(?<lang>en|ja)' }], destination: '/:lang/play', permanent: true },
     ];
+  },
+  async rewrites() {
+    return {
+      // Serve the Korean pages (app/[lang] with lang=ko) from the unprefixed URLs.
+      beforeFiles: [
+        { source: '/', destination: '/ko' },
+        { source: '/play', destination: '/ko/play' },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
   },
 };
 

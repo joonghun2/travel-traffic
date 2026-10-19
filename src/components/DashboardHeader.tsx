@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslation } from '@/lib/i18n/context';
+import { localizePath, stripLang } from '@/lib/i18n/routing';
 import ThemeToggle from './ThemeToggle';
 
 interface DashboardHeaderProps {
@@ -16,17 +17,18 @@ export default function DashboardHeader({
   connectedCount = 0,
 }: DashboardHeaderProps) {
   const pathname = usePathname();
-  const { lang, setLang, t } = useTranslation();
+  const { lang, setLang, t, localePath } = useTranslation();
 
-  const isHome = pathname === '/';
-  const isPlay = pathname.startsWith('/play');
+  const path = stripLang(pathname);
+  const isHome = path === '/';
+  const isPlay = path.startsWith('/play');
 
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/80 dark:bg-gray-950/80 border-b border-gray-100 dark:border-gray-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
         {/* Logo & Brand */}
         <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href={localePath('/')} className="flex items-center gap-2">
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-black text-sm sm:text-base shadow-md shadow-blue-500/20">
               C
             </div>
@@ -47,7 +49,7 @@ export default function DashboardHeader({
           {/* Navigation Tabs (App style) */}
           <nav className="hidden sm:flex items-center gap-1 ml-4 bg-gray-100/80 dark:bg-gray-900/80 p-1 rounded-xl border border-gray-200/50 dark:border-gray-800/60 text-xs font-semibold">
             <Link
-              href="/"
+              href={localePath('/')}
               className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                 isHome
                   ? 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 shadow-2xs font-bold'
@@ -58,7 +60,7 @@ export default function DashboardHeader({
               <span>{t('nav.live')}</span>
             </Link>
             <Link
-              href="/play"
+              href={localePath('/play')}
               className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                 isPlay
                   ? 'bg-white dark:bg-gray-800 text-purple-600 dark:text-purple-400 shadow-2xs font-bold'
@@ -88,9 +90,14 @@ export default function DashboardHeader({
           {/* Language Switcher */}
           <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-xl p-0.5 text-xs font-semibold">
             {(['ko', 'en', 'ja'] as const).map((code) => (
-              <button
+              <Link
                 key={code}
-                onClick={() => setLang(code)}
+                href={localizePath(path, code)}
+                hrefLang={code}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setLang(code);
+                }}
                 className={`px-2 py-1 rounded-lg transition-all ${
                   lang === code
                     ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-2xs font-bold'
@@ -98,7 +105,7 @@ export default function DashboardHeader({
                 }`}
               >
                 {code.toUpperCase()}
-              </button>
+              </Link>
             ))}
           </div>
 

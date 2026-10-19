@@ -1,61 +1,36 @@
 import type { MetadataRoute } from 'next';
+import { LANGS, SITE_URL, languageAlternates, localizePath } from '@/lib/i18n/routing';
+
+const PAGES: { path: string; changeFrequency: 'hourly' | 'weekly'; priority: number }[] = [
+  { path: '/', changeFrequency: 'hourly', priority: 1.0 },
+  { path: '/play', changeFrequency: 'weekly', priority: 0.9 },
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.checkeastpoint.com';
   const lastModified = new Date();
 
-  return [
-    {
-      url: `${baseUrl}/`,
+  const appPages = PAGES.flatMap(({ path, changeFrequency, priority }) =>
+    LANGS.map((lang) => ({
+      url: `${SITE_URL}${localizePath(path, lang)}`,
       lastModified,
-      changeFrequency: 'hourly',
-      priority: 1.0,
-      alternates: {
-        languages: {
-          ko: `${baseUrl}/`,
-          en: `${baseUrl}/?lang=en`,
-          ja: `${baseUrl}/?lang=ja`,
-        },
-      },
+      changeFrequency,
+      priority,
+      alternates: { languages: languageAlternates(path) },
+    }))
+  );
+
+  // Static test pages in /public pick their language from ?lang=.
+  const eventPages = ['event1', 'event2'].map((name) => ({
+    url: `${SITE_URL}/${name}/index.html`,
+    lastModified,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+    alternates: {
+      languages: Object.fromEntries(
+        LANGS.map((lang) => [lang, `${SITE_URL}/${name}/index.html?lang=${lang}`])
+      ),
     },
-    {
-      url: `${baseUrl}/play`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.9,
-      alternates: {
-        languages: {
-          ko: `${baseUrl}/play`,
-          en: `${baseUrl}/play?lang=en`,
-          ja: `${baseUrl}/play?lang=ja`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/event1/index.html`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-      alternates: {
-        languages: {
-          ko: `${baseUrl}/event1/index.html?lang=ko`,
-          en: `${baseUrl}/event1/index.html?lang=en`,
-          ja: `${baseUrl}/event1/index.html?lang=ja`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/event2/index.html`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-      alternates: {
-        languages: {
-          ko: `${baseUrl}/event2/index.html?lang=ko`,
-          en: `${baseUrl}/event2/index.html?lang=en`,
-          ja: `${baseUrl}/event2/index.html?lang=ja`,
-        },
-      },
-    },
-  ];
+  }));
+
+  return [...appPages, ...eventPages];
 }

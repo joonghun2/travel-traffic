@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslation } from '@/lib/i18n/context';
+import { stripLang } from '@/lib/i18n/routing';
 
 interface BottomNavProps {
   onNearbyClick?: () => void;
@@ -15,16 +16,17 @@ export default function BottomNav({
   isNearbyActive = false,
 }: BottomNavProps) {
   const pathname = usePathname();
-  const { t } = useTranslation();
-  const isHome = pathname === '/';
-  const isPlay = pathname.startsWith('/play');
+  const { t, localePath } = useTranslation();
+  const path = stripLang(pathname);
+  const isHome = path === '/';
+  const isPlay = path.startsWith('/play');
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl border-t border-gray-200/80 dark:border-gray-800/80 px-4 py-2 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
       <div className="max-w-md mx-auto flex items-center justify-around">
         {/* 1. Live Crowd (Home) */}
         <Link
-          href="/"
+          href={localePath('/')}
           className={`flex flex-col items-center gap-1 py-1 px-4 rounded-xl transition-all duration-150 active:scale-90 ${
             isHome && !isNearbyActive
               ? 'text-blue-600 dark:text-blue-400 font-bold'
@@ -40,7 +42,7 @@ export default function BottomNav({
 
         {/* 2. Play / Tests */}
         <Link
-          href="/play"
+          href={localePath('/play')}
           className={`flex flex-col items-center gap-1 py-1 px-4 rounded-xl transition-all duration-150 active:scale-90 ${
             isPlay
               ? 'text-blue-600 dark:text-blue-400 font-bold'
@@ -74,7 +76,7 @@ export default function BottomNav({
           </button>
         ) : (
           <Link
-            href="/?sort=distance"
+            href={`${localePath('/')}?sort=distance`}
             className="flex flex-col items-center gap-1 py-1 px-4 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all duration-150 active:scale-90"
           >
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

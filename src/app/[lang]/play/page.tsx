@@ -7,7 +7,7 @@ import BottomNav from '@/components/BottomNav';
 import { useTranslation } from '@/lib/i18n/context';
 
 export default function PlayPage() {
-  const { lang, t } = useTranslation();
+  const { lang, t, localePath } = useTranslation();
 
   // Active test runner in full-screen iframe modal
   const [activeTestKey, setActiveTestKey] = useState<'event1' | 'event2' | null>(null);
@@ -63,7 +63,7 @@ export default function PlayPage() {
         <div className="space-y-3.5">
           {/* Card 1: 실시간 여행지 혼잡도 확인 */}
           <Link
-            href="/"
+            href={localePath('/')}
             className="group w-full p-4 sm:p-5 rounded-2xl bg-[#16171d] hover:bg-[#1d1f27] border border-gray-800/80 hover:border-gray-700/80 transition-all duration-200 flex items-center justify-between gap-4 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.99]"
           >
             <div className="flex items-center gap-4">
