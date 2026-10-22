@@ -31,6 +31,8 @@ export default function SiteFooter() {
           <p><Link className={a} href={localePath('/jeju/beaches')}>{t('map.city.jeju')} · {t('theme.beaches')}</Link></p>
           <p><Link className={a} href={localePath('/busan/beaches')}>{t('map.city.busan')} · {t('theme.beaches')}</Link></p>
           <p><Link className={a} href={localePath('/play')}>{t('footer.play')}</Link></p>
+          <p><Link className={a} href={localePath('/cards')}>{t('footer.cards')}</Link></p>
+          <p><Link className={a} href={localePath('/widget')}>{t('footer.widget')}</Link></p>
         </div>
         <div className={col}>
           <p className="font-bold text-gray-800 dark:text-gray-200">Check East Point</p>

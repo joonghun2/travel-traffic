@@ -384,7 +384,7 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pb-16 lg:pb-0">
       <DashboardHeader connectedCount={liveCount} live={isLiveCity} center={<MapSearch spots={spots} onPick={selectAndFocus} className="w-full" />} />
-      <h1 className="sr-only">{t('map.pageTitle')}</h1>
+      <h1 className="sr-only">{city === 'seoul' ? t('map.pageTitle') : t('forecast.hubName').replace('{city}', t(`map.city.${city}`))}</h1>
 
       {/* Mobile: search, city tabs, theme chips */}
       <div className="lg:hidden px-4 pt-3 space-y-2.5">

@@ -20,6 +20,10 @@ import {
 } from '@/data/seoulFoodTest';
 import { useTranslation } from '@/lib/i18n/context';
 import { SITE_URL, pick } from '@/lib/i18n/routing';
+import { pickQuietNear } from '@/lib/quietNear';
+import { getSpotSlug } from '@/lib/slug';
+import { STATUS_COLOR } from '@/lib/mapSpots';
+import { LiveSpotMetric } from '@/types';
 import ShareButton from './ShareButton';
 
 const KakaoAdfitBanner = dynamic(() => import('./KakaoAdfitBanner'), { ssr: false });
@@ -221,6 +225,63 @@ function RestaurantCard({ r, showMap }: { r: Restaurant; showMap: boolean }) {
   );
 }
 
+/** "3 quiet spots near <area> right now" from the live crowd API, plus a story card to save. */
+function QuietSpotsNearArea({ type, area }: { type: FoodTypeId; area: AreaId }) {
+  const { lang, t, localePath } = useTranslation();
+  const [spots, setSpots] = useState<LiveSpotMetric[] | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/crowd')
+      .then((r) => r.json())
+      .then((d) => alive && setSpots(d.spots ?? []))
+      .catch(() => alive && setSpots([]));
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const quiet = spots ? pickQuietNear(spots, AREAS[area].center, 3) : [];
+  const storyPath = localePath(`${TEST_PATH}/result/${type}/story/${area}.png`);
+
+  return (
+    <section className="space-y-3">
+      <div>
+        <h2 className="text-lg font-extrabold">🟢 {t('quiet.title').replace('{area}', pick(AREAS[area].name, lang))}</h2>
+        <p className="text-xs text-gray-400 mt-1">{t('quiet.desc')}</p>
+      </div>
+      {!spots ? (
+        <p className="text-sm text-gray-400">{t('quiet.loading')}</p>
+      ) : (
+        <ul className="space-y-2">
+          {quiet.map((m) => (
+            <li key={m.id}>
+              <Link
+                href={localePath(`/spot/${getSpotSlug(m)}`)}
+                className="flex items-center gap-3 p-3 rounded-2xl bg-[#16171d] border border-gray-800 hover:border-gray-600"
+              >
+                <span className="text-2xl" aria-hidden="true">{m.emoji}</span>
+                <span className="flex-1 min-w-0 text-sm font-bold truncate">{pick(m.name, lang)}</span>
+                <span className="shrink-0 text-xs font-bold px-2 py-1 rounded-full bg-white/90" style={{ color: STATUS_COLOR[m.status] }}>
+                  {t(`card.status.${m.status}`)} {m.currentScore}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+      <a
+        href={storyPath}
+        download={`checkeastpoint-${type}-${area}.png`}
+        onClick={() => window.gtag?.('event', 'story_card_download', { item_id: `${type}-${area}` })}
+        className="block p-3 rounded-2xl bg-white/10 border border-white/15 text-center text-sm font-bold hover:bg-white/15"
+      >
+        📸 {t('quiet.story')}
+      </a>
+    </section>
+  );
+}
+
 export function SeoulFoodTestResult({ type }: { type: FoodTypeId }) {
   const { lang, localePath } = useTranslation();
   const [area, setArea] = useState<AreaId>('hongdae');
@@ -305,6 +366,8 @@ export function SeoulFoodTestResult({ type }: { type: FoodTypeId }) {
         </a>
         <p className="text-[11px] text-gray-500">{ui('ratingNote', lang)}</p>
       </section>
+
+      <QuietSpotsNearArea type={type} area={area} />
 
       <section>
         <p className="text-sm font-bold text-gray-300 mb-2">{ui('otherAreas', lang)}</p>

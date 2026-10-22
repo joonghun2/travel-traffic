@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from '@/lib/i18n/context';
 import { isChinese } from '@/lib/i18n/routing';
+import { campaignForPath, withUtm } from '@/lib/utm';
 
 const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
 const KAKAO_SDK_URL = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js';
@@ -80,9 +81,7 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
 
   const urlFor = (channel: string) => {
     const url = new URL(localePath(path), window.location.origin);
-    url.searchParams.set('utm_source', channel);
-    url.searchParams.set('utm_medium', 'share');
-    return url.toString();
+    return withUtm(url.toString(), { source: channel, medium: 'share', campaign: campaignForPath(path) });
   };
 
   const track = (channel: string) => {
@@ -167,6 +166,13 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
       cls: 'bg-black text-white',
       onClick: () =>
         openWindow('x', `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(urlFor('x'))}`),
+    },
+    {
+      key: 'whatsapp',
+      label: t('share.whatsapp'),
+      icon: 'W',
+      cls: 'bg-[#25D366] text-white',
+      onClick: () => openWindow('whatsapp', `https://wa.me/?text=${encodeURIComponent(`${text} ${urlFor('whatsapp')}`)}`),
     },
     {
       key: 'facebook',

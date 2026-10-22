@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
 import { LANGS, isLang, pick } from '@/lib/i18n/routing';
-import { FOOD_TYPES, FOOD_TYPE_IDS, isFoodTypeId, ui } from '@/data/seoulFoodTest';
+import { FOOD_TYPES, FOOD_TYPE_IDS, OG_GRADIENTS as GRADIENTS, isFoodTypeId, ui } from '@/data/seoulFoodTest';
 
 // Served at /play/seoul-food-test/result/<type>/og (Korean, via rewrite), /en/..., /ja/...
 export const dynamic = 'force-static';
@@ -10,15 +10,6 @@ export const dynamicParams = false;
 export function generateStaticParams() {
   return LANGS.flatMap((lang) => FOOD_TYPE_IDS.map((type) => ({ lang, type })));
 }
-
-const GRADIENTS: Record<string, string> = {
-  spicy: 'linear-gradient(135deg, #f43f5e, #ef4444 50%, #f97316)',
-  soup: 'linear-gradient(135deg, #d97706, #ea580c 50%, #ca8a04)',
-  noodle: 'linear-gradient(135deg, #0ea5e9, #06b6d4 50%, #14b8a6)',
-  meat: 'linear-gradient(135deg, #dc2626, #e11d48 50%, #db2777)',
-  dumpling: 'linear-gradient(135deg, #10b981, #14b8a6 50%, #0891b2)',
-  chicken: 'linear-gradient(135deg, #eab308, #f59e0b 50%, #f97316)',
-};
 
 export async function GET(_request: Request, { params }: { params: Promise<{ lang: string; type: string }> }) {
   const { lang: rawLang, type: rawType } = await params;

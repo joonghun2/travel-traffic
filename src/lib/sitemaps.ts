@@ -54,6 +54,8 @@ export async function entriesFor(section: Section): Promise<Entry[]> {
   return [
     { path: '/', lastmod: now, changefreq: 'hourly', priority: 1.0 },
     { path: '/list', lastmod: now, changefreq: 'hourly', priority: 0.9 },
+    { path: '/cards', lastmod: now, changefreq: 'hourly', priority: 0.7 },
+    { path: '/widget', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.5 },
     { path: '/play', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.8 },
     { path: '/play/food-worldcup', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.8 },
     { path: '/play/seoul-food-test', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.8 },

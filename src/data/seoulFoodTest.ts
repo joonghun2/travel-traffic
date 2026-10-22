@@ -18,30 +18,34 @@ export function isFoodTypeId(v: string | null | undefined): v is FoodTypeId {
 
 const L = (ko: string, en: string, ja: string): LocalizedString => ({ ko, en, ja });
 
-export const AREAS: Record<AreaId, { emoji: string; name: LocalizedString; desc: LocalizedString; mapKeyword: string }> = {
+export const AREAS: Record<AreaId, { emoji: string; name: LocalizedString; desc: LocalizedString; mapKeyword: string; center: [number, number] }> = {
   hongdae: {
     emoji: '🎸',
     name: L('홍대·합정·연남', 'Hongdae · Hapjeong', '弘大・合井・延南'),
     desc: L('버스킹과 골목 맛집', 'Buskers and alley eateries', 'ストリートライブと路地裏グルメ'),
     mapKeyword: '홍대',
+    center: [37.5563, 126.9236],
   },
   gangnam: {
     emoji: '🏙️',
     name: L('강남·신사·압구정', 'Gangnam · Sinsa', '江南・新沙・狎鴎亭'),
     desc: L('세련된 거리의 오래된 맛집', 'Old favourites on chic streets', 'おしゃれな街の老舗'),
     mapKeyword: '강남 신사',
+    center: [37.5172, 127.0286],
   },
   jongno: {
     emoji: '🏯',
     name: L('종로·을지로', 'Jongno · Euljiro', '鍾路・乙支路'),
     desc: L('노포와 시장의 맛', 'Heritage eateries and markets', '老舗と市場の味'),
     mapKeyword: '종로 을지로',
+    center: [37.5687, 126.9910],
   },
   seongsu: {
     emoji: '🏭',
     name: L('성수·건대', 'Seongsu · Konkuk Univ.', '聖水・建大'),
     desc: L('공장 골목 핫플', 'Hip spots in old factory lanes', '倉庫街のホットスポット'),
     mapKeyword: '성수',
+    center: [37.5446, 127.0557],
   },
 };
 
@@ -403,3 +407,14 @@ export const UI: Record<string, LocalizedString> = {
 export function ui(key: keyof typeof UI, lang: Lang, vars: Record<string, string | number> = {}): string {
   return Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), pick(UI[key], lang));
 }
+
+/** Result-card backgrounds for next/og images (Satori needs CSS gradients, not Tailwind classes). */
+export const OG_GRADIENTS: Record<string, string> = {
+  spicy: 'linear-gradient(135deg, #f43f5e, #ef4444 50%, #f97316)',
+  soup: 'linear-gradient(135deg, #d97706, #ea580c 50%, #ca8a04)',
+  noodle: 'linear-gradient(135deg, #0ea5e9, #06b6d4 50%, #14b8a6)',
+  meat: 'linear-gradient(135deg, #dc2626, #e11d48 50%, #db2777)',
+  dumpling: 'linear-gradient(135deg, #10b981, #14b8a6 50%, #0891b2)',
+  chicken: 'linear-gradient(135deg, #eab308, #f59e0b 50%, #f97316)',
+};
+

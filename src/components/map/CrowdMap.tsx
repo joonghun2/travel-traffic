@@ -146,6 +146,9 @@ export default function CrowdMap({ spots, selectedId, onSelect, userLocation, fo
     });
     map.touchZoomRotate.disableRotation();
     mapRef.current = map;
+    // Collapse the credits at once (the (i) button still opens them): expanded, their late-painted
+    // text became the page's Largest Contentful Paint element (7.8s on mobile).
+    containerRef.current.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
 
     map.on('load', () => {
       // Calm base map: light-blue water, no clutter labels.
