@@ -146,9 +146,18 @@ export default function CrowdMap({ spots, selectedId, onSelect, userLocation, fo
     });
     map.touchZoomRotate.disableRotation();
     mapRef.current = map;
-    // Collapse the credits at once (the (i) button still opens them): expanded, their late-painted
-    // text became the page's Largest Contentful Paint element (7.8s on mobile).
-    containerRef.current.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
+    // MapLibre fills in the credits, expanded, when style data arrives (before 'load'). Collapse them in
+    // that same event, before paint (the (i) button still opens them): their late-painted text was
+    // the page's Largest Contentful Paint element (7.8s on mobile).
+    const collapseCredits = () => {
+      const attrib = containerRef.current?.querySelector('.maplibregl-ctrl-attrib.maplibregl-compact-show');
+      if (!attrib) return;
+      attrib.classList.remove('maplibregl-compact-show');
+      map.off('styledata', collapseCredits);
+      map.off('sourcedata', collapseCredits);
+    };
+    map.on('styledata', collapseCredits);
+    map.on('sourcedata', collapseCredits);
 
     map.on('load', () => {
       // Calm base map: light-blue water, no clutter labels.
