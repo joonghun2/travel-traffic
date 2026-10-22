@@ -2,15 +2,9 @@ import { Spot } from '@/types';
 import { SPOTS_DATA } from '@/data/spotsData';
 import { computeLiveSpotMetric } from '@/lib/crowdEngine';
 import { calculateDistanceKm } from '@/lib/geoUtils';
+import { getSpotSlug } from '@/lib/slug';
 
-// URL slug from the English name, e.g. "Dongdaemun Design Plaza (DDP)" -> "dongdaemun-design-plaza-ddp".
-export function getSpotSlug(spot: Spot): string {
-  return spot.name.en
-    .toLowerCase()
-    .replace(/&/g, ' ')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
+export { getSpotSlug };
 
 const SPOTS_BY_SLUG = new Map(SPOTS_DATA.map((spot) => [getSpotSlug(spot), spot]));
 

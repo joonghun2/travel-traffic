@@ -5,7 +5,7 @@ import { LiveSpotMetric } from '@/types';
 import { useTranslation } from '@/lib/i18n/context';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { getSpotSlug } from '@/lib/spots';
+import { getSpotSlug } from '@/lib/slug';
 import NavigationSheet from './NavigationSheet';
 import {
   formatDistance,

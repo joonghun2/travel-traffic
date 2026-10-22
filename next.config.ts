@@ -25,6 +25,7 @@ const nextConfig: NextConfig = {
       // Serve the Korean pages (app/[lang] with lang=ko) from the unprefixed URLs.
       beforeFiles: [
         { source: '/', destination: '/ko' },
+        { source: '/list', destination: '/ko/list' },
         { source: '/play', destination: '/ko/play' },
         { source: '/play/:path*', destination: '/ko/play/:path*' },
         { source: '/spot/:path*', destination: '/ko/spot/:path*' },
