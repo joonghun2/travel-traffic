@@ -23,7 +23,6 @@ import SpotSearchAutocomplete from '@/components/SpotSearchAutocomplete';
 import DistrictTabs from '@/components/DistrictTabs';
 import CrowdCard from '@/components/CrowdCard';
 import BottomNav from '@/components/BottomNav';
-import Link from 'next/link';
 
 const NativeInFeedAdCard = dynamic(() => import('@/components/NativeInFeedAdCard'), {
   ssr: false,
@@ -293,7 +292,6 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors">
       {/* Header */}
       <DashboardHeader
-        dataSourceType={dataSource.type}
         connectedCount={dataSource.spotsConnected}
       />
 

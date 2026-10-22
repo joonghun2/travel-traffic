@@ -8,12 +8,10 @@ import { localizePath, stripLang } from '@/lib/i18n/routing';
 import ThemeToggle from './ThemeToggle';
 
 interface DashboardHeaderProps {
-  dataSourceType?: string;
   connectedCount?: number;
 }
 
 export default function DashboardHeader({
-  dataSourceType = 'LIVE_API',
   connectedCount = 0,
 }: DashboardHeaderProps) {
   const pathname = usePathname();

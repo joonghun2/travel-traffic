@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import './globals.css';
 
 // Rendered for URLs outside the [lang] segment, so it needs its own <html>.
@@ -9,9 +10,9 @@ export default function NotFound() {
           <h1 className="text-2xl font-bold">404</h1>
           <p className="text-sm text-gray-500">페이지를 찾을 수 없습니다 · Page not found · ページが見つかりません</p>
           <nav className="flex gap-3 text-sm font-semibold text-blue-600">
-            <a href="/">한국어</a>
-            <a href="/en">English</a>
-            <a href="/ja">日本語</a>
+            <Link href="/">한국어</Link>
+            <Link href="/en">English</Link>
+            <Link href="/ja">日本語</Link>
           </nav>
         </main>
       </body>
