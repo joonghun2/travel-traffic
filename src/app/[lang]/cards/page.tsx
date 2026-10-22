@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { CityId } from '@/types';
 import { htmlLang, isLang, localizePath } from '@/lib/i18n/routing';
@@ -36,13 +37,14 @@ export default async function CardsPage({ params }: { params: Params }) {
                 const src = localizePath(`/cards/${city}-${size}.png`, lang);
                 return (
                   <figure key={size} className="space-y-2">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    {/* Resized WebP preview; the download link below is the full-size PNG. */}
+                    <Image
                       src={src}
                       alt={`${t(`map.city.${city}`)} TOP5 — ${t(`cards.${size}`)}`}
                       width={1080}
                       height={size === 'feed' ? 1350 : 1920}
-                      loading="lazy"
+                      sizes="(max-width: 640px) 45vw, 460px"
+                      priority={city === 'seoul'}
                       className="w-full h-auto rounded-2xl border border-gray-100 dark:border-gray-800 bg-slate-900"
                     />
                     <figcaption className="flex items-center justify-between gap-2 text-xs text-gray-500 dark:text-gray-400">
