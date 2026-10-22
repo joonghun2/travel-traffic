@@ -119,6 +119,7 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
         );
       } catch {}
     };
+    refresh();
     const interval = setInterval(refresh, 60000);
     return () => clearInterval(interval);
   }, []);
