@@ -106,8 +106,14 @@ export default function SpotLivePanel({ initial, name, sharePath, shareImageUrl 
         <span className="font-semibold">
           {trend === 'rising' ? '↗' : trend === 'falling' ? '↘' : '→'} {t(`spot.trend.${trend}`)}
         </span>
-        <span>{t('spot.updated')}</span>
+        <span>{metric.isLive ? t('spot.updated') : ''}</span>
       </div>
+
+      <p className="mt-2 text-[11px] text-gray-400 dark:text-gray-500">
+        {metric.isLive && metric.liveUpdatedAt
+          ? `${t('spot.source.live').replace('{time}', metric.liveUpdatedAt.slice(11, 16))} · ${t('spot.attribution')}`
+          : t('spot.source.estimate')}
+      </p>
 
       <ShareButton
         path={sharePath}

@@ -14,14 +14,15 @@ import {
   HourlyPoint,
 } from '@/lib/spots';
 import { computeLiveSpotMetric } from '@/lib/crowdEngine';
+import { getCrowdSnapshot } from '@/lib/crowdSnapshot';
 import { formatDistance, getGoogleNavUrl, getKakaoNavUrl, getNaverNavUrl } from '@/lib/geoUtils';
 import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
 import SpotLivePanel from '@/components/SpotLivePanel';
 
 export const dynamicParams = false;
-// Re-render the server-side baseline score every 10 minutes; the panel polls live data on the client.
-export const revalidate = 600;
+// Re-render with the cached Seoul snapshot every 5 minutes; the panel polls /api/crowd on the client.
+export const revalidate = 300;
 
 type Params = Promise<{ lang: string; slug: string }>;
 
@@ -120,7 +121,8 @@ export default async function SpotPage({ params }: { params: Params }) {
   const area = spot.address?.[lang] || spot.area?.[lang] || '';
   const bestTime = spot.bestTime[lang];
   const tip = spot.secretTip?.[lang] || spot.tip?.[lang];
-  const initial = computeLiveSpotMetric(spot);
+  const snapshot = await getCrowdSnapshot();
+  const initial = snapshot.spots.find((s) => s.id === spot.id) ?? computeLiveSpotMetric(spot);
   const weekday = getHourlyForecast(spot, false);
   const weekend = getHourlyForecast(spot, true);
   const quietHour = formatHour(lang, getQuietestDaytimeHour(weekday));

@@ -1,136 +1,46 @@
 import { NextResponse } from 'next/server';
-import { SPOTS_DATA } from '@/data/spotsData';
-import { computeLiveSpotMetric } from '@/lib/crowdEngine';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
-import { fetchSeoulBatchData } from '@/lib/seoulCityDataApi';
-import { SEOUL_AREA_MAPPING } from '@/data/seoulAreaMapping';
-import { Spot, LiveSpotMetric } from '@/types';
+import { getCrowdSnapshot } from '@/lib/crowdSnapshot';
 
-export const runtime = 'edge';
-export const revalidate = 30;
+// Node runtime: the Seoul Open API is plain http on port 8088.
+export const runtime = 'nodejs';
+// The JSON is regenerated at most once a minute; Seoul data itself is cached for 5 minutes.
+export const revalidate = 60;
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    // Step 1: Start with baseline heuristic for Seoul spots
-    const liveMetrics: LiveSpotMetric[] = SPOTS_DATA.map((spot: Spot) =>
-      computeLiveSpotMetric(spot)
-    );
-
-    // Step 2: Overlay real-time data from Seoul Open Data API
-    const seoulApiKey = process.env.SEOUL_OPENDATA_API_KEY;
-    let seoulApiActive = false;
-    let seoulApiCount = 0;
-
-    if (seoulApiKey && seoulApiKey !== 'your_seoul_api_key_here' && seoulApiKey.length > 0) {
-      const seoulSpotIds = liveMetrics
-        .filter((s) => typeof s.id === 'number')
-        .map((s) => s.id as number);
-
-      // Collect unique area names that have mappings
-      const areaNames = seoulSpotIds
-        .map((id) => SEOUL_AREA_MAPPING[id])
-        .filter(Boolean) as string[];
-
-      if (areaNames.length > 0) {
-        try {
-          const seoulData = await fetchSeoulBatchData(areaNames, seoulApiKey);
-
-          if (seoulData.size > 0) {
-            seoulApiActive = true;
-            // Apply real API data to matching spots
-            liveMetrics.forEach((spot) => {
-              if (typeof spot.id === 'number') {
-                const areaName = SEOUL_AREA_MAPPING[spot.id];
-                if (areaName && seoulData.has(areaName)) {
-                  const realData = seoulData.get(areaName)!;
-                  spot.currentScore = realData.score;
-                  spot.status = realData.status;
-
-                  // Recalculate wait time based on real score & category
-                  const isWaitHeavy = spot.category === 'food' || spot.category === 'shopping';
-                  const waitMultiplier = isWaitHeavy ? 1.2 : 0.7;
-
-                  if (realData.status === 'very_crowded' || (realData.status as any) === 'packed') {
-                    spot.waitTimeMinutes = Math.round((35 + ((realData.score - 85) / 13) * 35) * waitMultiplier);
-                  } else if (realData.status === 'crowded') {
-                    spot.waitTimeMinutes = Math.round((15 + ((realData.score - 70) / 15) * 20) * waitMultiplier);
-                  } else if (realData.status === 'moderate') {
-                    spot.waitTimeMinutes = Math.round((5 + ((realData.score - 40) / 30) * 10) * waitMultiplier);
-                  } else {
-                    spot.waitTimeMinutes = Math.round(((realData.score / 40) * 5) * waitMultiplier);
-                  }
-
-                  spot.surgeAlert = realData.score >= 90 || (spot.isPeak && realData.score >= 85);
-                  seoulApiCount++;
-                }
-              }
-            });
-          }
-        } catch (apiErr) {
-          console.warn('Seoul API batch fetch failed, falling back to simulation:', apiErr);
-        }
-      }
-    }
-
-    // Step 3: Apply Supabase DB overrides if configured
-    const supabase = getSupabaseServerClient();
-    if (supabase) {
-      try {
-        const { data: dbMetrics } = await supabase
-          .from('crowd_metrics')
-          .select('*');
-
-        if (dbMetrics && (dbMetrics as any[]).length > 0) {
-          const metricMap = new Map(
-            (dbMetrics as any[]).map((m) => [String(m.spot_id), m])
-          );
-          liveMetrics.forEach((spot) => {
-            const dbVal = metricMap.get(String(spot.id));
-            if (dbVal) {
-              spot.currentScore = dbVal.current_score;
-              spot.status = dbVal.status_level;
-              spot.waitTimeMinutes = dbVal.wait_time_minutes;
-              spot.surgeAlert = dbVal.surge_alert;
-            }
-          });
-        }
-      } catch (dbErr) {
-        console.warn('Supabase DB override failed:', dbErr);
-      }
-    }
+    const { spots, liveCount, fetchedAt } = await getCrowdSnapshot();
 
     return NextResponse.json(
       {
         timestamp: new Date().toISOString(),
         city: 'seoul',
-        count: liveMetrics.length,
+        count: spots.length,
         dataSource: {
-          seoul: seoulApiActive
-            ? {
-                type: 'LIVE_API',
-                provider: '서울 실시간 도시데이터',
-                spotsConnected: seoulApiCount,
-              }
-            : {
-                type: 'SIMULATION',
-                provider: 'crowdEngine Heuristic',
-                spotsConnected: 0,
-              },
+          seoul:
+            liveCount > 0
+              ? {
+                  type: 'LIVE_API',
+                  provider: '서울 실시간 인구데이터',
+                  spotsConnected: liveCount,
+                  fetchedAt,
+                }
+              : {
+                  type: 'SIMULATION',
+                  provider: 'crowdEngine Heuristic',
+                  spotsConnected: 0,
+                },
         },
-        spots: liveMetrics,
+        spots,
       },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
           'Access-Control-Allow-Origin': '*',
         },
       }
     );
   } catch (err) {
-    console.error('Edge crowd API error:', err);
-    return NextResponse.json(
-      { error: 'Failed to compute crowd metrics' },
-      { status: 500 }
-    );
+    console.error('Crowd API error:', err);
+    return NextResponse.json({ error: 'Failed to compute crowd metrics' }, { status: 500 });
   }
 }

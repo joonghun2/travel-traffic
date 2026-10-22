@@ -69,6 +69,10 @@ export interface LiveSpotMetric extends Spot {
   distanceKm?: number;
   walkTimeMinutes?: number;
   transitTimeMinutes?: number;
+  /** True when the score comes from Seoul real-time population data, false for estimates. */
+  isLive?: boolean;
+  /** Seoul data timestamp (PPLTN_TIME, KST "YYYY-MM-DD HH:mm"). */
+  liveUpdatedAt?: string;
 }
 
 export interface CityMetric {
