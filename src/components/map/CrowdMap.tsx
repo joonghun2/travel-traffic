@@ -31,6 +31,8 @@ interface Props {
   /** Fly to this point whenever `ts` changes. */
   focus: { lat: number; lng: number; zoom?: number; ts: number } | null;
   lang: Lang;
+  /** Initial map centre [lng, lat]. */
+  center?: [number, number];
   labels: { zoomIn: string; zoomOut: string; locate: string; cluster: string; estimate: string };
   onLocate: () => void;
   locating: boolean;
@@ -75,7 +77,7 @@ function clusterElement(count: number, label: string, onClick: () => void) {
   return el;
 }
 
-export default function CrowdMap({ spots, selectedId, onSelect, userLocation, focus, lang, labels, onLocate, locating }: Props) {
+export default function CrowdMap({ spots, selectedId, onSelect, userLocation, focus, lang, center = SEOUL_CENTER, labels, onLocate, locating }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
   const markersRef = useRef<Marker[]>([]);
@@ -132,7 +134,7 @@ export default function CrowdMap({ spots, selectedId, onSelect, userLocation, fo
     const map = new maplibregl.Map({
       container: containerRef.current,
       style: STYLE_URL,
-      center: SEOUL_CENTER,
+      center,
       zoom: 11,
       minZoom: 9,
       maxZoom: 17,
@@ -166,6 +168,8 @@ export default function CrowdMap({ spots, selectedId, onSelect, userLocation, fo
       map.remove();
       mapRef.current = null;
     };
+    // Create once; the centre only sets the initial view.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Base-map label language.

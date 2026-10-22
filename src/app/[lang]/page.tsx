@@ -12,5 +12,5 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
   const { lang } = await params;
   if (!isLang(lang)) notFound();
   const snapshot = await getCrowdSnapshot();
-  return <MapHome initialSpots={toMapSpots(snapshot.spots, lang)} liveCount={snapshot.liveCount} />;
+  return <MapHome city="seoul" initialSpots={toMapSpots(snapshot.spots, lang)} liveCount={snapshot.liveCount} />;
 }

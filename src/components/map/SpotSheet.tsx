@@ -67,12 +67,19 @@ export default function SpotSheet({ spot, distanceKm, onClose, className = '' }:
             >
               {t(STATUS_LABEL[spot.status])}
             </span>
-            {!spot.isLive && (
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-gray-100 dark:bg-gray-800 text-gray-500">
-                {t('map.estimate')}
+            {spot.kind === 'forecast' ? (
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300">
+                {t('forecast.badge')}
               </span>
+            ) : (
+              !spot.isLive && (
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-gray-100 dark:bg-gray-800 text-gray-500">
+                  {t('map.estimate')}
+                </span>
+              )
             )}
           </div>
+          {spot.kind === 'live' && (
           <div className="text-right text-xs text-gray-500 dark:text-gray-400">
             {t('card.waitTime')}
             <div className="text-sm font-extrabold text-gray-900 dark:text-white">
@@ -80,10 +87,17 @@ export default function SpotSheet({ spot, distanceKm, onClose, className = '' }:
               {t('card.waitMins')}
             </div>
           </div>
+          )}
         </div>
 
         <p className="mt-2 text-xs text-gray-600 dark:text-gray-300">
-          <strong className="font-semibold">⏰ {t('card.bestTime')}:</strong> {spot.bestTime}
+          {spot.kind === 'forecast' ? (
+            <>⏰ {t('forecast.bestDay').replace('{date}', spot.bestTime)}</>
+          ) : (
+            <>
+              <strong className="font-semibold">⏰ {t('card.bestTime')}:</strong> {spot.bestTime}
+            </>
+          )}
         </p>
 
         <div className="mt-3 grid grid-cols-2 gap-2">

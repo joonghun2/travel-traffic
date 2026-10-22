@@ -5,6 +5,8 @@ import { getSpotSlug } from '@/lib/slug';
 /** Compact, single-language spot record for the map home page. */
 export interface MapSpot {
   id: number;
+  /** Seoul live data, or a Jeju/Busan KTO 30-day forecast. */
+  kind: 'live' | 'forecast';
   slug: string;
   name: string;
   /** District (구) in Korean; shown only on the Korean page. */
@@ -16,6 +18,7 @@ export interface MapSpot {
   score: number;
   status: CrowdStatus;
   wait: number;
+  /** Seoul: recommended visit time. Forecast cities: the quietest upcoming day. */
   bestTime: string;
   isLive: boolean;
   /** 1-based position in FEATURED_RANK, if featured. */
@@ -56,6 +59,7 @@ export function toMapSpots(metrics: LiveSpotMetric[], lang: Lang): MapSpot[] {
     const slug = getSpotSlug(m);
     return {
       id: m.id,
+      kind: 'live' as const,
       slug,
       name: m.name[lang] || m.name.ko,
       gu: guOf(m),

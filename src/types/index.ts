@@ -1,6 +1,8 @@
 export type CrowdStatus = 'relaxed' | 'moderate' | 'crowded' | 'very_crowded' | 'packed';
 
-export type CityId = 'seoul';
+export type CityId = 'seoul' | 'jeju' | 'busan';
+/** Cities served from the KTO 30-day concentration forecast instead of live data. */
+export type ForecastCityId = Exclude<CityId, 'seoul'>;
 
 export type Lang = 'ko' | 'en' | 'ja';
 export type ThemeMode = 'light' | 'dark' | 'system';
@@ -85,4 +87,26 @@ export interface CityMetric {
   hotspotsCount: number;
   safeSpotsCount: number;
   lastUpdated: string;
+}
+
+/** Jeju/Busan spot backed by the KTO 30-day concentration forecast (phase 3). */
+export interface ForecastSpot {
+  id: number;
+  city: ForecastCityId;
+  /** Exact attraction name in the KTO forecast API (tAtsNm). */
+  ktoName: string;
+  /** KTO/legal district code (signguCd), e.g. 50110 for Jeju-si. */
+  signguCd: number;
+  name: LocalizedString;
+  area: LocalizedString;
+  category: Exclude<SpotCategory, 'all'>;
+  emoji: string;
+  lat: number;
+  lng: number;
+  /** Nearest Busan metro station and exits (Busan Transportation Corp., 2021). */
+  station?: { name: string; exit: string };
+  /** Nearest Visit Jeju safety camera within 3 km. */
+  camera?: { name: string; url: string };
+  /** Average 30-day concentration when shortlisted; orders "most visited". */
+  popularity: number;
 }

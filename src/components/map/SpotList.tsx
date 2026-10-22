@@ -48,7 +48,7 @@ export default function SpotList({ spots, title, selectedId, onSelect, distances
                     {s.name}
                   </span>
                   <span className="text-xs tabular-nums text-gray-500 dark:text-gray-400 shrink-0">
-                    {d !== undefined ? formatDistance(d) : `${s.score}${s.isLive ? '' : '*'}`}
+                    {d !== undefined ? formatDistance(d) : `${s.score}${s.kind === 'live' && !s.isLive ? '*' : ''}`}
                   </span>
                 </button>
                 <Link
@@ -63,7 +63,7 @@ export default function SpotList({ spots, title, selectedId, onSelect, distances
           );
         })}
       </ol>
-      <p className="px-3 py-2 text-[10px] text-gray-400">* {t('map.estimate')}</p>
+      {spots.some((s) => s.kind === 'live' && !s.isLive) && <p className="px-3 py-2 text-[10px] text-gray-400">* {t('map.estimate')}</p>}
     </section>
   );
 }

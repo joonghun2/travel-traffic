@@ -19,6 +19,10 @@ import { formatDistance, getGoogleNavUrl, getKakaoNavUrl, getNaverNavUrl } from 
 import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
 import SpotLivePanel from '@/components/SpotLivePanel';
+import ForecastSpotView from '@/components/city/ForecastSpotView';
+import { getAllForecastSlugs, getForecastSpotBySlug } from '@/lib/forecastSpots';
+import { getForecast } from '@/lib/forecast';
+import { formatForecastDate, quietestDay } from '@/lib/forecastMap';
 
 export const dynamicParams = false;
 // Re-render with the cached Seoul snapshot every 5 minutes; the panel polls /api/crowd on the client.
@@ -28,7 +32,9 @@ export const preferredRegion = 'icn1';
 type Params = Promise<{ lang: string; slug: string }>;
 
 export function generateStaticParams() {
-  return LANGS.flatMap((lang) => getAllSpotSlugs().map((slug) => ({ lang, slug })));
+  // Seoul (live) spots plus Jeju/Busan (forecast) spots.
+  const slugs = [...getAllSpotSlugs(), ...getAllForecastSlugs()];
+  return LANGS.flatMap((lang) => slugs.map((slug) => ({ lang, slug })));
 }
 
 function translator(lang: Lang) {
@@ -55,8 +61,28 @@ function resolve(lang: string, slug: string) {
   return { lang, spot, path: `/spot/${slug}` };
 }
 
+async function forecastMetadata(lang: Lang, slug: string): Promise<Metadata> {
+  const spot = getForecastSpotBySlug(slug)!;
+  const t = translator(lang);
+  const name = spot.name[lang];
+  const data = await getForecast();
+  const quiet = quietestDay(data.spots[spot.id]);
+  const title = t('forecast.metaTitle', { name });
+  const description = t('forecast.metaDesc', { name, quiet: quiet ? formatForecastDate(quiet.date, lang) : '' });
+  const path = `/spot/${slug}`;
+  const url = `${SITE_URL}${localizePath(path, lang)}`;
+  return {
+    title: { absolute: `${title} | Check East Point` },
+    description,
+    alternates: { canonical: url, languages: languageAlternates(path) },
+    openGraph: { title, description, url, siteName: 'Check East Point', type: 'article', images: [{ url: `${url}/og`, width: 1200, height: 630, alt: title }] },
+    twitter: { card: 'summary_large_image', title, description, images: [`${url}/og`] },
+  };
+}
+
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { lang: rawLang, slug } = await params;
+  if (isLang(rawLang) && getForecastSpotBySlug(slug)) return forecastMetadata(rawLang, slug);
   const resolved = resolve(rawLang, slug);
   if (!resolved) return {};
   const { lang, spot, path } = resolved;
@@ -113,6 +139,10 @@ function ForecastBars({ points, label, lang }: { points: HourlyPoint[]; label: s
 
 export default async function SpotPage({ params }: { params: Params }) {
   const { lang: rawLang, slug } = await params;
+  const forecastSpot = isLang(rawLang) ? getForecastSpotBySlug(slug) : undefined;
+  if (forecastSpot && isLang(rawLang)) {
+    return <ForecastSpotView spot={forecastSpot} data={await getForecast()} lang={rawLang} />;
+  }
   const resolved = resolve(rawLang, slug);
   if (!resolved) notFound();
   const { lang, spot, path } = resolved;

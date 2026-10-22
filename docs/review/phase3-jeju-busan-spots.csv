@@ -1,0 +1,76 @@
+﻿id,city,district,kto_name,name_ko,name_en,name_ja,official_en,official_ja,lat,lng,coord_source,needs_check,station,exit,camera,status
+1001,busan,중구,용두산공원,용두산공원,Yongdusan Park,龍頭山公園,Yongdusan Park,龍頭山公園,35.100723,129.03264,busan-api,,남포역 (1호선),"1,3",,draft
+1002,busan,중구,광복로문화패션거리,광복로 문화패션거리,Gwangbok-ro Fashion Street,光復路ファッション通り,,,35.0989,129.0307,manual,좌표 확인 필요,,,,draft
+1003,busan,중구,BIFF 광장,BIFF 광장,BIFF Square,BIFF広場,,,35.098899,129.029055,osm,좌표 확인 필요,,,,draft
+1004,busan,해운대구,청사포,청사포,Cheongsapo Village,青沙浦,,,35.161258,129.191384,osm,좌표 확인 필요,,,,draft
+1005,busan,중구,국제시장 먹자골목,국제시장 먹자골목,Gukje Market Food Alley,国際市場グルメ横丁,,,35.1016,129.0277,manual,좌표 확인 필요,남포역 (1호선),"1,3",,draft
+1006,busan,부산진구,전포카페거리,전포카페거리,Jeonpo Cafe Street,田浦カフェ通り,,,35.1556,129.0644,manual,좌표 확인 필요,,,,draft
+1007,busan,해운대구,해운대해수욕장,해운대해수욕장,Haeundae Beach,海雲台海水浴場,,,35.159286,129.158609,osm,좌표 확인 필요,해운대역 (2호선),5,,draft
+1008,busan,남구,이기대 (부산 국가지질공원),이기대,Igidae Coastal Park,二妓台,,,35.116743,129.122083,osm,좌표 확인 필요,경성대부경대역 (2호선),5,,draft
+1009,busan,해운대구,벡스코(BEXCO),벡스코 (BEXCO),BEXCO,BEXCO,벡스코,벡스코,35.169247,129.13628,busan-api,,,,,draft
+1010,busan,서구,부산 송도해수욕장,송도해수욕장,Songdo Beach (Busan),松島海水浴場,Songdo Beach,松島海水浴場,35.07595,129.01694,busan-api,,자갈치역 (1호선),2,,draft
+1011,busan,중구,국제시장,국제시장,Gukje Market,国際市場,,,35.101164,129.028192,osm,좌표 확인 필요,남포역 (1호선),"1,3",,draft
+1012,busan,영도구,태종대 (부산 국가지질공원),태종대,Taejongdae,太宗台,Taejongdae Recreation Area,太宗台遊園地,35.052643,129.0878,busan-api,,남포역 (1호선),8,,draft
+1013,busan,해운대구,송정해수욕장,송정해수욕장,Songjeong Beach,松亭海水浴場,,,35.177653,129.198583,osm,좌표 확인 필요,해운대역 (2호선),1,,draft
+1014,busan,해운대구,해운대 동백섬,동백섬,Dongbaekseom Island,冬柏島,동백섬,동백섬,35.15397,129.1523,busan-api,,동백역 (2호선),1,,draft
+1015,busan,중구,부산 자갈치시장,자갈치시장,Jagalchi Fish Market,チャガルチ市場,,,35.095744,129.025123,osm,좌표 확인 필요,자갈치역 (1호선),10,,draft
+1016,busan,서구,부산 송도해상케이블카,송도해상케이블카,Songdo Marine Cable Car,松島海上ケーブルカー,"Amnam Park, Songdo Yonggung Suspension Bridge, Busan Air Cruise, Cloud Trails, Songdo Beach",岩南公園、松島龍宮吊り橋、松島海上ロープウェイ、クルム遊歩道、松島海水浴場,35.076286,129.02365,busan-api,,,,,draft
+1017,busan,기장군,해동 용궁사(부산),해동용궁사,Haedong Yonggungsa Temple,海東龍宮寺,해동용궁사,해동용궁사,35.188583,129.22346,busan-api,,,,,draft
+1018,busan,기장군,롯데월드 어드벤처 부산,롯데월드 어드벤처 부산,Lotte World Adventure Busan,ロッテワールド アドベンチャー釜山,"theme park, Lotte World Adventure Busan","テーマパーク., ロッテワールド・アドベンチャー釜山",35.19602,129.2132,busan-api,,,,,draft
+1019,busan,해운대구,SEA LIFE 부산아쿠아리움,SEA LIFE 부산아쿠아리움,SEA LIFE Busan Aquarium,SEA LIFE 釜山アクアリウム,,,35.159,129.1611,manual,좌표 확인 필요,해운대역 (2호선),5,,draft
+1020,busan,해운대구,마린시티,마린시티,Marine City,マリンシティ,,,35.1563,129.144,manual,좌표 확인 필요,,,,draft
+1021,busan,수영구,광안리해수욕장,광안리해수욕장,Gwangalli Beach,広安里海水浴場,Gwangalli Beach,広安里海水浴場,35.15318,129.11887,busan-api,,광안역 (2호선),5,,draft
+1022,busan,해운대구,더베이101,더베이101,The Bay 101,ザ・ベイ101,,,35.1565,129.1521,manual,좌표 확인 필요,,,,draft
+1023,busan,해운대구,부산 해운대시장,해운대시장,Haeundae Market,海雲台市場,,,35.162326,129.163208,osm,좌표 확인 필요,,,,draft
+1024,busan,연제구,온천천시민공원,온천천시민공원,Oncheoncheon Citizens Park,温泉川市民公園,,,35.191427,129.101584,osm,좌표 확인 필요,,,,draft
+1025,busan,해운대구,청사포 다릿돌전망대,청사포 다릿돌전망대,Cheongsapo Daritdol Skywalk,青沙浦タリットル展望台,,,35.1609,129.1985,manual,좌표 확인 필요,,,,draft
+1026,busan,금정구,범어사(부산),범어사,Beomeosa Temple,梵魚寺,범어사,범어사,35.283646,129.06854,busan-api,,범어사역 (1호선),"5,7",,draft
+1027,busan,기장군,부산 기장시장,기장시장,Gijang Market,機張市場,,,35.243533,129.215233,osm,좌표 확인 필요,,,,draft
+1028,busan,영도구,영도 흰여울해안터널,흰여울해안터널,Huinnyeoul Coastal Tunnel,ヒニョウル海岸トンネル,,,35.075457,129.0479,osm,좌표 확인 필요,,,,draft
+1029,busan,부산진구,부산시민공원,부산시민공원,Busan Citizens Park,釜山市民公園,Busan Citizens Park,釜山市民公園,35.16841,129.05739,busan-api,,부전역 (1호선),7,,draft
+1030,busan,사하구,다대포해수욕장,다대포해수욕장,Dadaepo Beach,多大浦海水浴場,Dadaepo Beach,多大浦海水浴場,35.04652,128.96283,busan-api,,다대포해수욕장역 (1호선),"2,4",,draft
+1031,busan,남구,부산박물관,부산박물관,Busan Museum,釜山博物館,부산박물관,부산박물관,35.12957,129.09451,busan-api,,대연역 (2호선),1,,draft
+1032,busan,남구,오륙도 스카이워크,오륙도 스카이워크,Oryukdo Skywalk,五六島スカイウォーク,,,35.100572,129.124731,osm,좌표 확인 필요,경성대부경대역 (2호선),5,,draft
+1033,busan,기장군,일광해수욕장,일광해수욕장,Ilgwang Beach,日光海水浴場,,,35.261086,129.233739,osm,좌표 확인 필요,,,,draft
+1034,busan,남구,오륙도 (부산 국가지질공원),오륙도,Oryukdo Islets,五六島,Oryukdo Islets,五六島,35.102177,129.12334,busan-api,,경성대부경대역 (2호선),5,,draft
+1035,busan,영도구,국립해양박물관,국립해양박물관,National Maritime Museum of Korea,国立海洋博物館,Korea National Maritime Museum,国立海洋博物館,35.078728,129.08018,busan-api,,남포역 (1호선),6,,draft
+1036,busan,기장군,아홉산숲,아홉산숲,Ahopsan Forest,アホプサンの森,아홉산 숲,아홉산 숲,35.287334,129.17046,busan-api,,,,,draft
+1037,busan,금정구,금정산성,금정산성,Geumjeongsanseong Fortress,金井山城,,,35.251486,129.045423,osm,좌표 확인 필요,범어사역 (1호선),"1,3,5,7",,draft
+1038,jeju,서귀포시,카멜리아힐,카멜리아힐,Camellia Hill,カメリアヒル,,,33.289631,126.369889,osm,좌표 확인 필요,,,,draft
+1039,jeju,서귀포시,중문관광단지,중문관광단지,Jungmun Tourist Complex,中文観光団地,,,33.252383,126.412967,osm,좌표 확인 필요,,,중문해수욕장,draft
+1040,jeju,제주시,용두암,용두암,Yongduam Rock,龍頭岩,,,33.516035,126.511988,osm,좌표 확인 필요,,,라마다호텔,draft
+1041,jeju,서귀포시,서귀포매일올레시장,서귀포매일올레시장,Seogwipo Maeil Olle Market,西帰浦毎日オルレ市場,,,33.250177,126.56357,osm,좌표 확인 필요,,,서귀항,draft
+1042,jeju,제주시,새별오름,새별오름,Saebyeol Oreum,セビョルオルム,,,33.366255,126.357688,osm,좌표 확인 필요,,,,draft
+1043,jeju,서귀포시,성산일출봉 [유네스코 세계자연유산],성산일출봉,Seongsan Ilchulbong Peak,城山日出峰,,,33.458889,126.940818,osm,좌표 확인 필요,,,,draft
+1044,jeju,서귀포시,성읍민속마을,성읍민속마을,Seongeup Folk Village,城邑民俗村,,,33.386885,126.801571,osm,좌표 확인 필요,,,,draft
+1045,jeju,서귀포시,주상절리대(대포동지삿개),주상절리대 (대포동),Jusangjeolli Cliff (Daepo),柱状節理帯（大浦洞）,,,33.237687,126.425957,osm,좌표 확인 필요,,,중문해수욕장,draft
+1046,jeju,서귀포시,천지연 걸매생태공원,걸매생태공원,Geolmae Ecological Park,コルメ生態公園,,,33.250025,126.554876,osm,좌표 확인 필요,,,서귀항,draft
+1047,jeju,제주시,동문재래시장,동문재래시장,Dongmun Traditional Market,東門在来市場,,,33.512239,126.527586,osm,좌표 확인 필요,,,탑동,draft
+1048,jeju,서귀포시,섭지코지,섭지코지,Seopjikoji,ソプチコジ,,,33.424041,126.930731,osm,좌표 확인 필요,,,,draft
+1049,jeju,제주시,함덕 서우봉 해변 (함덕해수욕장),함덕해수욕장 (서우봉 해변),Hamdeok Beach,咸徳ビーチ,,,33.543188,126.669879,osm,좌표 확인 필요,,,,draft
+1050,jeju,서귀포시,중문·색달 해변,중문·색달 해변,Jungmun Saekdal Beach,中文・穡達ビーチ,,,33.2446,126.4115,manual,좌표 확인 필요,,,중문해수욕장,draft
+1051,jeju,제주시,에코랜드테마파크,에코랜드 테마파크,Eco Land Theme Park,エコランド テーマパーク,,,33.447572,126.672072,osm,좌표 확인 필요,,,삼다수공장,draft
+1052,jeju,서귀포시,오설록 티뮤지엄,오설록 티뮤지엄,O'sulloc Tea Museum,オソルロック ティーミュージアム,,,33.3059,126.2894,manual,좌표 확인 필요,,,,draft
+1053,jeju,제주시,한라산 (제주도 국가지질공원),한라산,Hallasan Mountain,漢拏山,,,33.361754,126.529198,osm,좌표 확인 필요,,,,draft
+1054,jeju,서귀포시,천지연폭포 (제주도 국가지질공원),천지연폭포,Cheonjiyeon Waterfall,天地淵瀑布,,,33.246927,126.554528,osm,좌표 확인 필요,,,서귀항,draft
+1055,jeju,제주시,우도 산호해변(서빈백사),우도 산호해변 (서빈백사),Udo Coral Beach (Seobin Baeksa),牛島 サンゴビーチ（西浜白沙）,,,33.5044,126.9425,manual,좌표 확인 필요,,,,draft
+1056,jeju,서귀포시,소정방폭포,소정방폭포,Sojeongbang Waterfall,小正房瀑布,,,33.245157,126.577521,osm,좌표 확인 필요,,,서귀항,draft
+1057,jeju,제주시,우도(해양도립공원),우도,Udo Island,牛島,,,33.507257,126.955001,osm,좌표 확인 필요,,,,draft
+1058,jeju,서귀포시,정방폭포,정방폭포,Jeongbang Waterfall,正房瀑布,,,33.244858,126.571545,osm,좌표 확인 필요,,,서귀항,draft
+1059,jeju,서귀포시,송악산,송악산,Songaksan Mountain,松岳山,,,33.199081,126.28979,osm,좌표 확인 필요,,,,draft
+1060,jeju,제주시,비자림,비자림,Bijarim Forest,榧子林,,,33.483067,126.80619,osm,좌표 확인 필요,,,비자림,draft
+1061,jeju,제주시,월정리해변(월정리해수욕장),월정리해변,Woljeongri Beach,月汀里ビーチ,,,33.556,126.7958,manual,좌표 확인 필요,,,,draft
+1062,jeju,서귀포시,표선 해비치 해변,표선 해비치 해변,Pyoseon Haevichi Beach,表善ヘビチビーチ,,,33.3264,126.8367,manual,좌표 확인 필요,,,평화교,draft
+1063,jeju,제주시,우도 등대,우도 등대,Udo Lighthouse,牛島灯台,,,33.4946,126.9667,manual,좌표 확인 필요,,,,draft
+1064,jeju,제주시,협재해수욕장,협재해수욕장,Hyeopjae Beach,挟才海水浴場,,,33.394233,126.240817,osm,좌표 확인 필요,,,,draft
+1065,jeju,서귀포시,산방산(제주),산방산,Sanbangsan Mountain,山房山,,,33.241556,126.313343,osm,좌표 확인 필요,,,산방산,draft
+1066,jeju,제주시,곽지해수욕장 (곽지과물해변),곽지해수욕장,Gwakji Beach,郭支海水浴場,,,33.455961,126.306503,osm,좌표 확인 필요,,,,draft
+1067,jeju,제주시,세화해변,세화해변,Sehwa Beach,細花ビーチ,,,33.525021,126.860423,osm,좌표 확인 필요,,,구좌읍사무소,draft
+1068,jeju,제주시,이호테우해변,이호테우해변,Iho Tewoo Beach,梨湖テウビーチ,,,33.497664,126.452772,osm,좌표 확인 필요,,,,draft
+1069,jeju,서귀포시,쇠소깍,쇠소깍,Soesokkak,ソェソカク,,,33.252594,126.623466,osm,좌표 확인 필요,,,,draft
+1070,jeju,서귀포시,용머리해안,용머리해안,Yongmeori Coast,龍頭海岸,,,33.233304,126.313067,osm,좌표 확인 필요,,,산방산,draft
+1071,jeju,제주시,한림공원,한림공원,Hallim Park,翰林公園,,,33.389293,126.240286,osm,좌표 확인 필요,,,,draft
+1072,jeju,서귀포시,휴애리자연생활공원,휴애리 자연생활공원,Hueree Nature Park,ヒュエリ自然生活公園,,,33.308337,126.632868,osm,좌표 확인 필요,,,,draft
+1073,jeju,제주시,만장굴 (제주도 국가지질공원),만장굴,Manjanggul Lava Tube,万丈窟,,,33.528254,126.770128,osm,좌표 확인 필요,,,,draft
+1074,jeju,제주시,금오름,금오름,Geumoreum,クムオルム,,,33.354634,126.305825,osm,좌표 확인 필요,,,금악이시돌목장,draft
+1075,jeju,제주시,김녕성세기해변 (김녕해수욕장),김녕 성세기해변,Gimnyeong Seongsegi Beach,金寧ソンセギビーチ,,,33.55592,126.755504,osm,좌표 확인 필요,,,,draft

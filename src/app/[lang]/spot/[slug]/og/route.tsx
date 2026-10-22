@@ -3,6 +3,9 @@ import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
 import { LANGS, isLang } from '@/lib/i18n/routing';
 import { TRANSLATIONS } from '@/lib/i18n/translations';
 import { getAllSpotSlugs, getHourlyForecast, getSpotBySlug } from '@/lib/spots';
+import { getAllForecastSlugs, getForecastSpotBySlug } from '@/lib/forecastSpots';
+import { getForecast } from '@/lib/forecast';
+import { formatForecastDate, quietestDay } from '@/lib/forecastMap';
 
 const size = { width: 1200, height: 630 };
 
@@ -11,7 +14,8 @@ export const dynamic = 'force-static';
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return LANGS.flatMap((lang) => getAllSpotSlugs().map((slug) => ({ lang, slug })));
+  const slugs = [...getAllSpotSlugs(), ...getAllForecastSlugs()];
+  return LANGS.flatMap((lang) => slugs.map((slug) => ({ lang, slug })));
 }
 
 function barColor(score: number) {
@@ -24,20 +28,43 @@ function barColor(score: number) {
 export async function GET(_request: Request, { params }: { params: Promise<{ lang: string; slug: string }> }) {
   const { lang, slug } = await params;
   const spot = getSpotBySlug(slug);
-  if (!spot || !isLang(lang)) {
+  const fSpot = getForecastSpotBySlug(slug);
+  if ((!spot && !fSpot) || !isLang(lang)) {
     return new ImageResponse(<div style={{ display: 'flex' }}>Check East Point</div>, size);
   }
 
   const tr = TRANSLATIONS[lang];
-  const name = spot.name[lang];
-  const area = spot.area?.[lang] || '';
-  const bestTime = spot.bestTime[lang];
-  const heading = tr['spot.home'];
-  const bestLabel = tr['card.bestTime'];
-  const forecastLabel = tr['spot.hourlyTitle'];
-  const forecast = getHourlyForecast(spot, false).filter((p) => p.hour >= 7);
+  let name: string, area: string, bestTime: string, heading: string, bestLabel: string, forecastLabel: string, badge: string;
+  let forecast: { key: string; score: number }[];
+  let barWidth = 18;
+  if (spot) {
+    // Seoul: live data, hourly pattern.
+    name = spot.name[lang];
+    area = spot.area?.[lang] || '';
+    bestTime = spot.bestTime[lang];
+    heading = tr['spot.home'];
+    bestLabel = tr['card.bestTime'];
+    forecastLabel = tr['spot.hourlyTitle'];
+    badge = 'LIVE';
+    forecast = getHourlyForecast(spot, false)
+      .filter((p) => p.hour >= 7)
+      .map((p) => ({ key: String(p.hour), score: p.score }));
+  } else {
+    // Jeju/Busan: KTO 30-day concentration forecast.
+    const days = (await getForecast()).spots[fSpot!.id] ?? [];
+    const quiet = quietestDay(days);
+    name = fSpot!.name[lang];
+    area = fSpot!.area[lang];
+    bestTime = quiet ? formatForecastDate(quiet.date, lang) : '';
+    heading = tr['forecast.hubName'].replace('{city}', tr[`map.city.${fSpot!.city}`]);
+    bestLabel = tr['forecast.quietDays'];
+    forecastLabel = tr['forecast.chartTitle'];
+    badge = tr['forecast.badge'];
+    forecast = days.map((d) => ({ key: d.date, score: d.rate }));
+    barWidth = 10;
+  }
 
-  const text = `${name}${area}${bestTime}${heading}${bestLabel}${forecastLabel}Check East Point LIVE 0123456789`;
+  const text = `${name}${area}${bestTime}${heading}${bestLabel}${forecastLabel}${badge}Check East Point LIVE 0123456789`;
   const fonts = await loadCjkFonts(text, 700);
 
   return new ImageResponse(
@@ -82,7 +109,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
               fontSize: 20,
             }}
           >
-            LIVE
+            {badge}
           </div>
         </div>
 
@@ -102,9 +129,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 5, height: 120 }}>
               {forecast.map((p) => (
                 <div
-                  key={p.hour}
+                  key={p.key}
                   style={{
-                    width: 18,
+                    width: barWidth,
                     height: `${Math.max(8, p.score)}%`,
                     borderRadius: 4,
                     background: barColor(p.score),

@@ -3,13 +3,33 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTranslation } from '@/lib/i18n/context';
-import { LiveSpotMetric } from '@/types';
+import Link from 'next/link';
+import { CityId, LiveSpotMetric } from '@/types';
 import { MAP_THEMES, MapSpot, MapThemeId, matchesTheme, rankByPopularity } from '@/lib/mapSpots';
 import { calculateDistanceKm } from '@/lib/geoUtils';
 import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
 import SpotList from './SpotList';
 import SpotSheet from './SpotSheet';
+
+const KakaoAdfitBanner = dynamic(() => import('@/components/KakaoAdfitBanner'), { ssr: false });
+
+// Kakao AdFit units shown with the spot card: 300x250 beside it on PC, 320x100 under it on mobile.
+const AD_UNIT_PC = 'DAN-dtTgaQki8TeayQUI';
+const AD_UNIT_MOBILE = 'DAN-3AoY158moOHDzJXk';
+
+/** true on >=1024px, false below, null before mount. AdFit skips hidden slots, so only the visible ad is mounted. */
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+  return isDesktop;
+}
 
 // The map is loaded after first paint so it never blocks LCP; the list renders first.
 const CrowdMap = dynamic(() => import('./CrowdMap'), {
@@ -26,15 +46,23 @@ function MapPlaceholder() {
   );
 }
 
-const CITY_HALL = { lat: 37.5663, lng: 126.9779 };
-const SEOUL_BOUNDS = { south: 37.41, north: 37.72, west: 126.76, east: 127.19 };
+// Per-city map centre, "inside the city" bounds and the fallback point (city hall).
+export const CITY_CONFIG: Record<CityId, { center: [number, number]; hall: { lat: number; lng: number }; bounds: { south: number; north: number; west: number; east: number }; path: string }> = {
+  seoul: { center: [126.985, 37.552], hall: { lat: 37.5663, lng: 126.9779 }, bounds: { south: 37.41, north: 37.72, west: 126.76, east: 127.19 }, path: '/' },
+  jeju: { center: [126.55, 33.38], hall: { lat: 33.4996, lng: 126.5312 }, bounds: { south: 33.1, north: 33.6, west: 126.1, east: 127.0 }, path: '/jeju' },
+  busan: { center: [129.075, 35.16], hall: { lat: 35.1798, lng: 129.075 }, bounds: { south: 34.9, north: 35.4, west: 128.75, east: 129.35 }, path: '/busan' },
+};
 const LOCATE_TIMEOUT_MS = 4000;
 
 type LocateIssue = 'map.loc.denied' | 'map.loc.timeout' | 'map.loc.outside';
 
 interface Props {
+  city: CityId;
   initialSpots: MapSpot[];
   liveCount: number;
+  /** Forecast cities: first forecast date and whether the fallback snapshot is shown. */
+  baseDate?: string | null;
+  fromSnapshot?: boolean;
 }
 
 function MapSearch({ spots, onPick, className = '' }: { spots: MapSpot[]; onPick: (id: number) => void; className?: string }) {
@@ -91,8 +119,11 @@ function MapSearch({ spots, onPick, className = '' }: { spots: MapSpot[]; onPick
   );
 }
 
-export default function MapHome({ initialSpots, liveCount }: Props) {
-  const { lang, t } = useTranslation();
+export default function MapHome({ city, initialSpots, liveCount, baseDate, fromSnapshot }: Props) {
+  const { lang, t, localePath } = useTranslation();
+  const cfg = CITY_CONFIG[city];
+  const isDesktop = useIsDesktop();
+  const isLiveCity = city === 'seoul';
   const [spots, setSpots] = useState(initialSpots);
   const [theme, setTheme] = useState<MapThemeId>('all');
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -101,8 +132,9 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
   const [locating, setLocating] = useState(false);
   const [notice, setNotice] = useState<LocateIssue | null>(null);
 
-  // Keep scores fresh (the server snapshot is at most 5 minutes old).
+  // Keep Seoul scores fresh (the server snapshot is at most 5 minutes old). Forecasts change daily.
   useEffect(() => {
+    if (!isLiveCity) return;
     const refresh = async () => {
       try {
         const res = await fetch('/api/crowd', { cache: 'no-store' });
@@ -122,7 +154,7 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
     refresh();
     const interval = setInterval(refresh, 60000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isLiveCity]);
 
   const visible = useMemo(() => spots.filter((s) => matchesTheme(s, theme)), [spots, theme]);
 
@@ -152,7 +184,7 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
   const locate = useCallback(() => {
     const fallbackTo = (issue: LocateIssue) => {
       setNotice(issue);
-      setUserLocation(CITY_HALL);
+      setUserLocation(cfg.hall);
     };
     const finish = (loc: { lat: number; lng: number }) => {
       setLocating(false);
@@ -166,7 +198,7 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
 
     if (!navigator.geolocation) {
       fallbackTo('map.loc.denied');
-      finish(CITY_HALL);
+      finish(cfg.hall);
       return;
     }
     setLocating(true);
@@ -176,7 +208,7 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
       if (settled) return;
       settled = true;
       fallbackTo('map.loc.timeout');
-      finish(CITY_HALL);
+      finish(cfg.hall);
     }, LOCATE_TIMEOUT_MS);
 
     navigator.geolocation.getCurrentPosition(
@@ -185,11 +217,11 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
         settled = true;
         clearTimeout(timer);
         const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        const inSeoul =
-          loc.lat >= SEOUL_BOUNDS.south && loc.lat <= SEOUL_BOUNDS.north && loc.lng >= SEOUL_BOUNDS.west && loc.lng <= SEOUL_BOUNDS.east;
-        if (!inSeoul) {
+        const b = cfg.bounds;
+        const inCity = loc.lat >= b.south && loc.lat <= b.north && loc.lng >= b.west && loc.lng <= b.east;
+        if (!inCity) {
           fallbackTo('map.loc.outside');
-          finish(CITY_HALL);
+          finish(cfg.hall);
         } else {
           finish(loc);
         }
@@ -199,11 +231,11 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
         settled = true;
         clearTimeout(timer);
         fallbackTo(err.code === err.PERMISSION_DENIED ? 'map.loc.denied' : 'map.loc.timeout');
-        finish(CITY_HALL);
+        finish(cfg.hall);
       },
       { enableHighAccuracy: false, timeout: LOCATE_TIMEOUT_MS, maximumAge: 60000 }
     );
-  }, [visible]);
+  }, [visible, cfg]);
 
   // "내 주변" tab links to /?near=1.
   useEffect(() => {
@@ -233,27 +265,38 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
   const listTitle = distances ? t('map.list.nearby') : t('map.list.popular');
 
   const cityTabs = (
-    <div className="flex items-center gap-1.5 shrink-0" role="tablist" aria-label={t('map.pageTitle')}>
-      <button type="button" role="tab" aria-selected="true" className="h-8 px-3 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold">
-        {t('map.city.seoul')} <span className="ml-0.5 text-[9px] font-black text-emerald-400 dark:text-emerald-600">LIVE</span>
-      </button>
-      {(['jeju', 'busan'] as const).map((city) => (
-        <button
-          key={city}
-          type="button"
-          role="tab"
-          aria-selected="false"
-          disabled
-          title={t('map.comingSoon')}
-          className="h-8 px-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 text-xs font-bold cursor-not-allowed"
+    <nav className="flex items-center gap-1.5 shrink-0" aria-label={t('map.pageTitle')}>
+      {(Object.keys(CITY_CONFIG) as CityId[]).map((c) => (
+        <Link
+          key={c}
+          href={localePath(CITY_CONFIG[c].path)}
+          aria-current={c === city ? 'page' : undefined}
+          className={`h-8 px-3 rounded-full text-xs font-bold flex items-center whitespace-nowrap ${
+            c === city
+              ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+          }`}
         >
-          {t(`map.city.${city}`)}
-          <span className="ml-1 px-1 py-px rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 text-[9px]">
-            {t('map.forecast')}
-          </span>
-        </button>
+          {t(`map.city.${c}`)}
+          {c === 'seoul' ? (
+            <span className="ml-1 text-[9px] font-black text-emerald-500">LIVE</span>
+          ) : (
+            <span className="ml-1 px-1 py-px rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 text-[9px]">
+              {t('forecast.badge')}
+            </span>
+          )}
+        </Link>
       ))}
-    </div>
+    </nav>
+  );
+
+  const forecastBanner = !isLiveCity && baseDate && (
+    <p className="text-[11px] text-gray-500 dark:text-gray-400">
+      <span className="px-1.5 py-0.5 mr-1 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 font-bold">{t('forecast.badge')}</span>
+      {fromSnapshot ? t('forecast.snapshotNote').replace('{date}', baseDate) : t('forecast.baseDate').replace('{date}', baseDate)}
+      {' · '}
+      {t('forecast.source')}
+    </p>
   );
 
   const themeChips = (
@@ -292,6 +335,7 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
       userLocation={userLocation}
       focus={focus}
       lang={lang}
+      center={cfg.center}
       labels={mapLabels}
       onLocate={locate}
       locating={locating}
@@ -300,7 +344,7 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pb-16 lg:pb-0">
-      <DashboardHeader connectedCount={liveCount} center={<MapSearch spots={spots} onPick={selectAndFocus} className="w-full" />} />
+      <DashboardHeader connectedCount={liveCount} live={isLiveCity} center={<MapSearch spots={spots} onPick={selectAndFocus} className="w-full" />} />
       <h1 className="sr-only">{t('map.pageTitle')}</h1>
 
       {/* Mobile: search, city tabs, theme chips */}
@@ -308,6 +352,7 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
         <MapSearch spots={spots} onPick={selectAndFocus} />
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">{cityTabs}</div>
         {themeChips}
+        {forecastBanner}
       </div>
 
       {/* PC: city tabs | theme chips */}
@@ -315,6 +360,7 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
         {cityTabs}
         <span className="w-px h-5 bg-gray-200 dark:bg-gray-700" aria-hidden="true" />
         {themeChips}
+        {forecastBanner && <div className="ml-auto shrink-0">{forecastBanner}</div>}
       </div>
 
       <div className="lg:grid lg:grid-cols-[210px_1fr] lg:h-[calc(100vh-7.75rem)]">
@@ -329,6 +375,14 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
               onClose={() => setSelectedId(null)}
               className="hidden lg:block absolute bottom-6 left-4 z-20 w-80 rounded-2xl"
             />
+          )}
+          {selected && isDesktop && (
+            <aside
+              aria-label="AD"
+              className="absolute bottom-6 left-[21.5rem] z-20 w-[300px] rounded-2xl overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl"
+            >
+              <KakaoAdfitBanner unit={AD_UNIT_PC} width="300" height="250" />
+            </aside>
           )}
         </div>
 
@@ -345,17 +399,19 @@ export default function MapHome({ initialSpots, liveCount }: Props) {
 
       {/* Mobile bottom sheet */}
       {selected && (
-        <SpotSheet
-          spot={selected}
-          distanceKm={distances?.get(selected.id)}
-          onClose={() => setSelectedId(null)}
-          className="lg:hidden fixed left-0 right-0 bottom-16 z-30 rounded-t-3xl"
-        />
+        <div className="lg:hidden fixed left-0 right-0 bottom-16 z-30">
+          <SpotSheet spot={selected} distanceKm={distances?.get(selected.id)} onClose={() => setSelectedId(null)} className="rounded-t-3xl" />
+          {isDesktop === false && (
+            <aside aria-label="AD" className="bg-white dark:bg-gray-900 border-x border-gray-200 dark:border-gray-800 flex justify-center py-1">
+              <KakaoAdfitBanner unit={AD_UNIT_MOBILE} width="320" height="100" />
+            </aside>
+          )}
+        </div>
       )}
 
       {notice && (
         <div role="status" className="fixed z-40 left-1/2 -translate-x-1/2 top-20 max-w-[90vw] px-4 py-2.5 rounded-2xl bg-gray-900/95 text-white text-xs font-medium shadow-xl text-center">
-          {t(notice)}
+          {t(notice).replace('{place}', t(`map.cityHall.${city}`))}
           <div className="mt-0.5 text-[10px] text-gray-300">{t('map.loc.privacy')}</div>
         </div>
       )}

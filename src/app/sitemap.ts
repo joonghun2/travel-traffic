@@ -1,11 +1,15 @@
 import type { MetadataRoute } from 'next';
 import { LANGS, SITE_URL, languageAlternates, localizePath } from '@/lib/i18n/routing';
 import { getAllSpotSlugs } from '@/lib/spots';
+import { getAllForecastSlugs } from '@/lib/forecastSpots';
 import { FOOD_TYPE_IDS } from '@/data/seoulFoodTest';
 
-const PAGES: { path: string; changeFrequency: 'hourly' | 'weekly'; priority: number }[] = [
+const PAGES: { path: string; changeFrequency: 'hourly' | 'daily' | 'weekly'; priority: number }[] = [
   { path: '/', changeFrequency: 'hourly', priority: 1.0 },
   { path: '/list', changeFrequency: 'hourly', priority: 0.9 },
+  { path: '/jeju', changeFrequency: 'daily', priority: 0.9 },
+  { path: '/busan', changeFrequency: 'daily', priority: 0.9 },
+  ...getAllForecastSlugs().map((slug) => ({ path: `/spot/${slug}`, changeFrequency: 'daily' as const, priority: 0.8 })),
   { path: '/play', changeFrequency: 'weekly', priority: 0.9 },
   { path: '/play/food-worldcup', changeFrequency: 'weekly', priority: 0.9 },
   { path: '/play/seoul-food-test', changeFrequency: 'weekly', priority: 0.9 },

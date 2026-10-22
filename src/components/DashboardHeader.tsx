@@ -13,6 +13,8 @@ interface DashboardHeaderProps {
   center?: React.ReactNode;
   /** Full-width bar instead of the centred max-w-7xl container. */
   wide?: boolean;
+  /** Show the LIVE badge (Seoul only; Jeju/Busan are forecasts). */
+  live?: boolean;
 }
 
 const LANG_LABEL = { ko: '한국어', en: 'English', ja: '日本語' } as const;
@@ -80,6 +82,7 @@ export default function DashboardHeader({
   connectedCount = 0,
   center,
   wide = false,
+  live = true,
 }: DashboardHeaderProps) {
   const pathname = usePathname();
   const { lang, t, localePath } = useTranslation();
@@ -101,6 +104,7 @@ export default function DashboardHeader({
               <span className="font-extrabold text-gray-900 dark:text-white tracking-tight text-base sm:text-lg">
                 Check East Point
               </span>
+{live && (
               <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 font-mono text-[10px] font-bold">
                 <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
                   <span className="animate-radar absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
@@ -108,6 +112,7 @@ export default function DashboardHeader({
                 </span>
                 <span>LIVE</span>
               </div>
+              )}
             </div>
           </Link>
 
