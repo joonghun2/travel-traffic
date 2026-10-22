@@ -6,6 +6,7 @@ import { TRANSLATIONS } from '@/lib/i18n/translations';
 import { getForecast, isStale } from '@/lib/forecast';
 import { forecastToMapSpots } from '@/lib/forecastMap';
 import MapHome from '@/components/map/MapHome';
+import { jejuMapCameras } from '@/lib/jejuCameras';
 
 type Params = Promise<{ lang: string }>;
 
@@ -38,6 +39,7 @@ export async function ForecastHubPage({ params, city }: { params: Params; city: 
       liveCount={0}
       baseDate={data.baseDate}
       fromSnapshot={isStale(data)}
+      cameras={city === 'jeju' ? jejuMapCameras(lang) : undefined}
     />
   );
 }

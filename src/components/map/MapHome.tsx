@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from '@/lib/i18n/context';
 import Link from 'next/link';
 import { CityId, LiveSpotMetric } from '@/types';
+import type { MapCamera } from '@/lib/jejuCameras';
 import { MAP_THEMES, MapSpot, MapThemeId, matchesTheme, rankByPopularity } from '@/lib/mapSpots';
 import { calculateDistanceKm } from '@/lib/geoUtils';
 import DashboardHeader from '@/components/DashboardHeader';
@@ -84,6 +85,8 @@ interface Props {
   /** Forecast cities: first forecast date and whether the fallback snapshot is shown. */
   baseDate?: string | null;
   fromSnapshot?: boolean;
+  /** Jeju: safety cameras behind the CCTV chip. */
+  cameras?: MapCamera[];
 }
 
 function MapSearch({ spots, onPick, className = '' }: { spots: MapSpot[]; onPick: (id: number) => void; className?: string }) {
@@ -140,7 +143,7 @@ function MapSearch({ spots, onPick, className = '' }: { spots: MapSpot[]; onPick
   );
 }
 
-export default function MapHome({ city, initialSpots, liveCount, baseDate, fromSnapshot }: Props) {
+export default function MapHome({ city, initialSpots, liveCount, baseDate, fromSnapshot, cameras }: Props) {
   const { lang, t, localePath } = useTranslation();
   const cfg = CITY_CONFIG[city];
   const isDesktop = useIsDesktop();
@@ -165,6 +168,7 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
   const isLiveCity = city === 'seoul';
   const [spots, setSpots] = useState(initialSpots);
   const [theme, setTheme] = useState<MapThemeId>('all');
+  const [showCameras, setShowCameras] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [focus, setFocus] = useState<{ lat: number; lng: number; zoom?: number; ts: number } | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -301,6 +305,12 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
     [lang]
   );
 
+  const cameraLabels = useMemo(
+    () => ({ view: t('cctv.view'), angles: t('cctv.angles'), near: t('cctv.near'), source: t('cctv.source') }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lang]
+  );
+
   const listTitle = distances ? t('map.list.nearby') : t('map.list.popular');
 
   const cityTabs = (
@@ -335,6 +345,14 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
       {fromSnapshot ? t('forecast.snapshotNote').replace('{date}', baseDate) : t('forecast.baseDate').replace('{date}', baseDate)}
       {' · '}
       {t('forecast.source')}
+      {cameras && (
+        <>
+          {' · '}
+          <Link href={localePath('/jeju/cctv')} className="font-semibold text-blue-600 hover:underline">
+            📹 {t('cctv.title')}
+          </Link>
+        </>
+      )}
     </p>
   );
 
@@ -355,6 +373,20 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
           <span aria-hidden="true">{th.icon}</span> {t(`map.theme.${th.id}`)}
         </button>
       ))}
+      {cameras && (
+        <button
+          type="button"
+          onClick={() => setShowCameras((v) => !v)}
+          aria-pressed={showCameras}
+          className={`h-8 px-3 rounded-full text-xs font-semibold whitespace-nowrap border transition cursor-pointer ${
+            showCameras
+              ? 'bg-slate-900 border-slate-900 text-white dark:bg-white dark:border-white dark:text-slate-900'
+              : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:border-gray-400'
+          }`}
+        >
+          <span aria-hidden="true">📹</span> {t('map.cctv')}
+        </button>
+      )}
     </div>
   );
 
@@ -376,6 +408,9 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
       lang={lang}
       center={cfg.center}
       labels={mapLabels}
+      cameras={showCameras ? cameras : undefined}
+      cameraLabels={cameraLabels}
+      spotHref={(slug) => localePath(`/spot/${slug}`)}
       onLocate={locate}
       locating={locating}
     />

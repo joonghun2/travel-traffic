@@ -6,6 +6,7 @@ import Supercluster from 'supercluster';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Lang } from '@/types';
 import { MapSpot, STATUS_COLOR } from '@/lib/mapSpots';
+import type { MapCamera } from '@/lib/jejuCameras';
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/positron';
 const SEOUL_CENTER: [number, number] = [126.985, 37.552];
@@ -36,6 +37,11 @@ interface Props {
   labels: { zoomIn: string; zoomOut: string; locate: string; cluster: string; estimate: string };
   onLocate: () => void;
   locating: boolean;
+  /** Jeju safety cameras, drawn when the CCTV chip is on. */
+  cameras?: MapCamera[];
+  cameraLabels?: { view: string; angles: string; near: string; source: string };
+  /** Builds the localized spot URL for a camera's nearby spot. */
+  spotHref?: (slug: string) => string;
 }
 
 function labelExpression(lang: Lang): maplibregl.ExpressionSpecification {
@@ -66,6 +72,32 @@ function spotMarkerElement(spot: MapSpot, selected: boolean, showLabel: boolean,
   return el;
 }
 
+function cameraElement(camera: MapCamera, onClick: () => void) {
+  const el = document.createElement('button');
+  el.type = 'button';
+  el.className = 'cep-camera';
+  el.textContent = '📹';
+  el.setAttribute('aria-label', camera.name);
+  el.addEventListener('click', (e) => {
+    e.stopPropagation();
+    onClick();
+  });
+  return el;
+}
+
+function cameraPopupHtml(c: MapCamera, l: NonNullable<Props['cameraLabels']>, spotHref?: (slug: string) => string) {
+  const near =
+    c.near && spotHref
+      ? `<a class="cep-cam-near" href="${escapeHtml(spotHref(c.near.slug))}">${escapeHtml(l.near.replace('{name}', c.near.name))} →</a>`
+      : '';
+  return (
+    `<div class="cep-cam-pop"><strong>${escapeHtml(c.name)}</strong>` +
+    `<span class="cep-cam-meta">${escapeHtml(l.angles.replace('{n}', String(c.count)))}</span>${near}` +
+    `<a class="cep-cam-view" href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.view)} ↗</a>` +
+    `<span class="cep-cam-src">${escapeHtml(l.source)}</span></div>`
+  );
+}
+
 function clusterElement(count: number, label: string, onClick: () => void) {
   const el = document.createElement('button');
   el.type = 'button';
@@ -79,22 +111,38 @@ function clusterElement(count: number, label: string, onClick: () => void) {
   return el;
 }
 
-export default function CrowdMap({ spots, selectedId, onSelect, userLocation, focus, lang, center = SEOUL_CENTER, labels, onLocate, locating }: Props) {
+export default function CrowdMap({
+  spots,
+  selectedId,
+  onSelect,
+  userLocation,
+  focus,
+  lang,
+  center = SEOUL_CENTER,
+  labels,
+  onLocate,
+  locating,
+  cameras,
+  cameraLabels,
+  spotHref,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
   const markersRef = useRef<Marker[]>([]);
   const userMarkerRef = useRef<Marker | null>(null);
   // Latest props for map event handlers registered once.
-  const stateRef = useRef({ spots, selectedId, onSelect, labels });
-  stateRef.current = { spots, selectedId, onSelect, labels };
+  const stateRef = useRef({ spots, selectedId, onSelect, labels, cameras, cameraLabels, spotHref });
+  stateRef.current = { spots, selectedId, onSelect, labels, cameras, cameraLabels, spotHref };
+  const popupRef = useRef<maplibregl.Popup | null>(null);
 
   const renderMarkersRef = useRef<() => void>(() => {});
   renderMarkersRef.current = () => {
     const map = mapRef.current;
     if (!map) return;
-    const { spots, selectedId, onSelect, labels } = stateRef.current;
+    const { spots, selectedId, onSelect, labels, cameras, cameraLabels, spotHref } = stateRef.current;
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
+    if (!cameras) popupRef.current?.remove();
 
     const zoom = map.getZoom();
     // Spot markers hang from the point so the dot (34px, 46px when selected) is centred on it.
@@ -107,6 +155,22 @@ export default function CrowdMap({ spots, selectedId, onSelect, userLocation, fo
       markersRef.current.push(marker);
     };
     const dot = (s: MapSpot) => (s.id === selectedId ? 46 : 34);
+
+    // Cameras (32 in Jeju) need no clustering; they sit under the spot markers.
+    cameras?.forEach((c) => {
+      const marker = new maplibregl.Marker({
+        element: cameraElement(c, () => {
+          popupRef.current?.remove();
+          popupRef.current = new maplibregl.Popup({ offset: 16, maxWidth: '240px' })
+            .setLngLat([c.lng, c.lat])
+            .setHTML(cameraPopupHtml(c, cameraLabels!, spotHref))
+            .addTo(map);
+        }),
+      })
+        .setLngLat([c.lng, c.lat])
+        .addTo(map);
+      markersRef.current.push(marker);
+    });
 
     const featured = spots.filter((s) => s.featured || s.id === selectedId);
     featured.forEach((s) => add(spotMarkerElement(s, s.id === selectedId, true, onSelect, labels.estimate), s.lng, s.lat, dot(s)));
@@ -204,7 +268,7 @@ export default function CrowdMap({ spots, selectedId, onSelect, userLocation, fo
   // Re-render markers when data or selection changes.
   useEffect(() => {
     renderMarkersRef.current();
-  }, [spots, selectedId, labels]);
+  }, [spots, selectedId, labels, cameras]);
 
   useEffect(() => {
     const map = mapRef.current;

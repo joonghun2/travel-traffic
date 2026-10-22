@@ -114,3 +114,15 @@ export interface ForecastSpot {
   /** Average 30-day concentration when shortlisted; orders "most visited". */
   popularity: number;
 }
+
+/** Visit Jeju safety camera; `url` opens the Jeju disaster-safety viewer for its area. */
+export interface JejuCamera {
+  id: string;
+  name: string;
+  address: string;
+  lat: number;
+  lng: number;
+  url: string;
+  /** Camera angles at this location. */
+  count: number;
+}

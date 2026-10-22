@@ -1058,7 +1058,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.412967,
     "camera": {
       "name": "중문해수욕장",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=108"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=108"
     },
     "popularity": 85
   },
@@ -1087,7 +1087,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.511988,
     "camera": {
       "name": "라마다호텔",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=100"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=100"
     },
     "popularity": 83
   },
@@ -1116,7 +1116,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.56357,
     "camera": {
       "name": "서귀항",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
     },
     "popularity": 83
   },
@@ -1220,7 +1220,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.425957,
     "camera": {
       "name": "중문해수욕장",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=108"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=108"
     },
     "popularity": 82
   },
@@ -1249,7 +1249,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.554876,
     "camera": {
       "name": "서귀항",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
     },
     "popularity": 79
   },
@@ -1278,7 +1278,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.527586,
     "camera": {
       "name": "탑동",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=101"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=101"
     },
     "popularity": 78
   },
@@ -1357,7 +1357,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.4115,
     "camera": {
       "name": "중문해수욕장",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=108"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=108"
     },
     "popularity": 77
   },
@@ -1386,7 +1386,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.672072,
     "camera": {
       "name": "삼다수공장",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=19"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=19"
     },
     "popularity": 77
   },
@@ -1465,7 +1465,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.554528,
     "camera": {
       "name": "서귀항",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
     },
     "popularity": 74
   },
@@ -1519,7 +1519,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.577521,
     "camera": {
       "name": "서귀항",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
     },
     "popularity": 69
   },
@@ -1573,7 +1573,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.571545,
     "camera": {
       "name": "서귀항",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=102"
     },
     "popularity": 67
   },
@@ -1627,7 +1627,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.80619,
     "camera": {
       "name": "비자림",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=15"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=15"
     },
     "popularity": 60
   },
@@ -1681,7 +1681,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.8367,
     "camera": {
       "name": "평화교",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=110"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=110"
     },
     "popularity": 57
   },
@@ -1760,7 +1760,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.313343,
     "camera": {
       "name": "산방산",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=109"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=109"
     },
     "popularity": 48
   },
@@ -1814,7 +1814,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.860423,
     "camera": {
       "name": "구좌읍사무소",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=106"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=106"
     },
     "popularity": 47
   },
@@ -1893,7 +1893,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.313067,
     "camera": {
       "name": "산방산",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=109"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=109"
     },
     "popularity": 43
   },
@@ -1997,7 +1997,7 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "lng": 126.305825,
     "camera": {
       "name": "금악이시돌목장",
-      "url": "http://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=20"
+      "url": "https://bangjae.jeju.go.kr/tool/cctv/cctv_map.jsp?area=20"
     },
     "popularity": 37
   },

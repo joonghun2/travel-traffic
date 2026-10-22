@@ -167,7 +167,7 @@ const cam = await (await fetch(`https://api.odcloud.kr/api/15150508/v1/uddi:3d5f
 const cameras = [...new Map(
   (cam.data || [])
     .filter((c) => c['사용여부'] === 'y' && Number(c['경도']) < 130)
-    .map((c) => [c['카메라영상연결경로'], { name: c['안전관광카메라설치위치'], lat: Number(c['위도']), lng: Number(c['경도']), url: c['카메라영상연결경로'] }])
+    .map((c) => [c['카메라영상연결경로'], { name: c['안전관광카메라설치위치'], lat: Number(c['위도']), lng: Number(c['경도']), url: c['카메라영상연결경로'].replace(/^http:\/\//, 'https://') }])
 ).values()];
 
 async function geocode(name, city) {
