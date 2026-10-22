@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { Lang } from '@/types';
 import { LANGS, SITE_URL, htmlLang, isLang, languageAlternates, localizePath } from '@/lib/i18n/routing';
 import { TRANSLATIONS } from '@/lib/i18n/translations';
-import { jejuMapCameras } from '@/lib/jejuCameras';
+import { JEJU_CCTV_ENABLED, jejuMapCameras } from '@/lib/jejuCameras';
 import { getForecast, statusOfRate, todayOf } from '@/lib/forecast';
 import { STATUS_COLOR } from '@/lib/mapSpots';
 import DashboardHeader from '@/components/DashboardHeader';
@@ -28,7 +28,7 @@ const tr = (lang: Lang) => (key: string, vars: Record<string, string | number> =
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { lang } = await params;
-  if (!isLang(lang)) return {};
+  if (!isLang(lang) || !JEJU_CCTV_ENABLED) return {};
   const t = tr(lang);
   const n = jejuMapCameras(lang).length;
   const title = t('cctv.metaTitle', { n });
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 export default async function JejuCctvPage({ params }: { params: Params }) {
   const { lang } = await params;
-  if (!isLang(lang)) notFound();
+  if (!isLang(lang) || !JEJU_CCTV_ENABLED) notFound();
   const t = tr(lang);
   const cameras = jejuMapCameras(lang);
   const forecast = await getForecast();

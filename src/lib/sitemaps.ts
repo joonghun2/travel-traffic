@@ -1,3 +1,4 @@
+import { JEJU_CCTV_ENABLED } from '@/config/features';
 import { Lang } from '@/types';
 import { LANGS, SITE_URL, languageAlternates, localizePath } from '@/lib/i18n/routing';
 import { getAllSpotSlugs } from '@/lib/spots';
@@ -41,7 +42,7 @@ export async function entriesFor(section: Section): Promise<Entry[]> {
     const base = (await getForecast()).baseDate ?? BUILD_TIME.slice(0, 10);
     return [
       { path: `/${section}`, lastmod: base, changefreq: 'daily', priority: 0.9 },
-      ...(section === 'jeju' ? [{ path: '/jeju/cctv', lastmod: base, changefreq: 'daily' as const, priority: 0.8 }] : []),
+      ...(section === 'jeju' && JEJU_CCTV_ENABLED ? [{ path: '/jeju/cctv', lastmod: base, changefreq: 'daily' as const, priority: 0.8 }] : []),
       ...themesFor(section).map((t) => ({ path: `/${section}/${t.slug}`, lastmod: base, changefreq: 'daily' as const, priority: 0.7 })),
       ...FORECAST_SPOTS.filter((s) => s.city === section).map((s) => ({
         path: `/spot/${getSpotSlug(s)}`,

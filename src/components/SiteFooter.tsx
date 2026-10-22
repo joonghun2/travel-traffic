@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n/context';
+import { JEJU_CCTV_ENABLED } from '@/config/features';
 
 const SEOUL_THEMES = ['palaces', 'parks', 'night-view', 'markets', 'shopping', 'landmarks'];
 
@@ -30,7 +31,7 @@ export default function SiteFooter() {
           <p className="font-bold text-gray-800 dark:text-gray-200">{t('footer.more')}</p>
           <p><Link className={a} href={localePath('/jeju/beaches')}>{t('map.city.jeju')} · {t('theme.beaches')}</Link></p>
           <p><Link className={a} href={localePath('/busan/beaches')}>{t('map.city.busan')} · {t('theme.beaches')}</Link></p>
-          <p><Link className={a} href={localePath('/jeju/cctv')}>{t('footer.cctv')}</Link></p>
+          {JEJU_CCTV_ENABLED && <p><Link className={a} href={localePath('/jeju/cctv')}>{t('footer.cctv')}</Link></p>}
           <p><Link className={a} href={localePath('/play')}>{t('footer.play')}</Link></p>
           <p><Link className={a} href={localePath('/cards')}>{t('footer.cards')}</Link></p>
           <p><Link className={a} href={localePath('/widget')}>{t('footer.widget')}</Link></p>

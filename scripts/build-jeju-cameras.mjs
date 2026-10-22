@@ -1,6 +1,7 @@
 // Builds src/data/jejuCameras.ts from the Visit Jeju safety camera list (data.go.kr 15150508).
 // usage: node --env-file=.env.local scripts/build-jeju-cameras.mjs
-// Keeps active cameras with valid coordinates; viewer links are switched to https.
+// Keeps active cameras with valid coordinates. Viewer links stay http: their video stream is
+// http-only, and an https viewer page blocks it as mixed content.
 import { writeFileSync } from 'node:fs';
 
 const KEY = process.env.DATA_GO_KR_SERVICE_KEY;
@@ -19,10 +20,10 @@ const cameras = (data.data || [])
     address: String(c['안전관광카메라설치주소'] ?? '').trim(),
     lat: Number(c['위도']),
     lng: Number(c['경도']),
-    url: String(c['카메라영상연결경로']).replace(/^http:\/\//, 'https://'),
+    url: String(c['카메라영상연결경로']),
   }))
   // Jeju lies within 33.0-33.7 N, 126.0-127.0 E; some rows have swapped or empty coordinates.
-  .filter((c) => c.lat > 33 && c.lat < 33.7 && c.lng > 126 && c.lng < 127 && c.url.startsWith('https://'))
+  .filter((c) => c.lat > 33 && c.lat < 33.7 && c.lng > 126 && c.lng < 127)
   .filter((c) => {
     const k = `${c.name}|${c.lat.toFixed(5)}|${c.lng.toFixed(5)}`;
     const first = byLocation.get(k);

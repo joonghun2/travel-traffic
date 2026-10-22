@@ -1,3 +1,4 @@
+import { JEJU_CCTV_ENABLED } from '@/config/features';
 import Link from 'next/link';
 import { ForecastSpot, Lang } from '@/types';
 import { TRANSLATIONS } from '@/lib/i18n/translations';
@@ -225,7 +226,7 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
           </dl>
         </section>
 
-        {(spot.station || spot.camera) && (
+        {(spot.station || (JEJU_CCTV_ENABLED && spot.camera)) && (
           <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs space-y-3 text-sm">
             {spot.station && (
               <div>
@@ -236,7 +237,7 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
                 <p className="mt-1 text-[11px] text-gray-400">{t('forecast.stationSource')}</p>
               </div>
             )}
-            {spot.camera && (
+            {JEJU_CCTV_ENABLED && spot.camera && (
               <div>
                 <a
                   href={spot.camera.url}

@@ -5,6 +5,8 @@ import { calculateDistanceKm } from '@/lib/geoUtils';
 import { getSpotSlug } from '@/lib/slug';
 import { pick } from '@/lib/i18n/routing';
 
+export { JEJU_CCTV_ENABLED } from '@/config/features';
+
 /** Cameras farther than this from every spot get no "near" spot. */
 const NEAR_KM = 5;
 
