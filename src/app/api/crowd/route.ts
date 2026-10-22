@@ -3,12 +3,14 @@ import { getCrowdSnapshot } from '@/lib/crowdSnapshot';
 
 // Node runtime: the Seoul Open API is plain http on port 8088.
 export const runtime = 'nodejs';
+// Run next to the Seoul API (Vercel Seoul region).
+export const preferredRegion = 'icn1';
 // The JSON is regenerated at most once a minute; Seoul data itself is cached for 5 minutes.
 export const revalidate = 60;
 
 export async function GET() {
   try {
-    const { spots, liveCount, fetchedAt } = await getCrowdSnapshot();
+    const { spots, liveCount, fetchedAt, issue } = await getCrowdSnapshot();
 
     return NextResponse.json(
       {
@@ -28,6 +30,7 @@ export async function GET() {
                   type: 'SIMULATION',
                   provider: 'crowdEngine Heuristic',
                   spotsConnected: 0,
+                  issue,
                 },
         },
         spots,

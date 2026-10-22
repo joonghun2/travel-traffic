@@ -23,6 +23,7 @@ import SpotLivePanel from '@/components/SpotLivePanel';
 export const dynamicParams = false;
 // Re-render with the cached Seoul snapshot every 5 minutes; the panel polls /api/crowd on the client.
 export const revalidate = 300;
+export const preferredRegion = 'icn1';
 
 type Params = Promise<{ lang: string; slug: string }>;
 

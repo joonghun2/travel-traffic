@@ -13,6 +13,8 @@ interface SeoulLiveCache {
   /** Keyed by official area code (AREA_CD). */
   areas: Record<string, SeoulCityDataResult>;
   fetchedAt: string | null;
+  /** Why no live data is available (never includes the key). */
+  issue?: 'no_key' | 'fetch_failed' | 'build';
 }
 
 // One shared, server-side cache for all visitors: the Seoul API is called once
@@ -20,12 +22,16 @@ interface SeoulLiveCache {
 const getSeoulLive = unstable_cache(
   async (): Promise<SeoulLiveCache> => {
     const apiKey = getSeoulApiKey();
-    if (!apiKey) return { areas: {}, fetchedAt: null };
+    if (!apiKey) return { areas: {}, fetchedAt: null, issue: 'no_key' };
     const areaCodes = Object.values(SEOUL_AREA_MAPPING);
     const results = await fetchSeoulBatchData(areaCodes, apiKey);
-    return { areas: Object.fromEntries(results), fetchedAt: new Date().toISOString() };
+    return {
+      areas: Object.fromEntries(results),
+      fetchedAt: new Date().toISOString(),
+      issue: results.size === 0 ? 'fetch_failed' : undefined,
+    };
   },
-  ['seoul-live-ppltn-v2'],
+  ['seoul-live-ppltn-v3'],
   { revalidate: SEOUL_REFRESH_SECONDS }
 );
 
@@ -41,6 +47,7 @@ export interface CrowdSnapshot {
   spots: LiveSpotMetric[];
   liveCount: number;
   fetchedAt: string | null;
+  issue?: SeoulLiveCache['issue'];
 }
 
 /**
@@ -48,13 +55,14 @@ export interface CrowdSnapshot {
  * (isLive = true), otherwise the time-of-day estimate from crowdEngine.
  */
 export async function getCrowdSnapshot(): Promise<CrowdSnapshot> {
-  let seoul: SeoulLiveCache = { areas: {}, fetchedAt: null };
+  let seoul: SeoulLiveCache = { areas: {}, fetchedAt: null, issue: 'build' };
   try {
     // Skip during `next build`: dozens of prerender workers would hit the API at once.
     // Pages render estimates and pick up live data on their first revalidation.
     if (process.env.NEXT_PHASE !== 'phase-production-build') seoul = await getSeoulLive();
   } catch (err) {
     console.warn('Seoul live data unavailable, using estimates:', err);
+    seoul = { areas: {}, fetchedAt: null, issue: 'fetch_failed' };
   }
 
   let liveCount = 0;
@@ -93,5 +101,5 @@ export async function getCrowdSnapshot(): Promise<CrowdSnapshot> {
     }
   }
 
-  return { spots, liveCount, fetchedAt: seoul.fetchedAt };
+  return { spots, liveCount, fetchedAt: seoul.fetchedAt, issue: seoul.issue };
 }
