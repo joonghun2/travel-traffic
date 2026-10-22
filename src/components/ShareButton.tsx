@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from '@/lib/i18n/context';
+import { isChinese } from '@/lib/i18n/routing';
 
 const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
 const KAKAO_SDK_URL = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js';
@@ -54,7 +55,8 @@ interface ShareButtonProps {
 }
 
 export default function ShareButton({ path, title, text, imageUrl, className = '' }: ShareButtonProps) {
-  const { t, localePath } = useTranslation();
+  const { lang, t, localePath } = useTranslation();
+  const [wechatQr, setWechatQr] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [toast, setToast] = useState(false);
   const [kakaoReady, setKakaoReady] = useState(false);
@@ -139,7 +141,17 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
     setTimeout(() => setToast(false), 2000);
   };
 
+  // WeChat does not read OG tags well, so offer a QR code to scan instead (generated in the browser).
+  const showWechat = async () => {
+    track('wechat');
+    const QRCode = (await import('qrcode')).default;
+    setWechatQr(await QRCode.toDataURL(urlFor('wechat'), { width: 220, margin: 1 }));
+  };
+
   const options = [
+    ...(isChinese(lang)
+      ? [{ key: 'wechat', label: t('share.wechat'), icon: '微', cls: 'bg-[#07C160] text-white', onClick: showWechat }]
+      : []),
     ...(kakaoReady ? [{ key: 'kakao', label: t('share.kakao'), icon: '💬', cls: 'bg-[#FEE500] text-gray-900', onClick: shareKakao }] : []),
     {
       key: 'line',
@@ -189,7 +201,10 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
       {open && (
         <div
           className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-xs"
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            setOpen(false);
+            setWechatQr(null);
+          }}
           role="dialog"
           aria-modal="true"
           aria-labelledby="share-sheet-title"
@@ -211,6 +226,14 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
                 ✕
               </button>
             </div>
+            {wechatQr && (
+              <div className="mb-4 p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 text-center">
+                <p className="text-sm font-bold text-gray-900 dark:text-white">{t('share.wechatTitle')}</p>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={wechatQr} alt="WeChat QR" width={220} height={220} className="mx-auto my-3 rounded-lg bg-white p-2" />
+                <p className="text-xs text-gray-500 dark:text-gray-400">{t('share.wechatHint')}</p>
+              </div>
+            )}
             <div className="grid grid-cols-3 gap-3">
               {options.map((o) => (
                 <button

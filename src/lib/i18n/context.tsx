@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Lang } from '@/types';
 import { TRANSLATIONS } from './translations';
-import { DEFAULT_LANG, isLang, localizePath, stripLang } from './routing';
+import { DEFAULT_LANG, isChinese, isLang, localizePath, stripLang } from './routing';
 
 const LANG_STORAGE_KEY = 'cep_lang';
 const BOT_UA = /bot|crawl|spider|slurp|lighthouse|headless|preview/i;
@@ -43,7 +43,15 @@ export function I18nProvider({ lang, children }: { lang: Lang; children: React.R
     } catch {}
     if (!preferred) {
       const browserLang = navigator.language.toLowerCase();
-      preferred = browserLang.startsWith('ko') ? 'ko' : browserLang.startsWith('ja') ? 'ja' : 'en';
+      preferred = browserLang.startsWith('ko')
+        ? 'ko'
+        : browserLang.startsWith('ja')
+        ? 'ja'
+        : /^zh-(tw|hk|mo|hant)/.test(browserLang)
+        ? 'zh-tw'
+        : browserLang.startsWith('zh')
+        ? 'zh-cn'
+        : 'en';
     }
 
     if (preferred !== DEFAULT_LANG) {
@@ -62,10 +70,9 @@ export function I18nProvider({ lang, children }: { lang: Lang; children: React.R
     router.push(localizePath(stripLang(pathname), newLang) + window.location.search);
   };
 
-  const t = (key: string, fallback?: string): string => {
-    const table = TRANSLATIONS[lang] || TRANSLATIONS.ko;
-    return table[key] || fallback || key;
-  };
+  // Own language -> English (for Chinese) -> caller fallback -> Korean -> key.
+  const t = (key: string, fallback?: string): string =>
+    TRANSLATIONS[lang]?.[key] || (isChinese(lang) ? TRANSLATIONS.en[key] : '') || fallback || TRANSLATIONS.ko[key] || key;
 
   const localePath = (path: string) => localizePath(path, lang);
 

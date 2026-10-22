@@ -22,7 +22,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
   const sub = tr['play.card4.sub'];
 
   const text = `${title}${badge}${sub}VSCheck East Point`;
-  const fonts = await loadCjkFonts(text, 800);
+  const fonts = await loadCjkFonts(text, 800, lang);
 
   return new ImageResponse(
     (

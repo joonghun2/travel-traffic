@@ -1,4 +1,6 @@
 import { Lang } from '@/types';
+import { ZH_CN } from './zh-cn';
+import { ZH_TW } from './zh-tw';
 
 export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
   ko: {
@@ -52,6 +54,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'map.theme.hot': '핫플',
     'map.theme.night': '야경',
     'map.legend': '혼잡도 범례',
+    'map.resizeList': '목록 넓이 조절 (드래그 또는 좌우 화살표)',
     'map.zoomIn': '확대',
     'map.zoomOut': '축소',
     'map.locate': '내 위치',
@@ -333,6 +336,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'map.theme.hot': 'Hot spots',
     'map.theme.night': 'Night views',
     'map.legend': 'Crowd level legend',
+    'map.resizeList': 'Resize list (drag or left/right arrows)',
     'map.zoomIn': 'Zoom in',
     'map.zoomOut': 'Zoom out',
     'map.locate': 'My location',
@@ -614,6 +618,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'map.theme.hot': '話題のスポット',
     'map.theme.night': '夜景',
     'map.legend': '混雑度の凡例',
+    'map.resizeList': 'リストの幅を調整（ドラッグまたは左右矢印）',
     'map.zoomIn': '拡大',
     'map.zoomOut': '縮小',
     'map.locate': '現在地',
@@ -844,4 +849,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'ad.card3.orig_price': '¥3,800',
     'ad.card3.cta': '予約・時刻表 →',
   },
+  // Chinese: missing keys fall back to English in t().
+  'zh-cn': ZH_CN,
+  'zh-tw': ZH_TW,
 };

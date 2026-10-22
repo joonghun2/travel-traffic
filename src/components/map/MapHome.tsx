@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTranslation } from '@/lib/i18n/context';
 import Link from 'next/link';
@@ -17,6 +17,27 @@ const KakaoAdfitBanner = dynamic(() => import('@/components/KakaoAdfitBanner'), 
 // Kakao AdFit units shown with the spot card: 300x250 beside it on PC, 320x100 under it on mobile.
 const AD_UNIT_PC = 'DAN-dtTgaQki8TeayQUI';
 const AD_UNIT_MOBILE = 'DAN-3AoY158moOHDzJXk';
+
+// PC list panel width: draggable, remembered per browser.
+const LIST_W = { min: 200, max: 480, default: 260, storageKey: 'cep_list_width' };
+
+function useListWidth() {
+  const [width, setWidth] = useState(LIST_W.default);
+  useEffect(() => {
+    try {
+      const saved = Number(localStorage.getItem(LIST_W.storageKey));
+      if (saved >= LIST_W.min && saved <= LIST_W.max) setWidth(saved);
+    } catch {}
+  }, []);
+  const update = useCallback((w: number) => {
+    const next = Math.round(Math.min(LIST_W.max, Math.max(LIST_W.min, w)));
+    setWidth(next);
+    try {
+      localStorage.setItem(LIST_W.storageKey, String(next));
+    } catch {}
+  }, []);
+  return [width, update] as const;
+}
 
 /** true on >=1024px, false below, null before mount. AdFit skips hidden slots, so only the visible ad is mounted. */
 function useIsDesktop() {
@@ -123,6 +144,24 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
   const { lang, t, localePath } = useTranslation();
   const cfg = CITY_CONFIG[city];
   const isDesktop = useIsDesktop();
+  const [listWidth, setListWidth] = useListWidth();
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  const startResize = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const left = gridRef.current?.getBoundingClientRect().left ?? 0;
+    const move = (ev: PointerEvent) => setListWidth(ev.clientX - left);
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
   const isLiveCity = city === 'seoul';
   const [spots, setSpots] = useState(initialSpots);
   const [theme, setTheme] = useState<MapThemeId>('all');
@@ -363,7 +402,11 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
         {forecastBanner && <div className="ml-auto shrink-0">{forecastBanner}</div>}
       </div>
 
-      <div className="lg:grid lg:grid-cols-[210px_1fr] lg:h-[calc(100vh-7.75rem)]">
+      <div
+        ref={gridRef}
+        style={{ '--list-w': `${listWidth}px` } as React.CSSProperties}
+        className="relative lg:grid lg:grid-cols-[var(--list-w)_1fr] lg:h-[calc(100vh-7.75rem)]"
+      >
         {/* Map (right on PC) */}
         <div className="relative mt-3 lg:mt-0 h-[58vh] min-h-[340px] lg:h-full lg:order-2 overflow-hidden">
           {map}
@@ -395,6 +438,28 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
           distances={distances}
           className="lg:order-1 lg:h-full lg:overflow-y-auto lg:border-r border-gray-100 dark:border-gray-800"
         />
+
+        {/* Drag (or arrow keys) to resize the list on PC; double-click resets. */}
+        <div
+          role="separator"
+          aria-orientation="vertical"
+          aria-label={t('map.resizeList')}
+          aria-valuemin={LIST_W.min}
+          aria-valuemax={LIST_W.max}
+          aria-valuenow={listWidth}
+          tabIndex={0}
+          onPointerDown={startResize}
+          onDoubleClick={() => setListWidth(LIST_W.default)}
+          onKeyDown={(e) => {
+            if (e.key === 'ArrowLeft') setListWidth(listWidth - 20);
+            if (e.key === 'ArrowRight') setListWidth(listWidth + 20);
+          }}
+          style={{ left: listWidth - 4 }}
+          className="hidden lg:block absolute top-0 bottom-0 z-30 w-2 cursor-col-resize group focus:outline-none"
+        >
+          <span className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-0.5 bg-transparent group-hover:bg-blue-400 group-focus-visible:bg-blue-500 transition-colors" />
+          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-10 rounded-full bg-gray-300 dark:bg-gray-600 group-hover:bg-blue-400" />
+        </div>
       </div>
 
       {/* Mobile bottom sheet */}

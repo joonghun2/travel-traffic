@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useTranslation } from '@/lib/i18n/context';
+import { isChinese } from '@/lib/i18n/routing';
 
 interface NavigationSheetProps {
   isOpen: boolean;
@@ -94,8 +95,8 @@ export default function NavigationSheet({
           </div>
         )}
 
-        {/* Map Links */}
-        <div className="space-y-2.5">
+        {/* Map Links (Naver first on Chinese pages: Google Maps is hard to reach from mainland China) */}
+        <div className="flex flex-col gap-2.5">
           {/* Kakao Map */}
           <a
             href={kakaoUrl}
@@ -120,7 +121,7 @@ export default function NavigationSheet({
             href={naverUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full h-12 px-4 rounded-xl font-bold text-sm bg-[#03C75A] hover:bg-[#02b351] text-white transition-all flex items-center justify-between shadow-2xs hover:shadow-sm group active:scale-[0.99]"
+            className={`${isChinese(lang) ? 'order-first ' : ''}w-full h-12 px-4 rounded-xl font-bold text-sm bg-[#03C75A] hover:bg-[#02b351] text-white transition-all flex items-center justify-between shadow-2xs hover:shadow-sm group active:scale-[0.99]`}
             aria-label={`${t('map.naver')} - ${spotName} ${navSuffix}`}
           >
             <div className="flex items-center gap-3">

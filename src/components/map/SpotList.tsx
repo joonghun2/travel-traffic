@@ -44,7 +44,7 @@ export default function SpotList({ spots, title, selectedId, onSelect, distances
                 >
                   <span className="w-5 text-right text-[11px] font-bold text-gray-400 tabular-nums">{i + 1}</span>
                   <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: STATUS_COLOR[s.status] }} aria-hidden="true" />
-                  <span className={`flex-1 min-w-0 truncate text-sm ${selected ? 'font-extrabold' : 'font-medium'} text-gray-800 dark:text-gray-100`}>
+                  <span title={s.name} className={`flex-1 min-w-0 truncate text-sm ${selected ? 'font-extrabold' : 'font-medium'} text-gray-800 dark:text-gray-100`}>
                     {s.name}
                   </span>
                   <span className="text-xs tabular-nums text-gray-500 dark:text-gray-400 shrink-0">

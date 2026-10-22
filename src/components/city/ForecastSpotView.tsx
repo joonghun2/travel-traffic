@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ForecastSpot, Lang } from '@/types';
 import { TRANSLATIONS } from '@/lib/i18n/translations';
-import { SITE_URL, localizePath } from '@/lib/i18n/routing';
+import { SITE_URL, localizePath, pick } from '@/lib/i18n/routing';
 import { ForecastData, isStale, statusOfRate, todayOf } from '@/lib/forecast';
 import { busiestDay, formatForecastDate, quietestDay } from '@/lib/forecastMap';
 import { getNearbyForecastSpots } from '@/lib/forecastSpots';
@@ -22,13 +22,13 @@ const STATUS_KEY = {
 
 function translator(lang: Lang) {
   return (key: string, vars: Record<string, string | number> = {}) =>
-    (TRANSLATIONS[lang][key] ?? TRANSLATIONS.ko[key] ?? key).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
+    (TRANSLATIONS[lang][key] ?? TRANSLATIONS.en[key] ?? TRANSLATIONS.ko[key] ?? key).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
 }
 
 /** FAQ entries, shared with the page's FAQPage JSON-LD. */
 export function forecastFaqs(spot: ForecastSpot, data: ForecastData, lang: Lang) {
   const t = translator(lang);
-  const name = spot.name[lang];
+  const name = pick(spot.name, lang);
   const days = data.spots[spot.id];
   const quiet = quietestDay(days);
   const busy = busiestDay(days);
@@ -45,7 +45,7 @@ export function forecastFaqs(spot: ForecastSpot, data: ForecastData, lang: Lang)
 
 export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastSpot; data: ForecastData; lang: Lang }) {
   const t = translator(lang);
-  const name = spot.name[lang];
+  const name = pick(spot.name, lang);
   const slug = getSpotSlug(spot);
   const path = `/spot/${slug}`;
   const url = `${SITE_URL}${localizePath(path, lang)}`;
@@ -72,7 +72,7 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
       url,
       inLanguage: lang,
       geo: { '@type': 'GeoCoordinates', latitude: spot.lat, longitude: spot.lng },
-      address: { '@type': 'PostalAddress', addressLocality: spot.area[lang], addressRegion: cityName, addressCountry: 'KR' },
+      address: { '@type': 'PostalAddress', addressLocality: pick(spot.area, lang), addressRegion: cityName, addressCountry: 'KR' },
     },
     {
       '@context': 'https://schema.org',
@@ -117,7 +117,7 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
             <span className="mr-2" aria-hidden="true">{spot.emoji}</span>
             {name}
           </h1>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{spot.area[lang]}</p>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{pick(spot.area, lang)}</p>
         </header>
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
@@ -235,7 +235,7 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
                     className="flex items-center justify-between gap-2 p-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 hover:border-blue-300 dark:hover:border-blue-700"
                   >
                     <span className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
-                      {s.emoji} {s.name[lang]}
+                      {s.emoji} {pick(s.name, lang)}
                     </span>
                     <span className="text-xs text-gray-400 shrink-0 tabular-nums">
                       {r !== undefined ? `${Math.round(r)} · ` : ''}

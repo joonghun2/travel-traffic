@@ -1,4 +1,5 @@
 import { Lang, LocalizedString } from '@/types';
+import { pick } from '@/lib/i18n/routing';
 
 export const TEST_PATH = '/play/seoul-food-test';
 
@@ -400,5 +401,5 @@ export const UI: Record<string, LocalizedString> = {
 };
 
 export function ui(key: keyof typeof UI, lang: Lang, vars: Record<string, string | number> = {}): string {
-  return Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), UI[key][lang]);
+  return Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), pick(UI[key], lang));
 }

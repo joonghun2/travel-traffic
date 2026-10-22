@@ -7,7 +7,7 @@ import { Food, FOODS, FOODS_BY_ID } from '@/data/foods';
 import { SPOTS_DATA } from '@/data/spotsData';
 import { getSpotSlug } from '@/lib/spots';
 import { useTranslation } from '@/lib/i18n/context';
-import { SITE_URL } from '@/lib/i18n/routing';
+import { SITE_URL, pick as pickText } from '@/lib/i18n/routing';
 import ShareButton from './ShareButton';
 
 const KakaoAdfitBanner = dynamic(() => import('./KakaoAdfitBanner'), { ssr: false });
@@ -108,7 +108,7 @@ export default function FoodWorldCup() {
         {friendPick && (
           <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/15 to-rose-500/15 border border-amber-500/30 text-center">
             <p className="text-lg font-bold">
-              {friendPick.emoji} {fill('wc.friendPick', { food: friendPick.name[lang] })}
+              {friendPick.emoji} {fill('wc.friendPick', { food: pickText(friendPick.name, lang) })}
             </p>
             <p className="mt-1 text-xs text-gray-300">{t('wc.friendPickSub')}</p>
           </div>
@@ -164,7 +164,7 @@ export default function FoodWorldCup() {
       ...(state.runnerUp ? [{ food: state.runnerUp, label: t('wc.rank2') }] : []),
       ...state.semifinalists.map((food) => ({ food, label: t('wc.rank3') })),
     ];
-    const shareText = fill('wc.shareText', { emoji: champion.emoji, food: champion.name[lang], n: state.size });
+    const shareText = fill('wc.shareText', { emoji: champion.emoji, food: pickText(champion.name, lang), n: state.size });
 
     return (
       <div className="space-y-5">
@@ -173,7 +173,7 @@ export default function FoodWorldCup() {
             🏆 {fill('wc.round', { n: state.size })} · {t('wc.winnerLabel')}
           </p>
           <div className="text-8xl my-4" aria-hidden="true">{champion.emoji}</div>
-          <h1 className="text-3xl font-extrabold">{champion.name[lang]}</h1>
+          <h1 className="text-3xl font-extrabold">{pickText(champion.name, lang)}</h1>
         </div>
 
         <ShareButton
@@ -191,7 +191,7 @@ export default function FoodWorldCup() {
           >
             <p className="text-xs font-bold text-blue-300">📍 {t('wc.whereToEat')}</p>
             <p className="mt-1 text-sm font-semibold">
-              {spot.emoji} {fill('wc.whereToEatSub', { spot: spot.name[lang] })}
+              {spot.emoji} {fill('wc.whereToEatSub', { spot: pickText(spot.name, lang) })}
             </p>
           </Link>
         )}
@@ -203,7 +203,7 @@ export default function FoodWorldCup() {
               <li key={food.id} className="flex items-center gap-3">
                 <span className="w-6 text-center text-sm font-black text-gray-500">{i < 2 ? i + 1 : 3}</span>
                 <span className="text-2xl" aria-hidden="true">{food.emoji}</span>
-                <span className="flex-1 text-sm font-semibold">{food.name[lang]}</span>
+                <span className="flex-1 text-sm font-semibold">{pickText(food.name, lang)}</span>
                 <span className="text-[11px] text-gray-400">{label}</span>
               </li>
             ))}
@@ -265,7 +265,7 @@ export default function FoodWorldCup() {
             }`}
           >
             <span className="text-7xl" aria-hidden="true">{food.emoji}</span>
-            <span className="text-lg sm:text-xl font-bold px-4 text-center">{food.name[lang]}</span>
+            <span className="text-lg sm:text-xl font-bold px-4 text-center">{pickText(food.name, lang)}</span>
           </button>
         ))}
         <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-rose-500 flex items-center justify-center text-sm font-black shadow-lg pointer-events-none">

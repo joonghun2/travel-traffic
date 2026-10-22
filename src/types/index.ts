@@ -4,7 +4,8 @@ export type CityId = 'seoul' | 'jeju' | 'busan';
 /** Cities served from the KTO 30-day concentration forecast instead of live data. */
 export type ForecastCityId = Exclude<CityId, 'seoul'>;
 
-export type Lang = 'ko' | 'en' | 'ja';
+/** URL language codes. zh-cn = Simplified Chinese (zh-Hans), zh-tw = Traditional Chinese (zh-Hant). */
+export type Lang = 'ko' | 'en' | 'ja' | 'zh-cn' | 'zh-tw';
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type AccentColor = 'crimson' | 'ocean' | 'emerald' | 'violet';
 
@@ -30,6 +31,9 @@ export interface LocalizedString {
   ko: string;
   en: string;
   ja: string;
+  /** Chinese is optional; read through pick(), which falls back to English. */
+  'zh-cn'?: string;
+  'zh-tw'?: string;
 }
 
 export interface EscapeRoute {

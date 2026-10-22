@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslation } from '@/lib/i18n/context';
-import { localizePath, stripLang } from '@/lib/i18n/routing';
+import { htmlLang, localizePath, stripLang } from '@/lib/i18n/routing';
 import ThemeToggle from './ThemeToggle';
 
 interface DashboardHeaderProps {
@@ -17,7 +17,8 @@ interface DashboardHeaderProps {
   live?: boolean;
 }
 
-const LANG_LABEL = { ko: '한국어', en: 'English', ja: '日本語' } as const;
+const LANG_LABEL = { ko: '한국어', en: 'English', ja: '日本語', 'zh-cn': '简体中文', 'zh-tw': '繁體中文' } as const;
+const LANG_SHORT = { ko: 'KO', en: 'EN', ja: 'JA', 'zh-cn': '简', 'zh-tw': '繁' } as const;
 
 function LanguageMenu({ path }: { path: string }) {
   const { lang, setLang, t } = useTranslation();
@@ -47,7 +48,7 @@ function LanguageMenu({ path }: { path: string }) {
         className="h-9 px-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1 cursor-pointer"
       >
         <span aria-hidden="true">🌐</span>
-        {lang.toUpperCase()}
+        {LANG_SHORT[lang]}
         <span aria-hidden="true" className="text-[9px]">▾</span>
       </button>
       {/* Links stay in the DOM (hidden when closed) so crawlers can follow every language. */}
@@ -55,12 +56,12 @@ function LanguageMenu({ path }: { path: string }) {
         role="menu"
         className={`${open ? '' : 'hidden'} absolute right-0 mt-1 w-36 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-xl py-1 z-50`}
       >
-        {(['ko', 'en', 'ja'] as const).map((code) => (
+        {(Object.keys(LANG_LABEL) as (keyof typeof LANG_LABEL)[]).map((code) => (
           <Link
             key={code}
             role="menuitem"
             href={localizePath(path, code)}
-            hrefLang={code}
+            hrefLang={htmlLang(code)}
             onClick={(e) => {
               e.preventDefault();
               setOpen(false);

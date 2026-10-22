@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
-import { LANGS, isLang } from '@/lib/i18n/routing';
+import { LANGS, isLang, pick } from '@/lib/i18n/routing';
 import { AREAS, AREA_IDS, ui } from '@/data/seoulFoodTest';
 
 // Served at /play/seoul-food-test/og (Korean, via rewrite), /en/..., /ja/...
@@ -15,10 +15,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
   const { lang: rawLang } = await params;
   const lang = isLang(rawLang) ? rawLang : 'ko';
   const title = ui('title', lang);
-  const areas = AREA_IDS.map((id) => AREAS[id].name[lang]);
+  const areas = AREA_IDS.map((id) => pick(AREAS[id].name, lang));
   const question = ui('todayIs', lang);
 
-  const fonts = await loadCjkFonts(`${title}${areas.join('')}${question}?Check East Point`, 800);
+  const fonts = await loadCjkFonts(`${title}${areas.join('')}${question}?Check East Point`, 800, lang);
 
   return new ImageResponse(
     (

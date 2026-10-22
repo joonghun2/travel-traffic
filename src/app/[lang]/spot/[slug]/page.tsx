@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Lang, Spot } from '@/types';
 import { TRANSLATIONS } from '@/lib/i18n/translations';
-import { LANGS, SITE_URL, isLang, languageAlternates, localizePath } from '@/lib/i18n/routing';
+import { LANGS, SITE_URL, isLang, languageAlternates, localizePath, pick, isChinese } from '@/lib/i18n/routing';
 import {
   getAllSpotSlugs,
   getHourlyForecast,
@@ -39,7 +39,7 @@ export function generateStaticParams() {
 
 function translator(lang: Lang) {
   return (key: string, vars: Record<string, string | number> = {}) => {
-    const template = TRANSLATIONS[lang][key] ?? TRANSLATIONS.ko[key] ?? key;
+    const template = TRANSLATIONS[lang][key] ?? TRANSLATIONS.en[key] ?? TRANSLATIONS.ko[key] ?? key;
     return template.replace(/\{(\w+)\}/g, (_, name) => String(vars[name] ?? ''));
   };
 }
@@ -64,7 +64,7 @@ function resolve(lang: string, slug: string) {
 async function forecastMetadata(lang: Lang, slug: string): Promise<Metadata> {
   const spot = getForecastSpotBySlug(slug)!;
   const t = translator(lang);
-  const name = spot.name[lang];
+  const name = pick(spot.name, lang);
   const data = await getForecast();
   const quiet = quietestDay(data.spots[spot.id]);
   const title = t('forecast.metaTitle', { name });
@@ -87,9 +87,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   if (!resolved) return {};
   const { lang, spot, path } = resolved;
   const t = translator(lang);
-  const name = spot.name[lang];
+  const name = pick(spot.name, lang);
   const title = t('spot.metaTitle', { name });
-  const description = t('spot.metaDesc', { name, best: spot.bestTime[lang] });
+  const description = t('spot.metaDesc', { name, best: pick(spot.bestTime, lang) });
   const url = `${SITE_URL}${localizePath(path, lang)}`;
 
   return {
@@ -148,10 +148,10 @@ export default async function SpotPage({ params }: { params: Params }) {
   const { lang, spot, path } = resolved;
   const t = translator(lang);
 
-  const name = spot.name[lang];
-  const area = spot.address?.[lang] || spot.area?.[lang] || '';
-  const bestTime = spot.bestTime[lang];
-  const tip = spot.secretTip?.[lang] || spot.tip?.[lang];
+  const name = pick(spot.name, lang);
+  const area = pick(spot.address, lang) || pick(spot.area, lang) || '';
+  const bestTime = pick(spot.bestTime, lang);
+  const tip = pick(spot.secretTip, lang) || pick(spot.tip, lang);
   const snapshot = await getCrowdSnapshot();
   const initial = snapshot.spots.find((s) => s.id === spot.id) ?? computeLiveSpotMetric(spot);
   const weekday = getHourlyForecast(spot, false);
@@ -169,8 +169,8 @@ export default async function SpotPage({ params }: { params: Params }) {
           {
             q: t('spot.faq.q2', { name }),
             a: t('spot.faq.a2', {
-              gem: spot.escapeRoute.gemName[lang],
-              desc: spot.escapeRoute.gemDesc[lang],
+              gem: pick(spot.escapeRoute.gemName, lang),
+              desc: pick(spot.escapeRoute.gemDesc, lang),
             }),
           },
         ]
@@ -214,11 +214,11 @@ export default async function SpotPage({ params }: { params: Params }) {
     },
   ];
 
-  const mapLinks = [
-    { label: TRANSLATIONS[lang]['map.kakao'], href: getKakaoNavUrl(name, spot.lat, spot.lng), cls: 'bg-[#FEE500] text-gray-900' },
-    { label: TRANSLATIONS[lang]['map.naver'], href: getNaverNavUrl(name, spot.lat, spot.lng), cls: 'bg-[#03C75A] text-white' },
-    { label: TRANSLATIONS[lang]['map.google'], href: getGoogleNavUrl(name, spot.lat, spot.lng), cls: 'bg-blue-600 text-white' },
-  ];
+  const kakao = { label: TRANSLATIONS[lang]['map.kakao'], href: getKakaoNavUrl(name, spot.lat, spot.lng), cls: 'bg-[#FEE500] text-gray-900' };
+  const naver = { label: TRANSLATIONS[lang]['map.naver'], href: getNaverNavUrl(name, spot.lat, spot.lng), cls: 'bg-[#03C75A] text-white' };
+  const google = { label: TRANSLATIONS[lang]['map.google'], href: getGoogleNavUrl(name, spot.lat, spot.lng), cls: 'bg-blue-600 text-white' };
+  // Chinese pages: Naver first (Google Maps is hard to reach from mainland China).
+  const mapLinks = isChinese(lang) ? [naver, kakao, google] : [kakao, naver, google];
 
   return (
     <div className="min-h-screen pb-24 md:pb-10">
@@ -292,8 +292,8 @@ export default async function SpotPage({ params }: { params: Params }) {
         {spot.escapeRoute && (
           <section className="p-5 rounded-3xl bg-indigo-50/70 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40">
             <h2 className="text-xs font-bold text-indigo-600 dark:text-indigo-300">💎 {t('card.escapeTitle')}</h2>
-            <p className="mt-1 text-base font-bold text-gray-900 dark:text-white">{spot.escapeRoute.gemName[lang]}</p>
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{spot.escapeRoute.gemDesc[lang]}</p>
+            <p className="mt-1 text-base font-bold text-gray-900 dark:text-white">{pick(spot.escapeRoute.gemName, lang)}</p>
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{pick(spot.escapeRoute.gemDesc, lang)}</p>
             <p className="mt-2 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
               {t('spot.escapeMeta', { min: spot.escapeRoute.walkMinutes, pct: spot.escapeRoute.crowdDiffPercent })}
             </p>
@@ -310,7 +310,7 @@ export default async function SpotPage({ params }: { params: Params }) {
                   className="flex items-center justify-between gap-2 p-3 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 hover:border-blue-300 dark:hover:border-blue-700 transition-colors"
                 >
                   <span className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
-                    {s.emoji} {s.name[lang]}
+                    {s.emoji} {pick(s.name, lang)}
                   </span>
                   <span className="text-xs text-gray-400 flex-shrink-0">{formatDistance(distanceKm)}</span>
                 </Link>

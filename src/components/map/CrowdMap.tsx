@@ -40,6 +40,8 @@ interface Props {
 
 function labelExpression(lang: Lang): maplibregl.ExpressionSpecification {
   if (lang === 'ko') return ['coalesce', ['get', 'name:ko'], ['get', 'name']];
+  if (lang === 'zh-cn') return ['coalesce', ['get', 'name:zh-Hans'], ['get', 'name:zh'], ['get', 'name:latin'], ['get', 'name']];
+  if (lang === 'zh-tw') return ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:zh'], ['get', 'name:latin'], ['get', 'name']];
   return ['coalesce', ['get', `name:${lang}`], ['get', 'name:latin'], ['get', 'name']];
 }
 

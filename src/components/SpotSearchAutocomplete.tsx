@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { LiveSpotMetric } from '@/types';
 import { useTranslation } from '@/lib/i18n/context';
+import { pick } from '@/lib/i18n/routing';
 
 interface SpotSearchAutocompleteProps {
   spots: LiveSpotMetric[];
@@ -77,10 +78,10 @@ export default function SpotSearchAutocomplete({
       {isOpen && filteredSpots.length > 0 && (
         <div className="absolute z-50 left-0 right-0 mt-2 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-xl overflow-hidden max-h-80 overflow-y-auto">
           {filteredSpots.map((spot) => {
-            const name = spot.name[lang] || spot.name.ko;
+            const name = pick(spot.name, lang);
             const address =
-              (spot.address?.[lang] || spot.address?.ko) ||
-              (spot.area?.[lang] || spot.area?.ko) ||
+              (pick(spot.address, lang)) ||
+              (pick(spot.area, lang)) ||
               '';
             const score = spot.currentScore;
 

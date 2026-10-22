@@ -13,13 +13,31 @@ async function loadFont(family: string, weight: number, text: string): Promise<A
   }
 }
 
-export async function loadCjkFonts(text: string, weight: 700 | 800 = 700) {
-  const fonts = await Promise.all([
-    loadFont('Noto+Sans+KR', weight, text).then((data) => data && { name: 'NotoKR', data, weight }),
-    loadFont('Noto+Sans+JP', weight, text).then((data) => data && { name: 'NotoJP', data, weight }),
-  ]);
+const FONT_FILES: Record<string, [string, string]> = {
+  KR: ['Noto+Sans+KR', 'NotoKR'],
+  JP: ['Noto+Sans+JP', 'NotoJP'],
+  SC: ['Noto+Sans+SC', 'NotoSC'],
+  TC: ['Noto+Sans+TC', 'NotoTC'],
+};
+// Two subsets per language: its own script plus Korean for Korean place names.
+const FONTS_FOR: Record<string, string[]> = { ko: ['KR', 'JP'], en: ['KR', 'JP'], ja: ['JP', 'KR'], 'zh-cn': ['SC', 'KR'], 'zh-tw': ['TC', 'KR'] };
+
+export async function loadCjkFonts(text: string, weight: 700 | 800 = 700, lang = 'ko') {
+  const fonts = await Promise.all(
+    (FONTS_FOR[lang] ?? FONTS_FOR.ko).map((id) => {
+      const [family, name] = FONT_FILES[id];
+      return loadFont(family, weight, text).then((data) => data && { name, data, weight });
+    })
+  );
   const loaded = fonts.filter((f): f is NonNullable<typeof f> => f !== null);
   return loaded.length ? loaded : undefined;
 }
 
-export const cjkFontFamily = (lang: string) => (lang === 'ja' ? 'NotoJP, NotoKR' : 'NotoKR, NotoJP');
+export const cjkFontFamily = (lang: string) =>
+  lang === 'ja'
+    ? 'NotoJP, NotoKR, NotoSC'
+    : lang === 'zh-cn'
+    ? 'NotoSC, NotoTC, NotoKR'
+    : lang === 'zh-tw'
+    ? 'NotoTC, NotoSC, NotoKR'
+    : 'NotoKR, NotoJP, NotoSC';

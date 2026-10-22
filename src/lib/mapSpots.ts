@@ -1,6 +1,7 @@
 import { CrowdStatus, Lang, LiveSpotMetric, Spot } from '@/types';
 import { FEATURED_RANK } from '@/config/featuredRank';
 import { getSpotSlug } from '@/lib/slug';
+import { pick } from '@/lib/i18n/routing';
 
 /** Compact, single-language spot record for the map home page. */
 export interface MapSpot {
@@ -61,7 +62,7 @@ export function toMapSpots(metrics: LiveSpotMetric[], lang: Lang): MapSpot[] {
       id: m.id,
       kind: 'live' as const,
       slug,
-      name: m.name[lang] || m.name.ko,
+      name: pick(m.name, lang),
       gu: guOf(m),
       lat: m.lat,
       lng: m.lng,
@@ -70,11 +71,11 @@ export function toMapSpots(metrics: LiveSpotMetric[], lang: Lang): MapSpot[] {
       score: m.currentScore,
       status: m.status,
       wait: m.waitTimeMinutes,
-      bestTime: m.bestTime[lang] || m.bestTime.ko,
+      bestTime: pick(m.bestTime, lang),
       isLive: Boolean(m.isLive),
       featured: FEATURED_POSITION.get(slug),
       popularity: m.baseScore,
-      searchText: [m.name.ko, m.name.en, m.name.ja, ...(m.searchKeywords || [])].join(' ').toLowerCase(),
+      searchText: [m.name.ko, m.name.en, m.name.ja, m.name['zh-cn'], m.name['zh-tw'], ...(m.searchKeywords || [])].join(' ').toLowerCase(),
     };
   });
 }

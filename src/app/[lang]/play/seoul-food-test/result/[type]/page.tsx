@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { LANGS, SITE_URL, isLang, languageAlternates, localizePath } from '@/lib/i18n/routing';
+import { LANGS, SITE_URL, isLang, languageAlternates, localizePath, pick } from '@/lib/i18n/routing';
 import { FOOD_TYPES, FOOD_TYPE_IDS, TEST_PATH, isFoodTypeId, ui } from '@/data/seoulFoodTest';
 import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
@@ -18,8 +18,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { lang, type } = await params;
   if (!isLang(lang) || !isFoodTypeId(type)) return {};
   const info = FOOD_TYPES[type];
-  const title = `${ui('todayIs', lang)} ${info.title[lang]} ${info.emoji}`;
-  const description = `${ui('bestMenu', lang)}: ${info.menu[lang]} — ${info.desc[lang]}`;
+  const title = `${ui('todayIs', lang)} ${pick(info.title, lang)} ${info.emoji}`;
+  const description = `${ui('bestMenu', lang)}: ${pick(info.menu, lang)} — ${pick(info.desc, lang)}`;
   const path = `${TEST_PATH}/result/${type}`;
   const url = `${SITE_URL}${localizePath(path, lang)}`;
 

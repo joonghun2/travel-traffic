@@ -19,7 +19,7 @@ import {
   ui,
 } from '@/data/seoulFoodTest';
 import { useTranslation } from '@/lib/i18n/context';
-import { SITE_URL } from '@/lib/i18n/routing';
+import { SITE_URL, pick } from '@/lib/i18n/routing';
 import ShareButton from './ShareButton';
 
 const KakaoAdfitBanner = dynamic(() => import('./KakaoAdfitBanner'), { ssr: false });
@@ -86,7 +86,7 @@ export function SeoulFoodTestQuiz() {
         <div>
           <div className="flex items-center justify-between text-xs text-gray-400 mb-2">
             <span>
-              {AREAS[area].emoji} {AREAS[area].name[lang]}
+              {AREAS[area].emoji} {pick(AREAS[area].name, lang)}
             </span>
             <span className="tabular-nums">
               {ui('question', lang)} {qi + 1} / {QUESTIONS.length}
@@ -101,7 +101,7 @@ export function SeoulFoodTestQuiz() {
         </div>
 
         <h2 className="text-2xl font-extrabold leading-snug">
-          <span className="text-rose-400">Q{qi + 1}.</span> {question.q[lang]}
+          <span className="text-rose-400">Q{qi + 1}.</span> {pick(question.q, lang)}
         </h2>
 
         <div className="space-y-3">
@@ -112,7 +112,7 @@ export function SeoulFoodTestQuiz() {
               onClick={() => answer(i)}
               className="w-full p-4 rounded-2xl bg-[#16171d] border border-gray-800 hover:border-rose-400/60 hover:bg-[#1d1f27] text-left text-base font-semibold transition active:scale-[0.98] cursor-pointer"
             >
-              {o.text[lang]}
+              {pick(o.text, lang)}
             </button>
           ))}
         </div>
@@ -151,8 +151,8 @@ export function SeoulFoodTestQuiz() {
               }`}
             >
               <span className="block text-2xl" aria-hidden="true">{AREAS[id].emoji}</span>
-              <span className="block mt-1 text-base font-extrabold">{AREAS[id].name[lang]}</span>
-              <span className="block mt-0.5 text-xs text-gray-400">{AREAS[id].desc[lang]}</span>
+              <span className="block mt-1 text-base font-extrabold">{pick(AREAS[id].name, lang)}</span>
+              <span className="block mt-0.5 text-xs text-gray-400">{pick(AREAS[id].desc, lang)}</span>
             </button>
           ))}
         </div>
@@ -192,7 +192,7 @@ function RestaurantCard({ r, showMap }: { r: Restaurant; showMap: boolean }) {
             </span>
           )}
         </div>
-        <p className="mt-1 text-sm text-gray-300">{r.note[lang]}</p>
+        <p className="mt-1 text-sm text-gray-300">{pick(r.note, lang)}</p>
         <p className="mt-1 text-xs text-gray-500">📍 {r.address}</p>
       </div>
 
@@ -245,9 +245,9 @@ export function SeoulFoodTestResult({ type }: { type: FoodTypeId }) {
   };
 
   const restaurants = RESTAURANTS[type][area];
-  const areaName = AREAS[area].name[lang];
+  const areaName = pick(AREAS[area].name, lang);
   const moreQuery = encodeURIComponent(`${AREAS[area].mapKeyword} ${info.mapKeyword} 맛집`);
-  const shareText = ui('shareText', lang, { title: info.title[lang], emoji: info.emoji, menu: info.menu[lang] });
+  const shareText = ui('shareText', lang, { title: pick(info.title, lang), emoji: info.emoji, menu: pick(info.menu, lang) });
 
   return (
     <div className="space-y-5">
@@ -263,12 +263,12 @@ export function SeoulFoodTestResult({ type }: { type: FoodTypeId }) {
 
       <section className={`p-6 rounded-3xl bg-gradient-to-br ${info.gradient} text-white text-center shadow-xl`}>
         <p className="text-sm font-bold opacity-90">{ui('todayIs', lang)}</p>
-        <h1 className="mt-1 text-[1.7rem] leading-tight font-black">{info.title[lang]}</h1>
+        <h1 className="mt-1 text-[1.7rem] leading-tight font-black">{pick(info.title, lang)}</h1>
         <div className="text-7xl my-4" aria-hidden="true">{info.emoji}</div>
         <p className="inline-block px-4 py-1.5 rounded-full bg-black/25 text-sm font-bold">
-          {ui('bestMenu', lang)}: {info.menu[lang]}
+          {ui('bestMenu', lang)}: {pick(info.menu, lang)}
         </p>
-        <p className="mt-4 text-sm leading-relaxed opacity-95">{info.desc[lang]}</p>
+        <p className="mt-4 text-sm leading-relaxed opacity-95">{pick(info.desc, lang)}</p>
         <div className="mt-4 flex flex-wrap justify-center gap-2">
           {info.traits.map((tr) => (
             <span key={tr.en} className="px-2.5 py-1 rounded-full bg-white/20 text-xs font-bold">
@@ -280,7 +280,7 @@ export function SeoulFoodTestResult({ type }: { type: FoodTypeId }) {
 
       <ShareButton
         path={resultPath(type, area)}
-        title={`${ui('todayIs', lang)} ${info.title[lang]}`}
+        title={`${ui('todayIs', lang)} ${pick(info.title, lang)}`}
         text={shareText}
         imageUrl={`${SITE_URL}${localePath(`${TEST_PATH}/result/${type}`)}/og`}
         className="w-full h-12 !bg-white !text-gray-900 !border-0 text-base"
@@ -301,7 +301,7 @@ export function SeoulFoodTestResult({ type }: { type: FoodTypeId }) {
           rel="noopener noreferrer"
           className="block p-3 rounded-2xl border border-dashed border-gray-700 text-center text-sm font-semibold text-blue-300 hover:border-blue-400"
         >
-          {ui('moreOnMap', lang, { area: areaName, menu: info.menu[lang] })}
+          {ui('moreOnMap', lang, { area: areaName, menu: pick(info.menu, lang) })}
         </a>
         <p className="text-[11px] text-gray-500">{ui('ratingNote', lang)}</p>
       </section>
@@ -318,7 +318,7 @@ export function SeoulFoodTestResult({ type }: { type: FoodTypeId }) {
                 id === area ? 'bg-rose-500/15 border-rose-400' : 'bg-[#16171d] border-gray-800 hover:border-gray-600'
               }`}
             >
-              {AREAS[id].emoji} {AREAS[id].name[lang]}
+              {AREAS[id].emoji} {pick(AREAS[id].name, lang)}
             </button>
           ))}
         </div>

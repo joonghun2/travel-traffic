@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { getSpotSlug } from '@/lib/slug';
 import NavigationSheet from './NavigationSheet';
+import { pick } from '@/lib/i18n/routing';
 import {
   formatDistance,
   getKakaoNavUrl,
@@ -29,15 +30,15 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
   const [showEscape, setShowEscape] = useState(false);
   const [showNavSheet, setShowNavSheet] = useState(false);
 
-  const name = spot.name[lang] || spot.name.ko;
+  const name = pick(spot.name, lang);
   const address =
-    (spot.address?.[lang] || spot.address?.ko) ||
-    (spot.area?.[lang] || spot.area?.ko) ||
+    (pick(spot.address, lang)) ||
+    (pick(spot.area, lang)) ||
     '';
-  const bestTime = spot.bestTime?.[lang] || spot.bestTime?.ko || '';
+  const bestTime = pick(spot.bestTime, lang) || '';
   const secretTip =
-    (spot.secretTip?.[lang] || spot.secretTip?.ko) ||
-    (spot.tip?.[lang] || spot.tip?.ko) ||
+    (pick(spot.secretTip, lang)) ||
+    (pick(spot.tip, lang)) ||
     '';
 
   // Status tokens with WCAG AA 4.5:1 compliant contrast & semantic colors

@@ -11,12 +11,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "용두산공원",
       "en": "Yongdusan Park",
-      "ja": "龍頭山公園"
+      "ja": "龍頭山公園",
+      "zh-cn": "龙头山公园",
+      "zh-tw": "龍頭山公園"
     },
     "area": {
       "ko": "중구",
       "en": "Jung-gu, Busan",
-      "ja": "釜山 中区"
+      "ja": "釜山 中区",
+      "zh-cn": "釜山 中区",
+      "zh-tw": "釜山 中區"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -36,12 +40,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "광복로 문화패션거리",
       "en": "Gwangbok-ro Fashion Street",
-      "ja": "光復路ファッション通り"
+      "ja": "光復路ファッション通り",
+      "zh-cn": "光复路时尚街",
+      "zh-tw": "光復路時尚街"
     },
     "area": {
       "ko": "중구",
       "en": "Jung-gu, Busan",
-      "ja": "釜山 中区"
+      "ja": "釜山 中区",
+      "zh-cn": "釜山 中区",
+      "zh-tw": "釜山 中區"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -57,12 +65,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "BIFF 광장",
       "en": "BIFF Square",
-      "ja": "BIFF広場"
+      "ja": "BIFF広場",
+      "zh-cn": "BIFF广场",
+      "zh-tw": "BIFF廣場"
     },
     "area": {
       "ko": "중구",
       "en": "Jung-gu, Busan",
-      "ja": "釜山 中区"
+      "ja": "釜山 中区",
+      "zh-cn": "釜山 中区",
+      "zh-tw": "釜山 中區"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -78,12 +90,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "청사포",
       "en": "Cheongsapo Village",
-      "ja": "青沙浦"
+      "ja": "青沙浦",
+      "zh-cn": "青沙浦",
+      "zh-tw": "青沙浦"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -99,12 +115,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "국제시장 먹자골목",
       "en": "Gukje Market Food Alley",
-      "ja": "国際市場グルメ横丁"
+      "ja": "国際市場グルメ横丁",
+      "zh-cn": "国际市场美食街",
+      "zh-tw": "國際市場美食街"
     },
     "area": {
       "ko": "중구",
       "en": "Jung-gu, Busan",
-      "ja": "釜山 中区"
+      "ja": "釜山 中区",
+      "zh-cn": "釜山 中区",
+      "zh-tw": "釜山 中區"
     },
     "category": "food",
     "emoji": "🛍️",
@@ -124,12 +144,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "전포카페거리",
       "en": "Jeonpo Cafe Street",
-      "ja": "田浦カフェ通り"
+      "ja": "田浦カフェ通り",
+      "zh-cn": "田浦咖啡街",
+      "zh-tw": "田浦咖啡街"
     },
     "area": {
       "ko": "부산진구",
       "en": "Busanjin-gu, Busan",
-      "ja": "釜山 釜山鎮区"
+      "ja": "釜山 釜山鎮区",
+      "zh-cn": "釜山 釜山镇区",
+      "zh-tw": "釜山 釜山鎭區"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -145,12 +169,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "해운대해수욕장",
       "en": "Haeundae Beach",
-      "ja": "海雲台海水浴場"
+      "ja": "海雲台海水浴場",
+      "zh-cn": "海云台海水浴场",
+      "zh-tw": "海雲臺海水浴場"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -170,12 +198,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "이기대",
       "en": "Igidae Coastal Park",
-      "ja": "二妓台"
+      "ja": "二妓台",
+      "zh-cn": "二妓台",
+      "zh-tw": "二妓臺"
     },
     "area": {
       "ko": "남구",
       "en": "Nam-gu, Busan",
-      "ja": "釜山 南区"
+      "ja": "釜山 南区",
+      "zh-cn": "釜山 南区",
+      "zh-tw": "釜山 南區"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -195,12 +227,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "벡스코 (BEXCO)",
       "en": "BEXCO",
-      "ja": "BEXCO"
+      "ja": "BEXCO",
+      "zh-cn": "벡스코",
+      "zh-tw": "벡스코"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "attraction",
     "emoji": "🎡",
@@ -216,12 +252,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "송도해수욕장",
       "en": "Songdo Beach (Busan)",
-      "ja": "松島海水浴場"
+      "ja": "松島海水浴場",
+      "zh-cn": "松岛海水浴场",
+      "zh-tw": "松島海水浴場"
     },
     "area": {
       "ko": "서구",
       "en": "Seo-gu, Busan",
-      "ja": "釜山 西区"
+      "ja": "釜山 西区",
+      "zh-cn": "釜山 西区",
+      "zh-tw": "釜山 西區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -241,12 +281,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "국제시장",
       "en": "Gukje Market",
-      "ja": "国際市場"
+      "ja": "国際市場",
+      "zh-cn": "国际市场",
+      "zh-tw": "國際市場"
     },
     "area": {
       "ko": "중구",
       "en": "Jung-gu, Busan",
-      "ja": "釜山 中区"
+      "ja": "釜山 中区",
+      "zh-cn": "釜山 中区",
+      "zh-tw": "釜山 中區"
     },
     "category": "food",
     "emoji": "🛍️",
@@ -266,12 +310,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "태종대",
       "en": "Taejongdae",
-      "ja": "太宗台"
+      "ja": "太宗台",
+      "zh-cn": "太宗台游园区",
+      "zh-tw": "太宗台遊園區"
     },
     "area": {
       "ko": "영도구",
       "en": "Yeongdo-gu, Busan",
-      "ja": "釜山 影島区"
+      "ja": "釜山 影島区",
+      "zh-cn": "釜山 影岛区",
+      "zh-tw": "釜山 影島區"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -291,12 +339,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "송정해수욕장",
       "en": "Songjeong Beach",
-      "ja": "松亭海水浴場"
+      "ja": "松亭海水浴場",
+      "zh-cn": "松亭海水浴场",
+      "zh-tw": "松亭海水浴場"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -316,12 +368,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "동백섬",
       "en": "Dongbaekseom Island",
-      "ja": "冬柏島"
+      "ja": "冬柏島",
+      "zh-cn": "동백섬",
+      "zh-tw": "동백섬"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -341,12 +397,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "자갈치시장",
       "en": "Jagalchi Fish Market",
-      "ja": "チャガルチ市場"
+      "ja": "チャガルチ市場",
+      "zh-cn": "札嘎其市场",
+      "zh-tw": "札嘎其市場"
     },
     "area": {
       "ko": "중구",
       "en": "Jung-gu, Busan",
-      "ja": "釜山 中区"
+      "ja": "釜山 中区",
+      "zh-cn": "釜山 中区",
+      "zh-tw": "釜山 中區"
     },
     "category": "food",
     "emoji": "🛍️",
@@ -366,12 +426,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "송도해상케이블카",
       "en": "Songdo Marine Cable Car",
-      "ja": "松島海上ケーブルカー"
+      "ja": "松島海上ケーブルカー",
+      "zh-cn": "岩南公园、松岛龙宫吊桥、松岛海上缆车、云散步路、松岛海水浴场",
+      "zh-tw": "岩南公園、松島龍宮雲橋、松島海上纜車、天空步道、松島海水浴場"
     },
     "area": {
       "ko": "서구",
       "en": "Seo-gu, Busan",
-      "ja": "釜山 西区"
+      "ja": "釜山 西区",
+      "zh-cn": "釜山 西区",
+      "zh-tw": "釜山 西區"
     },
     "category": "view",
     "emoji": "🌉",
@@ -387,12 +451,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "해동용궁사",
       "en": "Haedong Yonggungsa Temple",
-      "ja": "海東龍宮寺"
+      "ja": "海東龍宮寺",
+      "zh-cn": "해동용궁사",
+      "zh-tw": "해동용궁사"
     },
     "area": {
       "ko": "기장군",
       "en": "Gijang-gun, Busan",
-      "ja": "釜山 機張郡"
+      "ja": "釜山 機張郡",
+      "zh-cn": "釜山 机张郡",
+      "zh-tw": "釜山 機張郡"
     },
     "category": "palace",
     "emoji": "🛕",
@@ -408,12 +476,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "롯데월드 어드벤처 부산",
       "en": "Lotte World Adventure Busan",
-      "ja": "ロッテワールド アドベンチャー釜山"
+      "ja": "ロッテワールド アドベンチャー釜山",
+      "zh-cn": "主题公园 。, 釜山乐天世界探险世界",
+      "zh-tw": "主題公園, 釜山樂天世界"
     },
     "area": {
       "ko": "기장군",
       "en": "Gijang-gun, Busan",
-      "ja": "釜山 機張郡"
+      "ja": "釜山 機張郡",
+      "zh-cn": "釜山 机张郡",
+      "zh-tw": "釜山 機張郡"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -429,12 +501,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "SEA LIFE 부산아쿠아리움",
       "en": "SEA LIFE Busan Aquarium",
-      "ja": "SEA LIFE 釜山アクアリウム"
+      "ja": "SEA LIFE 釜山アクアリウム",
+      "zh-cn": "SEA LIFE釜山水族馆",
+      "zh-tw": "SEA LIFE釜山水族館"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -454,12 +530,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "마린시티",
       "en": "Marine City",
-      "ja": "マリンシティ"
+      "ja": "マリンシティ",
+      "zh-cn": "海洋城",
+      "zh-tw": "海洋城"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "view",
     "emoji": "🌉",
@@ -475,12 +555,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "광안리해수욕장",
       "en": "Gwangalli Beach",
-      "ja": "広安里海水浴場"
+      "ja": "広安里海水浴場",
+      "zh-cn": "广安里海水浴场",
+      "zh-tw": "廣安里海水浴場"
     },
     "area": {
       "ko": "수영구",
       "en": "Suyeong-gu, Busan",
-      "ja": "釜山 水営区"
+      "ja": "釜山 水営区",
+      "zh-cn": "釜山 水营区",
+      "zh-tw": "釜山 水營區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -500,12 +584,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "더베이101",
       "en": "The Bay 101",
-      "ja": "ザ・ベイ101"
+      "ja": "ザ・ベイ101",
+      "zh-cn": "The Bay 101",
+      "zh-tw": "The Bay 101"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "view",
     "emoji": "🌉",
@@ -521,12 +609,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "해운대시장",
       "en": "Haeundae Market",
-      "ja": "海雲台市場"
+      "ja": "海雲台市場",
+      "zh-cn": "海云台市场",
+      "zh-tw": "海雲臺市場"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "food",
     "emoji": "🛍️",
@@ -542,12 +634,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "온천천시민공원",
       "en": "Oncheoncheon Citizens Park",
-      "ja": "温泉川市民公園"
+      "ja": "温泉川市民公園",
+      "zh-cn": "温泉川市民公园",
+      "zh-tw": "溫泉川市民公園"
     },
     "area": {
       "ko": "연제구",
       "en": "Yeonje-gu, Busan",
-      "ja": "釜山 蓮堤区"
+      "ja": "釜山 蓮堤区",
+      "zh-cn": "釜山 莲堤区",
+      "zh-tw": "釜山 蓮堤區"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -563,12 +659,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "청사포 다릿돌전망대",
       "en": "Cheongsapo Daritdol Skywalk",
-      "ja": "青沙浦タリットル展望台"
+      "ja": "青沙浦タリットル展望台",
+      "zh-cn": "青沙浦踏石展望台",
+      "zh-tw": "青沙浦踏石展望臺"
     },
     "area": {
       "ko": "해운대구",
       "en": "Haeundae-gu, Busan",
-      "ja": "釜山 海雲台区"
+      "ja": "釜山 海雲台区",
+      "zh-cn": "釜山 海云台区",
+      "zh-tw": "釜山 海雲臺區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -584,12 +684,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "범어사",
       "en": "Beomeosa Temple",
-      "ja": "梵魚寺"
+      "ja": "梵魚寺",
+      "zh-cn": "범어사",
+      "zh-tw": "범어사"
     },
     "area": {
       "ko": "금정구",
       "en": "Geumjeong-gu, Busan",
-      "ja": "釜山 金井区"
+      "ja": "釜山 金井区",
+      "zh-cn": "釜山 金井区",
+      "zh-tw": "釜山 金井區"
     },
     "category": "palace",
     "emoji": "🛕",
@@ -609,12 +713,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "기장시장",
       "en": "Gijang Market",
-      "ja": "機張市場"
+      "ja": "機張市場",
+      "zh-cn": "机张市场",
+      "zh-tw": "機張市場"
     },
     "area": {
       "ko": "기장군",
       "en": "Gijang-gun, Busan",
-      "ja": "釜山 機張郡"
+      "ja": "釜山 機張郡",
+      "zh-cn": "釜山 机张郡",
+      "zh-tw": "釜山 機張郡"
     },
     "category": "food",
     "emoji": "🛍️",
@@ -630,12 +738,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "흰여울해안터널",
       "en": "Huinnyeoul Coastal Tunnel",
-      "ja": "ヒニョウル海岸トンネル"
+      "ja": "ヒニョウル海岸トンネル",
+      "zh-cn": "白浅滩海岸隧道",
+      "zh-tw": "白淺灘海岸隧道"
     },
     "area": {
       "ko": "영도구",
       "en": "Yeongdo-gu, Busan",
-      "ja": "釜山 影島区"
+      "ja": "釜山 影島区",
+      "zh-cn": "釜山 影岛区",
+      "zh-tw": "釜山 影島區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -651,12 +763,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "부산시민공원",
       "en": "Busan Citizens Park",
-      "ja": "釜山市民公園"
+      "ja": "釜山市民公園",
+      "zh-cn": "釜山市民公园",
+      "zh-tw": "釜山市民公園"
     },
     "area": {
       "ko": "부산진구",
       "en": "Busanjin-gu, Busan",
-      "ja": "釜山 釜山鎮区"
+      "ja": "釜山 釜山鎮区",
+      "zh-cn": "釜山 釜山镇区",
+      "zh-tw": "釜山 釜山鎭區"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -676,12 +792,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "다대포해수욕장",
       "en": "Dadaepo Beach",
-      "ja": "多大浦海水浴場"
+      "ja": "多大浦海水浴場",
+      "zh-cn": "多大浦海水浴场",
+      "zh-tw": "多大浦海水浴場"
     },
     "area": {
       "ko": "사하구",
       "en": "Saha-gu, Busan",
-      "ja": "釜山 沙下区"
+      "ja": "釜山 沙下区",
+      "zh-cn": "釜山 沙下区",
+      "zh-tw": "釜山 沙下區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -701,12 +821,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "부산박물관",
       "en": "Busan Museum",
-      "ja": "釜山博物館"
+      "ja": "釜山博物館",
+      "zh-cn": "부산박물관",
+      "zh-tw": "부산박물관"
     },
     "area": {
       "ko": "남구",
       "en": "Nam-gu, Busan",
-      "ja": "釜山 南区"
+      "ja": "釜山 南区",
+      "zh-cn": "釜山 南区",
+      "zh-tw": "釜山 南區"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -726,12 +850,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "오륙도 스카이워크",
       "en": "Oryukdo Skywalk",
-      "ja": "五六島スカイウォーク"
+      "ja": "五六島スカイウォーク",
+      "zh-cn": "五六岛天空步道",
+      "zh-tw": "五六島天空步道"
     },
     "area": {
       "ko": "남구",
       "en": "Nam-gu, Busan",
-      "ja": "釜山 南区"
+      "ja": "釜山 南区",
+      "zh-cn": "釜山 南区",
+      "zh-tw": "釜山 南區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -751,12 +879,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "일광해수욕장",
       "en": "Ilgwang Beach",
-      "ja": "日光海水浴場"
+      "ja": "日光海水浴場",
+      "zh-cn": "日光海水浴场",
+      "zh-tw": "日光海水浴場"
     },
     "area": {
       "ko": "기장군",
       "en": "Gijang-gun, Busan",
-      "ja": "釜山 機張郡"
+      "ja": "釜山 機張郡",
+      "zh-cn": "釜山 机张郡",
+      "zh-tw": "釜山 機張郡"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -772,12 +904,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "오륙도",
       "en": "Oryukdo Islets",
-      "ja": "五六島"
+      "ja": "五六島",
+      "zh-cn": "五六岛",
+      "zh-tw": "五六島"
     },
     "area": {
       "ko": "남구",
       "en": "Nam-gu, Busan",
-      "ja": "釜山 南区"
+      "ja": "釜山 南区",
+      "zh-cn": "釜山 南区",
+      "zh-tw": "釜山 南區"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -797,12 +933,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "국립해양박물관",
       "en": "National Maritime Museum of Korea",
-      "ja": "国立海洋博物館"
+      "ja": "国立海洋博物館",
+      "zh-cn": "国立海洋博物馆",
+      "zh-tw": "國立海洋博物館"
     },
     "area": {
       "ko": "영도구",
       "en": "Yeongdo-gu, Busan",
-      "ja": "釜山 影島区"
+      "ja": "釜山 影島区",
+      "zh-cn": "釜山 影岛区",
+      "zh-tw": "釜山 影島區"
     },
     "category": "attraction",
     "emoji": "🎡",
@@ -822,12 +962,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "아홉산숲",
       "en": "Ahopsan Forest",
-      "ja": "アホプサンの森"
+      "ja": "アホプサンの森",
+      "zh-cn": "아홉산 숲",
+      "zh-tw": "아홉산 숲"
     },
     "area": {
       "ko": "기장군",
       "en": "Gijang-gun, Busan",
-      "ja": "釜山 機張郡"
+      "ja": "釜山 機張郡",
+      "zh-cn": "釜山 机张郡",
+      "zh-tw": "釜山 機張郡"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -843,12 +987,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "금정산성",
       "en": "Geumjeongsanseong Fortress",
-      "ja": "金井山城"
+      "ja": "金井山城",
+      "zh-cn": "金井山城",
+      "zh-tw": "金井山城"
     },
     "area": {
       "ko": "금정구",
       "en": "Geumjeong-gu, Busan",
-      "ja": "釜山 金井区"
+      "ja": "釜山 金井区",
+      "zh-cn": "釜山 金井区",
+      "zh-tw": "釜山 金井區"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -868,12 +1016,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "카멜리아힐",
       "en": "Camellia Hill",
-      "ja": "カメリアヒル"
+      "ja": "カメリアヒル",
+      "zh-cn": "山茶花之丘",
+      "zh-tw": "山茶花之丘"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -889,12 +1041,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "중문관광단지",
       "en": "Jungmun Tourist Complex",
-      "ja": "中文観光団地"
+      "ja": "中文観光団地",
+      "zh-cn": "中文旅游区",
+      "zh-tw": "中文旅遊區"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "attraction",
     "emoji": "🎡",
@@ -914,12 +1070,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "용두암",
       "en": "Yongduam Rock",
-      "ja": "龍頭岩"
+      "ja": "龍頭岩",
+      "zh-cn": "龙头岩",
+      "zh-tw": "龍頭巖"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -939,12 +1099,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "서귀포매일올레시장",
       "en": "Seogwipo Maeil Olle Market",
-      "ja": "西帰浦毎日オルレ市場"
+      "ja": "西帰浦毎日オルレ市場",
+      "zh-cn": "西归浦每日偶来市场",
+      "zh-tw": "西歸浦每日偶來市場"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "food",
     "emoji": "🛍️",
@@ -964,12 +1128,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "새별오름",
       "en": "Saebyeol Oreum",
-      "ja": "セビョルオルム"
+      "ja": "セビョルオルム",
+      "zh-cn": "晓星岳",
+      "zh-tw": "曉星嶽"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -985,12 +1153,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "성산일출봉",
       "en": "Seongsan Ilchulbong Peak",
-      "ja": "城山日出峰"
+      "ja": "城山日出峰",
+      "zh-cn": "城山日出峰",
+      "zh-tw": "城山日出峰"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -1006,12 +1178,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "성읍민속마을",
       "en": "Seongeup Folk Village",
-      "ja": "城邑民俗村"
+      "ja": "城邑民俗村",
+      "zh-cn": "城邑民俗村",
+      "zh-tw": "城邑民俗村"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "palace",
     "emoji": "🛕",
@@ -1027,12 +1203,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "주상절리대 (대포동)",
       "en": "Jusangjeolli Cliff (Daepo)",
-      "ja": "柱状節理帯（大浦洞）"
+      "ja": "柱状節理帯（大浦洞）",
+      "zh-cn": "柱状节理带（大浦洞）",
+      "zh-tw": "柱狀節理帶（大浦洞）"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -1052,12 +1232,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "걸매생태공원",
       "en": "Geolmae Ecological Park",
-      "ja": "コルメ生態公園"
+      "ja": "コルメ生態公園",
+      "zh-cn": "杰梅生态公园",
+      "zh-tw": "傑梅生態公園"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -1077,12 +1261,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "동문재래시장",
       "en": "Dongmun Traditional Market",
-      "ja": "東門在来市場"
+      "ja": "東門在来市場",
+      "zh-cn": "东门传统市场",
+      "zh-tw": "東門傳統市場"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "food",
     "emoji": "🛍️",
@@ -1102,12 +1290,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "섭지코지",
       "en": "Seopjikoji",
-      "ja": "ソプチコジ"
+      "ja": "ソプチコジ",
+      "zh-cn": "涉地可支",
+      "zh-tw": "涉地可支"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -1123,12 +1315,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "함덕해수욕장 (서우봉 해변)",
       "en": "Hamdeok Beach",
-      "ja": "咸徳ビーチ"
+      "ja": "咸徳ビーチ",
+      "zh-cn": "咸德海水浴场",
+      "zh-tw": "鹹德海水浴場"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1144,12 +1340,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "중문·색달 해변",
       "en": "Jungmun Saekdal Beach",
-      "ja": "中文・穡達ビーチ"
+      "ja": "中文・穡達ビーチ",
+      "zh-cn": "中文·穑达海滩",
+      "zh-tw": "中文·穡達海灘"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1169,12 +1369,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "에코랜드 테마파크",
       "en": "Eco Land Theme Park",
-      "ja": "エコランド テーマパーク"
+      "ja": "エコランド テーマパーク",
+      "zh-cn": "生态乐园主题公园",
+      "zh-tw": "生態樂園主題公園"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "attraction",
     "emoji": "🎡",
@@ -1194,12 +1398,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "오설록 티뮤지엄",
       "en": "O'sulloc Tea Museum",
-      "ja": "オソルロック ティーミュージアム"
+      "ja": "オソルロック ティーミュージアム",
+      "zh-cn": "O'sulloc茶博物馆",
+      "zh-tw": "O'sulloc茶博物館"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "attraction",
     "emoji": "🎡",
@@ -1215,12 +1423,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "한라산",
       "en": "Hallasan Mountain",
-      "ja": "漢拏山"
+      "ja": "漢拏山",
+      "zh-cn": "汉拿山",
+      "zh-tw": "漢拿山"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -1236,12 +1448,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "천지연폭포",
       "en": "Cheonjiyeon Waterfall",
-      "ja": "天地淵瀑布"
+      "ja": "天地淵瀑布",
+      "zh-cn": "天地渊瀑布",
+      "zh-tw": "天地淵瀑布"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "💦",
@@ -1261,12 +1477,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "우도 산호해변 (서빈백사)",
       "en": "Udo Coral Beach (Seobin Baeksa)",
-      "ja": "牛島 サンゴビーチ（西浜白沙）"
+      "ja": "牛島 サンゴビーチ（西浜白沙）",
+      "zh-cn": "牛岛珊瑚海滩（西滨白沙）",
+      "zh-tw": "牛島珊瑚海灘（西濱白沙）"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1282,12 +1502,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "소정방폭포",
       "en": "Sojeongbang Waterfall",
-      "ja": "小正房瀑布"
+      "ja": "小正房瀑布",
+      "zh-cn": "小正房瀑布",
+      "zh-tw": "小正房瀑布"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "💦",
@@ -1307,12 +1531,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "우도",
       "en": "Udo Island",
-      "ja": "牛島"
+      "ja": "牛島",
+      "zh-cn": "牛岛",
+      "zh-tw": "牛島"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1328,12 +1556,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "정방폭포",
       "en": "Jeongbang Waterfall",
-      "ja": "正房瀑布"
+      "ja": "正房瀑布",
+      "zh-cn": "正房瀑布",
+      "zh-tw": "正房瀑布"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "💦",
@@ -1353,12 +1585,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "송악산",
       "en": "Songaksan Mountain",
-      "ja": "松岳山"
+      "ja": "松岳山",
+      "zh-cn": "松岳山",
+      "zh-tw": "松嶽山"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -1374,12 +1610,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "비자림",
       "en": "Bijarim Forest",
-      "ja": "榧子林"
+      "ja": "榧子林",
+      "zh-cn": "榧子林",
+      "zh-tw": "榧子林"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -1399,12 +1639,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "월정리해변",
       "en": "Woljeongri Beach",
-      "ja": "月汀里ビーチ"
+      "ja": "月汀里ビーチ",
+      "zh-cn": "月汀里海滩",
+      "zh-tw": "月汀裡海灘"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1420,12 +1664,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "표선 해비치 해변",
       "en": "Pyoseon Haevichi Beach",
-      "ja": "表善ヘビチビーチ"
+      "ja": "表善ヘビチビーチ",
+      "zh-cn": "表善海碧滩",
+      "zh-tw": "表善海碧灘"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1445,12 +1693,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "우도 등대",
       "en": "Udo Lighthouse",
-      "ja": "牛島灯台"
+      "ja": "牛島灯台",
+      "zh-cn": "牛岛灯塔",
+      "zh-tw": "牛島燈塔"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1466,12 +1718,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "협재해수욕장",
       "en": "Hyeopjae Beach",
-      "ja": "挟才海水浴場"
+      "ja": "挟才海水浴場",
+      "zh-cn": "挟才海水浴场",
+      "zh-tw": "挾才海水浴場"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1487,12 +1743,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "산방산",
       "en": "Sanbangsan Mountain",
-      "ja": "山房山"
+      "ja": "山房山",
+      "zh-cn": "山房山",
+      "zh-tw": "山房山"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -1512,12 +1772,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "곽지해수욕장",
       "en": "Gwakji Beach",
-      "ja": "郭支海水浴場"
+      "ja": "郭支海水浴場",
+      "zh-cn": "郭支海水浴场",
+      "zh-tw": "郭支海水浴場"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1533,12 +1797,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "세화해변",
       "en": "Sehwa Beach",
-      "ja": "細花ビーチ"
+      "ja": "細花ビーチ",
+      "zh-cn": "细花海滩",
+      "zh-tw": "細花海灘"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1558,12 +1826,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "이호테우해변",
       "en": "Iho Tewoo Beach",
-      "ja": "梨湖テウビーチ"
+      "ja": "梨湖テウビーチ",
+      "zh-cn": "梨湖木马海滩",
+      "zh-tw": "梨湖木馬海灘"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1579,12 +1851,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "쇠소깍",
       "en": "Soesokkak",
-      "ja": "ソェソカク"
+      "ja": "ソェソカク",
+      "zh-cn": "牛沼河口",
+      "zh-tw": "牛沼河口"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -1600,12 +1876,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "용머리해안",
       "en": "Yongmeori Coast",
-      "ja": "龍頭海岸"
+      "ja": "龍頭海岸",
+      "zh-cn": "龙头海岸",
+      "zh-tw": "龍頭海岸"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "🏖️",
@@ -1625,12 +1905,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "한림공원",
       "en": "Hallim Park",
-      "ja": "翰林公園"
+      "ja": "翰林公園",
+      "zh-cn": "翰林公园",
+      "zh-tw": "翰林公園"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -1646,12 +1930,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "휴애리 자연생활공원",
       "en": "Hueree Nature Park",
-      "ja": "ヒュエリ自然生活公園"
+      "ja": "ヒュエリ自然生活公園",
+      "zh-cn": "休爱里自然生活公园",
+      "zh-tw": "休愛裡自然生活公園"
     },
     "area": {
       "ko": "서귀포시",
       "en": "Seogwipo-si, Jeju",
-      "ja": "済州 西帰浦市"
+      "ja": "済州 西帰浦市",
+      "zh-cn": "济州 西归浦市",
+      "zh-tw": "濟州 西歸浦市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -1667,12 +1955,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "만장굴",
       "en": "Manjanggul Lava Tube",
-      "ja": "万丈窟"
+      "ja": "万丈窟",
+      "zh-cn": "万丈窟",
+      "zh-tw": "萬丈窟"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "shopping",
     "emoji": "📍",
@@ -1688,12 +1980,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "금오름",
       "en": "Geumoreum",
-      "ja": "クムオルム"
+      "ja": "クムオルム",
+      "zh-cn": "金岳",
+      "zh-tw": "金嶽"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "⛰️",
@@ -1713,12 +2009,16 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
     "name": {
       "ko": "김녕 성세기해변",
       "en": "Gimnyeong Seongsegi Beach",
-      "ja": "金寧ソンセギビーチ"
+      "ja": "金寧ソンセギビーチ",
+      "zh-cn": "金宁城世纪海滩",
+      "zh-tw": "金寧城世紀海灘"
     },
     "area": {
       "ko": "제주시",
       "en": "Jeju-si, Jeju",
-      "ja": "済州 済州市"
+      "ja": "済州 済州市",
+      "zh-cn": "济州 济州市",
+      "zh-tw": "濟州 濟州市"
     },
     "category": "nature",
     "emoji": "🏖️",

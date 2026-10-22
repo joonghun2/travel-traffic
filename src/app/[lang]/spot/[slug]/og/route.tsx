@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
-import { LANGS, isLang } from '@/lib/i18n/routing';
+import { LANGS, isLang, pick } from '@/lib/i18n/routing';
 import { TRANSLATIONS } from '@/lib/i18n/translations';
 import { getAllSpotSlugs, getHourlyForecast, getSpotBySlug } from '@/lib/spots';
 import { getAllForecastSlugs, getForecastSpotBySlug } from '@/lib/forecastSpots';
@@ -39,9 +39,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
   let barWidth = 18;
   if (spot) {
     // Seoul: live data, hourly pattern.
-    name = spot.name[lang];
-    area = spot.area?.[lang] || '';
-    bestTime = spot.bestTime[lang];
+    name = pick(spot.name, lang);
+    area = pick(spot.area, lang) || '';
+    bestTime = pick(spot.bestTime, lang);
     heading = tr['spot.home'];
     bestLabel = tr['card.bestTime'];
     forecastLabel = tr['spot.hourlyTitle'];
@@ -53,8 +53,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
     // Jeju/Busan: KTO 30-day concentration forecast.
     const days = (await getForecast()).spots[fSpot!.id] ?? [];
     const quiet = quietestDay(days);
-    name = fSpot!.name[lang];
-    area = fSpot!.area[lang];
+    name = pick(fSpot!.name, lang);
+    area = pick(fSpot!.area, lang);
     bestTime = quiet ? formatForecastDate(quiet.date, lang) : '';
     heading = tr['forecast.hubName'].replace('{city}', tr[`map.city.${fSpot!.city}`]);
     bestLabel = tr['forecast.quietDays'];
@@ -65,7 +65,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
   }
 
   const text = `${name}${area}${bestTime}${heading}${bestLabel}${forecastLabel}${badge}Check East Point LIVE 0123456789`;
-  const fonts = await loadCjkFonts(text, 700);
+  const fonts = await loadCjkFonts(text, 700, lang);
 
   return new ImageResponse(
     (

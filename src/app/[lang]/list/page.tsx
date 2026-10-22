@@ -23,6 +23,7 @@ import SpotSearchAutocomplete from '@/components/SpotSearchAutocomplete';
 import DistrictTabs from '@/components/DistrictTabs';
 import CrowdCard from '@/components/CrowdCard';
 import BottomNav from '@/components/BottomNav';
+import { pick } from '@/lib/i18n/routing';
 
 const NativeInFeedAdCard = dynamic(() => import('@/components/NativeInFeedAdCard'), {
   ssr: false,
@@ -358,14 +359,14 @@ export default function ListPage() {
                 >
                   <div className="flex items-start justify-between gap-1 w-full">
                     <span className="text-xs font-bold text-gray-900 dark:text-white truncate group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
-                      {spot.name[lang] || spot.name.ko}
+                      {pick(spot.name, lang)}
                     </span>
                     <span className="text-[10px] px-1.5 py-0.5 rounded-md font-extrabold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex-shrink-0">
                       {spot.currentScore}
                     </span>
                   </div>
                   <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400 w-full">
-                    <span className="truncate">{(spot.area?.[lang] || spot.area?.ko) || t(`district.${spot.district}_name`, spot.district)}</span>
+                    <span className="truncate">{(pick(spot.area, lang)) || t(`district.${spot.district}_name`, spot.district)}</span>
                     {spot.distanceKm !== undefined && (
                       <span className="text-blue-600 dark:text-blue-400 font-medium ml-1 flex-shrink-0">
                         {spot.distanceKm < 1

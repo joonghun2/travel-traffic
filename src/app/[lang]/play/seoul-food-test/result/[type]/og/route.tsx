@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
-import { LANGS, isLang } from '@/lib/i18n/routing';
+import { LANGS, isLang, pick } from '@/lib/i18n/routing';
 import { FOOD_TYPES, FOOD_TYPE_IDS, isFoodTypeId, ui } from '@/data/seoulFoodTest';
 
 // Served at /play/seoul-food-test/result/<type>/og (Korean, via rewrite), /en/..., /ja/...
@@ -27,12 +27,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
   const info = FOOD_TYPES[type];
 
   const todayIs = ui('todayIs', lang);
-  const title = info.title[lang];
-  const menu = `${ui('bestMenu', lang)}: ${info.menu[lang]}`;
+  const title = pick(info.title, lang);
+  const menu = `${ui('bestMenu', lang)}: ${pick(info.menu, lang)}`;
   const testName = ui('title', lang);
-  const traits = info.traits.map((t) => t[lang]).join('  ');
+  const traits = info.traits.map((t) => pick(t, lang)).join('  ');
 
-  const fonts = await loadCjkFonts(`${todayIs}${title}${menu}${testName}${traits}Check East Point`, 800);
+  const fonts = await loadCjkFonts(`${todayIs}${title}${menu}${testName}${traits}Check East Point`, 800, lang);
 
   return new ImageResponse(
     (

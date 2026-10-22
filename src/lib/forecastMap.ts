@@ -3,8 +3,9 @@ import { FORECAST_SPOTS } from '@/data/spots/forecastSpots';
 import { ForecastData, ForecastDay, statusOfRate, todayOf } from '@/lib/forecast';
 import { MapSpot } from '@/lib/mapSpots';
 import { getSpotSlug } from '@/lib/slug';
+import { pick } from '@/lib/i18n/routing';
 
-const LOCALE: Record<Lang, string> = { ko: 'ko-KR', en: 'en-US', ja: 'ja-JP' };
+const LOCALE: Record<Lang, string> = { ko: 'ko-KR', en: 'en-US', ja: 'ja-JP', 'zh-cn': 'zh-CN', 'zh-tw': 'zh-TW' };
 
 /** "11월 10일 (화)" / "Tue, Nov 10" / "11月10日(火)". */
 export function formatForecastDate(date: string, lang: Lang): string {
@@ -34,7 +35,7 @@ export function forecastToMapSpots(data: ForecastData, city: 'jeju' | 'busan', l
       id: s.id,
       kind: 'forecast',
       slug: getSpotSlug(s),
-      name: s.name[lang] || s.name.ko,
+      name: pick(s.name, lang),
       gu: s.area.ko,
       lat: s.lat,
       lng: s.lng,
@@ -47,7 +48,7 @@ export function forecastToMapSpots(data: ForecastData, city: 'jeju' | 'busan', l
       isLive: false,
       featured: featured.get(s.id),
       popularity: s.popularity,
-      searchText: [s.name.ko, s.name.en, s.name.ja, s.ktoName].join(' ').toLowerCase(),
+      searchText: [s.name.ko, s.name.en, s.name.ja, s.name['zh-cn'], s.name['zh-tw'], s.ktoName].join(' ').toLowerCase(),
     };
   });
 }

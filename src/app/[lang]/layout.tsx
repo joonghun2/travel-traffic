@@ -5,7 +5,7 @@ import Script from 'next/script';
 import '../globals.css';
 import { TranslationProvider } from '@/lib/i18n/context';
 import { ThemeProvider } from '@/lib/theme/ThemeContext';
-import { LANGS, SITE_URL, isLang, languageAlternates, localizePath } from '@/lib/i18n/routing';
+import { LANGS, SITE_URL, isLang, languageAlternates, localizePath, htmlLang } from '@/lib/i18n/routing';
 import { SEO } from '@/lib/i18n/seo';
 
 const geistSans = Geist({
@@ -131,7 +131,7 @@ export default async function LangLayout({
   };
 
   return (
-    <html lang={lang} suppressHydrationWarning>
+    <html lang={htmlLang(lang)} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"

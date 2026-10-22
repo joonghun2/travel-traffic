@@ -4,6 +4,7 @@ import React from 'react';
 import { EscapeRoute } from '@/types';
 import { useTranslation } from '@/lib/i18n/context';
 import { getKakaoNavUrl, getNaverNavUrl, getGoogleNavUrl } from '@/lib/geoUtils';
+import { pick } from '@/lib/i18n/routing';
 
 interface EscapeRouteCardProps {
   escapeRoute: EscapeRoute;
@@ -20,8 +21,8 @@ export default function EscapeRouteCard({
 }: EscapeRouteCardProps) {
   const { lang, t } = useTranslation();
 
-  const gemName = escapeRoute.gemName[lang] || escapeRoute.gemName.ko;
-  const gemDesc = escapeRoute.gemDesc[lang] || escapeRoute.gemDesc.ko;
+  const gemName = pick(escapeRoute.gemName, lang);
+  const gemDesc = pick(escapeRoute.gemDesc, lang);
 
   const targetLat = escapeRoute.lat || originLat || 37.5665;
   const targetLng = escapeRoute.lng || originLng || 126.9780;
