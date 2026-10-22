@@ -21,6 +21,8 @@ const OVERRIDES = [
   ['窗口', '視窗'],
   ['谷歌地圖', 'Google 地圖'],
   ['城市鐵路', '都市鐵道'],
+  ['最佳遊覽時間', '最佳參觀時間'],
+  ['推薦遊覽時間', '推薦參觀時間'],
 ];
 
 const src = readFileSync('src/lib/i18n/zh-cn.ts', 'utf8');

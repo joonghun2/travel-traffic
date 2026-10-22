@@ -19,3 +19,10 @@ export function getNearbyForecastSpots(spot: ForecastSpot, count: number) {
     .sort((a, b) => a.distanceKm - b.distanceKm)
     .slice(0, count);
 }
+
+/** Same-city spots in the same category, most visited first. */
+export function getSameThemeForecastSpots(spot: ForecastSpot, count: number): ForecastSpot[] {
+  return FORECAST_SPOTS.filter((s) => s.city === spot.city && s.id !== spot.id && s.category === spot.category)
+    .sort((a, b) => b.popularity - a.popularity)
+    .slice(0, count);
+}

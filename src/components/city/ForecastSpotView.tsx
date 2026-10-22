@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { ForecastSpot, Lang } from '@/types';
 import { TRANSLATIONS } from '@/lib/i18n/translations';
-import { SITE_URL, localizePath, pick } from '@/lib/i18n/routing';
+import { SITE_URL, localizePath, pick, htmlLang } from '@/lib/i18n/routing';
 import { ForecastData, isStale, statusOfRate, todayOf } from '@/lib/forecast';
 import { busiestDay, formatForecastDate, quietestDay } from '@/lib/forecastMap';
-import { getNearbyForecastSpots } from '@/lib/forecastSpots';
+import { getNearbyForecastSpots, getSameThemeForecastSpots } from '@/lib/forecastSpots';
 import { getSpotSlug } from '@/lib/slug';
 import { STATUS_COLOR } from '@/lib/mapSpots';
 import { formatDistance, getGoogleNavUrl, getKakaoNavUrl, getNaverNavUrl } from '@/lib/geoUtils';
@@ -36,6 +36,12 @@ export function forecastFaqs(spot: ForecastSpot, data: ForecastData, lang: Lang)
     ...(quiet && busy
       ? [{ q: t('forecast.faq.q1', { name }), a: t('forecast.faq.a1', { quiet: formatForecastDate(quiet.date, lang), busy: formatForecastDate(busy.date, lang) }) }]
       : []),
+    {
+      q: t('spot.faq.qNearby', { name }),
+      a: t('spot.faq.aNearby', {
+        list: getNearbyForecastSpots(spot, 3).map((n) => pick(n.spot.name, lang)).join(lang === 'en' || lang === 'ko' ? ', ' : '、'),
+      }),
+    },
     { q: t('forecast.faq.q2'), a: t('forecast.faq.a2') },
     ...(spot.station
       ? [{ q: t('forecast.faq.q3', { name }), a: t('forecast.faq.a3', { station: spot.station.name, exit: spot.station.exit }) }]
@@ -60,7 +66,23 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
   const quietDays = sortedByRate.slice(0, 3);
   const busyDays = sortedByRate.slice(-3).reverse();
   const nearby = getNearbyForecastSpots(spot, 4);
+  const sameTheme = getSameThemeForecastSpots(spot, 4);
   const faqs = forecastFaqs(spot, data, lang);
+  const listSep = lang === 'en' || lang === 'ko' ? ', ' : '、';
+  const quietD = sortedByRate[0];
+  const busyD = sortedByRate[sortedByRate.length - 1];
+  const about = t('forecast.about', {
+    name,
+    city: cityName,
+    area: pick(spot.area, lang),
+    theme: t(`category.${spot.category}`),
+    score: rate ?? '-',
+    status: t(STATUS_KEY[status]),
+    quiet: quietD ? formatForecastDate(quietD.date, lang) : '-',
+    busy: busyD ? formatForecastDate(busyD.date, lang) : '-',
+    station: spot.station ? t('forecast.aboutStation', { station: spot.station.name, exit: spot.station.exit }) : '',
+    nearby: nearby.slice(0, 3).map((n) => pick(n.spot.name, lang)).join(listSep),
+  });
   const baseLine = isStale(data) ? t('forecast.snapshotNote', { date: data.baseDate ?? '' }) : t('forecast.baseDate', { date: data.baseDate ?? '' });
 
   const jsonLd = [
@@ -70,9 +92,19 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
       name,
       alternateName: (['ko', 'en', 'ja'] as const).filter((l) => l !== lang).map((l) => spot.name[l]),
       url,
-      inLanguage: lang,
+      description: about,
+      image: `${url}/og`,
+      inLanguage: htmlLang(lang),
       geo: { '@type': 'GeoCoordinates', latitude: spot.lat, longitude: spot.lng },
       address: { '@type': 'PostalAddress', addressLocality: pick(spot.area, lang), addressRegion: cityName, addressCountry: 'KR' },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: t('forecast.metaTitle', { name }),
+      url,
+      inLanguage: htmlLang(lang),
+      dateModified: data.baseDate ?? undefined,
     },
     {
       '@context': 'https://schema.org',
@@ -118,6 +150,11 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
             {name}
           </h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{pick(spot.area, lang)}</p>
+          {data.baseDate && (
+            <p className="mt-1 text-[11px] text-gray-400">
+              <time dateTime={data.baseDate}>{t('spot.updatedAt', { date: data.baseDate })}</time>
+            </p>
+          )}
         </header>
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
@@ -223,6 +260,11 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
           ))}
         </section>
 
+        <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
+          <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.aboutTitle', { name })}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300">{about}</p>
+        </section>
+
         <section className="space-y-2">
           <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.nearby')}</h2>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -247,6 +289,24 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
             })}
           </ul>
         </section>
+
+        {sameTheme.length > 0 && (
+          <section className="space-y-2">
+            <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.sameTheme')}</h2>
+            <ul className="flex flex-wrap gap-2">
+              {sameTheme.map((s) => (
+                <li key={s.id}>
+                  <Link
+                    href={localizePath(`/spot/${getSpotSlug(s)}`, lang)}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:border-blue-400"
+                  >
+                    {s.emoji} {pick(s.name, lang)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
           <h2 className="text-base font-bold text-gray-900 dark:text-white mb-3">{t('spot.faqTitle')}</h2>

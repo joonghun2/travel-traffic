@@ -5,6 +5,7 @@ import Script from 'next/script';
 import '../globals.css';
 import { TranslationProvider } from '@/lib/i18n/context';
 import { ThemeProvider } from '@/lib/theme/ThemeContext';
+import SiteFooter from '@/components/SiteFooter';
 import { LANGS, SITE_URL, isLang, languageAlternates, localizePath, htmlLang } from '@/lib/i18n/routing';
 import { SEO } from '@/lib/i18n/seo';
 
@@ -113,22 +114,38 @@ export default async function LangLayout({
   const { lang } = await params;
   if (!isLang(lang)) notFound();
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Check East Point',
-    alternateName: ['체크이스트포인트', 'SeoulLive', 'Travel Traffic'],
-    url: `${SITE_URL}${localizePath('/', lang)}`,
-    inLanguage: lang,
-    description: SEO[lang].description,
-    applicationCategory: 'TravelApplication',
-    operatingSystem: 'All',
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'KRW',
+  const homeUrl = `${SITE_URL}${localizePath('/', lang)}`;
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Check East Point',
+      alternateName: ['체크이스트포인트', 'SeoulLive'],
+      url: homeUrl,
+      inLanguage: htmlLang(lang),
+      description: SEO[lang].description,
+      publisher: { '@id': `${SITE_URL}/#organization` },
     },
-  };
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'Check East Point',
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon/512`,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: 'Check East Point',
+      url: homeUrl,
+      inLanguage: htmlLang(lang),
+      description: SEO[lang].description,
+      applicationCategory: 'TravelApplication',
+      operatingSystem: 'All',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'KRW' },
+    },
+  ];
 
   return (
     <html lang={htmlLang(lang)} suppressHydrationWarning>
@@ -142,7 +159,10 @@ export default async function LangLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200`}
       >
         <ThemeProvider>
-          <TranslationProvider lang={lang}>{children}</TranslationProvider>
+          <TranslationProvider lang={lang}>
+            {children}
+            <SiteFooter />
+          </TranslationProvider>
         </ThemeProvider>
         {/* Google Analytics (gtag.js) - lazyOnload to prioritize LCP and minimize TBT */}
         <Script

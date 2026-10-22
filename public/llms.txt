@@ -1,0 +1,29 @@
+# Check East Point
+
+> Crowd levels for travellers in Korea: live crowd levels for 130+ places in Seoul (updated every 5 minutes) and 30-day crowd forecasts for 38 places in Jeju and 37 in Busan, in Korean, English, Japanese and Chinese (Simplified and Traditional).
+
+Check East Point helps visitors pick quieter times and places. Each place page shows a 0-100 crowd score, the busiest and quietest times, a recommended visit time, quieter alternatives nearby, map directions (Naver, Kakao, Google) and an FAQ.
+
+- Seoul (live): Seoul Metropolitan Government real-time population data for the 121 official places (KOGL Type 1, attribution required), refreshed every 5 minutes. A few spots outside the official list are labelled as estimates.
+- Jeju and Busan (forecast): Korea Tourism Organization visitor concentration forecast (based on KT mobile data), a relative 30-day scale where 100 = the busiest period, refreshed daily with a base date.
+- Score bands: 0-39 relaxed, 40-69 moderate, 70-84 crowded, 85-100 very crowded.
+
+## Main pages
+
+- [Seoul live crowd map](https://www.checkeastpoint.com/en): map and ranked list of all Seoul places
+- [All Seoul places](https://www.checkeastpoint.com/en/list)
+- [Jeju crowd forecast](https://www.checkeastpoint.com/en/jeju)
+- [Busan crowd forecast](https://www.checkeastpoint.com/en/busan)
+- [Seoul palaces](https://www.checkeastpoint.com/en/seoul/palaces), [Seoul night views](https://www.checkeastpoint.com/en/seoul/night-view), [Busan beaches](https://www.checkeastpoint.com/en/busan/beaches), [Jeju beaches](https://www.checkeastpoint.com/en/jeju/beaches)
+- [How crowd levels work](https://www.checkeastpoint.com/en/about/methodology)
+- [About](https://www.checkeastpoint.com/en/about)
+
+## Place pages
+
+One page per place and language: https://www.checkeastpoint.com/{lang}/spot/{slug} (lang: none for Korean, en, ja, zh-cn, zh-tw), e.g. [Gyeongbokgung](https://www.checkeastpoint.com/en/spot/gyeongbokgung-palace-gwanghwamun), [Haeundae Beach](https://www.checkeastpoint.com/en/spot/haeundae-beach).
+
+## Data
+
+- Live JSON (Seoul): https://www.checkeastpoint.com/api/crowd
+- Forecast JSON (Jeju/Busan): https://www.checkeastpoint.com/api/forecast
+- Sitemap: https://www.checkeastpoint.com/sitemap.xml

@@ -1,4 +1,7 @@
 {
   "framework": "nextjs",
-  "crons": [{ "path": "/api/forecast", "schedule": "0 21 * * *" }]
+  "crons": [
+    { "path": "/api/forecast", "schedule": "0 21 * * *" },
+    { "path": "/api/indexnow", "schedule": "30 21 * * *" }
+  ]
 }

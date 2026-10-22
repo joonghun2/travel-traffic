@@ -42,3 +42,10 @@ export function getQuietestDaytimeHour(points: HourlyPoint[]): number {
     .filter((p) => p.hour >= 9 && p.hour <= 21)
     .reduce((min, p) => (p.score < min.score ? p : min)).hour;
 }
+
+/** Same-theme spots (same category), most popular first. */
+export function getSameThemeSpots(spot: Spot, count: number): Spot[] {
+  return SPOTS_DATA.filter((s) => s.id !== spot.id && s.category === spot.category)
+    .sort((a, b) => b.baseScore - a.baseScore)
+    .slice(0, count);
+}

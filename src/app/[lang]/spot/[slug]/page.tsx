@@ -3,17 +3,19 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Lang, Spot } from '@/types';
 import { TRANSLATIONS } from '@/lib/i18n/translations';
-import { LANGS, SITE_URL, isLang, languageAlternates, localizePath, pick, isChinese } from '@/lib/i18n/routing';
+import { LANGS, SITE_URL, isLang, languageAlternates, localizePath, pick, isChinese, htmlLang } from '@/lib/i18n/routing';
 import {
   getAllSpotSlugs,
   getHourlyForecast,
   getNearbySpots,
+  getSameThemeSpots,
   getQuietestDaytimeHour,
   getSpotBySlug,
   getSpotSlug,
   HourlyPoint,
 } from '@/lib/spots';
 import { computeLiveSpotMetric } from '@/lib/crowdEngine';
+import { SPOT_FACTS } from '@/data/spotFacts';
 import { getCrowdSnapshot } from '@/lib/crowdSnapshot';
 import { formatDistance, getGoogleNavUrl, getKakaoNavUrl, getNaverNavUrl } from '@/lib/geoUtils';
 import DashboardHeader from '@/components/DashboardHeader';
@@ -21,7 +23,7 @@ import BottomNav from '@/components/BottomNav';
 import SpotLivePanel from '@/components/SpotLivePanel';
 import ForecastSpotView from '@/components/city/ForecastSpotView';
 import { getAllForecastSlugs, getForecastSpotBySlug } from '@/lib/forecastSpots';
-import { getForecast } from '@/lib/forecast';
+import { getForecast, statusOfRate, todayOf } from '@/lib/forecast';
 import { formatForecastDate, quietestDay } from '@/lib/forecastMap';
 
 export const dynamicParams = false;
@@ -67,8 +69,15 @@ async function forecastMetadata(lang: Lang, slug: string): Promise<Metadata> {
   const name = pick(spot.name, lang);
   const data = await getForecast();
   const quiet = quietestDay(data.spots[spot.id]);
+  const today = todayOf(data.spots[spot.id]);
+  const rate = Math.round(today?.rate ?? spot.popularity);
   const title = t('forecast.metaTitle', { name });
-  const description = t('forecast.metaDesc', { name, quiet: quiet ? formatForecastDate(quiet.date, lang) : '' });
+  const description = t('forecast.metaDesc', {
+    name,
+    quiet: quiet ? formatForecastDate(quiet.date, lang) : '',
+    status: t(`card.status.${statusOfRate(rate)}`),
+    score: rate,
+  });
   const path = `/spot/${slug}`;
   const url = `${SITE_URL}${localizePath(path, lang)}`;
   return {
@@ -88,8 +97,14 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { lang, spot, path } = resolved;
   const t = translator(lang);
   const name = pick(spot.name, lang);
+  const metric = (await getCrowdSnapshot()).spots.find((s) => s.id === spot.id) ?? computeLiveSpotMetric(spot);
   const title = t('spot.metaTitle', { name });
-  const description = t('spot.metaDesc', { name, best: pick(spot.bestTime, lang) });
+  const description = t('spot.metaDesc', {
+    name,
+    best: pick(spot.bestTime, lang),
+    status: t(`card.status.${metric.status}`),
+    score: metric.currentScore,
+  });
   const url = `${SITE_URL}${localizePath(path, lang)}`;
 
   return {
@@ -159,6 +174,26 @@ export default async function SpotPage({ params }: { params: Params }) {
   const quietHour = formatHour(lang, getQuietestDaytimeHour(weekday));
   const busy = busiestRange(lang, spot);
   const nearby = getNearbySpots(spot, 4);
+  const sameTheme = getSameThemeSpots(spot, 4);
+  const statusLabel = t(`card.status.${initial.status}`);
+  const listSep = lang === 'en' ? ', ' : lang === 'ko' ? ', ' : '、';
+  const nearbyNames = nearby.slice(0, 3).map((n) => pick(n.spot.name, lang)).join(listSep);
+  // Live data timestamp ("YYYY-MM-DD HH:mm" KST) or today for estimates.
+  const modified = (initial.liveUpdatedAt ?? new Date(Date.now() + 9 * 3600 * 1000).toISOString()).slice(0, 10);
+  const facts = SPOT_FACTS[getSpotSlug(spot)];
+  const about = t('spot.about', {
+    name,
+    area: area || 'Seoul',
+    theme: t(`category.${spot.category}`),
+    source: t(initial.isLive ? 'spot.about.live' : 'spot.about.estimate'),
+    score: initial.currentScore,
+    status: statusLabel,
+    quiet: quietHour,
+    busy,
+    best: bestTime,
+    tip: tip ? `${tip} ` : '',
+    nearby: nearbyNames,
+  });
   const homeHref = localizePath('/', lang);
   const url = `${SITE_URL}${localizePath(path, lang)}`;
 
@@ -175,6 +210,13 @@ export default async function SpotPage({ params }: { params: Params }) {
           },
         ]
       : []),
+    { q: t('spot.faq.qWait', { name }), a: t('spot.faq.aWait', { wait: initial.waitTimeMinutes, busy, quiet: quietHour }) },
+    { q: t('spot.faq.qNearby', { name }), a: t('spot.faq.aNearby', { list: nearbyNames }) },
+    // Verified facts only (src/data/spotFacts.ts).
+    ...(facts?.parking ? [{ q: t('spot.faq.qParking', { name }), a: pick(facts.parking, lang) }] : []),
+    ...(facts?.closedDays ? [{ q: t('spot.faq.qClosed', { name }), a: pick(facts.closedDays, lang) }] : []),
+    ...(facts?.admission ? [{ q: t('spot.faq.qFee', { name }), a: pick(facts.admission, lang) }] : []),
+    ...(facts?.accessibility ? [{ q: t('spot.faq.qAccess', { name }), a: pick(facts.accessibility, lang) }] : []),
     { q: t('spot.faq.q3'), a: t('spot.faq.a3') },
   ];
 
@@ -184,7 +226,8 @@ export default async function SpotPage({ params }: { params: Params }) {
       '@type': 'TouristAttraction',
       name,
       alternateName: LANGS.filter((l) => l !== lang).map((l) => spot.name[l]),
-      description: t('spot.metaDesc', { name, best: bestTime }),
+      description: about,
+      image: `${url}/og`,
       url,
       inLanguage: lang,
       geo: { '@type': 'GeoCoordinates', latitude: spot.lat, longitude: spot.lng },
@@ -194,6 +237,14 @@ export default async function SpotPage({ params }: { params: Params }) {
         addressRegion: 'Seoul',
         addressCountry: 'KR',
       },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: t('spot.metaTitle', { name }),
+      url,
+      inLanguage: htmlLang(lang),
+      dateModified: modified,
     },
     {
       '@context': 'https://schema.org',
@@ -240,6 +291,9 @@ export default async function SpotPage({ params }: { params: Params }) {
             {name}
           </h1>
           {area && <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{area}</p>}
+          <p className="mt-1 text-[11px] text-gray-400">
+            <time dateTime={modified}>{t('spot.updatedAt', { date: modified })}</time>
+          </p>
         </header>
 
         <SpotLivePanel
@@ -300,6 +354,11 @@ export default async function SpotPage({ params }: { params: Params }) {
           </section>
         )}
 
+        <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
+          <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.aboutTitle', { name })}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300">{about}</p>
+        </section>
+
         <section className="space-y-2">
           <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.nearby')}</h2>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -318,6 +377,24 @@ export default async function SpotPage({ params }: { params: Params }) {
             ))}
           </ul>
         </section>
+
+        {sameTheme.length > 0 && (
+          <section className="space-y-2">
+            <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.sameTheme')}</h2>
+            <ul className="flex flex-wrap gap-2">
+              {sameTheme.map((s) => (
+                <li key={s.id}>
+                  <Link
+                    href={localizePath(`/spot/${getSpotSlug(s)}`, lang)}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:border-blue-400"
+                  >
+                    {s.emoji} {pick(s.name, lang)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
           <h2 className="text-base font-bold text-gray-900 dark:text-white mb-3">{t('spot.faqTitle')}</h2>
