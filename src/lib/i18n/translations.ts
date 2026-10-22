@@ -7,7 +7,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
 
     'hero.badge': '서울시 실시간 공공데이터 연동',
     'hero.title': '서울 주요 관광지 실시간 혼잡도',
-    'hero.subtitle': '서울 52개 핵심 명소의 실시간 인파와 대기시간, 현위치 기준 이동 시간을 한눈에 확인하세요.',
+    'hero.subtitle': '서울 130여 곳 명소의 실시간 인파와 대기시간, 현위치 기준 이동 시간을 한눈에 확인하세요.',
 
     'location.unsupported': '이 브라우저는 위치 정보를 지원하지 않습니다.',
     'location.permission_prompt': '위치 권한을 허용하시면 실시간 거리와 이동시간이 계산됩니다.',
@@ -37,7 +37,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'share.more': '더보기',
     'share.text': '{name} 지금 혼잡도 {score}점 ({status}) 👀 실시간으로 확인해 보세요',
     'share.kakaoButton': '혼잡도 보기',
-    'share.siteText': '서울 52개 명소 실시간 혼잡도 — 지금 한산한 곳을 찾아보세요',
+    'share.siteText': '서울 130여 곳 실시간 혼잡도 — 지금 한산한 곳을 찾아보세요',
     'spot.home': '서울 실시간 혼잡도',
     'spot.liveNow': '지금 혼잡도',
     'spot.updated': '5분마다 업데이트',
@@ -130,6 +130,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'category.nature': '한강·공원',
     'category.view': '전망·야경',
     'category.attraction': '랜드마크',
+    'category.neighborhood': '동네·역',
 
     'calm.title': '지금 가장 여유로운 핫스팟',
     'calm.subtitle': '인파 걱정 없이 쾌적하게 둘러볼 수 있는 추천 명소',
@@ -223,7 +224,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
 
     'hero.badge': 'Official Seoul Real-time City Data',
     'hero.title': 'Seoul Attractions Live Crowd Tracker',
-    'hero.subtitle': 'Check live foot traffic, wait times, and travel distance from your location across 52 curated Seoul hotspots.',
+    'hero.subtitle': 'Check live foot traffic, wait times, and travel distance from your location across 130+ Seoul places.',
 
     'location.unsupported': 'Location services are not supported by this browser.',
     'location.permission_prompt': 'Enable location access to calculate real-time distance and travel times.',
@@ -253,7 +254,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'share.more': 'More',
     'share.text': '{name} is at {score}/100 right now ({status}) 👀 Check live crowd levels',
     'share.kakaoButton': 'See crowd level',
-    'share.siteText': 'Live crowd levels for 52 Seoul attractions — find a quiet spot right now',
+    'share.siteText': 'Live crowd levels for 130+ Seoul places — find a quiet spot right now',
     'spot.home': 'Seoul Live Crowd',
     'spot.liveNow': 'Crowd level right now',
     'spot.updated': 'Updated every 5 minutes',
@@ -346,6 +347,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'category.nature': 'Parks & River',
     'category.view': 'Night View & Towers',
     'category.attraction': 'Landmarks',
+    'category.neighborhood': 'Neighborhoods',
 
     'calm.title': 'Most Relaxed Spots Right Now',
     'calm.subtitle': 'Recommended places to enjoy without crowd stress',
@@ -439,7 +441,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
 
     'hero.badge': 'ソウル市公式 リアルタイム都市データ連動',
     'hero.title': 'ソウル人気スポットリアルタイム混雑度',
-    'hero.subtitle': '厳選されたソウル52箇所のリアルタイム混雑度、待ち時間、現在地からの移動時間を一目で確認。',
+    'hero.subtitle': 'ソウル130か所以上のリアルタイム混雑度、待ち時間、現在地からの移動時間を一目で確認。',
 
     'location.unsupported': 'このブラウザは位置情報に対応していません。',
     'location.permission_prompt': '位置情報の利用を許可すると、現在地からの距離と移動時間が計算されます。',
@@ -469,7 +471,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'share.more': 'その他',
     'share.text': '{name}の今の混雑度は{score}点（{status}）👀 リアルタイムでチェック',
     'share.kakaoButton': '混雑度を見る',
-    'share.siteText': 'ソウル人気スポット52か所のリアルタイム混雑度 — 今空いている場所を探そう',
+    'share.siteText': 'ソウル130か所以上のリアルタイム混雑度 — 今空いている場所を探そう',
     'spot.home': 'ソウル リアルタイム混雑度',
     'spot.liveNow': '現在の混雑度',
     'spot.updated': '5分ごとに更新',
@@ -562,6 +564,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'category.nature': '漢江・公園',
     'category.view': '夜景・展望',
     'category.attraction': 'ランドマーク',
+    'category.neighborhood': '街・駅周辺',
 
     'calm.title': '今もっとも空いているスポット',
     'calm.subtitle': '混雑を避けて快適に過ごせるおすすめの名所',

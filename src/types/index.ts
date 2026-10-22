@@ -13,7 +13,8 @@ export type SpotCategory =
   | 'food'
   | 'nature'
   | 'view'
-  | 'attraction';
+  | 'attraction'
+  | 'neighborhood';
 
 export type SeoulDistrict =
   | 'all'
@@ -42,7 +43,9 @@ export interface Spot {
   id: number;
   name: LocalizedString;
   city: CityId;
-  category: 'palace' | 'shopping' | 'food' | 'nature' | 'view' | 'attraction';
+  category: Exclude<SpotCategory, 'all'>;
+  /** Official Seoul real-time data place code (AREA_CD, e.g. POI003); falls back to SEOUL_AREA_MAPPING. */
+  areaCode?: string;
   district: SeoulDistrict;
   baseScore: number;
   peakHours: number[];

@@ -47,6 +47,7 @@ export default function DistrictTabs({
     { id: 'nature', key: 'category.nature', icon: '🌿' },
     { id: 'view', key: 'category.view', icon: '🌃' },
     { id: 'attraction', key: 'category.attraction', icon: '🎡' },
+    { id: 'neighborhood', key: 'category.neighborhood', icon: '🚉' },
   ];
 
   return (

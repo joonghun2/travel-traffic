@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Check East Point - Seoul Live Crowd',
     short_name: 'CheckEast',
-    description: 'Live crowd levels, wait times and quieter alternatives for 52 top Seoul attractions.',
+    description: 'Live crowd levels, wait times and quieter alternatives for 130+ Seoul places.',
     start_url: '/',
     scope: '/',
     display: 'standalone',

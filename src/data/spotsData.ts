@@ -1,5 +1,7 @@
 import { SEOUL_SPOTS } from './spots/seoul';
+import { SEOUL_OFFICIAL_SPOTS } from './spots/seoulOfficial';
 import { Spot } from '@/types';
 
-// Seoul-exclusive spots dataset (52 curated hotspots connected with Seoul Open Data API)
-export const SPOTS_DATA: Spot[] = [...SEOUL_SPOTS];
+// Seoul spots: the original curated 52 plus every other place in the official
+// Seoul real-time population data list (121 places), so all 121 are covered.
+export const SPOTS_DATA: Spot[] = [...SEOUL_SPOTS, ...SEOUL_OFFICIAL_SPOTS];

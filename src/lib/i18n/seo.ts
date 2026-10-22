@@ -34,7 +34,7 @@ export const SEO: Record<Lang, SeoCopy> = {
   en: {
     title: 'Check East Point | Live Crowd Levels at Seoul Attractions',
     description:
-      'See real-time crowd levels, wait times and quiet alternatives for 52 top Seoul attractions — Gyeongbokgung, Myeongdong, Hongdae, Seongsu and more. Plan a calmer trip to Seoul.',
+      'See real-time crowd levels, wait times and quiet alternatives for 130+ Seoul places — Gyeongbokgung, Myeongdong, Hongdae, Seongsu and more. Plan a calmer trip to Seoul.',
     keywords: [
       'Seoul crowd levels',
       'Seoul live crowd',
@@ -54,7 +54,7 @@ export const SEO: Record<Lang, SeoCopy> = {
   ja: {
     title: 'Check East Point | ソウル観光地のリアルタイム混雑度',
     description:
-      '景福宮・明洞・弘大・聖水などソウル人気スポット52か所のリアルタイム混雑度、待ち時間、空いている穴場スポットを確認。快適なソウル旅行のためのリアルタイムガイド。',
+      '景福宮・明洞・弘大・聖水などソウルの130か所以上のリアルタイム混雑度、待ち時間、空いている穴場スポットを確認。快適なソウル旅行のためのリアルタイムガイド。',
     keywords: [
       'ソウル 混雑',
       'ソウル 観光地 混雑状況',

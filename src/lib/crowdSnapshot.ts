@@ -23,7 +23,7 @@ const getSeoulLive = unstable_cache(
   async (): Promise<SeoulLiveCache> => {
     const apiKey = getSeoulApiKey();
     if (!apiKey) return { areas: {}, fetchedAt: null, issue: 'no_key' };
-    const areaCodes = Object.values(SEOUL_AREA_MAPPING);
+    const areaCodes = SPOTS_DATA.map(areaCodeFor).filter((c): c is string => Boolean(c));
     const results = await fetchSeoulBatchData(areaCodes, apiKey);
     return {
       areas: Object.fromEntries(results),
@@ -31,9 +31,14 @@ const getSeoulLive = unstable_cache(
       issue: results.size === 0 ? 'fetch_failed' : undefined,
     };
   },
-  ['seoul-live-ppltn-v4'],
+  ['seoul-live-ppltn-v5'],
   { revalidate: SEOUL_REFRESH_SECONDS }
 );
+
+/** Official place code for a spot: its own areaCode, else the legacy ID mapping. */
+function areaCodeFor(spot: Spot): string | undefined {
+  return spot.areaCode ?? SEOUL_AREA_MAPPING[spot.id];
+}
 
 function waitMinutesFor(category: Spot['category'], status: CrowdStatus, score: number): number {
   const multiplier = category === 'food' || category === 'shopping' ? 1.2 : 0.7;
@@ -70,7 +75,8 @@ export async function getCrowdSnapshot(): Promise<CrowdSnapshot> {
   let liveCount = 0;
   const spots = SPOTS_DATA.map((spot) => {
     const metric: LiveSpotMetric = { ...computeLiveSpotMetric(spot), isLive: false };
-    const real = seoul.areas[SEOUL_AREA_MAPPING[spot.id]];
+    const code = areaCodeFor(spot);
+    const real = code ? seoul.areas[code] : undefined;
     if (real) {
       metric.currentScore = real.score;
       metric.status = real.status;
