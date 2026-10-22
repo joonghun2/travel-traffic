@@ -10,7 +10,7 @@ export const revalidate = 60;
 
 export async function GET() {
   try {
-    const { spots, liveCount, fetchedAt, issue } = await getCrowdSnapshot();
+    const { spots, liveCount, fetchedAt, issue, keyCandidates } = await getCrowdSnapshot();
 
     return NextResponse.json(
       {
@@ -31,6 +31,7 @@ export async function GET() {
                   provider: 'crowdEngine Heuristic',
                   spotsConnected: 0,
                   issue,
+                  keyCandidates,
                 },
         },
         spots,

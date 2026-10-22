@@ -49,10 +49,21 @@ function congestionToStatus(level: string): CrowdStatus {
   }
 }
 
-/** Seoul Open API key; SEOUL_API_KEY is the new name, SEOUL_OPENDATA_API_KEY the original. */
+const PLACEHOLDER_KEYS = new Set(['', 'your_seoul_api_key_here', 'sample']);
+
+/** Names of env vars that look like a Seoul API key (e.g. SEOUL_API_KEY, SEOUL_OPENDATA_API_KEY). */
+export function seoulKeyCandidates(): string[] {
+  const preferred = ['SEOUL_API_KEY', 'SEOUL_OPENDATA_API_KEY'];
+  const others = Object.keys(process.env).filter(
+    (name) => /SEOUL/i.test(name) && /KEY/i.test(name) && !preferred.includes(name)
+  );
+  return [...preferred, ...others].filter((name) => !PLACEHOLDER_KEYS.has((process.env[name] ?? '').trim()));
+}
+
+/** Seoul Open API key; SEOUL_API_KEY is the preferred name, SEOUL_OPENDATA_API_KEY the original. */
 export function getSeoulApiKey(): string | null {
-  const key = process.env.SEOUL_API_KEY || process.env.SEOUL_OPENDATA_API_KEY;
-  return key && key !== 'your_seoul_api_key_here' ? key : null;
+  const name = seoulKeyCandidates()[0];
+  return name ? process.env[name]!.trim().replace(/^["']|["']$/g, '') : null;
 }
 
 /**

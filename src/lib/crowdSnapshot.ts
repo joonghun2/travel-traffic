@@ -2,7 +2,7 @@ import { unstable_cache } from 'next/cache';
 import { SPOTS_DATA } from '@/data/spotsData';
 import { SEOUL_AREA_MAPPING } from '@/data/seoulAreaMapping';
 import { computeLiveSpotMetric } from '@/lib/crowdEngine';
-import { fetchSeoulBatchData, getSeoulApiKey, SeoulCityDataResult } from '@/lib/seoulCityDataApi';
+import { fetchSeoulBatchData, getSeoulApiKey, seoulKeyCandidates, SeoulCityDataResult } from '@/lib/seoulCityDataApi';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { CrowdStatus, LiveSpotMetric, Spot } from '@/types';
 
@@ -31,7 +31,7 @@ const getSeoulLive = unstable_cache(
       issue: results.size === 0 ? 'fetch_failed' : undefined,
     };
   },
-  ['seoul-live-ppltn-v3'],
+  ['seoul-live-ppltn-v4'],
   { revalidate: SEOUL_REFRESH_SECONDS }
 );
 
@@ -48,6 +48,8 @@ export interface CrowdSnapshot {
   liveCount: number;
   fetchedAt: string | null;
   issue?: SeoulLiveCache['issue'];
+  /** How many env vars look like a Seoul key (count only, for diagnosing deploy config). */
+  keyCandidates: number;
 }
 
 /**
@@ -101,5 +103,5 @@ export async function getCrowdSnapshot(): Promise<CrowdSnapshot> {
     }
   }
 
-  return { spots, liveCount, fetchedAt: seoul.fetchedAt, issue: seoul.issue };
+  return { spots, liveCount, fetchedAt: seoul.fetchedAt, issue: seoul.issue, keyCandidates: seoulKeyCandidates().length };
 }
