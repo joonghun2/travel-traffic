@@ -5,9 +5,9 @@ import { FORECAST_SPOTS } from '@/data/spots/forecastSpots';
 export const runtime = 'nodejs';
 export const preferredRegion = 'icn1';
 export const maxDuration = 60;
-// Called daily by Vercel Cron (vercel.json); the KTO data itself is cached for a day,
-// so extra requests never cost API quota.
-export const revalidate = 3600;
+// Called daily by Vercel Cron (vercel.json). Rendered per request so it reports the live
+// state; the KTO data itself is cached for a day, so extra requests never cost API quota.
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const data = await getForecast();

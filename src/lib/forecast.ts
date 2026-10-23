@@ -16,7 +16,7 @@ export interface ForecastData {
   source: 'api' | 'snapshot';
   spots: Record<number, ForecastDay[]>;
   /** Snapshot only: why today's fetch failed (never includes the key). */
-  issue?: 'no_key' | 'fetch_failed' | 'build';
+  issue?: 'no_key' | 'fetch_failed' | 'build' | 'backoff';
   /** Snapshot only: e.g. "3/75 spots, first error: http 401". */
   issueDetail?: string;
 }
@@ -109,15 +109,30 @@ const getCachedForecast = unstable_cache(
 
 const snapshot = SNAPSHOT as unknown as ForecastData;
 
+/** After a failed fetch, serve the snapshot for this long before calling the API again. */
+const RETRY_MS = 30 * 60 * 1000;
+let failedAt = 0;
+let inflight: Promise<ForecastData> | null = null;
+
 /**
  * Forecast for all Jeju/Busan spots. Uses the daily API cache; if the API is unavailable
  * (or during `next build`) it falls back to the committed snapshot and its base date.
+ *
+ * Quota guard: a failed fetch is not cached, so without it every page render retried all 75
+ * calls and exhausted the daily KTO quota (HTTP 429). Concurrent callers now share one fetch,
+ * and after a failure this instance waits RETRY_MS before trying again.
  */
 export async function getForecast(): Promise<ForecastData> {
+  // Builds render many pages in parallel workers; never call the API from there.
   if (process.env.NEXT_PHASE === 'phase-production-build') return { ...snapshot, source: 'snapshot', issue: 'build' };
+  if (Date.now() - failedAt < RETRY_MS) return { ...snapshot, source: 'snapshot', issue: 'backoff', issueDetail: lastFailureDetail };
+  inflight ??= getCachedForecast().finally(() => {
+    inflight = null;
+  });
   try {
-    return await getCachedForecast();
+    return await inflight;
   } catch (err) {
+    failedAt = Date.now();
     console.warn('KTO forecast unavailable, using snapshot:', err, lastFailureDetail);
     const noKey = !process.env.DATA_GO_KR_SERVICE_KEY;
     return { ...snapshot, source: 'snapshot', issue: noKey ? 'no_key' : 'fetch_failed', issueDetail: noKey ? undefined : lastFailureDetail };
