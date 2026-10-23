@@ -1,0 +1,824 @@
+{
+  "_note": "Curated destination picks per travel type (verified, see docs/review/travel-type-local-picks.csv). spotId links a pick to our live/forecast page. q = map search query. Opening hours and fees are deliberately left out. zh-tw is generated.",
+  "picks": [
+    {
+      "id": "jongdal",
+      "type": "sEa",
+      "city": "jeju",
+      "q": "제주 종달리",
+      "name": {
+        "ko": "종달리 마을",
+        "en": "Jongdal-ri Village",
+        "ja": "終達里（チョンダルリ）の村",
+        "zh-cn": "终达里村",
+        "zh-tw": "終達裡村"
+      },
+      "why": {
+        "ko": "제주올레 1코스가 끝나는 조용한 해안 마을. 골목과 바다를 혼자 천천히 걷기 좋아요.",
+        "en": "A quiet coastal village where Jeju Olle Trail 1 ends. Perfect for slow solo walks between alleys and sea.",
+        "ja": "済州オルレ1コースの終点にある静かな海辺の村。路地と海をひとりでゆっくり歩けます。",
+        "zh-cn": "济州偶来1号路线终点的安静海边村落，适合一个人慢慢走在小巷与大海之间。",
+        "zh-tw": "濟州偶來1號路線終點的安靜海邊村落，適合一個人慢慢走在小巷與大海之間。"
+      }
+    },
+    {
+      "id": "abu",
+      "type": "sEa",
+      "city": "jeju",
+      "q": "아부오름",
+      "name": {
+        "ko": "아부오름",
+        "en": "Abu Oreum",
+        "ja": "アブオルム",
+        "zh-cn": "阿父岳",
+        "zh-tw": "阿父嶽"
+      },
+      "why": {
+        "ko": "5~10분이면 오르는 낮은 오름. 분화구를 따라 도는 능선길이 고요해요.",
+        "en": "A low volcanic cone you can climb in 5–10 minutes, with a calm ridge path around the crater.",
+        "ja": "5〜10分で登れる低いオルム。火口を巡る尾根道が静かです。",
+        "zh-cn": "5到10分钟就能登顶的低矮火山丘，绕火山口的山脊小路十分宁静。",
+        "zh-tw": "5到10分鐘就能登頂的低矮火山丘，繞火山口的山脊小路十分寧靜。"
+      }
+    },
+    {
+      "id": "suseongdong",
+      "type": "sEa",
+      "city": "seoul",
+      "q": "수성동계곡",
+      "name": {
+        "ko": "수성동계곡 (서촌)",
+        "en": "Suseongdong Valley (Seochon)",
+        "ja": "水声洞渓谷（西村）",
+        "zh-cn": "水声洞溪谷（西村）",
+        "zh-tw": "水聲洞溪谷（西村）"
+      },
+      "why": {
+        "ko": "인왕산 아래 서촌의 계곡. 도심 한가운데서 물소리를 들으며 걸을 수 있어요.",
+        "en": "A stream valley below Inwangsan in Seochon. Walk to the sound of water in the middle of the city.",
+        "ja": "仁王山のふもと、西村の渓谷。都心で水の音を聞きながら歩けます。",
+        "zh-cn": "仁王山脚下西村的溪谷，在市中心也能伴着水声散步。",
+        "zh-tw": "仁王山腳下西村的溪谷，在市中心也能伴著水聲散步。"
+      }
+    },
+    {
+      "id": "baeksasil",
+      "type": "sEa",
+      "city": "seoul",
+      "q": "백사실계곡",
+      "name": {
+        "ko": "백사실계곡 (부암동)",
+        "en": "Baeksasil Valley (Buam-dong)",
+        "ja": "白沙室渓谷（付岩洞）",
+        "zh-cn": "白沙室溪谷（付岩洞）",
+        "zh-tw": "白沙室溪谷（付巖洞）"
+      },
+      "why": {
+        "ko": "'도심 속 비밀의 정원'이라 불리는 부암동 숲속 계곡이에요.",
+        "en": "Called the city's secret garden: a forest valley tucked away in Buam-dong.",
+        "ja": "「都会の秘密の庭」と呼ばれる付岩洞の森の渓谷。",
+        "zh-cn": "被称为\"城市秘密花园\"的付岩洞林间溪谷。",
+        "zh-tw": "被稱為\"城市秘密花園\"的付巖洞林間溪谷。"
+      }
+    },
+    {
+      "id": "kkangkkangi",
+      "type": "sEa",
+      "city": "busan",
+      "q": "깡깡이예술마을",
+      "name": {
+        "ko": "깡깡이예술마을 (영도)",
+        "en": "Kkangkkangi Art Village (Yeongdo)",
+        "ja": "カンカンイ芸術村（影島）",
+        "zh-cn": "铛铛艺术村（影岛）",
+        "zh-tw": "鐺鐺藝術村（影島）"
+      },
+      "why": {
+        "ko": "수리조선소 골목이 예술마을로 바뀐 곳. 항구 사람들의 일상이 그대로 남아 있어요.",
+        "en": "Ship-repair alleys turned art village, where everyday harbour life carries on.",
+        "ja": "修理造船所の路地が芸術村に。港の人々の日常がそのまま残っています。",
+        "zh-cn": "修船厂小巷变身艺术村，港口居民的日常依旧。",
+        "zh-tw": "修船廠小巷變身藝術村，港口居民的日常依舊。"
+      }
+    },
+    {
+      "id": "darangshi",
+      "type": "sEA",
+      "city": "jeju",
+      "q": "다랑쉬오름",
+      "name": {
+        "ko": "다랑쉬오름",
+        "en": "Darangshi Oreum",
+        "ja": "タランシオルム",
+        "zh-cn": "月郎峰（Darangshi岳）",
+        "zh-tw": "月郎峰（Darangshi嶽）"
+      },
+      "why": {
+        "ko": "'오름의 여왕'이라 불리는 동부 오름. 정상 분화구에서 동쪽 오름들이 한눈에 보여요.",
+        "en": "Known as the queen of oreum. From the crater rim you can see the volcanic cones of eastern Jeju.",
+        "ja": "「オルムの女王」と呼ばれる東部のオルム。山頂の火口から東側のオルム群が一望できます。",
+        "zh-cn": "被称为\"火山丘女王\"，在山顶火山口可一览济州东部的火山丘群。",
+        "zh-tw": "被稱為\"火山丘女王\"，在山頂火山口可一覽濟州東部的火山丘群。"
+      }
+    },
+    {
+      "id": "saryeoni",
+      "type": "sEA",
+      "city": "jeju",
+      "q": "사려니숲길",
+      "name": {
+        "ko": "사려니숲길",
+        "en": "Saryeoni Forest Path",
+        "ja": "サリョニの森の道",
+        "zh-cn": "思连伊林荫路",
+        "zh-tw": "思連伊林蔭路"
+      },
+      "why": {
+        "ko": "약 15km 이어지는 중산간 숲길로, 유네스코 생물권보전지역에 속해요.",
+        "en": "A forest path of about 15 km through Jeju's highlands, inside a UNESCO Biosphere Reserve.",
+        "ja": "約15km続く中山間の森の道で、ユネスコ生物圏保護区に含まれます。",
+        "zh-cn": "全长约15公里的中山间林荫路，属于联合国教科文组织生物圈保护区。",
+        "zh-tw": "全長約15公里的中山間林蔭路，屬於聯合國教科文組織生物圈保護區。"
+      }
+    },
+    {
+      "id": "inwang",
+      "type": "sEA",
+      "city": "seoul",
+      "q": "인왕산 한양도성",
+      "name": {
+        "ko": "인왕산 한양도성길",
+        "en": "Inwangsan Seoul City Wall Trail",
+        "ja": "仁王山の漢陽都城の道",
+        "zh-cn": "仁王山汉阳都城步道",
+        "zh-tw": "仁王山漢陽都城步道"
+      },
+      "why": {
+        "ko": "돈의문 터에서 창의문까지 약 4km 성곽길. 서울 도심과 북악산이 펼쳐져요.",
+        "en": "About 4 km of fortress wall from Donuimun site to Changuimun, with views over downtown and Bugaksan.",
+        "ja": "敦義門跡から彰義門まで約4kmの城郭の道。ソウル都心と北岳山が広がります。",
+        "zh-cn": "从敦义门遗址到彰义门约4公里的城墙路，首尔市中心和北岳山尽收眼底。",
+        "zh-tw": "從敦義門遺址到彰義門約4公里的城牆路，首爾市中心和北嶽山盡收眼底。"
+      }
+    },
+    {
+      "id": "igidae",
+      "type": "sEA",
+      "city": "busan",
+      "spotId": 1008,
+      "q": "이기대 해안산책로",
+      "name": {
+        "ko": "이기대 해안산책로",
+        "en": "Igidae Coastal Walk",
+        "ja": "二妓台海岸遊歩道",
+        "zh-cn": "二妓台海岸步道",
+        "zh-tw": "二妓臺海岸步道"
+      },
+      "why": {
+        "ko": "오륙도에서 동생말까지 약 4.7km 해안 절벽길. 1997년까지 군사지역이었어요.",
+        "en": "About 4.7 km of cliffside path from Oryukdo to Dongsaengmal, off limits as a military zone until 1997.",
+        "ja": "五六島から東生末まで約4.7kmの海岸断崖の道。1997年まで軍事地域でした。",
+        "zh-cn": "从五六岛到东生末约4.7公里的海岸悬崖步道，1997年前曾是军事区。",
+        "zh-tw": "從五六島到東生末約4.7公里的海岸懸崖步道，1997年前曾是軍事區。"
+      }
+    },
+    {
+      "id": "jeoryeong",
+      "type": "sEA",
+      "city": "busan",
+      "q": "절영해안산책로",
+      "name": {
+        "ko": "절영해안산책로 (영도)",
+        "en": "Jeoryeong Coastal Trail (Yeongdo)",
+        "ja": "絶影海岸遊歩道（影島）",
+        "zh-cn": "绝影海岸步道（影岛）",
+        "zh-tw": "絕影海岸步道（影島）"
+      },
+      "why": {
+        "ko": "봉래산 아래 해안선을 따라 약 3km 이어지는 바닷길이에요.",
+        "en": "About 3 km of seaside trail along the shore below Bongnaesan.",
+        "ja": "蓬莱山のふもとの海岸線に沿って約3km続く海の道。",
+        "zh-cn": "沿蓬莱山下海岸线延伸约3公里的海边步道。",
+        "zh-tw": "沿蓬萊山下海岸線延伸約3公里的海邊步道。"
+      }
+    },
+    {
+      "id": "changdeok",
+      "type": "sea",
+      "city": "seoul",
+      "spotId": 32,
+      "q": "창덕궁 후원",
+      "name": {
+        "ko": "창덕궁 후원",
+        "en": "Changdeokgung Secret Garden",
+        "ja": "昌徳宮の後苑",
+        "zh-cn": "昌德宫后苑",
+        "zh-tw": "昌德宮後苑"
+      },
+      "why": {
+        "ko": "유네스코 세계유산. 해설사와 함께 걷는 왕의 정원이에요.",
+        "en": "A UNESCO World Heritage royal garden, visited on a guided walk.",
+        "ja": "ユネスコ世界遺産。解説員と歩く王の庭園。",
+        "zh-cn": "联合国教科文组织世界遗产，跟着讲解员漫步的皇家园林。",
+        "zh-tw": "聯合國教科文組織世界遺產，跟著講解員漫步的皇家園林。"
+      }
+    },
+    {
+      "id": "museum",
+      "type": "sea",
+      "city": "seoul",
+      "spotId": 24,
+      "q": "국립중앙박물관",
+      "name": {
+        "ko": "국립중앙박물관",
+        "en": "National Museum of Korea",
+        "ja": "国立中央博物館",
+        "zh-cn": "国立中央博物馆",
+        "zh-tw": "國立中央博物館"
+      },
+      "why": {
+        "ko": "전시실이 넓어 한산한 시간에 가면 혼자 오래 머물기 좋아요.",
+        "en": "Galleries so spacious that at quiet hours you can linger alone for a long time.",
+        "ja": "展示室が広く、空いている時間ならひとりで長く過ごせます。",
+        "zh-cn": "展厅宽敞，人少时去可以独自久留。",
+        "zh-tw": "展廳寬敞，人少時去可以獨自久留。"
+      }
+    },
+    {
+      "id": "naksan",
+      "type": "sea",
+      "city": "seoul",
+      "q": "낙산공원",
+      "name": {
+        "ko": "낙산공원 성곽길",
+        "en": "Naksan Park City Wall Walk",
+        "ja": "駱山公園の城郭の道",
+        "zh-cn": "骆山公园城墙路",
+        "zh-tw": "駱山公園城牆路"
+      },
+      "why": {
+        "ko": "한양도성을 따라 걷는 언덕 공원. 해 질 녘 성곽 풍경이 차분해요.",
+        "en": "A hilltop park along the old city wall, calm and lovely at dusk.",
+        "ja": "漢陽都城に沿って歩く丘の公園。夕暮れの城郭の風景が穏やかです。",
+        "zh-cn": "沿汉阳都城而行的山丘公园，黄昏时的城墙景色格外宁静。",
+        "zh-tw": "沿漢陽都城而行的山丘公園，黃昏時的城牆景色格外寧靜。"
+      }
+    },
+    {
+      "id": "dongbaek",
+      "type": "sea",
+      "city": "busan",
+      "q": "동백섬",
+      "name": {
+        "ko": "동백섬 산책로 (해운대)",
+        "en": "Dongbaekseom Island Walk (Haeundae)",
+        "ja": "冬柏島の遊歩道（海雲台）",
+        "zh-cn": "冬柏岛步道（海云台）",
+        "zh-tw": "冬柏島步道（海雲臺）"
+      },
+      "why": {
+        "ko": "해운대 끝자락의 약 930m 순환 산책로. 바다를 끼고 천천히 돌기 좋아요.",
+        "en": "A loop of about 930 m at the end of Haeundae beach, ideal for a slow seaside circuit.",
+        "ja": "海雲台の端にある約930mの周回遊歩道。海沿いをゆっくり一周できます。",
+        "zh-cn": "海云台尽头约930米的环形步道，适合沿海慢慢绕一圈。",
+        "zh-tw": "海雲臺盡頭約930米的環形步道，適合沿海慢慢繞一圈。"
+      }
+    },
+    {
+      "id": "saebyeol",
+      "type": "sea",
+      "city": "jeju",
+      "spotId": 1042,
+      "q": "새별오름",
+      "name": {
+        "ko": "새별오름",
+        "en": "Saebyeol Oreum",
+        "ja": "セビョルオルム",
+        "zh-cn": "晓星岳",
+        "zh-tw": "曉星嶽"
+      },
+      "why": {
+        "ko": "억새가 아름다운 서부의 오름. 혼잡 예측으로 한산한 날을 골라 가세요.",
+        "en": "A western oreum famous for silver grass. Use the crowd forecast to pick a quiet day.",
+        "ja": "ススキが美しい西部のオルム。混雑予測で空いている日を選んで。",
+        "zh-cn": "以芒草闻名的西部火山丘，用拥挤预测挑个人少的日子去。",
+        "zh-tw": "以芒草聞名的西部火山丘，用擁擠預測挑個人少的日子去。"
+      }
+    },
+    {
+      "id": "seongsan",
+      "type": "seA",
+      "city": "jeju",
+      "spotId": 1043,
+      "q": "성산일출봉",
+      "name": {
+        "ko": "성산일출봉",
+        "en": "Seongsan Ilchulbong",
+        "ja": "城山日出峰",
+        "zh-cn": "城山日出峰",
+        "zh-tw": "城山日出峰"
+      },
+      "why": {
+        "ko": "유네스코 세계자연유산이자 일출 명소. 대표 명소일수록 한산한 날을 노리세요.",
+        "en": "A UNESCO natural heritage site and sunrise classic. The more famous, the more it pays to pick a quiet day.",
+        "ja": "ユネスコ世界自然遺産で日の出の名所。有名な所ほど空いている日を狙って。",
+        "zh-cn": "联合国教科文组织世界自然遗产、日出胜地。越有名越要挑人少的日子。",
+        "zh-tw": "聯合國教科文組織世界自然遺產、日出勝地。越有名越要挑人少的日子。"
+      }
+    },
+    {
+      "id": "namsan",
+      "type": "seA",
+      "city": "seoul",
+      "spotId": 9,
+      "q": "N서울타워",
+      "name": {
+        "ko": "N서울타워",
+        "en": "N Seoul Tower",
+        "ja": "Nソウルタワー",
+        "zh-cn": "N首尔塔",
+        "zh-tw": "N首爾塔"
+      },
+      "why": {
+        "ko": "서울 대표 전망 명소. 지금 혼잡도를 보고 동선을 정하세요.",
+        "en": "Seoul's signature viewpoint. Check the live crowd level before you go.",
+        "ja": "ソウルを代表する展望スポット。今の混雑度を見てルートを決めて。",
+        "zh-cn": "首尔代表性的观景地，先看实时拥挤度再定路线。",
+        "zh-tw": "首爾代表性的觀景地，先看即時擁擠度再定路線。"
+      }
+    },
+    {
+      "id": "seoulsky",
+      "type": "seA",
+      "city": "seoul",
+      "q": "서울스카이",
+      "name": {
+        "ko": "서울스카이 (롯데월드타워)",
+        "en": "Seoul Sky (Lotte World Tower)",
+        "ja": "ソウルスカイ（ロッテワールドタワー）",
+        "zh-cn": "首尔天空（乐天世界塔）",
+        "zh-tw": "首爾天空（樂天世界塔）"
+      },
+      "why": {
+        "ko": "초고층 전망대. 버킷리스트에서 빠질 수 없는 서울의 높이예요.",
+        "en": "A supertall observatory. Seoul's highest view belongs on any bucket list.",
+        "ja": "超高層展望台。バケットリストに欠かせないソウルの高さ。",
+        "zh-cn": "超高层观景台，愿望清单上不可缺少的首尔高度。",
+        "zh-tw": "超高層觀景臺，願望清單上不可缺少的首爾高度。"
+      }
+    },
+    {
+      "id": "yonggungsa",
+      "type": "seA",
+      "city": "busan",
+      "spotId": 1017,
+      "q": "해동용궁사",
+      "name": {
+        "ko": "해동용궁사",
+        "en": "Haedong Yonggungsa Temple",
+        "ja": "海東龍宮寺",
+        "zh-cn": "海东龙宫寺",
+        "zh-tw": "海東龍宮寺"
+      },
+      "why": {
+        "ko": "바다 절벽 위 사찰. 파도 소리와 함께 보는 부산 대표 풍경이에요.",
+        "en": "A temple on a seaside cliff, one of Busan's signature views with the sound of waves.",
+        "ja": "海の崖の上の寺。波の音とともに見る釜山の代表的な風景。",
+        "zh-cn": "海边悬崖上的寺庙，伴着浪声欣赏的釜山代表风景。",
+        "zh-tw": "海邊懸崖上的寺廟，伴著浪聲欣賞的釜山代表風景。"
+      }
+    },
+    {
+      "id": "gyeongbok",
+      "type": "seA",
+      "city": "seoul",
+      "spotId": 3,
+      "q": "경복궁",
+      "name": {
+        "ko": "경복궁",
+        "en": "Gyeongbokgung Palace",
+        "ja": "景福宮",
+        "zh-cn": "景福宫",
+        "zh-tw": "景福宮"
+      },
+      "why": {
+        "ko": "서울 대표 고궁. 개장 직후에 가면 대기 없이 둘러볼 수 있어요.",
+        "en": "Seoul's best-known palace. Go right at opening and you'll skip the crowds.",
+        "ja": "ソウルを代表する古宮。開場直後なら待たずに見て回れます。",
+        "zh-cn": "首尔最具代表性的古宫，一开门就去可以免排队。",
+        "zh-tw": "首爾最具代表性的古宮，一開門就去可以免排隊。"
+      }
+    },
+    {
+      "id": "mangwon",
+      "type": "SEa",
+      "city": "seoul",
+      "spotId": 27,
+      "q": "망원시장",
+      "name": {
+        "ko": "망원시장",
+        "en": "Mangwon Market",
+        "ja": "望遠市場",
+        "zh-cn": "望远市场",
+        "zh-tw": "望遠市場"
+      },
+      "why": {
+        "ko": "동네 주민이 장 보러 오는 시장과 먹거리 골목. 망원역에서 가까워요.",
+        "en": "A market where neighbours do their shopping, with a street-food lane, close to Mangwon Station.",
+        "ja": "地元の人が買い物に来る市場と食べ歩き路地。望遠駅のすぐ近く。",
+        "zh-cn": "街坊们买菜的市场和小吃巷，离望远站很近。",
+        "zh-tw": "街坊們買菜的市場和小吃巷，離望遠站很近。"
+      }
+    },
+    {
+      "id": "yeonnam",
+      "type": "SEa",
+      "city": "seoul",
+      "q": "경의선숲길 연남동",
+      "name": {
+        "ko": "경의선숲길 연남동 구간",
+        "en": "Gyeongui Line Forest Park, Yeonnam-dong",
+        "ja": "京義線森の道 延南洞区間",
+        "zh-cn": "京义线林荫路延南洞段",
+        "zh-tw": "京義線林蔭路延南洞段"
+      },
+      "why": {
+        "ko": "옛 철길 위 숲길 양옆으로 작은 가게와 골목 카페가 이어져요.",
+        "en": "A park on an old rail line, lined with small shops and alley cafés.",
+        "ja": "旧線路の上の森の道の両側に、小さな店や路地カフェが続きます。",
+        "zh-cn": "旧铁轨改建的林荫路，两旁是小店和巷子咖啡馆。",
+        "zh-tw": "舊鐵軌改建的林蔭路，兩旁是小店和巷子咖啡館。"
+      }
+    },
+    {
+      "id": "sehwa",
+      "type": "SEa",
+      "city": "jeju",
+      "q": "세화민속오일장",
+      "name": {
+        "ko": "세화민속오일장",
+        "en": "Sehwa Five-day Market",
+        "ja": "細花民俗五日市",
+        "zh-cn": "细花民俗五日集市",
+        "zh-tw": "細花民俗五日集市"
+      },
+      "why": {
+        "ko": "5일마다 서는 동쪽 마을 장터. 장날은 가기 전에 꼭 확인하세요.",
+        "en": "A village market on Jeju's east coast held every five days. Check the market day before you go.",
+        "ja": "5日ごとに立つ東部の村の市場。市の日は事前に必ず確認を。",
+        "zh-cn": "济州东部每五天开一次的乡村集市，出发前一定要确认赶集日。",
+        "zh-tw": "濟州東部每五天開一次的鄉村集市，出發前一定要確認趕集日。"
+      }
+    },
+    {
+      "id": "huinnyeoul",
+      "type": "SEa",
+      "city": "busan",
+      "spotId": 1028,
+      "q": "흰여울문화마을",
+      "name": {
+        "ko": "흰여울문화마을 (영도)",
+        "en": "Huinnyeoul Culture Village (Yeongdo)",
+        "ja": "白い瀬文化村（影島）",
+        "zh-cn": "白浅滩文化村（影岛）",
+        "zh-tw": "白淺灘文化村（影島）"
+      },
+      "why": {
+        "ko": "바다 절벽 위 마을과 해안 산책로. 골목마다 주민의 일상이 있어요.",
+        "en": "A clifftop village with a coastal path, where every alley is part of residents' daily life.",
+        "ja": "海の崖の上の村と海岸遊歩道。路地ごとに住民の日常があります。",
+        "zh-cn": "海边悬崖上的村落和海岸步道，每条小巷都有居民的日常。",
+        "zh-tw": "海邊懸崖上的村落和海岸步道，每條小巷都有居民的日常。"
+      }
+    },
+    {
+      "id": "choryang",
+      "type": "SEa",
+      "city": "busan",
+      "q": "초량이바구길",
+      "name": {
+        "ko": "초량 이바구길",
+        "en": "Choryang Ibagu-gil",
+        "ja": "草梁イバグキル",
+        "zh-cn": "草梁故事路",
+        "zh-tw": "草梁故事路"
+      },
+      "why": {
+        "ko": "부산역 건너편 원도심 이야기길. 168계단과 전망대가 있어요.",
+        "en": "A storytelling walk through old Busan opposite Busan Station, with the famous 168 Steps and a lookout.",
+        "ja": "釜山駅の向かいの旧市街の物語の道。168階段と展望台があります。",
+        "zh-cn": "釜山站对面老城区的故事路，有168级台阶和观景台。",
+        "zh-tw": "釜山站對面老城區的故事路，有168級臺階和觀景臺。"
+      }
+    },
+    {
+      "id": "euljiro",
+      "type": "SEA",
+      "city": "seoul",
+      "q": "을지로 노가리골목",
+      "name": {
+        "ko": "을지로 노가리골목",
+        "en": "Euljiro Nogari Alley",
+        "ja": "乙支路ノガリ横丁",
+        "zh-cn": "乙支路明太鱼干胡同",
+        "zh-tw": "乙支路明太魚乾衚衕"
+      },
+      "why": {
+        "ko": "낮에는 인쇄소 골목, 저녁에는 노가리에 맥주를 즐기는 사람들로 가득해요.",
+        "en": "Print shops by day; by evening, the alley fills with people drinking beer over dried pollock.",
+        "ja": "昼は印刷所の路地、夜はノガリ（干しスケトウダラ）とビールを楽しむ人でいっぱいに。",
+        "zh-cn": "白天是印刷厂巷子，晚上挤满了就着明太鱼干喝啤酒的人。",
+        "zh-tw": "白天是印刷廠巷子，晚上擠滿了就著明太魚乾喝啤酒的人。"
+      }
+    },
+    {
+      "id": "seongsu",
+      "type": "SEA",
+      "city": "seoul",
+      "q": "성수 연무장길",
+      "name": {
+        "ko": "성수 연무장길",
+        "en": "Seongsu Yeonmujang-gil",
+        "ja": "聖水 演武場キル",
+        "zh-cn": "圣水演武场街",
+        "zh-tw": "聖水演武場街"
+      },
+      "why": {
+        "ko": "옛 공장과 구두 공방 골목이 카페와 팝업 거리로 바뀐 곳이에요.",
+        "en": "Old factories and shoe workshops turned cafés and pop-up stores.",
+        "ja": "古い工場と靴工房の路地が、カフェとポップアップの通りに変わった場所。",
+        "zh-cn": "旧工厂和皮鞋作坊巷子变身咖啡馆与快闪店街。",
+        "zh-tw": "舊工廠和皮鞋作坊巷子變身咖啡館與快閃店街。"
+      }
+    },
+    {
+      "id": "mullae",
+      "type": "SEA",
+      "city": "seoul",
+      "q": "문래창작촌",
+      "name": {
+        "ko": "문래창작촌",
+        "en": "Mullae Art Village",
+        "ja": "文来創作村",
+        "zh-cn": "文来创作村",
+        "zh-tw": "文來創作村"
+      },
+      "why": {
+        "ko": "철공소와 예술 작업실이 섞인 골목. 문래역에서 가까워요.",
+        "en": "Alleys where metal workshops and artist studios sit side by side, near Mullae Station.",
+        "ja": "鉄工所とアトリエが混在する路地。文来駅の近く。",
+        "zh-cn": "铁工厂与艺术工作室混在一起的巷子，离文来站很近。",
+        "zh-tw": "鐵工廠與藝術工作室混在一起的巷子，離文來站很近。"
+      }
+    },
+    {
+      "id": "haeridan",
+      "type": "SEA",
+      "city": "busan",
+      "q": "해리단길",
+      "name": {
+        "ko": "해리단길",
+        "en": "Haeridan-gil",
+        "ja": "ヘリダンキル",
+        "zh-cn": "海里单街",
+        "zh-tw": "海里單街"
+      },
+      "why": {
+        "ko": "옛 해운대역 뒤편 골목의 카페·식당 거리예요.",
+        "en": "A street of cafés and eateries in the alleys behind the old Haeundae Station.",
+        "ja": "旧海雲台駅の裏手の路地にあるカフェ・食堂通り。",
+        "zh-cn": "旧海云台站后面小巷里的咖啡馆与餐厅街。",
+        "zh-tw": "舊海雲臺站後面小巷裡的咖啡館與餐廳街。"
+      }
+    },
+    {
+      "id": "jeonpo",
+      "type": "SEA",
+      "city": "busan",
+      "spotId": 1006,
+      "q": "전포카페거리",
+      "name": {
+        "ko": "전포카페거리",
+        "en": "Jeonpo Café Street",
+        "ja": "田浦カフェ通り",
+        "zh-cn": "田浦咖啡街",
+        "zh-tw": "田浦咖啡街"
+      },
+      "why": {
+        "ko": "공구 상가 골목이 카페 거리로 바뀐 곳. 골목마다 새로운 가게가 숨어 있어요.",
+        "en": "A tool-market district turned café street, with new places hiding down every alley.",
+        "ja": "工具商店街の路地がカフェ通りに。路地ごとに新しい店が隠れています。",
+        "zh-cn": "五金街巷子变身咖啡街，每条小巷都藏着新店。",
+        "zh-tw": "五金街巷子變身咖啡街，每條小巷都藏著新店。"
+      }
+    },
+    {
+      "id": "blueline",
+      "type": "Sea",
+      "city": "busan",
+      "q": "블루라인파크 해변열차",
+      "name": {
+        "ko": "블루라인파크 해변열차",
+        "en": "Blueline Park Beach Train",
+        "ja": "ブルーラインパーク海辺列車",
+        "zh-cn": "蓝线公园海边列车",
+        "zh-tw": "藍線公園海邊列車"
+      },
+      "why": {
+        "ko": "옛 동해남부선 철길을 따라 바다 바로 옆을 달리는 열차예요.",
+        "en": "A train running right beside the sea along the old Donghae Nambu Line tracks.",
+        "ja": "旧東海南部線の線路に沿って海のすぐそばを走る列車。",
+        "zh-cn": "沿旧东海南部线铁轨、紧贴大海行驶的列车。",
+        "zh-tw": "沿舊東海南部線鐵軌、緊貼大海行駛的列車。"
+      }
+    },
+    {
+      "id": "daritdol",
+      "type": "Sea",
+      "city": "busan",
+      "q": "청사포 다릿돌전망대",
+      "name": {
+        "ko": "청사포 다릿돌전망대",
+        "en": "Cheongsapo Daritdol Skywalk",
+        "ja": "青沙浦タリットル展望台",
+        "zh-cn": "青沙浦踏石观景台",
+        "zh-tw": "青沙浦踏石觀景臺"
+      },
+      "why": {
+        "ko": "바다 위 20m 높이에 놓인 스카이워크예요.",
+        "en": "A skywalk set 20 m above the sea.",
+        "ja": "海の上20mの高さに架かるスカイウォーク。",
+        "zh-cn": "架在海面上20米高的空中步道。",
+        "zh-tw": "架在海面上20米高的空中步道。"
+      }
+    },
+    {
+      "id": "hyeopjae",
+      "type": "Sea",
+      "city": "jeju",
+      "spotId": 1064,
+      "q": "협재해수욕장",
+      "name": {
+        "ko": "협재해수욕장",
+        "en": "Hyeopjae Beach",
+        "ja": "挟才海水浴場",
+        "zh-cn": "挟才海水浴场",
+        "zh-tw": "挾才海水浴場"
+      },
+      "why": {
+        "ko": "에메랄드빛 바다 너머로 비양도가 보이는 해변이에요.",
+        "en": "Emerald water with Biyangdo island on the horizon.",
+        "ja": "エメラルド色の海の向こうに飛揚島が見えるビーチ。",
+        "zh-cn": "翡翠色海水尽头可以望见飞扬岛的海滩。",
+        "zh-tw": "翡翠色海水盡頭可以望見飛揚島的海灘。"
+      }
+    },
+    {
+      "id": "camellia",
+      "type": "Sea",
+      "city": "jeju",
+      "spotId": 1038,
+      "q": "카멜리아힐",
+      "name": {
+        "ko": "카멜리아힐",
+        "en": "Camellia Hill",
+        "ja": "カメリアヒル",
+        "zh-cn": "山茶花之丘",
+        "zh-tw": "山茶花之丘"
+      },
+      "why": {
+        "ko": "동백이 가득한 정원. 함께 천천히 걸으며 사진 찍기 좋아요.",
+        "en": "A garden full of camellias, made for slow walks and photos together.",
+        "ja": "椿でいっぱいの庭園。一緒にゆっくり歩いて写真を撮るのにぴったり。",
+        "zh-cn": "开满山茶花的庭园，适合一起慢慢散步拍照。",
+        "zh-tw": "開滿山茶花的庭園，適合一起慢慢散步拍照。"
+      }
+    },
+    {
+      "id": "ttukseom",
+      "type": "Sea",
+      "city": "seoul",
+      "spotId": 42,
+      "q": "뚝섬한강공원",
+      "name": {
+        "ko": "뚝섬한강공원",
+        "en": "Ttukseom Hangang Park",
+        "ja": "トゥクソム漢江公園",
+        "zh-cn": "纛岛汉江公园",
+        "zh-tw": "纛島漢江公園"
+      },
+      "why": {
+        "ko": "한강 피크닉 명소. 지금 혼잡도를 보고 자리 잡기 좋은 시간을 고르세요.",
+        "en": "A favourite Han River picnic spot. Check the live crowd level to time your visit.",
+        "ja": "漢江ピクニックの名所。今の混雑度を見て場所取りしやすい時間を選んで。",
+        "zh-cn": "汉江野餐胜地，看看实时拥挤度，挑个好占位的时间。",
+        "zh-tw": "漢江野餐勝地，看看即時擁擠度，挑個好佔位的時間。"
+      }
+    },
+    {
+      "id": "hongdae",
+      "type": "SeA",
+      "city": "seoul",
+      "spotId": 1,
+      "q": "홍대 걷고싶은거리",
+      "name": {
+        "ko": "홍대 걷고싶은거리",
+        "en": "Hongdae Walking Street",
+        "ja": "弘大 歩きたい通り",
+        "zh-cn": "弘大步行街",
+        "zh-tw": "弘大步行街"
+      },
+      "why": {
+        "ko": "버스킹과 밤문화의 중심. 저녁이 될수록 에너지가 올라가요.",
+        "en": "The heart of busking and nightlife. The energy only rises as evening falls.",
+        "ja": "路上ライブとナイトライフの中心。夜になるほど盛り上がります。",
+        "zh-cn": "街头表演与夜生活的中心，越到晚上越热闹。",
+        "zh-tw": "街頭表演與夜生活的中心，越到晚上越熱鬧。"
+      }
+    },
+    {
+      "id": "myeongdong",
+      "type": "SeA",
+      "city": "seoul",
+      "spotId": 2,
+      "q": "명동",
+      "name": {
+        "ko": "명동",
+        "en": "Myeongdong",
+        "ja": "明洞",
+        "zh-cn": "明洞",
+        "zh-tw": "明洞"
+      },
+      "why": {
+        "ko": "쇼핑과 길거리 음식이 가득한 서울 대표 번화가예요.",
+        "en": "Seoul's classic shopping district, packed with street food.",
+        "ja": "ショッピングと屋台グルメがあふれるソウルの代表的な繁華街。",
+        "zh-cn": "满是购物和街头小吃的首尔代表性商圈。",
+        "zh-tw": "滿是購物和街頭小吃的首爾代表性商圈。"
+      }
+    },
+    {
+      "id": "ikseon",
+      "type": "SeA",
+      "city": "seoul",
+      "spotId": 11,
+      "q": "익선동 한옥거리",
+      "name": {
+        "ko": "익선동 한옥거리",
+        "en": "Ikseon-dong Hanok Street",
+        "ja": "益善洞の韓屋通り",
+        "zh-cn": "益善洞韩屋街",
+        "zh-tw": "益善洞韓屋街"
+      },
+      "why": {
+        "ko": "한옥을 고친 카페와 식당이 모인 골목. 밤 조명이 특히 예뻐요.",
+        "en": "Alleys of renovated hanok cafés and restaurants, especially pretty under the evening lights.",
+        "ja": "韓屋を改装したカフェや食堂が集まる路地。夜の照明が特にきれい。",
+        "zh-cn": "聚集着韩屋改建咖啡馆和餐厅的小巷，夜晚灯光尤其漂亮。",
+        "zh-tw": "聚集著韓屋改建咖啡館和餐廳的小巷，夜晚燈光尤其漂亮。"
+      }
+    },
+    {
+      "id": "gwangalli",
+      "type": "SeA",
+      "city": "busan",
+      "spotId": 1021,
+      "q": "광안리해수욕장",
+      "name": {
+        "ko": "광안리해수욕장",
+        "en": "Gwangalli Beach",
+        "ja": "広安里海水浴場",
+        "zh-cn": "广安里海水浴场",
+        "zh-tw": "廣安裡海水浴場"
+      },
+      "why": {
+        "ko": "광안대교 야경을 보며 밤까지 즐기는 해변이에요.",
+        "en": "A beach for late nights, facing the lit-up Gwangan Bridge.",
+        "ja": "広安大橋の夜景を眺めながら夜まで楽しめるビーチ。",
+        "zh-cn": "可以看着广安大桥夜景玩到深夜的海滩。",
+        "zh-tw": "可以看著廣安大橋夜景玩到深夜的海灘。"
+      }
+    },
+    {
+      "id": "dongmun",
+      "type": "SeA",
+      "city": "jeju",
+      "spotId": 1047,
+      "q": "제주 동문시장 야시장",
+      "name": {
+        "ko": "제주 동문시장 야시장",
+        "en": "Jeju Dongmun Night Market",
+        "ja": "済州東門市場の夜市",
+        "zh-cn": "济州东门市场夜市",
+        "zh-tw": "濟州東門市場夜市"
+      },
+      "why": {
+        "ko": "8번 게이트 쪽에 저녁마다 열리는 야시장. 시간은 계절마다 달라요.",
+        "en": "An evening night market by Gate 8. Hours change with the season.",
+        "ja": "8番ゲート付近で毎晩開かれる夜市。時間は季節によって変わります。",
+        "zh-cn": "每晚在8号门附近开的夜市，营业时间随季节变化。",
+        "zh-tw": "每晚在8號門附近開的夜市，營業時間隨季節變化。"
+      }
+    }
+  ]
+}

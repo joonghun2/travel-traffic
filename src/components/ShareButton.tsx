@@ -53,9 +53,11 @@ interface ShareButtonProps {
   /** Absolute image URL for the KakaoTalk card. */
   imageUrl: string;
   className?: string;
+  /** Button text; defaults to the generic "Share". */
+  label?: string;
 }
 
-export default function ShareButton({ path, title, text, imageUrl, className = '' }: ShareButtonProps) {
+export default function ShareButton({ path, title, text, imageUrl, className = '', label }: ShareButtonProps) {
   const { lang, t, localePath } = useTranslation();
   const [wechatQr, setWechatQr] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -201,7 +203,7 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
           <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
           <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
         </svg>
-        {t('share.button')}
+        {label ?? t('share.button')}
       </button>
 
       {open && (
