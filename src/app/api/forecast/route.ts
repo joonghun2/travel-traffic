@@ -15,6 +15,7 @@ export async function GET() {
     {
       baseDate: data.baseDate,
       source: data.source,
+      ...(data.issue && { issue: data.issue, issueDetail: data.issueDetail }),
       provider: '한국관광공사 관광지 집중률 방문자 추이 예측 (KT 이동통신 데이터 기반)',
       spots: FORECAST_SPOTS.map((s) => {
         const today = todayOf(data.spots[s.id]);

@@ -15,12 +15,23 @@ export interface ForecastData {
   /** Where the numbers came from: today's API fetch or the committed fallback snapshot. */
   source: 'api' | 'snapshot';
   spots: Record<number, ForecastDay[]>;
+  /** Snapshot only: why today's fetch failed (never includes the key). */
+  issue?: 'no_key' | 'fetch_failed' | 'build';
+  /** Snapshot only: e.g. "3/75 spots, first error: http 401". */
+  issueDetail?: string;
 }
 
 const AREA_CD: Record<ForecastSpot['city'], number> = { jeju: 50, busan: 26 };
 const CONCURRENCY = 6;
 
 const toDate = (ymd: string) => `${ymd.slice(0, 4)}-${ymd.slice(4, 6)}-${ymd.slice(6, 8)}`;
+
+/** First failure of the latest fetch round, for diagnostics (status codes only, no URLs). */
+let firstFailure: string | null = null;
+const fail = (reason: string) => {
+  firstFailure ??= reason;
+  return null;
+};
 
 async function fetchSpotForecast(spot: ForecastSpot, key: string): Promise<ForecastDay[] | null> {
   const q = new URLSearchParams({
@@ -39,22 +50,28 @@ async function fetchSpotForecast(spot: ForecastSpot, key: string): Promise<Forec
       signal: AbortSignal.timeout(10000),
       cache: 'no-store',
     });
-    if (!res.ok) return null;
-    const data = await res.json();
+    if (!res.ok) return fail(`http ${res.status}`);
+    const text = await res.text();
+    // Key/quota errors come back as XML (OpenAPI_ServiceResponse) with HTTP 200.
+    if (!text.startsWith('{')) return fail(`non-json: ${text.match(/<returnAuthMsg>([^<]*)/)?.[1] ?? text.slice(0, 40)}`);
+    const data = JSON.parse(text);
+    const code = data?.response?.header?.resultCode;
+    if (code && code !== '0000') return fail(`resultCode ${code}`);
     let items = data?.response?.body?.items?.item ?? [];
     if (!Array.isArray(items)) items = [items];
     const days = (items as { baseYmd: string; cnctrRate: string; tAtsNm: string }[])
       .filter((i) => i.tAtsNm === spot.ktoName)
       .map((i) => ({ date: toDate(i.baseYmd), rate: Math.round(Number(i.cnctrRate) * 10) / 10 }))
       .sort((a, b) => a.date.localeCompare(b.date));
-    return days.length ? days : null;
-  } catch {
-    return null;
+    return days.length ? days : fail('no items');
+  } catch (err) {
+    return fail(err instanceof Error && err.name === 'TimeoutError' ? 'timeout' : 'network');
   }
 }
 
 /** Fetches the 30-day forecast for every Jeju/Busan spot (one call per spot). */
 export async function fetchAllForecasts(key: string): Promise<ForecastData | null> {
+  firstFailure = null;
   const queue = [...FORECAST_SPOTS];
   const spots: Record<number, ForecastDay[]> = {};
   const worker = async () => {
@@ -66,10 +83,15 @@ export async function fetchAllForecasts(key: string): Promise<ForecastData | nul
   await Promise.all(Array.from({ length: CONCURRENCY }, worker));
   const ids = Object.keys(spots);
   // Treat a mostly-empty answer as a failure so the last good data is kept.
-  if (ids.length < FORECAST_SPOTS.length / 2) return null;
+  if (ids.length < FORECAST_SPOTS.length / 2) {
+    lastFailureDetail = `${ids.length}/${FORECAST_SPOTS.length} spots, first error: ${firstFailure ?? 'unknown'}`;
+    return null;
+  }
   const baseDate = ids.map((id) => spots[Number(id)][0].date).sort()[0] ?? null;
   return { baseDate, source: 'api', spots };
 }
+
+let lastFailureDetail: string | undefined;
 
 // Refreshed at most once a day (the forecast itself is published daily). Throwing keeps
 // the previously cached day instead of caching a failed fetch.
@@ -92,12 +114,13 @@ const snapshot = SNAPSHOT as unknown as ForecastData;
  * (or during `next build`) it falls back to the committed snapshot and its base date.
  */
 export async function getForecast(): Promise<ForecastData> {
-  if (process.env.NEXT_PHASE === 'phase-production-build') return { ...snapshot, source: 'snapshot' };
+  if (process.env.NEXT_PHASE === 'phase-production-build') return { ...snapshot, source: 'snapshot', issue: 'build' };
   try {
     return await getCachedForecast();
   } catch (err) {
-    console.warn('KTO forecast unavailable, using snapshot:', err);
-    return { ...snapshot, source: 'snapshot' };
+    console.warn('KTO forecast unavailable, using snapshot:', err, lastFailureDetail);
+    const noKey = !process.env.DATA_GO_KR_SERVICE_KEY;
+    return { ...snapshot, source: 'snapshot', issue: noKey ? 'no_key' : 'fetch_failed', issueDetail: noKey ? undefined : lastFailureDetail };
   }
 }
 
