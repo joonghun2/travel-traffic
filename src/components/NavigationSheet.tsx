@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from '@/lib/i18n/context';
 import { isChinese } from '@/lib/i18n/routing';
 
@@ -30,6 +31,8 @@ export default function NavigationSheet({
   transitMinutes,
 }: NavigationSheetProps) {
   const { t, lang } = useTranslation();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // Close on Escape key
   useEffect(() => {
@@ -41,20 +44,22 @@ export default function NavigationSheet({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const navSuffix = lang === 'ko' ? '길찾기' : lang === 'ja' ? '道案内' : 'Directions';
 
-  return (
+  // Portal to <body>: callers sit inside containers with content-visibility (list cards) or a
+  // transformed bottom sheet (map), which would clip a fixed overlay and swallow taps on its links.
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+      className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-labelledby="nav-sheet-title"
     >
       <div
-        className="w-full max-w-md bg-white dark:bg-gray-900 rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl border border-gray-100 dark:border-gray-800 transition-all animate-in slide-in-from-bottom duration-200"
+        className="w-full max-w-md max-h-[90dvh] overflow-y-auto bg-white dark:bg-gray-900 rounded-t-3xl sm:rounded-3xl p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl border border-gray-100 dark:border-gray-800 transition-all animate-in slide-in-from-bottom duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Drag handle for mobile */}
@@ -155,6 +160,7 @@ export default function NavigationSheet({
           </a>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
