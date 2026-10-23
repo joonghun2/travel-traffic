@@ -40,6 +40,9 @@ export default function SiteFooter() {
           <p className="font-bold text-gray-800 dark:text-gray-200">Check East Point</p>
           <p><Link className={a} href={localePath('/about')}>{t('footer.about')}</Link></p>
           <p><Link className={a} href={localePath('/about/methodology')}>{t('footer.method')}</Link></p>
+          <p><Link className={a} href={localePath('/contact')}>{t('footer.contact')}</Link></p>
+          <p><Link className={a} href={localePath('/privacy')}>{t('footer.privacy')}</Link></p>
+          <p><Link className={a} href={localePath('/terms')}>{t('footer.terms')}</Link></p>
         </div>
       </div>
       <p className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 text-[10px] leading-relaxed text-gray-400">{t('footer.sources')}</p>

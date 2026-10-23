@@ -18,8 +18,18 @@ export function infoMetadata(lang: Lang, path: string, titleKey: string, descKey
   };
 }
 
-/** Simple text page (About, Methodology): a title and titled sections. */
-export default function InfoPage({ lang, title, sections }: { lang: Lang; title: string; sections: { heading?: string; body: string }[] }) {
+/** Simple text page (About, Methodology, Privacy, Terms): a title and titled sections. */
+export default function InfoPage({
+  lang,
+  title,
+  sections,
+  children,
+}: {
+  lang: Lang;
+  title: string;
+  sections: { heading?: string; body: string }[];
+  children?: React.ReactNode;
+}) {
   return (
     <div className="min-h-screen pb-24 lg:pb-10" lang={htmlLang(lang)}>
       <DashboardHeader />
@@ -28,9 +38,10 @@ export default function InfoPage({ lang, title, sections }: { lang: Lang; title:
         {sections.map((s, i) => (
           <section key={i} className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
             {s.heading && <h2 className="text-base font-bold text-gray-900 dark:text-white mb-2">{s.heading}</h2>}
-            <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">{s.body}</p>
+            <p className="text-sm leading-relaxed whitespace-pre-line text-gray-700 dark:text-gray-300">{s.body}</p>
           </section>
         ))}
+        {children}
       </main>
       <BottomNav />
     </div>
