@@ -3,7 +3,6 @@ import { SPOTS_DATA } from '@/data/spotsData';
 import { SEOUL_AREA_MAPPING } from '@/data/seoulAreaMapping';
 import { computeLiveSpotMetric } from '@/lib/crowdEngine';
 import { fetchSeoulBatchData, getSeoulApiKey, seoulKeyCandidates, SeoulCityDataResult } from '@/lib/seoulCityDataApi';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { CrowdStatus, LiveSpotMetric, Spot } from '@/types';
 
 /** Seoul publishes population data in 5-minute steps; refetch at most this often. */
@@ -34,6 +33,11 @@ const getSeoulLive = unstable_cache(
   ['seoul-live-ppltn-v5'],
   { revalidate: SEOUL_REFRESH_SECONDS }
 );
+
+/** Cached Seoul readings keyed by area code (same 5-minute cache the site uses). */
+export async function getSeoulLiveAreas() {
+  return getSeoulLive();
+}
 
 /** Official place code for a spot: its own areaCode, else the legacy ID mapping. */
 function areaCodeFor(spot: Spot): string | undefined {
@@ -88,26 +92,6 @@ export async function getCrowdSnapshot(): Promise<CrowdSnapshot> {
     }
     return metric;
   });
-
-  // Optional manual overrides from Supabase (crowd_metrics table).
-  const supabase = getSupabaseServerClient();
-  if (supabase) {
-    try {
-      const { data } = await supabase.from('crowd_metrics').select('*');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const overrides = new Map(((data as any[]) || []).map((m) => [String(m.spot_id), m]));
-      spots.forEach((spot) => {
-        const o = overrides.get(String(spot.id));
-        if (!o) return;
-        spot.currentScore = o.current_score;
-        spot.status = o.status_level;
-        spot.waitTimeMinutes = o.wait_time_minutes;
-        spot.surgeAlert = o.surge_alert;
-      });
-    } catch (err) {
-      console.warn('Supabase override failed:', err);
-    }
-  }
 
   return { spots, liveCount, fetchedAt: seoul.fetchedAt, issue: seoul.issue, keyCandidates: seoulKeyCandidates().length };
 }

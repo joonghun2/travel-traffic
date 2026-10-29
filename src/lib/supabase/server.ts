@@ -14,3 +14,9 @@ export function getSupabaseServerClient() {
     },
   });
 }
+
+/** Untyped service-role client for tables not described in ./types (crowd history). */
+export function getSupabaseAdmin() {
+  if (!supabaseUrl || !supabaseServiceKey) return null;
+  return createClient(supabaseUrl, supabaseServiceKey, { auth: { persistSession: false } });
+}
