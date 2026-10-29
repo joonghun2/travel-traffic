@@ -21,6 +21,7 @@ import { formatDistance, getGoogleNavUrl, getKakaoNavUrl, getNaverNavUrl } from 
 import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
 import SpotLivePanel from '@/components/SpotLivePanel';
+import AffiliateBox from '@/components/AffiliateBox';
 import ForecastSpotView from '@/components/city/ForecastSpotView';
 import { getAllForecastSlugs, getForecastSpotBySlug } from '@/lib/forecastSpots';
 import { getForecast, statusOfRate, todayOf } from '@/lib/forecast';
@@ -353,6 +354,8 @@ export default async function SpotPage({ params }: { params: Params }) {
             </p>
           </section>
         )}
+
+        <AffiliateBox lang={lang} name={name} enName={spot.name.en} slug={getSpotSlug(spot)} />
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
           <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.aboutTitle', { name })}</h2>

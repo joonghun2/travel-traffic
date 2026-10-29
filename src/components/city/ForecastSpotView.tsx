@@ -12,6 +12,7 @@ import { formatDistance, getGoogleNavUrl, getKakaoNavUrl, getNaverNavUrl } from 
 import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
 import ShareButton from '@/components/ShareButton';
+import AffiliateBox from '@/components/AffiliateBox';
 
 const STATUS_KEY = {
   relaxed: 'card.status.relaxed',
@@ -260,6 +261,8 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
             </a>
           ))}
         </section>
+
+        <AffiliateBox lang={lang} name={name} enName={spot.name.en} slug={slug} />
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
           <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.aboutTitle', { name })}</h2>
