@@ -1,10 +1,12 @@
 // Builds the Sunday Reel from the week's six story cards on /sns, 1080x1920, no audio (add trending
 // music in the Instagram app). Each card is two layers from /sns/[file]: the scenery (-story-bg.png)
 // slowly zooms while the text (-story-text.png) stays still on top; cards crossfade.
+// Music: put royalty-free tracks (mp3/m4a/wav) in the drive's 음악 folder; one is picked per week,
+// faded in and out. With no track the reel is silent, for adding music in the Instagram app.
 // usage: node scripts/make-weekly-reel.mjs [YYYY-MM-DD monday] [--base http://localhost:3000]
 // Needs ffmpeg in .tools (cd .tools && npm install ffmpeg-static@5.3.0).
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -13,6 +15,7 @@ const baseAt = args.indexOf('--base');
 const BASE = baseAt >= 0 ? args[baseAt + 1] : 'https://www.checkeastpoint.com';
 const week = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
 const OUT_DIR = '/Volumes/무제/사진 data/릴스';
+const MUSIC_DIR = '/Volumes/무제/사진 data/음악';
 const FFMPEG = '.tools/node_modules/ffmpeg-static/ffmpeg';
 const SECONDS = 3;
 const FADE = 0.5;
@@ -57,13 +60,26 @@ for (let i = 1; i < inputs.length; i++) {
 }
 if (inputs.length === 1) parts.push('[v0]null[out]');
 
+const tracks = existsSync(MUSIC_DIR) ? readdirSync(MUSIC_DIR).filter((f) => /\.(mp3|m4a|aac|wav)$/i.test(f) && !f.startsWith('.')).sort() : [];
+const track = tracks.length ? join(MUSIC_DIR, tracks[Math.floor(Date.now() / (7 * 86400000)) % tracks.length]) : null;
+const duration = inputs.length * SECONDS - (inputs.length - 1) * FADE;
+const audioIndex = inputs.length * 2;
+const audio = track
+  ? {
+      input: ['-i', track],
+      filter: `;[${audioIndex}:a]atrim=0:${duration},afade=t=in:d=1,afade=t=out:st=${duration - 1.5}:d=1.5,volume=0.8[aout]`,
+      map: ['-map', '[aout]', '-c:a', 'aac', '-b:a', '192k', '-shortest'],
+    }
+  : { input: [], filter: '', map: [] };
+
 mkdirSync(OUT_DIR, { recursive: true });
 const name = monday ? `${new Date().getFullYear()}-${monday[1].padStart(2, '0')}-${monday[2].padStart(2, '0')}` : 'week';
 const output = join(OUT_DIR, `${name}-릴스.mp4`);
 execFileSync(
   FFMPEG,
-  ['-y', '-loglevel', 'error', ...inputs.flatMap((f) => ['-i', f.bg, '-loop', '1', '-t', String(SECONDS), '-framerate', String(FPS), '-i', f.text]), '-filter_complex', parts.join(';'), '-map', '[out]', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', String(FPS), '-movflags', '+faststart', output],
+  ['-y', '-loglevel', 'error', ...inputs.flatMap((f) => ['-i', f.bg, '-loop', '1', '-t', String(SECONDS), '-framerate', String(FPS), '-i', f.text]), ...audio.input, '-filter_complex', parts.join(';') + audio.filter, '-map', '[out]', ...audio.map, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', String(FPS), '-movflags', '+faststart', output],
   { stdio: 'inherit' }
 );
 rmSync(tmp, { recursive: true, force: true });
 console.log(`\nReel: ${output}`);
+console.log(track ? `Music: ${track}` : `No music (add tracks to ${MUSIC_DIR}, or add music in the Instagram app)`);
