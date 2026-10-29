@@ -9,6 +9,7 @@ create extension if not exists pg_net;
 
 -- 2) Store the same CRON_SECRET you put in Vercel, encrypted in Supabase Vault.
 --    Replace PASTE_CRON_SECRET_HERE with the value (keep the quotes). Run this line only once.
+--    The jobs below read it at run time, so it can also be added after scheduling.
 select vault.create_secret('PASTE_CRON_SECRET_HERE', 'cron_secret');
 
 -- 3) Every 10 minutes: ask the site to save the current Seoul readings (and today's forecast once a day).

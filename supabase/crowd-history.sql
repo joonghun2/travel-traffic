@@ -78,7 +78,7 @@ $$;
 
 -- Last 7 days per area and hour of day: average score and how many hours were sampled.
 -- "Peak hour" = the hour with the highest avg_score for an area.
-create or replace view public.seoul_area_week_profile as
+create or replace view public.seoul_area_week_profile with (security_invoker = true) as
 select
   area_code,
   hour,
