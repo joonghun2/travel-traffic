@@ -33,7 +33,7 @@ export default async function SnsWeekPage({ searchParams }: { searchParams: Prom
             <li>휴대폰에서 이 페이지를 열고, 게시물마다 <b>피드 이미지 저장</b>과 <b>글 복사</b>를 누르세요.</li>
             <li>인스타 앱 <b>＋</b> → 이미지 고르기 → 글 붙여넣기 → <b>고급 설정 → 이 게시물 예약하기</b>.</li>
             <li>Threads는 Threads 앱에서 같은 이미지·글로 <b>예약</b>하세요.</li>
-            <li>일요일 릴스: 무제 드라이브 <b>사진 data/릴스</b> 폴더의 영상(직접 편집) → 인스타 앱 <b>릴스</b> → <b>♪ 인기 음악</b> → 예약.</li>
+            <li>일요일 릴스: 무제 드라이브 <b>사진 data/릴스</b> 폴더의 영상(직접 편집) → 인스타 앱 <b>릴스</b> → <b>♪ 인기 음악</b> → 캡션.txt 붙여넣기 → 예약.</li>
           </ol>
           <p className="text-xs text-gray-500">추천 시간: 평일 저녁 7~9시, 주말 오전 10~12시</p>
         </header>
@@ -69,7 +69,7 @@ export default async function SnsWeekPage({ searchParams }: { searchParams: Prom
               </>
             ) : (
               <>
-                <p className="text-sm text-gray-600 dark:text-gray-300">릴스 영상과 레이어는 무제 드라이브의 사진 data/릴스 폴더에 저장돼요. 직접 만들려면 아래 스토리 이미지를 쓰세요.</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">릴스는 &quot;지난 한 주 서울에서 가장 붐볐던 곳&quot;이에요. Claude에게 &quot;이번 주 릴스 만들어줘&quot;라고 하면 영상·레이어·캡션을 무제 드라이브 사진 data/릴스 폴더에 저장해요. 아래 스토리 이미지는 따로 쓸 수 있어요.</p>
                 <div className="grid grid-cols-3 gap-2">
                   {slides.map((s, i) => (
                     <a key={s.image} href={`/sns/${s.image}-story.png`} download={`reel-${i + 1}-${s.image}.png`} className={`${btn} bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100`}>
@@ -77,7 +77,6 @@ export default async function SnsWeekPage({ searchParams }: { searchParams: Prom
                     </a>
                   ))}
                 </div>
-                <CopyCaption text={p.caption} />
               </>
             )}
             <pre className="whitespace-pre-wrap [overflow-wrap:anywhere] text-xs leading-relaxed p-3 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200">{p.caption}</pre>

@@ -159,16 +159,9 @@ function dayCaption(data: ForecastData, city: ForecastCityId, date: string) {
   ].join('\n');
 }
 
-const REEL_CAPTION = [
-  `이번 주 한산한 곳 총정리 🗺️ 서울·제주·부산`,
-  `사람 많은 곳 피해서 여유롭게 여행하세요.`,
-  ``,
-  `This week's quiet spots in Seoul, Jeju and Busan. Skip the crowds!`,
-  ``,
-  `🔗 ${link('/', 'weekly-reel')}`,
-  ``,
-  `#국내여행 #서울여행 #제주여행 #부산여행 #여행꿀팁 #koreatravel #travelkorea #reels`,
-].join('\n');
+// The Sunday reel (busiest Seoul spots last week) is built by scripts/make-weekly-reel.mjs, which
+// writes its caption next to the video on the drive.
+const REEL_CAPTION = '캡션은 무제 드라이브 사진 data/릴스/<만든 날짜>/캡션.txt 에 있어요.';
 
 /** Mon hours · Tue gem · Wed Jeju Saturday · Thu hours · Fri Busan Saturday · Sat gem · Sun reel. */
 export function buildWeek(monday: string, data: ForecastData): SnsPost[] {
