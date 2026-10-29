@@ -6,7 +6,7 @@
 // usage: node scripts/make-weekly-reel.mjs [YYYY-MM-DD monday] [--base http://localhost:3000]
 // Needs ffmpeg in .tools (cd .tools && npm install ffmpeg-static@5.3.0).
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -16,6 +16,10 @@ const BASE = baseAt >= 0 ? args[baseAt + 1] : 'https://www.checkeastpoint.com';
 const week = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
 const OUT_DIR = '/Volumes/무제/사진 data/릴스';
 const MUSIC_DIR = '/Volumes/무제/사진 data/음악';
+// Also published as public/reels/<monday>.mp4 (latest two weeks) so /sns can offer it on a phone.
+const SITE_DIR = 'public/reels';
+const SITE_MANIFEST = 'src/data/snsReels.json';
+const KEEP = 2;
 const FFMPEG = '.tools/node_modules/ffmpeg-static/ffmpeg';
 const SECONDS = 3;
 const FADE = 0.5;
@@ -82,4 +86,14 @@ execFileSync(
 );
 rmSync(tmp, { recursive: true, force: true });
 console.log(`\nReel: ${output}`);
+
+if (/^\d{4}-\d{2}-\d{2}$/.test(name)) {
+  mkdirSync(SITE_DIR, { recursive: true });
+  copyFileSync(output, join(SITE_DIR, `${name}.mp4`));
+  const weeks = readdirSync(SITE_DIR).filter((f) => /^\d{4}-\d{2}-\d{2}\.mp4$/.test(f)).sort().reverse();
+  for (const old of weeks.slice(KEEP)) rmSync(join(SITE_DIR, old));
+  const manifest = Object.fromEntries(weeks.slice(0, KEEP).map((f) => [f.slice(0, 10), `/reels/${f}`]));
+  writeFileSync(SITE_MANIFEST, `${JSON.stringify(manifest, null, 2)}\n`);
+  console.log(`Site: ${SITE_DIR}/${name}.mp4 (commit and push to publish on /sns)`);
+}
 console.log(track ? `Music: ${track}` : `No music (add tracks to ${MUSIC_DIR}, or add music in the Instagram app)`);
