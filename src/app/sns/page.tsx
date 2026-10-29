@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { getForecast } from '@/lib/forecast';
 import { buildWeek, koDate, nextMonday, SnsPost } from '@/lib/snsWeek';
-import REELS from '@/data/snsReels.json';
 import CopyCaption from './CopyCaption';
 
 // Operator page: next week's Instagram/Threads posts to schedule in the Instagram and Threads apps.
@@ -24,8 +23,6 @@ export default async function SnsWeekPage({ searchParams }: { searchParams: Prom
   const monday = week && /^\d{4}-\d{2}-\d{2}$/.test(week) ? week : nextMonday();
   const posts = buildWeek(monday, await getForecast());
   const slides = posts.filter((p) => p.image);
-  // Built by scripts/make-weekly-reel.mjs into public/reels.
-  const reel = (REELS as Record<string, string>)[monday];
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
@@ -36,7 +33,7 @@ export default async function SnsWeekPage({ searchParams }: { searchParams: Prom
             <li>휴대폰에서 이 페이지를 열고, 게시물마다 <b>피드 이미지 저장</b>과 <b>글 복사</b>를 누르세요.</li>
             <li>인스타 앱 <b>＋</b> → 이미지 고르기 → 글 붙여넣기 → <b>고급 설정 → 이 게시물 예약하기</b>.</li>
             <li>Threads는 Threads 앱에서 같은 이미지·글로 <b>예약</b>하세요.</li>
-            <li>일요일 릴스: 아래 <b>릴스 영상 저장</b> → 인스타 앱 <b>릴스</b>에서 영상 고르기 → <b>♪ 인기 음악</b> 붙이기 → 예약.</li>
+            <li>일요일 릴스: 무제 드라이브 <b>사진 data/릴스</b> 폴더의 영상(직접 편집) → 인스타 앱 <b>릴스</b> → <b>♪ 인기 음악</b> → 예약.</li>
           </ol>
           <p className="text-xs text-gray-500">추천 시간: 평일 저녁 7~9시, 주말 오전 10~12시</p>
         </header>
@@ -72,19 +69,7 @@ export default async function SnsWeekPage({ searchParams }: { searchParams: Prom
               </>
             ) : (
               <>
-                {reel ? (
-                  <>
-                    <video src={reel} controls playsInline muted preload="metadata" className="w-full max-w-xs rounded-2xl bg-black" />
-                    <div className="flex flex-wrap gap-2">
-                      <a href={reel} download={`${monday}-릴스.mp4`} className={`${btn} bg-blue-600 text-white`}>
-                        릴스 영상 저장
-                      </a>
-                    </div>
-                    <p className="text-xs text-gray-500">아이폰: 저장이 안 되면 영상을 재생한 뒤 공유(⬆️) → <b>비디오 저장</b>을 누르세요.</p>
-                  </>
-                ) : (
-                  <p className="text-sm text-gray-600 dark:text-gray-300">이번 주 릴스 영상은 아직 없어요. Claude에게 &quot;이번 주 릴스 만들어줘&quot;라고 하거나, 아래 스토리 이미지 6장으로 직접 만드세요.</p>
-                )}
+                <p className="text-sm text-gray-600 dark:text-gray-300">릴스 영상과 레이어는 무제 드라이브의 사진 data/릴스 폴더에 저장돼요. 직접 만들려면 아래 스토리 이미지를 쓰세요.</p>
                 <div className="grid grid-cols-3 gap-2">
                   {slides.map((s, i) => (
                     <a key={s.image} href={`/sns/${s.image}-story.png`} download={`reel-${i + 1}-${s.image}.png`} className={`${btn} bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100`}>
