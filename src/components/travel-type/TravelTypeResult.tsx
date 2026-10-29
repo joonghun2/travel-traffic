@@ -291,6 +291,7 @@ export default function TravelTypeResult({ typeKey, picks }: { typeKey: TypeKey;
           title={`${name} · ${tt('title', lang)}`}
           text={shareText}
           imageUrl={`${SITE_URL}${localePath(resultPath(typeKey))}/og`}
+          storyImage={a ? { src: localePath(`${TEST_PATH}/card/${a}-story.png`), fileName: `travel-type-${info.slug}-story.png` } : undefined}
           className="w-full h-12 !bg-violet-600 !text-white !border-0 text-base"
         />
         {a && (

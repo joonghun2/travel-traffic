@@ -55,13 +55,15 @@ interface ShareButtonProps {
   className?: string;
   /** Button text; defaults to the generic "Share". */
   label?: string;
+  /** 9:16 PNG for an "Instagram Story" option: shared as a file where supported, otherwise downloaded. */
+  storyImage?: { src: string; fileName: string };
 }
 
-export default function ShareButton({ path, title, text, imageUrl, className = '', label }: ShareButtonProps) {
+export default function ShareButton({ path, title, text, imageUrl, className = '', label, storyImage }: ShareButtonProps) {
   const { lang, t, localePath } = useTranslation();
   const [wechatQr, setWechatQr] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
-  const [toast, setToast] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
   const [kakaoReady, setKakaoReady] = useState(false);
   const [canNativeShare, setCanNativeShare] = useState(false);
 
@@ -138,8 +140,37 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
       textarea.remove();
     }
     setOpen(false);
-    setToast(true);
-    setTimeout(() => setToast(false), 2000);
+    showToast(t('share.copied'));
+  };
+
+  const showToast = (message: string) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 2500);
+  };
+
+  // Instagram has no web share link, so hand the story image to the phone's share sheet (Instagram
+  // appears there). Desktop and older browsers get a download and a hint instead.
+  const shareStory = async () => {
+    if (!storyImage) return;
+    track('instagram');
+    try {
+      const blob = await (await fetch(storyImage.src)).blob();
+      const file = new File([blob], storyImage.fileName, { type: 'image/png' });
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file] });
+        setOpen(false);
+        return;
+      }
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = storyImage.fileName;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      setOpen(false);
+      showToast(t('share.instagramSaved'));
+    } catch {
+      // Share sheet dismissed.
+    }
   };
 
   // WeChat does not read OG tags well, so offer a QR code to scan instead (generated in the browser).
@@ -152,6 +183,9 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
   const options = [
     ...(isChinese(lang)
       ? [{ key: 'wechat', label: t('share.wechat'), icon: '微', cls: 'bg-[#07C160] text-white', onClick: showWechat }]
+      : []),
+    ...(storyImage
+      ? [{ key: 'instagram', label: t('share.instagram'), icon: '◎', cls: 'bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white', onClick: shareStory }]
       : []),
     ...(kakaoReady ? [{ key: 'kakao', label: t('share.kakao'), icon: '💬', cls: 'bg-[#FEE500] text-gray-900', onClick: shareKakao }] : []),
     {
@@ -168,6 +202,13 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
       cls: 'bg-black text-white',
       onClick: () =>
         openWindow('x', `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(urlFor('x'))}`),
+    },
+    {
+      key: 'threads',
+      label: t('share.threads'),
+      icon: '@',
+      cls: 'bg-black text-white',
+      onClick: () => openWindow('threads', `https://www.threads.net/intent/post?text=${encodeURIComponent(`${text} ${urlFor('threads')}`)}`),
     },
     {
       key: 'whatsapp',
@@ -263,7 +304,7 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
 
       {toast && (
         <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-gray-900 text-white text-sm font-semibold shadow-lg" role="status">
-          {t('share.copied')}
+          {toast}
         </div>
       )}
     </>

@@ -1,5 +1,5 @@
 // UTM rules for every link that leaves the site (docs/review/phase7-utm.md).
-//   utm_source   where the link is posted: kakao, x, line, whatsapp, wechat, copy, native,
+//   utm_source   where the link is posted: kakao, x, threads, line, whatsapp, wechat, copy, native,
 //                facebook, embed, poster, card
 //   utm_medium   share | widget | qr | image
 //   utm_campaign spot-share, theme-share, food-test, travel-type, daily-top5, badge, poster

@@ -181,6 +181,7 @@ export default function FoodWorldCup() {
           title={t('wc.title')}
           text={shareText}
           imageUrl={`${SITE_URL}${localePath(PATH)}/og`}
+          storyImage={{ src: localePath(`${PATH}/story/${champion.id}.png`), fileName: `food-worldcup-${champion.id}.png` }}
           className="w-full h-12 !bg-white !text-gray-900 !border-0 text-base"
         />
 

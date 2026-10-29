@@ -344,6 +344,7 @@ export function SeoulFoodTestResult({ type }: { type: FoodTypeId }) {
         title={`${ui('todayIs', lang)} ${pick(info.title, lang)}`}
         text={shareText}
         imageUrl={`${SITE_URL}${localePath(`${TEST_PATH}/result/${type}`)}/og`}
+        storyImage={{ src: localePath(`${TEST_PATH}/result/${type}/story/${area}.png`), fileName: `checkeastpoint-${type}-${area}.png` }}
         className="w-full h-12 !bg-white !text-gray-900 !border-0 text-base"
       />
 
