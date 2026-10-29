@@ -154,6 +154,13 @@ export default async function LangLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* Travelpayouts Drive (affiliate) - plain head script so their install checker sees it; loads async */}
+        <script
+          data-cmp-ab="2"
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var s=document.createElement("script");s.async=1;s.setAttribute("data-cmp-ab","2");s.src="https://emrldtp.com/NTkyNzUw.js?t=592750";document.head.appendChild(s);})();`,
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200`}
