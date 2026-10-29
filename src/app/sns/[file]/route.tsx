@@ -9,18 +9,36 @@ import { enDate, enHour, hoursSummary, koDate, koHour, quietestOn, seoulSpotBySl
 //   /sns/hours-<seoul-slug>-feed.png   when a Seoul spot is quiet (pattern model)
 //   /sns/gem-<seoul-slug>-story.png    the quieter spot nearby
 //   /sns/day-jeju-2026-11-07-feed.png  quietest Jeju/Busan spots on a date (KTO forecast)
+// Each card also comes as separate layers: ...-story-bg.png (scenery only) and ...-story-text.png
+// (panels and text on transparency), so the reel can move the scenery under fixed text.
+// Layout: a bright illustration (public/bg, via scripts/sync-sns-backgrounds.mjs) with frosted white
+// panels on top and bottom, so the scenery stays visible in the middle.
 export const preferredRegion = 'icn1';
 export const revalidate = 3600;
 
 const SIZES = { feed: { width: 1080, height: 1350 }, story: { width: 1080, height: 1920 } } as const;
 type SizeId = keyof typeof SIZES;
+type Layer = 'all' | 'bg' | 'text';
 
-const BG = 'linear-gradient(160deg, #0f172a 0%, #1e3a8a 60%, #312e81 100%)';
-const GREEN = '#6ee7b7';
-const BLUE = '#93c5fd';
-const MUTED = '#cbd5e1';
+// Sky gradient when no illustration exists yet for the spot or city.
+const SKY = 'linear-gradient(180deg, #3b82f6 0%, #93c5fd 45%, #e0f2fe 100%)';
+const INK = '#0f172a';
+const MUTED = '#475569';
+const GREEN = '#059669';
+const RED = '#e11d48';
+const BLUE = '#2563eb';
+const PANEL = { borderRadius: 40, background: 'rgba(255,255,255,0.9)', boxShadow: '0 12px 40px rgba(15,23,42,0.18)' } as const;
 
-function Frame({ story, children, source, bg }: { story: boolean; children: React.ReactNode; source: string; bg: string | null }) {
+interface CardOpts {
+  story: boolean;
+  bg: string | null;
+  layer: Layer;
+}
+
+function Frame({ story, bg, layer, top, bottom }: CardOpts & { top: React.ReactNode; bottom: React.ReactNode }) {
+  const size = SIZES[story ? 'story' : 'feed'];
+  const scenery = layer !== 'text';
+  const text = layer !== 'bg';
   return (
     <div
       style={{
@@ -28,125 +46,120 @@ function Frame({ story, children, source, bg }: { story: boolean; children: Reac
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
         position: 'relative',
         // Story: keep clear of Instagram's top bar and reply box.
-        padding: story ? '200px 72px 220px' : '72px 72px 64px',
-        background: BG,
-        color: 'white',
+        padding: story ? '190px 56px 230px' : '48px 48px 48px',
+        background: scenery && !bg ? SKY : 'transparent',
+        color: INK,
         fontFamily: cjkFontFamily('ko'),
       }}
     >
-      <CardBackground src={bg} {...SIZES[story ? 'story' : 'feed']} />
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <div style={{ width: 56, height: 56, borderRadius: 16, background: 'linear-gradient(45deg, #2563eb, #6366f1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32 }}>
-          C
+      {scenery && <CardBackground src={bg} {...size} wash={false} />}
+      {text && (
+      <div style={{ ...PANEL, display: 'flex', flexDirection: 'column', padding: '36px 44px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 24, color: BLUE }}>
+          <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(45deg, #2563eb, #6366f1)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>
+            C
+          </div>
+          Check East Point
         </div>
-        <div style={{ display: 'flex', fontSize: 30 }}>Check East Point</div>
+        {top}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', flex: 1, marginTop: story ? 80 : 48 }}>{children}</div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 24 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <div style={{ display: 'flex', fontSize: 34 }}>checkeastpoint.com</div>
-          <div style={{ display: 'flex', fontSize: 24, color: BLUE }}>실시간 혼잡도 · Live crowd levels</div>
+      )}
+      {text && (
+      <div style={{ ...PANEL, display: 'flex', flexDirection: 'column', padding: story ? '40px 44px' : '32px 40px' }}>
+        {bottom}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 24, fontSize: 24, color: MUTED }}>
+          <span style={{ color: INK }}>checkeastpoint.com</span>
+          <span>실시간 혼잡도 · Live crowd</span>
         </div>
-        <div style={{ display: 'flex', fontSize: 20, color: MUTED, textAlign: 'right', maxWidth: 420 }}>{source}</div>
       </div>
+      )}
     </div>
   );
 }
 
-function Hours({ slug, story, bg }: { slug: string; story: boolean; bg: string | null }) {
+// Satori lays a fragment's children out in a row, so card sections use Col instead of <>.
+const Col = ({ children }: { children: React.ReactNode }) => <div style={{ display: 'flex', flexDirection: 'column' }}>{children}</div>;
+
+const Note = ({ children }: { children: React.ReactNode }) => <div style={{ display: 'flex', fontSize: 20, color: MUTED, marginTop: 14 }}>{children}</div>;
+
+function Hours({ slug, ...opts }: CardOpts & { slug: string }) {
+  const { story } = opts;
   const spot = seoulSpotBySlug(slug);
   if (!spot) return null;
   const s = hoursSummary(spot);
-  const bars = s.weekday.filter((p) => p.hour >= 8 && p.hour <= 22);
-  const max = Math.max(...bars.map((p) => p.score), 1);
   const ko = shortName(spot.name.ko);
   const en = shortName(spot.name.en);
-  const chartH = story ? 420 : 300;
   return {
-    text: `${ko}몇 시에 가야 한산할까?${en}When is least crowded?평일주말피크WeekdaysWeekendsBusiest${koHour(s.quietWeekday)}${koHour(s.quietWeekend)}${koHour(s.peakWeekday)}${enHour(s.quietWeekday)}${enHour(s.quietWeekend)}${enHour(s.peakWeekday)}평일 시간대별 혼잡도 Weekday by hour 요일·시간대 패턴 예측 Pattern-based estimate`,
+    text: `${ko}몇 시에 가야 한산할까?${en}When is least crowded?평일주말피하기WeekdaysWeekendsAvoid${koHour(s.quietWeekday)}${koHour(s.quietWeekend)}${koHour(s.peakWeekday)}${enHour(s.quietWeekday)}${enHour(s.quietWeekend)}${enHour(s.peakWeekday)}* 요일·시간대 패턴 예측 Pattern-based estimate`,
     node: (
-      <Frame story={story} bg={bg} source="요일·시간대 패턴 예측 · Pattern-based estimate">
-        <div style={{ display: 'flex', fontSize: story ? 64 : 58, lineHeight: 1.2 }}>{spot.emoji} {ko},</div>
-        <div style={{ display: 'flex', fontSize: story ? 64 : 58, lineHeight: 1.2, color: GREEN }}>몇 시에 가야 한산할까?</div>
-        <div style={{ display: 'flex', fontSize: 30, color: BLUE, marginTop: 12 }}>When is {en} least crowded?</div>
-
-        <div style={{ display: 'flex', gap: 20, marginTop: story ? 64 : 40 }}>
-          {[
-            { ko: '평일', en: 'Weekdays', h: s.quietWeekday, color: GREEN },
-            { ko: '주말', en: 'Weekends', h: s.quietWeekend, color: GREEN },
-            { ko: '피크', en: 'Busiest', h: s.peakWeekday, color: '#fda4af' },
-          ].map((c) => (
-            <div key={c.ko} style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '22px 24px', borderRadius: 24, background: 'rgba(255,255,255,0.09)' }}>
-              <div style={{ display: 'flex', fontSize: 24, color: MUTED }}>{c.ko} · {c.en}</div>
-              <div style={{ display: 'flex', fontSize: 44, color: c.color, marginTop: 6 }}>{koHour(c.h)}</div>
-              <div style={{ display: 'flex', fontSize: 24, color: MUTED }}>{enHour(c.h)}</div>
+      <Frame
+        {...opts}
+        top={
+          <Col>
+            <div style={{ display: 'flex', fontSize: story ? 64 : 58, lineHeight: 1.2, marginTop: 18 }}>{ko},</div>
+            <div style={{ display: 'flex', fontSize: story ? 64 : 58, lineHeight: 1.2, color: GREEN }}>몇 시에 가야 한산할까?</div>
+            <div style={{ display: 'flex', fontSize: 28, color: MUTED, marginTop: 10 }}>When is {en} least crowded?</div>
+          </Col>
+        }
+        bottom={
+          <Col>
+            <div style={{ display: 'flex', gap: 16 }}>
+              {[
+                { ko: '평일', en: 'Weekdays', h: s.quietWeekday, color: GREEN, tint: '#ecfdf5' },
+                { ko: '주말', en: 'Weekends', h: s.quietWeekend, color: GREEN, tint: '#ecfdf5' },
+                { ko: '피하기', en: 'Avoid', h: s.peakWeekday, color: RED, tint: '#fff1f2' },
+              ].map((c) => (
+                <div key={c.ko} style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '20px 22px', borderRadius: 26, background: c.tint }}>
+                  <div style={{ display: 'flex', fontSize: 22, color: MUTED }}>{c.ko} · {c.en}</div>
+                  <div style={{ display: 'flex', fontSize: 44, color: c.color, marginTop: 4 }}>{koHour(c.h)}</div>
+                  <div style={{ display: 'flex', fontSize: 22, color: MUTED }}>{enHour(c.h)}</div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-
-        <div style={{ display: 'flex', fontSize: 24, color: MUTED, marginTop: story ? 64 : 40 }}>평일 시간대별 혼잡도 · Weekday by hour</div>
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: chartH, marginTop: 16 }}>
-          {bars.map((p) => (
-            <div
-              key={p.hour}
-              style={{
-                display: 'flex',
-                flex: 1,
-                height: Math.max(16, Math.round((p.score / max) * chartH)),
-                borderRadius: 10,
-                background: p.hour === s.quietWeekday ? GREEN : p.hour === s.peakWeekday ? '#fb7185' : 'rgba(255,255,255,0.28)',
-              }}
-            />
-          ))}
-        </div>
-        {/* Same columns as the bars, so each label sits under its hour. */}
-        <div style={{ display: 'flex', gap: 8, fontSize: 22, color: MUTED, marginTop: 10 }}>
-          {bars.map((p) => (
-            <div key={p.hour} style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
-              {p.hour % 3 === 2 ? `${p.hour}시` : ''}
-            </div>
-          ))}
-        </div>
-      </Frame>
+            <Note>* 요일·시간대 패턴 예측 · Pattern-based estimate</Note>
+          </Col>
+        }
+      />
     ),
   };
 }
 
-function Gem({ slug, story, bg }: { slug: string; story: boolean; bg: string | null }) {
+function Gem({ slug, ...opts }: CardOpts & { slug: string }) {
+  const { story } = opts;
   const spot = seoulSpotBySlug(slug);
   const g = spot?.escapeRoute;
   if (!spot || !g) return null;
   const ko = shortName(spot.name.ko);
   const en = shortName(spot.name.en);
   return {
-    text: `${ko}너무 붐빌 땐?Too crowded at${en}?${g.gemName.ko}${g.gemName.en}${g.gemDesc.ko}도보분사람% 적어요min walkfewer people0123456789 💎 혼잡 차이는 예상치 Crowd difference is an estimate`,
+    text: `${ko}너무 붐빌 땐?Too crowded at${en}?여기로 피하세요 💎${g.gemName.ko}${g.gemName.en}${g.gemDesc.ko}도보분사람% 적어요min walkfewer people0123456789* 혼잡 차이는 예상치 Crowd difference is an estimate`,
     node: (
-      <Frame story={story} bg={bg} source="혼잡 차이는 예상치 · Crowd difference is an estimate">
-        <div style={{ display: 'flex', fontSize: 30, color: '#fda4af' }}>{spot.emoji} {ko} 너무 붐빌 땐?</div>
-        <div style={{ display: 'flex', fontSize: 26, color: MUTED, marginTop: 6 }}>Too crowded at {en}?</div>
-
-        <div style={{ display: 'flex', fontSize: 40, color: BLUE, marginTop: story ? 80 : 48 }}>여기로 피하세요 ↓</div>
-        <div style={{ display: 'flex', flexDirection: 'column', marginTop: 20, padding: story ? '48px 44px' : '36px 40px', borderRadius: 32, background: 'rgba(255,255,255,0.10)', border: `3px solid ${GREEN}` }}>
-          <div style={{ display: 'flex', fontSize: 30, color: GREEN }}>💎 Hidden gem</div>
-          <div style={{ display: 'flex', fontSize: g.gemName.ko.length > 16 ? 50 : 60, lineHeight: 1.2, marginTop: 12 }}>{g.gemName.ko}</div>
-          <div style={{ display: 'flex', fontSize: 28, color: BLUE, marginTop: 8 }}>{g.gemName.en}</div>
-          <div style={{ display: 'flex', fontSize: 30, color: MUTED, lineHeight: 1.45, marginTop: 24 }}>{g.gemDesc.ko}</div>
-        </div>
-
-        <div style={{ display: 'flex', gap: 20, marginTop: story ? 56 : 36 }}>
-          {[
-            { big: `도보 ${g.walkMinutes}분`, small: `${g.walkMinutes} min walk` },
-            { big: `사람 ${g.crowdDiffPercent}% 적어요`, small: `${g.crowdDiffPercent}% fewer people` },
-          ].map((c) => (
-            <div key={c.big} style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '22px 26px', borderRadius: 24, background: 'rgba(255,255,255,0.09)' }}>
-              <div style={{ display: 'flex', fontSize: 40, color: GREEN }}>{c.big}</div>
-              <div style={{ display: 'flex', fontSize: 24, color: MUTED, marginTop: 4 }}>{c.small}</div>
+      <Frame
+        {...opts}
+        top={
+          <Col>
+            <div style={{ display: 'flex', fontSize: story ? 60 : 54, lineHeight: 1.2, marginTop: 18 }}>{ko} 너무 붐빌 땐?</div>
+            <div style={{ display: 'flex', fontSize: story ? 60 : 54, lineHeight: 1.2, color: BLUE }}>여기로 피하세요 💎</div>
+            <div style={{ display: 'flex', fontSize: 28, color: MUTED, marginTop: 10 }}>Too crowded at {en}?</div>
+          </Col>
+        }
+        bottom={
+          <Col>
+            <div style={{ display: 'flex', fontSize: g.gemName.ko.length > 16 ? 44 : 52, lineHeight: 1.2 }}>{g.gemName.ko}</div>
+            <div style={{ display: 'flex', fontSize: 26, color: BLUE, marginTop: 6 }}>{g.gemName.en}</div>
+            <div style={{ display: 'flex', fontSize: 26, color: MUTED, lineHeight: 1.45, marginTop: 14 }}>{g.gemDesc.ko}</div>
+            <div style={{ display: 'flex', gap: 14, marginTop: 20 }}>
+              {[`🚶 도보 ${g.walkMinutes}분 · ${g.walkMinutes} min`, `👥 사람 ${g.crowdDiffPercent}% 적어요`].map((t) => (
+                <div key={t} style={{ display: 'flex', padding: '12px 22px', borderRadius: 999, background: '#ecfdf5', color: GREEN, fontSize: 26 }}>{t}</div>
+              ))}
             </div>
-          ))}
-        </div>
-      </Frame>
+            <Note>* 혼잡 차이는 예상치 · Crowd difference is an estimate</Note>
+          </Col>
+        }
+      />
     ),
   };
 }
@@ -155,7 +168,8 @@ const CITY_KO: Record<ForecastCityId, string> = { jeju: '제주', busan: '부산
 const CITY_EN: Record<ForecastCityId, string> = { jeju: 'Jeju', busan: 'Busan' };
 const STATUS_KO: Record<CrowdStatus, string> = { relaxed: '여유', moderate: '보통', crowded: '붐빔', very_crowded: '매우 붐빔', packed: '매우 붐빔' };
 
-async function Day({ city, date, story, bg }: { city: ForecastCityId; date: string; story: boolean; bg: string | null }) {
+async function Day({ city, date, ...opts }: CardOpts & { city: ForecastCityId; date: string }) {
+  const { story } = opts;
   const { date: d, rows } = quietestOn(await getForecast(), city, date);
   if (!rows.length) return null;
   // Don't call a list "quiet" when even its top spot is only moderate.
@@ -163,54 +177,64 @@ async function Day({ city, date, story, bg }: { city: ForecastCityId; date: stri
   const headKo = quiet ? '한산한 곳' : '덜 붐비는 곳';
   const headEn = quiet ? 'Quietest spots' : 'Least crowded spots';
   return {
-    text: `${koDate(d)}${enDate(d)}${CITY_KO[city]}${CITY_EN[city]}한산한 곳덜 붐비는 곳 TOP5Quietest spotsLeast crowded spots in on여유보통붐빔매우${rows.map((r) => r.spot.name.ko + r.spot.name.en).join('')}0123456789 한국관광공사 관광지 집중률 예측 KTO concentration forecast`,
+    text: `${koDate(d)}${enDate(d)}${CITY_KO[city]}${CITY_EN[city]}한산한 곳덜 붐비는 곳 TOP5Quietest spotsLeast crowded spots in on여유보통붐빔매우${rows.map((r) => r.spot.name.ko + r.spot.name.en).join('')}0123456789* 한국관광공사 관광지 집중률 예측 KTO concentration forecast`,
     node: (
-      <Frame story={story} bg={bg} source="한국관광공사 관광지 집중률 예측 · KTO concentration forecast">
-        <div style={{ display: 'flex', fontSize: 34, color: BLUE }}>{koDate(d)} · {enDate(d)}</div>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, fontSize: story ? 72 : 62, lineHeight: 1.2, marginTop: 12 }}>
-          <span>{CITY_KO[city]} {headKo}</span>
-          <span style={{ color: GREEN }}>TOP5</span>
-        </div>
-        <div style={{ display: 'flex', fontSize: 30, color: MUTED, marginTop: 6 }}>{headEn} in {CITY_EN[city]}</div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: story ? 26 : 16, marginTop: story ? 64 : 36 }}>
-          {rows.map((r, i) => (
-            <div key={r.spot.id} style={{ display: 'flex', alignItems: 'center', gap: 22, padding: story ? '30px 30px' : '20px 28px', borderRadius: 26, background: 'rgba(255,255,255,0.09)' }}>
-              <div style={{ display: 'flex', width: 44, fontSize: 42, color: BLUE }}>{i + 1}</div>
-              <div style={{ display: 'flex', fontSize: 46 }}>{r.spot.emoji}</div>
-              <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', fontSize: r.spot.name.ko.length > 12 ? 36 : 42, lineHeight: 1.2 }}>{r.spot.name.ko}</div>
-                <div style={{ display: 'flex', fontSize: 24, color: MUTED, marginTop: 2 }}>{r.spot.name.en}</div>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <div style={{ display: 'flex', fontSize: 44, color: r.color }}>{r.score}</div>
-                <div style={{ display: 'flex', fontSize: 20, color: r.color }}>{STATUS_KO[r.status]}</div>
-              </div>
+      <Frame
+        {...opts}
+        top={
+          <Col>
+            <div style={{ display: 'flex', fontSize: 30, color: BLUE, marginTop: 16 }}>{koDate(d)} · {enDate(d)}</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, fontSize: story ? 66 : 58, lineHeight: 1.2, marginTop: 6 }}>
+              <span>{CITY_KO[city]} {headKo}</span>
+              <span style={{ color: GREEN }}>TOP5</span>
             </div>
-          ))}
-        </div>
-      </Frame>
+            <div style={{ display: 'flex', fontSize: 28, color: MUTED, marginTop: 6 }}>{headEn} in {CITY_EN[city]}</div>
+          </Col>
+        }
+        bottom={
+          <Col>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: story ? 18 : 10 }}>
+              {rows.map((r, i) => (
+                <div key={r.spot.id} style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+                  <div style={{ display: 'flex', width: 52, height: 52, borderRadius: 999, background: '#eff6ff', color: BLUE, fontSize: 28, alignItems: 'center', justifyContent: 'center' }}>{i + 1}</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', fontSize: r.spot.name.ko.length > 12 ? 32 : 36, lineHeight: 1.2 }}>{r.spot.name.ko}</div>
+                    <div style={{ display: 'flex', fontSize: 20, color: MUTED }}>{r.spot.name.en}</div>
+                  </div>
+                  <div style={{ display: 'flex', padding: '6px 18px', borderRadius: 999, background: `${r.color}22`, color: r.color, fontSize: 24 }}>
+                    {STATUS_KO[r.status]} {r.score}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Note>* 한국관광공사 관광지 집중률 예측 · KTO concentration forecast</Note>
+          </Col>
+        }
+      />
     ),
   };
 }
 
 export async function GET(request: Request, { params }: { params: Promise<{ file: string }> }) {
   const { file } = await params;
-  const m = file.match(/^(hours|gem)-([a-z0-9-]+)-(feed|story)\.png$/) ?? file.match(/^(day)-((?:jeju|busan)-\d{4}-\d{2}-\d{2})-(feed|story)\.png$/);
+  const m =
+    file.match(/^(hours|gem)-([a-z0-9-]+?)-(feed|story)(?:-(bg|text))?\.png$/) ??
+    file.match(/^(day)-((?:jeju|busan)-\d{4}-\d{2}-\d{2})-(feed|story)(?:-(bg|text))?\.png$/);
   if (!m) return new Response('Not found', { status: 404 });
-  const [, kind, key, sizeId] = m;
+  const [, kind, key, sizeId, layerId] = m;
   const story = sizeId === 'story';
+  const layer = (layerId ?? 'all') as Layer;
   const city = key.slice(0, key.indexOf('-')) as ForecastCityId;
   const card =
     kind === 'hours'
-      ? Hours({ slug: key, story, bg: backgroundFor(request.url, key, 'seoul') })
+      ? Hours({ slug: key, story, layer, bg: backgroundFor(request.url, key, 'seoul') })
       : kind === 'gem'
-      // Not the crowded spot's photo: the card recommends a different place.
-      ? Gem({ slug: key, story, bg: backgroundFor(request.url, 'seoul') })
-      : await Day({ city, date: key.slice(key.indexOf('-') + 1), story, bg: backgroundFor(request.url, city) });
+      ? // Not the crowded spot's image: the card recommends a different place.
+        Gem({ slug: key, story, layer, bg: backgroundFor(request.url, 'seoul') })
+      : await Day({ city, date: key.slice(key.indexOf('-') + 1), story, layer, bg: backgroundFor(request.url, city) });
   if (!card) return new Response('Not found', { status: 404 });
 
-  const fonts = await loadCjkFonts(`Check East Point checkeastpoint.com 실시간 혼잡도 · Live crowd levels ↓여기로 피하세요Hidden gem ${card.text}`, 700, 'ko');
+  const fonts = await loadCjkFonts(`Check East Point checkeastpoint.com 실시간 혼잡도 · Live crowd 🚶👥 ${card.text}`, 700, 'ko');
   return new ImageResponse(card.node, {
     ...SIZES[sizeId as SizeId],
     fonts,

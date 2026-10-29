@@ -56,10 +56,20 @@ export default async function SnsWeekPage({ searchParams }: { searchParams: Prom
                   </a>
                   <CopyCaption text={p.caption} />
                 </div>
+                <p className="text-xs text-gray-500">
+                  레이어 따로 받기:{' '}
+                  <a href={`/sns/${p.image}-story-bg.png`} download={`${p.date}-${p.image}-배경.png`} className="underline">
+                    배경만
+                  </a>{' '}
+                  ·{' '}
+                  <a href={`/sns/${p.image}-story-text.png`} download={`${p.date}-${p.image}-글씨.png`} className="underline">
+                    글씨만(투명)
+                  </a>
+                </p>
               </>
             ) : (
               <>
-                <p className="text-sm text-gray-600 dark:text-gray-300">이번 주 스토리 이미지 6장으로 릴스를 만드세요 (사진당 2~3초).</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">릴스 영상은 Claude가 만들어 무제 드라이브의 사진 data/릴스 폴더에 저장해요. 직접 만들려면 아래 스토리 이미지 6장을 쓰세요.</p>
                 <div className="grid grid-cols-3 gap-2">
                   {slides.map((s, i) => (
                     <a key={s.image} href={`/sns/${s.image}-story.png`} download={`reel-${i + 1}-${s.image}.png`} className={`${btn} bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100`}>

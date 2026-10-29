@@ -1,5 +1,6 @@
-// Builds the Sunday Reel from the week's six story cards on /sns: a slow zoom on each card and
-// crossfades, 1080x1920, no audio (add trending music in the Instagram app).
+// Builds the Sunday Reel from the week's six story cards on /sns, 1080x1920, no audio (add trending
+// music in the Instagram app). Each card is two layers from /sns/[file]: the scenery (-story-bg.png)
+// slowly zooms while the text (-story-text.png) stays still on top; cards crossfade.
 // usage: node scripts/make-weekly-reel.mjs [YYYY-MM-DD monday] [--base http://localhost:3000]
 // Needs ffmpeg in .tools (cd .tools && npm install ffmpeg-static@5.3.0).
 import { execFileSync } from 'node:child_process';
@@ -25,20 +26,28 @@ const slides = [...new Set([...html.matchAll(/href="(\/sns\/[a-z0-9-]+-story\.pn
 if (!slides.length) throw new Error('No story cards found on /sns');
 
 const tmp = mkdtempSync(join(tmpdir(), 'cep-reel-'));
-const inputs = [];
-for (const [i, path] of slides.entries()) {
+const download = async (path, file) => {
   const res = await fetch(`${BASE}${path}`);
   if (!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
-  const file = join(tmp, `${i}.png`);
   writeFileSync(file, Buffer.from(await res.arrayBuffer()));
-  inputs.push(file);
+};
+const inputs = [];
+for (const [i, path] of slides.entries()) {
+  const bg = join(tmp, `${i}-bg.png`);
+  const text = join(tmp, `${i}-text.png`);
+  await download(path.replace('-story.png', '-story-bg.png'), bg);
+  await download(path.replace('-story.png', '-story-text.png'), text);
+  inputs.push({ bg, text });
   console.log(`✓ ${path}`);
 }
 
-// Each card: upscale (smoother zoom), zoom 1.00 -> 1.05 over SECONDS, then crossfade into the next.
+// Inputs: scenery i at 2i (one frame; zoompan makes the frames), text i at 2i+1 (looped).
+// Each card: zoom the scenery 1.00 -> 1.06 over SECONDS, lay the text on top, then crossfade.
 const frames = SECONDS * FPS;
 const parts = inputs.map(
-  (_, i) => `[${i}:v]scale=2160:3840,zoompan=z='1+0.05*on/${frames}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${frames}:s=1080x1920:fps=${FPS},setsar=1[v${i}]`
+  (_, i) =>
+    `[${2 * i}:v]scale=2160:3840,zoompan=z='1+0.06*on/${frames}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${frames}:s=1080x1920:fps=${FPS}[z${i}];` +
+    `[z${i}][${2 * i + 1}:v]overlay=0:0:shortest=1,setsar=1[v${i}]`
 );
 let last = 'v0';
 for (let i = 1; i < inputs.length; i++) {
@@ -53,7 +62,7 @@ const name = monday ? `${new Date().getFullYear()}-${monday[1].padStart(2, '0')}
 const output = join(OUT_DIR, `${name}-릴스.mp4`);
 execFileSync(
   FFMPEG,
-  ['-y', '-loglevel', 'error', ...inputs.flatMap((f) => ['-i', f]), '-filter_complex', parts.join(';'), '-map', '[out]', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', String(FPS), '-movflags', '+faststart', output],
+  ['-y', '-loglevel', 'error', ...inputs.flatMap((f) => ['-i', f.bg, '-loop', '1', '-t', String(SECONDS), '-framerate', String(FPS), '-i', f.text]), '-filter_complex', parts.join(';'), '-map', '[out]', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', String(FPS), '-movflags', '+faststart', output],
   { stdio: 'inherit' }
 );
 rmSync(tmp, { recursive: true, force: true });

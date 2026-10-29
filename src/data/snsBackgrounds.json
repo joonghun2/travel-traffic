@@ -1,1 +1,14 @@
-{}
+{
+  "gyeongbokgung-palace-gwanghwamun": [
+    "/bg/gyeongbokgung-palace-gwanghwamun.jpg"
+  ],
+  "busan": [
+    "/bg/busan.jpg"
+  ],
+  "seoul": [
+    "/bg/seoul.jpg"
+  ],
+  "jeju": [
+    "/bg/jeju.jpg"
+  ]
+}

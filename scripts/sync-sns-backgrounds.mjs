@@ -2,6 +2,7 @@
 //   /Volumes/무제/사진 data/경복궁.jpg -> public/bg/gyeongbokgung-palace-gwanghwamun.jpg
 //   서울.jpg / 제주.jpg / 부산.jpg     -> public/bg/seoul.jpg (city fallback)
 // and writes src/data/snsBackgrounds.json, which the card routes read.
+// Own photos in the folder come first; AI illustrations in its "AI 일러스트" subfolder fill the gaps.
 // usage: node scripts/sync-sns-backgrounds.mjs ["/path/to/folder"]
 // HEIC is converted with macOS sips; sharp (installed with Next.js) applies EXIF rotation and crops to 1080x1920.
 import { execFileSync } from 'node:child_process';
@@ -45,14 +46,21 @@ function keyFor(base) {
 }
 
 const IMAGE = /\.(jpe?g|png|heic|heif|webp)$/i;
-const files = readdirSync(SRC).filter((f) => IMAGE.test(f) && !f.startsWith('.'));
+const imagesIn = (dir) => {
+  try {
+    return readdirSync(dir).filter((f) => IMAGE.test(f) && !f.startsWith('.')).sort().map((f) => ({ dir, file: f }));
+  } catch {
+    return [];
+  }
+};
+const files = [...imagesIn(SRC), ...imagesIn(join(SRC, 'AI 일러스트'))];
 const tmp = mkdtempSync(join(tmpdir(), 'cep-bg-'));
 const manifest = {};
 const skipped = [];
 rmSync(OUT_DIR, { recursive: true, force: true });
 mkdirSync(OUT_DIR, { recursive: true });
 
-for (const file of files.sort()) {
+for (const { dir, file } of files) {
   // "경복궁 2.jpg" -> "경복궁"
   const base = file.slice(0, -extname(file).length).normalize('NFC').replace(/[\s_-]*\d+$/, '');
   const key = keyFor(base);
@@ -60,7 +68,7 @@ for (const file of files.sort()) {
     skipped.push(key?.ambiguous ? `${file} (여러 명소와 겹침: ${key.ambiguous.join(', ')})` : `${file} (명소 이름을 못 찾음)`);
     continue;
   }
-  let input = join(SRC, file);
+  let input = join(dir, file);
   if (/\.hei[cf]$/i.test(file)) {
     const jpg = join(tmp, `${manifest[key]?.length ?? 0}-${key}.jpg`);
     execFileSync('sips', ['-s', 'format', 'jpeg', input, '--out', jpg], { stdio: 'ignore' });
