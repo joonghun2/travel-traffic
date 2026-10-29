@@ -2,6 +2,7 @@ import { ImageResponse } from 'next/og';
 import { CrowdStatus, ForecastCityId } from '@/types';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
 import { getForecast } from '@/lib/forecast';
+import { backgroundFor, CardBackground } from '@/lib/cardBackground';
 import { enDate, enHour, hoursSummary, koDate, koHour, quietestOn, seoulSpotBySlug, shortName } from '@/lib/snsWeek';
 
 // Weekly Instagram/Threads images (Korean + English), listed on /sns:
@@ -19,7 +20,7 @@ const GREEN = '#6ee7b7';
 const BLUE = '#93c5fd';
 const MUTED = '#cbd5e1';
 
-function Frame({ story, children, source }: { story: boolean; children: React.ReactNode; source: string }) {
+function Frame({ story, children, source, bg }: { story: boolean; children: React.ReactNode; source: string; bg: string | null }) {
   return (
     <div
       style={{
@@ -27,6 +28,7 @@ function Frame({ story, children, source }: { story: boolean; children: React.Re
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        position: 'relative',
         // Story: keep clear of Instagram's top bar and reply box.
         padding: story ? '200px 72px 220px' : '72px 72px 64px',
         background: BG,
@@ -34,6 +36,7 @@ function Frame({ story, children, source }: { story: boolean; children: React.Re
         fontFamily: cjkFontFamily('ko'),
       }}
     >
+      <CardBackground src={bg} {...SIZES[story ? 'story' : 'feed']} />
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
         <div style={{ width: 56, height: 56, borderRadius: 16, background: 'linear-gradient(45deg, #2563eb, #6366f1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32 }}>
           C
@@ -52,7 +55,7 @@ function Frame({ story, children, source }: { story: boolean; children: React.Re
   );
 }
 
-function Hours({ slug, story }: { slug: string; story: boolean }) {
+function Hours({ slug, story, bg }: { slug: string; story: boolean; bg: string | null }) {
   const spot = seoulSpotBySlug(slug);
   if (!spot) return null;
   const s = hoursSummary(spot);
@@ -64,7 +67,7 @@ function Hours({ slug, story }: { slug: string; story: boolean }) {
   return {
     text: `${ko}몇 시에 가야 한산할까?${en}When is least crowded?평일주말피크WeekdaysWeekendsBusiest${koHour(s.quietWeekday)}${koHour(s.quietWeekend)}${koHour(s.peakWeekday)}${enHour(s.quietWeekday)}${enHour(s.quietWeekend)}${enHour(s.peakWeekday)}평일 시간대별 혼잡도 Weekday by hour 요일·시간대 패턴 예측 Pattern-based estimate`,
     node: (
-      <Frame story={story} source="요일·시간대 패턴 예측 · Pattern-based estimate">
+      <Frame story={story} bg={bg} source="요일·시간대 패턴 예측 · Pattern-based estimate">
         <div style={{ display: 'flex', fontSize: story ? 64 : 58, lineHeight: 1.2 }}>{spot.emoji} {ko},</div>
         <div style={{ display: 'flex', fontSize: story ? 64 : 58, lineHeight: 1.2, color: GREEN }}>몇 시에 가야 한산할까?</div>
         <div style={{ display: 'flex', fontSize: 30, color: BLUE, marginTop: 12 }}>When is {en} least crowded?</div>
@@ -111,7 +114,7 @@ function Hours({ slug, story }: { slug: string; story: boolean }) {
   };
 }
 
-function Gem({ slug, story }: { slug: string; story: boolean }) {
+function Gem({ slug, story, bg }: { slug: string; story: boolean; bg: string | null }) {
   const spot = seoulSpotBySlug(slug);
   const g = spot?.escapeRoute;
   if (!spot || !g) return null;
@@ -120,7 +123,7 @@ function Gem({ slug, story }: { slug: string; story: boolean }) {
   return {
     text: `${ko}너무 붐빌 땐?Too crowded at${en}?${g.gemName.ko}${g.gemName.en}${g.gemDesc.ko}도보분사람% 적어요min walkfewer people0123456789 💎 혼잡 차이는 예상치 Crowd difference is an estimate`,
     node: (
-      <Frame story={story} source="혼잡 차이는 예상치 · Crowd difference is an estimate">
+      <Frame story={story} bg={bg} source="혼잡 차이는 예상치 · Crowd difference is an estimate">
         <div style={{ display: 'flex', fontSize: 30, color: '#fda4af' }}>{spot.emoji} {ko} 너무 붐빌 땐?</div>
         <div style={{ display: 'flex', fontSize: 26, color: MUTED, marginTop: 6 }}>Too crowded at {en}?</div>
 
@@ -152,7 +155,7 @@ const CITY_KO: Record<ForecastCityId, string> = { jeju: '제주', busan: '부산
 const CITY_EN: Record<ForecastCityId, string> = { jeju: 'Jeju', busan: 'Busan' };
 const STATUS_KO: Record<CrowdStatus, string> = { relaxed: '여유', moderate: '보통', crowded: '붐빔', very_crowded: '매우 붐빔', packed: '매우 붐빔' };
 
-async function Day({ city, date, story }: { city: ForecastCityId; date: string; story: boolean }) {
+async function Day({ city, date, story, bg }: { city: ForecastCityId; date: string; story: boolean; bg: string | null }) {
   const { date: d, rows } = quietestOn(await getForecast(), city, date);
   if (!rows.length) return null;
   // Don't call a list "quiet" when even its top spot is only moderate.
@@ -162,7 +165,7 @@ async function Day({ city, date, story }: { city: ForecastCityId; date: string; 
   return {
     text: `${koDate(d)}${enDate(d)}${CITY_KO[city]}${CITY_EN[city]}한산한 곳덜 붐비는 곳 TOP5Quietest spotsLeast crowded spots in on여유보통붐빔매우${rows.map((r) => r.spot.name.ko + r.spot.name.en).join('')}0123456789 한국관광공사 관광지 집중률 예측 KTO concentration forecast`,
     node: (
-      <Frame story={story} source="한국관광공사 관광지 집중률 예측 · KTO concentration forecast">
+      <Frame story={story} bg={bg} source="한국관광공사 관광지 집중률 예측 · KTO concentration forecast">
         <div style={{ display: 'flex', fontSize: 34, color: BLUE }}>{koDate(d)} · {enDate(d)}</div>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, fontSize: story ? 72 : 62, lineHeight: 1.2, marginTop: 12 }}>
           <span>{CITY_KO[city]} {headKo}</span>
@@ -191,18 +194,20 @@ async function Day({ city, date, story }: { city: ForecastCityId; date: string; 
   };
 }
 
-export async function GET(_request: Request, { params }: { params: Promise<{ file: string }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ file: string }> }) {
   const { file } = await params;
   const m = file.match(/^(hours|gem)-([a-z0-9-]+)-(feed|story)\.png$/) ?? file.match(/^(day)-((?:jeju|busan)-\d{4}-\d{2}-\d{2})-(feed|story)\.png$/);
   if (!m) return new Response('Not found', { status: 404 });
   const [, kind, key, sizeId] = m;
   const story = sizeId === 'story';
+  const city = key.slice(0, key.indexOf('-')) as ForecastCityId;
   const card =
     kind === 'hours'
-      ? Hours({ slug: key, story })
+      ? Hours({ slug: key, story, bg: backgroundFor(request.url, key, 'seoul') })
       : kind === 'gem'
-      ? Gem({ slug: key, story })
-      : await Day({ city: key.slice(0, key.indexOf('-')) as ForecastCityId, date: key.slice(key.indexOf('-') + 1), story });
+      // Not the crowded spot's photo: the card recommends a different place.
+      ? Gem({ slug: key, story, bg: backgroundFor(request.url, 'seoul') })
+      : await Day({ city, date: key.slice(key.indexOf('-') + 1), story, bg: backgroundFor(request.url, city) });
   if (!card) return new Response('Not found', { status: 404 });
 
   const fonts = await loadCjkFonts(`Check East Point checkeastpoint.com 실시간 혼잡도 · Live crowd levels ↓여기로 피하세요Hidden gem ${card.text}`, 700, 'ko');

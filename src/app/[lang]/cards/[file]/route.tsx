@@ -7,6 +7,7 @@ import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
 import { quietestSpots } from '@/lib/rankings';
 import { STATUS_COLOR } from '@/lib/mapSpots';
 import { withUtm } from '@/lib/utm';
+import { backgroundFor, CardBackground } from '@/lib/cardBackground';
 
 // /cards/seoul-feed.png (Korean, via rewrite), /en/cards/busan-story.png, ...
 // Seoul is live, so cards regenerate every 5 minutes; Jeju/Busan change once a day.
@@ -30,7 +31,7 @@ function kstStamp(iso: string) {
   return `${d.slice(0, 10).replace(/-/g, '.')} ${d.slice(11, 16)}`;
 }
 
-export async function GET(_request: Request, { params }: { params: Promise<{ lang: string; file: string }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ lang: string; file: string }> }) {
   const { lang, file } = await params;
   const m = file.match(/^(seoul|jeju|busan)-(feed|story)\.png$/);
   if (!isLang(lang) || !m) return new Response('Not found', { status: 404 });
@@ -74,12 +75,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
+          position: 'relative',
           padding: story ? '150px 72px 140px' : '72px 72px 64px',
           background: 'linear-gradient(160deg, #0f172a 0%, #1e3a8a 60%, #312e81 100%)',
           color: 'white',
           fontFamily: cjkFontFamily(lang),
         }}
       >
+        <CardBackground src={backgroundFor(request.url, city)} {...size} />
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div
             style={{
