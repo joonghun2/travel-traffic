@@ -2,10 +2,11 @@
 // hook, rank 5 -> 1, outro. Fast cuts with a white flash; each beat's text layer slams up into place.
 // 1080x1920 MP4, saved with its layers and caption to the drive for editing:
 //   /Volumes/무제/사진 data/릴스/<date>/릴스.mp4, 레이어/<beat>-배경.png, <beat>-글씨.png, 캡션.txt
-// Background: an animated Han River scene from the drive's 움직이는 배경 folder (sky drifting, clouds
-// drifting faster, ground fixed, optional rain), shared by every beat. Without those images each beat
-// gets its own zooming scenery from /sns/reel instead.
+// Background, first available: AI-animated clips in the drive's 움직이는 배경/영상 (one per beat); an
+// animated Han River scene from 움직이는 배경 (sky and clouds drifting, ground fixed, optional rain);
+// else each beat's own zooming scenery from /sns/reel.
 // Music: tracks in the drive's 음악 folder (one per week, starting where it gets loud, faded); none -> silent.
+// Prompts for the scenes and clips: 움직이는 배경/이미지 프롬프트.txt on the drive.
 // usage: node scripts/make-weekly-reel.mjs [--base http://localhost:3000] [--look 노을|비|밤] [--out dir]
 // Needs ffmpeg in .tools (cd .tools && npm install ffmpeg-static@5.3.0).
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -69,16 +70,31 @@ const scene = {
   clouds: sceneFile('한강', '구름'),
   rain: LOOK === '비' && existsSync(join(SCENE_DIR, '빗줄기.png')) ? join(SCENE_DIR, '빗줄기.png') : null,
 };
+// AI-animated scene clips (e.g. CapCut image-to-video) in 움직이는 배경/영상: one per beat, so the scene
+// cuts with every rank. Order rotates weekly.
+const CLIP_DIR = join(SCENE_DIR, '영상');
+const clips = existsSync(CLIP_DIR) ? readdirSync(CLIP_DIR).filter((f) => /\.(mp4|mov|m4v)$/i.test(f) && !f.startsWith('.')).sort() : [];
 const animated = Boolean(scene.sky && scene.ground);
+const weekIndex = Math.floor(Date.now() / (7 * 86400000));
 
 const inputs = [];
 const parts = [];
+const inputCount = () => inputs.filter((x) => x === '-i').length;
 const still = (file, seconds = duration) => {
   inputs.push('-loop', '1', '-t', String(seconds), '-framerate', String(FPS), '-i', file);
-  return inputs.filter((x) => x === '-i').length - 1;
+  return inputCount() - 1;
 };
+const usesClips = clips.length > 0;
 
-if (animated) {
+if (usesClips) {
+  beats.forEach((b, i) => {
+    inputs.push('-stream_loop', '-1', '-t', String(b.seconds), '-i', join(CLIP_DIR, clips[(i + weekIndex) % clips.length]));
+    parts.push(
+      `[${inputCount() - 1}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=${FPS},trim=duration=${b.seconds},setpts=PTS-STARTPTS[c${i}]`
+    );
+  });
+  parts.push(`${beats.map((_, i) => `[c${i}]`).join('')}concat=n=${beats.length}:v=1:a=0[bg0]`);
+} else if (animated) {
   // Sky pans across its whole width over the reel; clouds cross faster; ground stays put.
   const grey = LOOK === '비' && !scene.sky.endsWith('하늘-비.png') ? ',eq=saturation=0.12:brightness=0.12:contrast=0.75' : '';
   parts.push(`[${still(scene.sky)}:v]scale=-2:1100,crop=1080:1100:x='(iw-1080)*t/${duration}':y=0,pad=1080:1920:0:0:color=0x3b82f6${grey}[sky]`);
@@ -102,7 +118,10 @@ if (animated) {
   }
   // Slow push-in over the whole reel.
   parts.push(`[${last}]scale=1188:2112,crop=1080:1920:x='(iw-1080)/2*t/${duration}':y='(ih-1920)/2*t/${duration}',setsar=1[bg0]`);
-  last = 'bg0';
+}
+
+if (usesClips || animated) {
+  let last = 'bg0';
   // Each beat's text slams up while it is on screen.
   beats.forEach((b, i) => {
     const end = b.start + b.seconds;
@@ -136,7 +155,7 @@ if (animated) {
     last = out;
   }
 }
-const length = animated ? duration : duration - FLASH * (beats.length - 1);
+const length = usesClips || animated ? duration : duration - FLASH * (beats.length - 1);
 
 const tracks = existsSync(MUSIC_DIR) ? readdirSync(MUSIC_DIR).filter((f) => /\.(mp3|m4a|aac|wav)$/i.test(f) && !f.startsWith('.')).sort() : [];
 const track = tracks.length ? join(MUSIC_DIR, tracks[Math.floor(Date.now() / (7 * 86400000)) % tracks.length]) : null;
@@ -164,6 +183,12 @@ execFileSync(
   { stdio: 'inherit' }
 );
 console.log(`\nReel (${length.toFixed(1)} s): ${output}`);
-console.log(animated ? `Background: ${[scene.sky, scene.clouds, scene.ground, scene.rain].filter(Boolean).join(', ')}` : 'Background: per-beat scenery (no 하늘/땅 images in 움직이는 배경)');
+console.log(
+  usesClips
+    ? `Background: ${clips.length} clip(s) in ${CLIP_DIR}`
+    : animated
+      ? `Background: ${[scene.sky, scene.clouds, scene.ground, scene.rain].filter(Boolean).join(', ')}`
+      : 'Background: per-beat scenery (no clips or 하늘/땅 images in 움직이는 배경)'
+);
 console.log(`Layers and caption: ${outDir}`);
 console.log(track ? `Music: ${track}` : `No music (add tracks to ${MUSIC_DIR}, or add music in the Instagram app)`);
