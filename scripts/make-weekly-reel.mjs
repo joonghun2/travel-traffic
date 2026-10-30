@@ -2,7 +2,7 @@
 // hook, rank 5 -> 1, outro. Fast cuts with a white flash; each beat's text layer slams up into place.
 // 1080x1920 MP4, saved with its layers and caption to the drive for editing:
 //   /Volumes/무제/사진 data/릴스/<date>/릴스.mp4, 레이어/<beat>-배경.png, <beat>-글씨.png, 캡션.txt
-// Background, first available: AI-animated clips in the drive's 움직이는 배경/영상 (one per beat); an
+// Background, first available: numbered scene images/clips in the drive's 움직이는 배경 (one per beat); an
 // animated Han River scene from 움직이는 배경 (sky and clouds drifting, ground fixed, optional rain);
 // else each beat's own zooming scenery from /sns/reel.
 // Music: tracks in the drive's 음악 folder (one per week, starting where it gets loud, faded); none -> silent.
@@ -70,10 +70,13 @@ const scene = {
   clouds: sceneFile('한강', '구름'),
   rain: LOOK === '비' && existsSync(join(SCENE_DIR, '빗줄기.png')) ? join(SCENE_DIR, '빗줄기.png') : null,
 };
-// AI-animated scene clips (e.g. CapCut image-to-video) in 움직이는 배경/영상: one per beat, so the scene
-// cuts with every rank. Order rotates weekly.
+// Numbered scenes, one per beat so the scene cuts with every rank (order rotates weekly): images such as
+// "01-한강철교.png" in 움직이는 배경, each given a camera push-in and drift. Clips in 움직이는 배경/영상
+// (AI image-to-video) are used only when there are no images: CapCut's came out nearly still.
 const CLIP_DIR = join(SCENE_DIR, '영상');
-const clips = existsSync(CLIP_DIR) ? readdirSync(CLIP_DIR).filter((f) => /\.(mp4|mov|m4v)$/i.test(f) && !f.startsWith('.')).sort() : [];
+const listNumbered = (dir, ext) => (existsSync(dir) ? readdirSync(dir).filter((f) => /^\d+/.test(f) && ext.test(f)).sort().map((f) => join(dir, f)) : []);
+const sceneImages = listNumbered(SCENE_DIR, /\.(png|jpe?g)$/i);
+const scenes = sceneImages.length ? sceneImages : listNumbered(CLIP_DIR, /\.(mp4|mov|m4v)$/i);
 const animated = Boolean(scene.sky && scene.ground);
 const weekIndex = Math.floor(Date.now() / (7 * 86400000));
 
@@ -84,14 +87,26 @@ const still = (file, seconds = duration) => {
   inputs.push('-loop', '1', '-t', String(seconds), '-framerate', String(FPS), '-i', file);
   return inputCount() - 1;
 };
-const usesClips = clips.length > 0;
+const usesClips = scenes.length > 0;
 
 if (usesClips) {
   beats.forEach((b, i) => {
-    inputs.push('-stream_loop', '-1', '-t', String(b.seconds), '-i', join(CLIP_DIR, clips[(i + weekIndex) % clips.length]));
-    parts.push(
-      `[${inputCount() - 1}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=${FPS},trim=duration=${b.seconds},setpts=PTS-STARTPTS[c${i}]`
-    );
+    const file = scenes[(i + weekIndex) % scenes.length];
+    const frames = Math.round(b.seconds * FPS);
+    if (/\.(mp4|mov|m4v)$/i.test(file)) {
+      inputs.push('-stream_loop', '-1', '-t', String(b.seconds), '-i', file);
+      parts.push(
+        `[${inputCount() - 1}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=${FPS},trim=duration=${b.seconds},setpts=PTS-STARTPTS[c${i}]`
+      );
+    } else {
+      // Camera: quick push-in while drifting sideways, alternating direction each beat.
+      const side = i % 2 ? 1 : -1;
+      inputs.push('-i', file);
+      parts.push(
+        `[${inputCount() - 1}:v]scale=2160:3840:force_original_aspect_ratio=increase,crop=2160:3840,` +
+          `zoompan=z='1.04+0.14*on/${frames}':x='(iw-iw/zoom)*(0.5+${side}*0.35*on/${frames})':y='(ih-ih/zoom)/2':d=${frames}:s=1080x1920:fps=${FPS},setsar=1[c${i}]`
+      );
+    }
   });
   parts.push(`${beats.map((_, i) => `[c${i}]`).join('')}concat=n=${beats.length}:v=1:a=0[bg0]`);
 } else if (animated) {
@@ -185,10 +200,10 @@ execFileSync(
 console.log(`\nReel (${length.toFixed(1)} s): ${output}`);
 console.log(
   usesClips
-    ? `Background: ${clips.length} clip(s) in ${CLIP_DIR}`
+    ? `Background: ${scenes.length} scene(s): ${scenes.map((f) => f.split('/').pop()).join(', ')}`
     : animated
       ? `Background: ${[scene.sky, scene.clouds, scene.ground, scene.rain].filter(Boolean).join(', ')}`
-      : 'Background: per-beat scenery (no clips or 하늘/땅 images in 움직이는 배경)'
+      : 'Background: per-beat scenery (no scenes or 하늘/땅 images in 움직이는 배경)'
 );
 console.log(`Layers and caption: ${outDir}`);
 console.log(track ? `Music: ${track}` : `No music (add tracks to ${MUSIC_DIR}, or add music in the Instagram app)`);
