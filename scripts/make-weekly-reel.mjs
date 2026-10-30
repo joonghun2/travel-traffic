@@ -2,10 +2,11 @@
 // hook, rank 5 -> 1, outro. Fast cuts with a white flash, the scenery layer zooms quickly and the text
 // layer slams up into place. 1080x1920 MP4, saved with its layers and caption to the drive for editing:
 //   /Volumes/무제/사진 data/릴스/<date>/릴스.mp4, 레이어/<beat>-배경.png, <beat>-글씨.png, 캡션.txt
-// Music: royalty-free tracks in the drive's 음악 folder (one per week, faded); none -> silent.
+// Music: royalty-free tracks in the drive's 음악 folder (one per week, starting where it gets loud,
+// faded); none -> silent.
 // usage: node scripts/make-weekly-reel.mjs [--base http://localhost:3000]
 // Needs ffmpeg in .tools (cd .tools && npm install ffmpeg-static@5.3.0).
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -71,9 +72,18 @@ const duration = beats.reduce((s, b) => s + b.seconds, 0) - FLASH * (beats.lengt
 
 const tracks = existsSync(MUSIC_DIR) ? readdirSync(MUSIC_DIR).filter((f) => /\.(mp3|m4a|aac|wav)$/i.test(f) && !f.startsWith('.')).sort() : [];
 const track = tracks.length ? join(MUSIC_DIR, tracks[Math.floor(Date.now() / (7 * 86400000)) % tracks.length]) : null;
+/** Seconds into the track where it first gets near full loudness, skipping a quiet intro. */
+function loudStart(file) {
+  // ebur128 prints short-term loudness (S) every 0.1 s on stderr.
+  const log = spawnSync(FFMPEG, ['-hide_banner', '-t', '120', '-i', file, '-af', 'ebur128', '-f', 'null', '-'], { encoding: 'utf8' }).stderr;
+  const points = [...log.matchAll(/t:\s*([\d.]+).*?S:\s*(-?[\d.]+)/g)].map((m) => ({ t: Number(m[1]), s: Number(m[2]) })).filter((p) => p.s > -70);
+  if (!points.length) return 0;
+  const peak = Math.max(...points.map((p) => p.s));
+  return Math.max(0, Math.floor((points.find((p) => p.s >= peak - 4)?.t ?? 1) - 1));
+}
 const audio = track
   ? {
-      input: ['-i', track],
+      input: ['-ss', String(loudStart(track)), '-i', track],
       filter: `;[${beats.length * 2}:a]atrim=0:${duration},afade=t=in:d=0.5,afade=t=out:st=${(duration - 1).toFixed(2)}:d=1,volume=0.8[aout]`,
       map: ['-map', '[aout]', '-c:a', 'aac', '-b:a', '192k', '-shortest'],
     }
