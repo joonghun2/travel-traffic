@@ -2,12 +2,12 @@
 // hook, rank 5 -> 1, outro. Fast cuts with a white flash; each beat's text layer slams up into place.
 // 1080x1920 MP4, saved with its layers and caption to the drive for editing:
 //   /Volumes/무제/사진 data/릴스/<date>/릴스.mp4, 레이어/<beat>-배경.png, <beat>-글씨.png, 캡션.txt
-// Background, first available: numbered scene images/clips in the drive's 움직이는 배경 (one per beat); an
-// animated Han River scene from 움직이는 배경 (sky and clouds drifting, ground fixed, optional rain);
-// else each beat's own zooming scenery from /sns/reel.
+// Background, first available: a time-lapse Han River from layers in the drive's 움직이는 배경/한강 (skies
+// panning, clouds drifting, day -> sunset -> night, optional rain); numbered scene images/clips in
+// 움직이는 배경 (one per beat, or forced with --scenes); else each beat's own zooming scenery from /sns/reel.
 // Music: tracks in the drive's 음악 folder (one per week, starting where it gets loud, faded); none -> silent.
 // Prompts for the scenes and clips: 움직이는 배경/이미지 프롬프트.txt on the drive.
-// usage: node scripts/make-weekly-reel.mjs [--base http://localhost:3000] [--look 노을|비|밤] [--out dir]
+// usage: node scripts/make-weekly-reel.mjs [--base http://localhost:3000] [--look 비] [--scenes] [--out dir]
 // Needs ffmpeg in .tools (cd .tools && npm install ffmpeg-static@5.3.0).
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
@@ -24,7 +24,6 @@ const FFMPEG = '.tools/node_modules/ffmpeg-static/ffmpeg';
 const FPS = 30;
 const FLASH = 0.12; // white flash between beats
 const SLAM = 0.16; // text slides up and fades in over this long
-const GREEN = '0x00FF00';
 
 if (!existsSync(FFMPEG)) throw new Error(`ffmpeg not found at ${FFMPEG}`);
 if (!existsSync(DRIVE)) throw new Error(`Drive not mounted: ${DRIVE}`);
@@ -58,26 +57,27 @@ for (const b of week.beats) {
 writeFileSync(join(outDir, '캡션.txt'), `${week.caption}\n`);
 const duration = start;
 
-/** "<name>-<look>.png" if it exists, else "<name>.png", else null. */
-function sceneFile(dir, name) {
-  const file = [LOOK && `${name}-${LOOK}.png`, `${name}.png`].filter(Boolean).find((f) => existsSync(join(SCENE_DIR, dir, f)));
-  return file ? join(SCENE_DIR, dir, file) : null;
-}
-// 한강 = the "Your Name"-style set from 이미지 프롬프트.txt; 서울 = the first prototype.
-const scene = {
-  sky: sceneFile('한강', '하늘') ?? sceneFile('서울', '하늘'),
-  ground: sceneFile('한강', '땅') ?? sceneFile('서울', '땅-철교-투명'),
-  clouds: sceneFile('한강', '구름'),
-  rain: LOOK === '비' && existsSync(join(SCENE_DIR, '빗줄기.png')) ? join(SCENE_DIR, '빗줄기.png') : null,
-};
-// Numbered scenes, one per beat so the scene cuts with every rank (order rotates weekly): images such as
-// "01-한강철교.png" in 움직이는 배경, each given a camera push-in and drift. Clips in 움직이는 배경/영상
-// (AI image-to-video) are used only when there are no images: CapCut's came out nearly still.
+// Time-lapse Han River (default): layers in 움직이는 배경/한강 made with Figma (하늘, 하늘-노을, 하늘-밤,
+// 구름, 땅; green keyed out). Skies pan, clouds drift, and the light goes day -> sunset -> night over the reel.
+const HAN_DIR = join(SCENE_DIR, '한강');
+const hanLayer = (name) => (existsSync(join(HAN_DIR, `${name}.png`)) ? join(HAN_DIR, `${name}.png`) : null);
+const han = { clouds: hanLayer('구름'), ground: hanLayer('땅') };
+// Each phase: its sky, the grade for clouds and ground, and when (share of the reel) it fades in.
+const PHASES = [
+  { sky: hanLayer('하늘'), grade: 'null', at: 0 },
+  { sky: hanLayer('하늘-노을'), grade: 'colorchannelmixer=rr=1.06:gg=0.78:bb=0.74', at: 0.3 },
+  { sky: hanLayer('하늘-밤'), grade: 'colorchannelmixer=rr=0.3:gg=0.36:bb=0.62', at: 0.62 },
+].filter((p) => p.sky);
+const timelapse = !args.includes('--scenes') && PHASES[0]?.at === 0 && Boolean(han.ground);
+const rain = LOOK === '비' && existsSync(join(SCENE_DIR, '빗줄기.png')) ? join(SCENE_DIR, '빗줄기.png') : null;
+// Numbered scenes (--scenes, or no time-lapse layers), one per beat so the scene cuts with every rank
+// (order rotates weekly): images such as "01-한강철교.png" in 움직이는 배경, each given a camera push-in and
+// drift. Clips in 움직이는 배경/영상 (AI image-to-video) are used only when there are no images: CapCut's
+// came out nearly still.
 const CLIP_DIR = join(SCENE_DIR, '영상');
 const listNumbered = (dir, ext) => (existsSync(dir) ? readdirSync(dir).filter((f) => /^\d+/.test(f) && ext.test(f)).sort().map((f) => join(dir, f)) : []);
 const sceneImages = listNumbered(SCENE_DIR, /\.(png|jpe?g)$/i);
-const scenes = sceneImages.length ? sceneImages : listNumbered(CLIP_DIR, /\.(mp4|mov|m4v)$/i);
-const animated = Boolean(scene.sky && scene.ground);
+const scenes = timelapse ? [] : sceneImages.length ? sceneImages : listNumbered(CLIP_DIR, /\.(mp4|mov|m4v)$/i);
 const weekIndex = Math.floor(Date.now() / (7 * 86400000));
 
 const inputs = [];
@@ -109,33 +109,40 @@ if (usesClips) {
     }
   });
   parts.push(`${beats.map((_, i) => `[c${i}]`).join('')}concat=n=${beats.length}:v=1:a=0[bg0]`);
-} else if (animated) {
-  // Sky pans across its whole width over the reel; clouds cross faster; ground stays put.
-  const grey = LOOK === '비' && !scene.sky.endsWith('하늘-비.png') ? ',eq=saturation=0.12:brightness=0.12:contrast=0.75' : '';
-  parts.push(`[${still(scene.sky)}:v]scale=-2:1100,crop=1080:1100:x='(iw-1080)*t/${duration}':y=0,pad=1080:1920:0:0:color=0x3b82f6${grey}[sky]`);
-  let below = 'sky';
-  if (scene.clouds) {
-    parts.push(
-      `[${still(scene.clouds)}:v]colorkey=${GREEN}:0.3:0.08,despill=type=green:mix=0.6,scale=-2:640[cl]`,
-      `[sky][cl]overlay=x='-(w-W)*t/${duration}':y=80:eval=frame[skycl]`
-    );
-    below = 'skycl';
+} else if (timelapse) {
+  const n = PHASES.length;
+  const fadeFor = duration * 0.18;
+  if (han.clouds) parts.push(`[${still(han.clouds)}:v]scale=-2:700,format=rgba,split=${n}${PHASES.map((_, p) => `[cl${p}]`).join('')}`);
+  parts.push(`[${still(han.ground)}:v]scale=1080:-2,crop=1080:1920:0:0,format=rgba,split=${n}${PHASES.map((_, p) => `[gr${p}]`).join('')}`);
+  PHASES.forEach((phase, p) => {
+    // Sky pans across its width; clouds drift left in front of it; the ground hides the clouds' lower edge.
+    parts.push(`[${still(phase.sky)}:v]scale=-2:960,crop=1080:960:x='(iw-1080)*t/${duration}':y=0,pad=1080:1920:0:0:color=0x0f172a,format=rgba[sky${p}]`);
+    let below = `sky${p}`;
+    if (han.clouds) {
+      parts.push(`[cl${p}]${phase.grade}[clg${p}]`, `[${below}][clg${p}]overlay=x='240-60*t':y=500:eval=frame[sc${p}]`);
+      below = `sc${p}`;
+    }
+    parts.push(`[gr${p}]${phase.grade}[grg${p}]`, `[${below}][grg${p}]overlay=0:0[ph${p}]`);
+  });
+  // Time passes: each later phase fades in over the one before.
+  let last = 'ph0';
+  for (let p = 1; p < n; p++) {
+    parts.push(`[ph${p}]fade=t=in:st=${(PHASES[p].at * duration).toFixed(2)}:d=${fadeFor.toFixed(2)}:alpha=1[fi${p}]`, `[${last}][fi${p}]overlay=0:0[tl${p}]`);
+    last = `tl${p}`;
   }
-  parts.push(`[${still(scene.ground)}:v]scale=1080:1920,colorkey=${GREEN}:0.18:0.05[gr]`, `[${below}][gr]overlay=0:0[scene]`);
-  let last = 'scene';
-  if (scene.rain) {
+  if (rain) {
     parts.push(
-      `[scene]eq=brightness=-0.08:saturation=0.75[dim]`,
-      `[${still(scene.rain)}:v]crop=1080:1920:x=0:y='1920-mod(t*2400\\,1920)',format=rgba,colorkey=black:0.2:0.1,colorchannelmixer=aa=0.45[rn]`,
+      `[${last}]eq=brightness=-0.06:saturation=0.8[dim]`,
+      `[${still(rain)}:v]crop=1080:1920:x=0:y='1920-mod(t*2400\\,1920)',format=rgba,colorkey=black:0.2:0.1,colorchannelmixer=aa=0.45[rn]`,
       `[dim][rn]overlay=0:0[wet]`
     );
     last = 'wet';
   }
   // Slow push-in over the whole reel.
-  parts.push(`[${last}]scale=1188:2112,crop=1080:1920:x='(iw-1080)/2*t/${duration}':y='(ih-1920)/2*t/${duration}',setsar=1[bg0]`);
+  parts.push(`[${last}]scale=1188:2112,crop=1080:1920:x='(iw-1080)/2*t/${duration}':y='(ih-1920)/2*t/${duration}',format=yuv420p,setsar=1[bg0]`);
 }
 
-if (usesClips || animated) {
+if (usesClips || timelapse) {
   let last = 'bg0';
   // Each beat's text slams up while it is on screen.
   beats.forEach((b, i) => {
@@ -170,7 +177,7 @@ if (usesClips || animated) {
     last = out;
   }
 }
-const length = usesClips || animated ? duration : duration - FLASH * (beats.length - 1);
+const length = usesClips || timelapse ? duration : duration - FLASH * (beats.length - 1);
 
 const tracks = existsSync(MUSIC_DIR) ? readdirSync(MUSIC_DIR).filter((f) => /\.(mp3|m4a|aac|wav)$/i.test(f) && !f.startsWith('.')).sort() : [];
 const track = tracks.length ? join(MUSIC_DIR, tracks[Math.floor(Date.now() / (7 * 86400000)) % tracks.length]) : null;
@@ -201,8 +208,8 @@ console.log(`\nReel (${length.toFixed(1)} s): ${output}`);
 console.log(
   usesClips
     ? `Background: ${scenes.length} scene(s): ${scenes.map((f) => f.split('/').pop()).join(', ')}`
-    : animated
-      ? `Background: ${[scene.sky, scene.clouds, scene.ground, scene.rain].filter(Boolean).join(', ')}`
+    : timelapse
+      ? `Background: time-lapse ${PHASES.map((p) => p.sky.split('/').pop()).join(' -> ')}${han.clouds ? ' + 구름' : ''} + 땅${rain ? ' + 비' : ''}`
       : 'Background: per-beat scenery (no scenes or 하늘/땅 images in 움직이는 배경)'
 );
 console.log(`Layers and caption: ${outDir}`);
