@@ -1,9 +1,10 @@
 import { ImageResponse } from 'next/og';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
 import { THEME, TYPES, TypeKey } from '@/lib/travelType';
+import { BUSAN_PROMO_TEXT, busanFoodPromoSlide } from '../busanFood';
 
 // Instagram promo for the travel-type test (scripts/make-travel-type-promo.mjs puts these over drive
-// scenery): transparent text layers only.
+// scenery): transparent text layers only. Busan Food Olympics layers live in ../busanFood.tsx.
 //   /sns/promo/travel-type-<1..10>.png  carousel slide, 1080x1350 (1 cover, 2-9 the eight types, 10 call to action)
 //   /sns/promo/travel-type-story.png    story, 1080x1920
 const W = 1080;
@@ -81,6 +82,18 @@ function Cta() {
 
 export async function GET(_request: Request, { params }: { params: Promise<{ file: string }> }) {
   const { file } = await params;
+
+  const busan = file.match(/^busan-food-(\d+|story)\.png$/);
+  if (busan) {
+    const layer = busanFoodPromoSlide(busan[1]);
+    if (!layer) return new Response('Not found', { status: 404 });
+    const fonts = await loadCjkFonts(BUSAN_PROMO_TEXT, 800, 'ko');
+    return new ImageResponse(
+      <div style={{ display: 'flex', width: '100%', height: '100%', background: 'transparent', fontFamily: cjkFontFamily('ko') }}>{layer.node}</div>,
+      { width: W, height: layer.height, fonts }
+    );
+  }
+
   const m = file.match(/^travel-type-(\d+|story)\.png$/);
   const slide = m && (m[1] === 'story' ? 'story' : Number(m[1]));
   if (!slide || (typeof slide === 'number' && (slide < 1 || slide > 10))) return new Response('Not found', { status: 404 });
