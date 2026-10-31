@@ -27,6 +27,7 @@ export function campaignForPath(path: string): string {
   if (path.startsWith('/spot/')) return 'spot-share';
   if (path.startsWith('/play/seoul-food-test')) return 'food-test';
   if (path.startsWith('/play/travel-type')) return 'travel-type';
+  if (path.startsWith('/play/busan-food-olympics')) return 'busan-food';
   if (path.startsWith('/play/')) return 'play-share';
   if (path.startsWith('/cards')) return 'daily-top5';
   if (/^\/(seoul|jeju|busan)\//.test(path)) return 'theme-share';

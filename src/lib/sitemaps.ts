@@ -64,6 +64,7 @@ export async function entriesFor(section: Section): Promise<Entry[]> {
     { path: '/terms', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.3 },
     { path: '/play', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.8 },
     { path: '/play/food-worldcup', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.8 },
+    { path: '/play/busan-food-olympics', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.8 },
     { path: '/play/travel-type', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.9 },
     { path: '/play/travel-type/types', lastmod: BUILD_TIME, changefreq: 'weekly', priority: 0.7 },
     ...TYPE_KEYS.map((k) => ({ path: resultPath(k), lastmod: now, changefreq: 'daily' as const, priority: 0.7 })),
