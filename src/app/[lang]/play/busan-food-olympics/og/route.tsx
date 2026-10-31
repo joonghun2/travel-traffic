@@ -1,10 +1,11 @@
 import { ImageResponse } from 'next/og';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
 import { isLang } from '@/lib/i18n/routing';
-import { BF_TEXT, BUSAN_FOODS, busanFoodImage } from '@/data/busanFood';
+import { BF_TEXT, BUSAN_FOODS } from '@/data/busanFood';
+import { busanFoodPhotoData } from '@/lib/busanFoodPhoto';
 
 // 1200×630 link preview: /play/busan-food-olympics/og (Korean, via rewrite), /en/..., /ja/...
-// Rendered on first request (the food photos are fetched from this deployment), then cached.
+// Rendered on first request (the food photos are fetched from the live site), then cached.
 export const revalidate = 86400;
 
 export function generateStaticParams() {
@@ -13,13 +14,16 @@ export function generateStaticParams() {
 
 const TILE = 210;
 
-export async function GET(request: Request, { params }: { params: Promise<{ lang: string }> }) {
+export async function GET(_request: Request, { params }: { params: Promise<{ lang: string }> }) {
   const { lang: rawLang } = await params;
   const lang = isLang(rawLang) ? rawLang : 'ko';
   const text = BF_TEXT[lang];
   const badge = text.roundOf.replace('{n}', '16');
-  const fonts = await loadCjkFonts(`${text.title}${badge}${text.cardSub}Check East Point🥇`, 800, lang);
-  const tiles = BUSAN_FOODS.slice(0, 10).map((food) => new URL(busanFoodImage(food.id), request.url).toString());
+  const [fonts, photos] = await Promise.all([
+    loadCjkFonts(`${text.title}${badge}${text.cardSub}Check East Point🥇`, 800, lang),
+    Promise.all(BUSAN_FOODS.slice(0, 10).map((food) => busanFoodPhotoData(food.id))),
+  ]);
+  const tiles = photos.filter((p): p is string => p !== null);
 
   return new ImageResponse(
     (

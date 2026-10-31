@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/og';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
 import { isLang, pick } from '@/lib/i18n/routing';
-import { BF_TEXT, BUSAN_FOODS_BY_ID, busanFoodImage } from '@/data/busanFood';
+import { BF_TEXT, BUSAN_FOODS_BY_ID } from '@/data/busanFood';
+import { busanFoodPhotoData } from '@/lib/busanFoodPhoto';
 
 // Instagram Story card for a gold medal: /play/busan-food-olympics/story/milmyeon.png (Korean, via rewrite), /en/...
 export const revalidate = 86400;
@@ -10,15 +11,16 @@ export function generateStaticParams() {
   return [];
 }
 
-export async function GET(request: Request, { params }: { params: Promise<{ lang: string; file: string }> }) {
+export async function GET(_request: Request, { params }: { params: Promise<{ lang: string; file: string }> }) {
   const { lang, file } = await params;
   const food = BUSAN_FOODS_BY_ID.get(file.replace(/\.png$/, ''));
   if (!isLang(lang) || !food) return new Response('Not found', { status: 404 });
   const text = BF_TEXT[lang];
   const name = pick(food.name, lang);
-  const photo = new URL(busanFoodImage(food.id), request.url).toString();
-
-  const fonts = await loadCjkFonts(`${text.title}${text.winnerLabel}${name}${text.storyCta}Check East Point🥇`, 800, lang);
+  const [photo, fonts] = await Promise.all([
+    busanFoodPhotoData(food.id),
+    loadCjkFonts(`${text.title}${text.winnerLabel}${name}${text.storyCta}Check East Point🥇`, 800, lang),
+  ]);
 
   return new ImageResponse(
     (
@@ -38,9 +40,13 @@ export async function GET(request: Request, { params }: { params: Promise<{ lang
       >
         <div style={{ display: 'flex', fontSize: 36, color: '#fcd34d' }}>🥇 {text.title}</div>
         <div style={{ display: 'flex', fontSize: 46, marginTop: 56 }}>{text.winnerLabel}</div>
-        <div style={{ display: 'flex', marginTop: 40, borderRadius: 48, overflow: 'hidden', border: '6px solid #fbbf24' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={photo} alt="" width={860} height={860} style={{ width: 860, height: 860, objectFit: 'cover' }} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 872, height: 872, marginTop: 40, borderRadius: 48, overflow: 'hidden', border: '6px solid #fbbf24', fontSize: 360 }}>
+          {photo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={photo} alt="" width={860} height={860} style={{ width: 860, height: 860, objectFit: 'cover' }} />
+          ) : (
+            food.emoji
+          )}
         </div>
         <div style={{ display: 'flex', textAlign: 'center', fontSize: name.length > 14 ? 64 : 96, lineHeight: 1.15, marginTop: 48 }}>{name}</div>
         <div style={{ display: 'flex', flex: 1 }} />
