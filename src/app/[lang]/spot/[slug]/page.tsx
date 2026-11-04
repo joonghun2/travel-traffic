@@ -28,8 +28,9 @@ import { getForecast, statusOfRate, todayOf } from '@/lib/forecast';
 import { formatForecastDate, quietestDay } from '@/lib/forecastMap';
 
 export const dynamicParams = false;
-// Re-render with the cached Seoul snapshot every 5 minutes; the panel polls /api/crowd on the client.
-export const revalidate = 300;
+// Jeju/Busan pages re-render once a day, with the forecast. Seoul pages read the Seoul cache, whose
+// 5-minute revalidate lowers theirs per page; the panel polls /api/crowd on the client.
+export const revalidate = 86400;
 export const preferredRegion = 'icn1';
 
 type Params = Promise<{ lang: string; slug: string }>;

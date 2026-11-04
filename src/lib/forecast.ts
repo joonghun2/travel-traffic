@@ -113,6 +113,8 @@ const snapshot = SNAPSHOT as unknown as ForecastData;
 const RETRY_MS = 30 * 60 * 1000;
 let failedAt = 0;
 let inflight: Promise<ForecastData> | null = null;
+// Spot pages keep a render for a day, so one built on the snapshot asks for a retry soon via this revalidate.
+const retrySoon = unstable_cache(async () => true, ['kto-forecast-retry'], { revalidate: RETRY_MS / 1000 });
 
 /**
  * Forecast for all Jeju/Busan spots. Uses the daily API cache; if the API is unavailable
@@ -124,8 +126,14 @@ let inflight: Promise<ForecastData> | null = null;
  */
 export async function getForecast(): Promise<ForecastData> {
   // Builds render many pages in parallel workers; never call the API from there.
-  if (process.env.NEXT_PHASE === 'phase-production-build') return { ...snapshot, source: 'snapshot', issue: 'build' };
-  if (Date.now() - failedAt < RETRY_MS) return { ...snapshot, source: 'snapshot', issue: 'backoff', issueDetail: lastFailureDetail };
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    await retrySoon();
+    return { ...snapshot, source: 'snapshot', issue: 'build' };
+  }
+  if (Date.now() - failedAt < RETRY_MS) {
+    await retrySoon();
+    return { ...snapshot, source: 'snapshot', issue: 'backoff', issueDetail: lastFailureDetail };
+  }
   inflight ??= getCachedForecast().finally(() => {
     inflight = null;
   });
@@ -134,6 +142,7 @@ export async function getForecast(): Promise<ForecastData> {
   } catch (err) {
     failedAt = Date.now();
     console.warn('KTO forecast unavailable, using snapshot:', err, lastFailureDetail);
+    await retrySoon();
     const noKey = !process.env.DATA_GO_KR_SERVICE_KEY;
     return { ...snapshot, source: 'snapshot', issue: noKey ? 'no_key' : 'fetch_failed', issueDetail: noKey ? undefined : lastFailureDetail };
   }

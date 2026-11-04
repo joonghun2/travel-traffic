@@ -34,6 +34,11 @@ const getSeoulLive = unstable_cache(
   { revalidate: SEOUL_REFRESH_SECONDS }
 );
 
+// Build stand-in for getSeoulLive: no API call, but its revalidate gives Seoul pages the same 5 minutes.
+const getSeoulDuringBuild = unstable_cache(async (): Promise<SeoulLiveCache> => ({ areas: {}, fetchedAt: null, issue: 'build' }), ['seoul-live-build'], {
+  revalidate: SEOUL_REFRESH_SECONDS,
+});
+
 /** Cached Seoul readings keyed by area code (same 5-minute cache the site uses). */
 export async function getSeoulLiveAreas() {
   return getSeoulLive();
@@ -66,11 +71,11 @@ export interface CrowdSnapshot {
  * (isLive = true), otherwise the time-of-day estimate from crowdEngine.
  */
 export async function getCrowdSnapshot(): Promise<CrowdSnapshot> {
-  let seoul: SeoulLiveCache = { areas: {}, fetchedAt: null, issue: 'build' };
+  let seoul: SeoulLiveCache;
   try {
-    // Skip during `next build`: dozens of prerender workers would hit the API at once.
+    // Skip the API during `next build`: dozens of prerender workers would hit it at once.
     // Pages render estimates and pick up live data on their first revalidation.
-    if (process.env.NEXT_PHASE !== 'phase-production-build') seoul = await getSeoulLive();
+    seoul = process.env.NEXT_PHASE === 'phase-production-build' ? await getSeoulDuringBuild() : await getSeoulLive();
   } catch (err) {
     console.warn('Seoul live data unavailable, using estimates:', err);
     seoul = { areas: {}, fetchedAt: null, issue: 'fetch_failed' };
