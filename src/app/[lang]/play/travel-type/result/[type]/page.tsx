@@ -42,7 +42,7 @@ export default async function TravelTypeResultPage({ params }: { params: Params 
   if (!isLang(lang) || !key) notFound();
   const picks = await picksFor(key, lang);
   return (
-    <div className="min-h-screen bg-[#f6f4ff] text-slate-900 flex flex-col pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-[#fff3e8] via-[#fff8f2] to-[#f6f4ff] text-slate-900 flex flex-col pb-24">
       <DashboardHeader />
       <main className="flex-1 max-w-lg w-full mx-auto px-4 sm:px-6 pt-6 sm:pt-8">
         <TravelTypeResult typeKey={key} picks={picks} />

@@ -3,6 +3,7 @@
 import { Lang } from '@/types';
 import QUESTIONS_JSON from '@/data/travel-type/questions.json';
 import TYPES_JSON from '@/data/travel-type/types.json';
+import FUN_JSON from '@/data/travel-type/fun.json';
 import UI_JSON from '@/data/travel-type/ui.json';
 
 export type Loc = Partial<Record<Lang, string>> & { ko: string };
@@ -38,6 +39,8 @@ export interface TravelType {
 export const QUESTIONS = QUESTIONS_JSON.questions as Question[];
 export const TYPES = TYPES_JSON.types as Record<TypeKey, TravelType>;
 export const TYPE_KEYS = Object.keys(TYPES) as TypeKey[];
+/** Playful result lines (src/data/travel-type/fun.json). */
+export const FUN = FUN_JSON.fun as Record<TypeKey, { emoji: string; roast: Loc; habit: Loc; buddyLine: Loc; clashLine: Loc }>;
 export const TEST_PATH = '/play/travel-type';
 export const resultPath = (key: TypeKey) => `${TEST_PATH}/result/${TYPES[key].slug}`;
 export const typeBySlug = (slug: string) => TYPE_KEYS.find((k) => TYPES[k].slug === slug);

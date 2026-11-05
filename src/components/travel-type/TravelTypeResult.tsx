@@ -9,6 +9,7 @@ import ShareButton from '@/components/ShareButton';
 import RadarChart from './RadarChart';
 import { OWN_RESULT_KEY } from './TravelTypeQuiz';
 import {
+  FUN,
   QUESTIONS,
   RARITY,
   STATS,
@@ -77,8 +78,22 @@ export default function TravelTypeResult({ typeKey, picks }: { typeKey: TypeKey;
 
   const a = answers?.join('');
   const sharePath = a ? `${resultPath(typeKey)}?a=${a}` : resultPath(typeKey);
-  const shareText = tt('shareText', lang, { name: loc(info.name, lang), exp: stats.EXP, crw: stats.CRW });
   const name = loc(info.name, lang);
+  const fun = FUN[typeKey];
+  const shareText = tt('shareText', lang, {
+    name,
+    emoji: fun.emoji,
+    roast: loc(fun.roast, lang),
+    buddy: loc(TYPES[info.buddy].name, lang),
+    clash: loc(TYPES[info.clash].name, lang),
+  });
+  const shareResult = {
+    path: sharePath,
+    title: `${name} · ${tt('title', lang)}`,
+    text: shareText,
+    imageUrl: `${SITE_URL}${localePath(resultPath(typeKey))}/og`,
+    storyImage: a ? { src: localePath(`${TEST_PATH}/card/${a}-story.png`), fileName: `travel-type-${info.slug}-story.png` } : undefined,
+  };
 
   return (
     <div className="space-y-5">
@@ -89,8 +104,8 @@ export default function TravelTypeResult({ typeKey, picks }: { typeKey: TypeKey;
         </Link>
       )}
 
-      {/* Stat card */}
-      <section className="rounded-[28px] p-5 sm:p-6 shadow-sm" style={{ background: theme.bg, color: '#1e1b2e' }}>
+      {/* Result: the part people send to friends */}
+      <section className="rounded-[28px] p-5 sm:p-6 shadow-sm" style={{ background: `linear-gradient(150deg, ${theme.bg}, ${theme.soft})`, color: '#1e1b2e' }}>
         <div className="flex items-center justify-between gap-2 text-xs font-bold">
           <span className="truncate" style={{ color: theme.accent }}>
             {tt('title', lang)}
@@ -99,17 +114,43 @@ export default function TravelTypeResult({ typeKey, picks }: { typeKey: TypeKey;
             {tt('rarity', lang, { n: RARITY[typeKey] })}
           </span>
         </div>
-        <p className="mt-4 text-sm font-extrabold" style={{ color: theme.accent }}>
+        <div className="mt-3 text-6xl" aria-hidden="true">{fun.emoji}</div>
+        <p className="mt-3 text-sm font-extrabold" style={{ color: theme.accent }}>
           {answers ? tt(planner ? 'planner' : 'spontaneous', lang) : ' '}
         </p>
         <h1 className="text-[2rem] leading-tight font-black tracking-tight">{name}</h1>
-        <p className="mt-1.5 text-[15px] font-semibold opacity-80">{loc(info.tagline, lang)}</p>
+        <p className="mt-3 p-3.5 rounded-2xl bg-white/80 text-[15px] font-bold leading-snug">“{loc(fun.roast, lang)}”</p>
+        <p className="mt-2.5 text-sm font-semibold opacity-80">
+          😂 {tt('habit', lang)}: {loc(fun.habit, lang)}
+        </p>
         {near && (
           <p className="mt-2 inline-block px-2.5 py-1 rounded-full bg-white/70 text-xs font-bold" style={{ color: theme.accent }}>
             {tt('near', lang, { name: loc(TYPES[near].name, lang) })}
           </p>
         )}
 
+      </section>
+
+      {/* Buddy / clash */}
+      <section className="grid grid-cols-1 gap-3">
+        {(['buddy', 'clash'] as const).map((rel) => {
+          const k = info[rel];
+          return (
+            <Link key={rel} href={localePath(resultPath(k))} className="p-4 rounded-3xl bg-white hover:shadow-sm transition">
+              <p className="text-xs font-bold text-slate-500">{tt(rel, lang)}</p>
+              <p className="mt-1 text-base font-extrabold" style={{ color: THEME[k].accent }}>
+                {FUN[k].emoji} {loc(TYPES[k].name, lang)}
+              </p>
+              <p className="mt-1 text-sm text-slate-600 leading-snug">“{loc(fun[rel === 'buddy' ? 'buddyLine' : 'clashLine'], lang)}”</p>
+            </Link>
+          );
+        })}
+      </section>
+
+      <ShareButton {...shareResult} label={tt('shareCta', lang)} className="w-full h-14 !bg-violet-600 !text-white !border-0 text-base shadow-lg" />
+
+      {/* Stat card */}
+      <section className="rounded-[28px] p-5 sm:p-6 shadow-sm" style={{ background: theme.bg, color: '#1e1b2e' }}>
         <RadarChart
           stats={stats}
           compare={viewer !== 'friend' ? friendStats ?? undefined : undefined}
@@ -253,21 +294,6 @@ export default function TravelTypeResult({ typeKey, picks }: { typeKey: TypeKey;
 
       <KakaoAdfitBanner unit={AD_UNIT} width="300" height="250" />
 
-      {/* Buddy / clash */}
-      <section className="grid grid-cols-2 gap-3">
-        {(['buddy', 'clash'] as const).map((rel) => {
-          const k = info[rel];
-          return (
-            <Link key={rel} href={localePath(resultPath(k))} className="p-4 rounded-3xl bg-white hover:shadow-sm transition">
-              <p className="text-xs font-bold text-slate-400">{tt(rel, lang)}</p>
-              <p className="mt-1 text-base font-extrabold" style={{ color: THEME[k].accent }}>
-                {loc(TYPES[k].name, lang)}
-              </p>
-              <p className="mt-1 text-xs text-slate-500 leading-snug">{loc(TYPES[k].tagline, lang)}</p>
-            </Link>
-          );
-        })}
-      </section>
 
       {/* Share */}
       <section className="p-5 rounded-3xl bg-white space-y-3">
@@ -286,14 +312,7 @@ export default function TravelTypeResult({ typeKey, picks }: { typeKey: TypeKey;
             ))}
           </div>
         )}
-        <ShareButton
-          path={sharePath}
-          title={`${name} · ${tt('title', lang)}`}
-          text={shareText}
-          imageUrl={`${SITE_URL}${localePath(resultPath(typeKey))}/og`}
-          storyImage={a ? { src: localePath(`${TEST_PATH}/card/${a}-story.png`), fileName: `travel-type-${info.slug}-story.png` } : undefined}
-          className="w-full h-12 !bg-violet-600 !text-white !border-0 text-base"
-        />
+        <ShareButton {...shareResult} className="w-full h-12 !bg-violet-600 !text-white !border-0 text-base" />
         {a && (
           <ShareButton
             path={`${TEST_PATH}?f=${a}`}

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from '@/lib/i18n/context';
-import { QUESTIONS, STATS, TEST_PATH, decodeAnswers, encodeAnswers, loc, resultPath, scoreAnswers, tt, typeOf } from '@/lib/travelType';
+import { FUN, QUESTIONS, STATS, TEST_PATH, TYPE_KEYS, decodeAnswers, encodeAnswers, loc, resultPath, scoreAnswers, tt, typeOf } from '@/lib/travelType';
 
 export const OWN_RESULT_KEY = 'cep_travel_type';
 const LETTERS = ['A', 'B', 'C', 'D'];
@@ -145,7 +145,9 @@ export default function TravelTypeQuiz() {
       <div className="pt-4">
         <IntroHexagon />
         <h1 className="mt-5 text-3xl sm:text-4xl font-black tracking-tight">{tt('title', lang)}</h1>
-        <p className="mt-3 text-[15px] leading-relaxed text-slate-600">{tt('intro', lang)}</p>
+        <p className="mt-3 text-[15px] font-semibold leading-relaxed text-slate-700">{tt('introFun', lang)}</p>
+        <p className="mt-2 text-2xl tracking-wide" aria-hidden="true">{TYPE_KEYS.map((k) => FUN[k].emoji).join(' ')}</p>
+        <p className="mt-3 text-sm leading-relaxed text-slate-500">{tt('intro', lang)}</p>
         <p className="mt-3 inline-block px-3 py-1 rounded-full bg-white text-xs font-bold text-slate-500">{tt('meta', lang)}</p>
       </div>
       <div className="grid grid-cols-3 gap-2 text-left">

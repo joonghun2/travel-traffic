@@ -247,18 +247,18 @@
       "zh-tw": "推薦時段：熱鬧的晚上也沒問題，但重點景點最好上午先去。"
     },
     "buddy": {
-      "ko": "찰떡 여행 메이트",
-      "en": "Perfect travel buddy",
-      "ja": "相性抜群の旅仲間",
-      "zh-cn": "最佳旅伴",
-      "zh-tw": "最佳旅伴"
+      "ko": "💚 환상의 여행 메이트",
+      "en": "💚 Dream travel buddy",
+      "ja": "💚 最高の旅仲間",
+      "zh-cn": "💚 最佳旅伴",
+      "zh-tw": "💚 最佳旅伴"
     },
     "clash": {
-      "ko": "상극 유형",
-      "en": "Opposite type",
-      "ja": "正反対のタイプ",
-      "zh-cn": "相反类型",
-      "zh-tw": "相反型別"
+      "ko": "💔 환장의 여행 메이트",
+      "en": "💔 Nightmare travel buddy",
+      "ja": "💔 最悪の旅仲間",
+      "zh-cn": "💔 最抓狂旅伴",
+      "zh-tw": "💔 最抓狂旅伴"
     },
     "compareTitle": {
       "ko": "친구와 여행 궁합",
@@ -359,11 +359,11 @@
       "zh-tw": "檢視全部8種旅行型別"
     },
     "shareText": {
-      "ko": "내 여행 유형은 '{name}' — 탐험력 {exp}, 혼잡 내성 {crw}. 너는 어떤 여행자야?",
-      "en": "My travel type is \"{name}\" — exploration {exp}, crowd tolerance {crw}. What kind of traveller are you?",
-      "ja": "私の旅タイプは「{name}」— 探検力{exp}、混雑耐性{crw}。あなたはどんな旅人？",
-      "zh-cn": "我的旅行类型是\"{name}\"——探险力{exp}，人群耐受度{crw}。你是哪种旅行者？",
-      "zh-tw": "我的旅行型別是\"{name}\"——探險力{exp}，人群耐受度{crw}。你是哪種旅行者？"
+      "ko": "나는 '{name}' {emoji}\n\"{roast}\"\n\n💚 환상의 메이트: {buddy}\n💔 환장의 메이트: {clash}\n\n너는 뭐 나와? 우리 같이 여행 가도 되는지 보자 👀",
+      "en": "I got \"{name}\" {emoji}\n\"{roast}\"\n\n💚 Dream buddy: {buddy}\n💔 Nightmare buddy: {clash}\n\nWhat do you get? Let's see if we can survive a trip together 👀",
+      "ja": "私は「{name}」{emoji}\n「{roast}」\n\n💚 最高の旅仲間：{buddy}\n💔 最悪の旅仲間：{clash}\n\nあなたは何タイプ？一緒に旅行しても大丈夫か見てみよう 👀",
+      "zh-cn": "我是“{name}”{emoji}\n“{roast}”\n\n💚 最佳旅伴：{buddy}\n💔 最抓狂旅伴：{clash}\n\n你是哪一型？来看看我们能不能一起旅行 👀",
+      "zh-tw": "我是「{name}」{emoji}\n「{roast}」\n\n💚 最佳旅伴：{buddy}\n💔 最抓狂旅伴：{clash}\n\n你是哪一型？來看看我們能不能一起旅行 👀"
     },
     "disclaimer": {
       "ko": "Big Five 성격 모델, Plog의 여행자 유형론, 여행 동기 이론을 바탕으로 만든 재미용 성향 테스트이며 심리 진단 검사가 아닙니다. 추천 장소의 영업시간과 휴무일은 방문 전에 확인해 주세요.",
@@ -392,6 +392,27 @@
       "ja": "社交力（外向性）、探検力（開放性・冒険型旅行者）、感性力（審美性）、活動力（感覚追求）、計画力（誠実性）、混雑耐性（感覚の敏感さ）を0〜100で測定します。",
       "zh-cn": "社交力（外向性）、探险力（开放性、冒险型旅行者）、感性力（审美）、活动力（感觉寻求）、计划力（尽责性）、人群耐受度（感官敏感度），各以0到100分衡量。",
       "zh-tw": "社交力（外向性）、探險力（開放性、冒險型旅行者）、感性力（審美）、活動力（感覺尋求）、計劃力（盡責性）、人群耐受度（感官敏感度），各以0到100分衡量。"
+    },
+    "habit": {
+      "ko": "여행지에서 꼭 하는 짓",
+      "en": "What you always do on a trip",
+      "ja": "旅先で必ずやること",
+      "zh-cn": "旅行时一定会做的事",
+      "zh-tw": "旅行時一定會做的事"
+    },
+    "shareCta": {
+      "ko": "친구에게 결과 보내기 💌",
+      "en": "Send my result to a friend 💌",
+      "ja": "友達に結果を送る 💌",
+      "zh-cn": "把结果发给朋友 💌",
+      "zh-tw": "把結果傳給朋友 💌"
+    },
+    "introFun": {
+      "ko": "같이 여행 가도 괜찮을까? 내 유형과 환장의 메이트를 확인해 보세요.",
+      "en": "Can you survive a trip together? Find your type and your nightmare travel buddy.",
+      "ja": "一緒に旅行しても大丈夫？自分のタイプと最悪の旅仲間をチェック。",
+      "zh-cn": "一起旅行真的没问题吗？来看看你的类型和最抓狂旅伴。",
+      "zh-tw": "一起旅行真的沒問題嗎？來看看你的類型和最抓狂旅伴。"
     }
   }
 }

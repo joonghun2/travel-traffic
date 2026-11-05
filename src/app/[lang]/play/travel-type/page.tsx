@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
 export default function TravelTypePage() {
   return (
-    <div className="min-h-screen bg-[#f6f4ff] text-slate-900 flex flex-col pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-[#fff3e8] via-[#fff8f2] to-[#f6f4ff] text-slate-900 flex flex-col pb-24">
       <DashboardHeader />
       <main className="flex-1 max-w-lg w-full mx-auto px-4 sm:px-6 pt-6 sm:pt-10">
         <TravelTypeQuiz />

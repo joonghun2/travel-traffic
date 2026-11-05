@@ -1,0 +1,253 @@
+{
+  "_note": "Playful lines for sharing: a gentle roast, a travel habit, and why the buddy/clash type fits. Tease travel habits only, never people or places.",
+  "fun": {
+    "sEa": {
+      "emoji": "🌙",
+      "roast": {
+        "ko": "혼자 왔다면서 노을 앞에서 플레이리스트만 세 번 바꾸는 사람",
+        "en": "Came alone, then changed the playlist three times in front of one sunset",
+        "ja": "ひとり旅なのに、夕焼けの前でプレイリストを3回変える人",
+        "zh-cn": "说是一个人来的，却对着晚霞换了三次歌单",
+        "zh-tw": "說是一個人來的，卻對著晚霞換了三次歌單"
+      },
+      "habit": {
+        "ko": "사진 300장 찍고 한 장도 안 올림",
+        "en": "Takes 300 photos and posts none of them",
+        "ja": "写真を300枚撮って1枚も投稿しない",
+        "zh-cn": "拍了300张照片，一张都不发",
+        "zh-tw": "拍了300張照片，一張都不發"
+      },
+      "buddyLine": {
+        "ko": "대신 말 걸어 줘서 현지 맛집이 저절로 열림",
+        "en": "Does the talking for you, and local food spots just appear",
+        "ja": "代わりに話しかけてくれて、地元の名店が勝手に見つかる",
+        "zh-cn": "替你开口搭话，本地美食自动解锁",
+        "zh-tw": "替你開口搭話，在地美食自動解鎖"
+      },
+      "clashLine": {
+        "ko": "아침 7시에 '자, 다음 코스!' 외치는 순간 내 낭만 종료",
+        "en": "\"Next stop!\" at 7 AM, and your romance is over",
+        "ja": "朝7時の「はい、次行くよ！」で私のロマンは終了",
+        "zh-cn": "早上7点一句“下一站出发！”，浪漫当场结束",
+        "zh-tw": "早上7點一句「下一站出發！」，浪漫當場結束"
+      }
+    },
+    "sEA": {
+      "emoji": "🧭",
+      "roast": {
+        "ko": "'여기 길 맞아?'의 '여기'가 항상 산 중턱인 사람",
+        "en": "Whenever they ask \"is this the right way?\", they are halfway up a mountain",
+        "ja": "「この道で合ってる？」の「この道」がいつも山の中腹な人",
+        "zh-cn": "每次问“这条路对吗？”的时候，人都在半山腰",
+        "zh-tw": "每次問「這條路對嗎？」的時候，人都在半山腰"
+      },
+      "habit": {
+        "ko": "막다른 길에서 '이것도 경험이지'라고 함",
+        "en": "Hits a dead end and says \"well, that's an experience\"",
+        "ja": "行き止まりで「これも経験だね」と言う",
+        "zh-cn": "走进死胡同，还说“这也是一种体验”",
+        "zh-tw": "走進死巷，還說「這也是一種體驗」"
+      },
+      "buddyLine": {
+        "ko": "둘이 같이 길 잃어 놓고 둘 다 신남",
+        "en": "You both get lost and you are both thrilled",
+        "ja": "ふたりで道に迷って、ふたりとも大喜び",
+        "zh-cn": "两个人一起迷路，两个人都很兴奋",
+        "zh-tw": "兩個人一起迷路，兩個人都很興奮"
+      },
+      "clashLine": {
+        "ko": "힐링하러 왔는데 왜 등산화를 신으래?",
+        "en": "\"I came to relax. Why are you handing me hiking boots?\"",
+        "ja": "癒やされに来たのに、なぜ登山靴を履かせるの？",
+        "zh-cn": "我是来放松的，为什么要我穿登山鞋？",
+        "zh-tw": "我是來放鬆的，為什麼要我穿登山鞋？"
+      }
+    },
+    "sea": {
+      "emoji": "☕",
+      "roast": {
+        "ko": "아침 8시 궁궐에서 혼자 뿌듯해하며 '역시 사람 없을 때지' 하는 사람",
+        "en": "Alone at a palace at 8 AM, quietly proud, saying \"this is the time to come\"",
+        "ja": "朝8時の宮殿でひとり満足げに「やっぱり空いてる時だね」と言う人",
+        "zh-cn": "早上8点独自在宫殿里得意地说“果然要趁没人的时候来”",
+        "zh-tw": "早上8點獨自在宮殿裡得意地說「果然要趁沒人的時候來」"
+      },
+      "habit": {
+        "ko": "벤치에서 1시간 쉬고 오늘 일정 다 했다고 함",
+        "en": "Sits on one bench for an hour and calls the day complete",
+        "ja": "ベンチで1時間休んで今日の予定は完了と言う",
+        "zh-cn": "在长椅上坐一小时，就说今天的行程完成了",
+        "zh-tw": "在長椅上坐一小時，就說今天的行程完成了"
+      },
+      "buddyLine": {
+        "ko": "카페에서 세 시간 있어도 아무도 '이제 어디 가?'를 안 물음",
+        "en": "Three hours in a cafe and nobody asks \"so where next?\"",
+        "ja": "カフェに3時間いても誰も「次どこ行く？」と聞かない",
+        "zh-cn": "在咖啡馆待三小时，也没人问“接下来去哪？”",
+        "zh-tw": "在咖啡廳待三小時，也沒人問「接下來去哪？」"
+      },
+      "clashLine": {
+        "ko": "'저 골목만 더 가 보자'를 일곱 번째 듣는 중",
+        "en": "Hearing \"just one more alley\" for the seventh time",
+        "ja": "「あの路地だけ行ってみよう」を聞くのはもう7回目",
+        "zh-cn": "“再逛一条小巷就好”已经听到第七遍了",
+        "zh-tw": "「再逛一條小巷就好」已經聽到第七遍了"
+      }
+    },
+    "seA": {
+      "emoji": "✅",
+      "roast": {
+        "ko": "여행 일정표에 화장실 가는 시간까지 있는 사람",
+        "en": "Their itinerary has a slot for bathroom breaks",
+        "ja": "旅の予定表にトイレの時間まで入っている人",
+        "zh-cn": "行程表上连上厕所的时间都排好了",
+        "zh-tw": "行程表上連上廁所的時間都排好了"
+      },
+      "habit": {
+        "ko": "맛집 줄 서면서 다음 맛집 예약함",
+        "en": "Books the next restaurant while queuing for this one",
+        "ja": "人気店に並びながら次の店を予約する",
+        "zh-cn": "排队等餐时，顺手预约下一家",
+        "zh-tw": "排隊等餐時，順手預約下一家"
+      },
+      "buddyLine": {
+        "ko": "둘이 붙으면 하루 3만 보, 네 끼, 명소 일곱 곳",
+        "en": "Together: 30,000 steps, four meals and seven sights a day",
+        "ja": "ふたり揃えば1日3万歩、4食、名所7か所",
+        "zh-cn": "两人凑一起：一天3万步、四顿饭、七个景点",
+        "zh-tw": "兩人湊一起：一天3萬步、四頓飯、七個景點"
+      },
+      "clashLine": {
+        "ko": "시장 아주머니랑 수다 40분, 내 일정표는 이미 오열 중",
+        "en": "A 40-minute chat at the market while your schedule quietly weeps",
+        "ja": "市場のおばさんと40分おしゃべり、私の予定表はもう号泣中",
+        "zh-cn": "和市场阿姨聊了40分钟，我的行程表已经在痛哭",
+        "zh-tw": "和市場阿姨聊了40分鐘，我的行程表已經在痛哭"
+      }
+    },
+    "SEa": {
+      "emoji": "🧺",
+      "roast": {
+        "ko": "시장에서 덤으로 받은 귤이 가방 반을 차지하는 사람",
+        "en": "Half their bag is free tangerines from the market",
+        "ja": "市場でおまけにもらったみかんがカバンの半分を占める人",
+        "zh-cn": "市场送的橘子占了半个包",
+        "zh-tw": "市場送的橘子占了半個包"
+      },
+      "habit": {
+        "ko": "길 한 번 물어봤다가 동네 이야기를 다 듣고 옴",
+        "en": "Asks for directions once and leaves knowing the whole neighbourhood's history",
+        "ja": "道を一度聞いただけで町じゅうの話を聞いて帰ってくる",
+        "zh-cn": "问一次路，回来时已经知道整条街的故事",
+        "zh-tw": "問一次路，回來時已經知道整條街的故事"
+      },
+      "buddyLine": {
+        "ko": "내가 수다 떠는 동안 옆에서 조용히 인생샷을 남겨 줌",
+        "en": "While you chat, they quietly take your best photo of the trip",
+        "ja": "おしゃべりしている間に、隣で静かに最高の一枚を撮ってくれる",
+        "zh-cn": "你聊天的时候，TA在旁边默默帮你拍出最佳照片",
+        "zh-tw": "你聊天的時候，TA在旁邊默默幫你拍出最佳照片"
+      },
+      "clashLine": {
+        "ko": "'아주머니 그만 보내 드려, 다음 코스 늦어'",
+        "en": "\"Please let her go now, we're late for the next stop\"",
+        "ja": "「おばさんをもう解放してあげて、次に遅れるよ」",
+        "zh-cn": "“别再拉着阿姨聊了，下一站要迟到了”",
+        "zh-tw": "「別再拉著阿姨聊了，下一站要遲到了」"
+      }
+    },
+    "SEA": {
+      "emoji": "🚩",
+      "roast": {
+        "ko": "'딱 한 골목만 더'라고 말한 지 두 시간 지난 사람",
+        "en": "Said \"just one more alley\" two hours ago",
+        "ja": "「あと1本だけ路地を」と言ってからもう2時間たっている人",
+        "zh-cn": "说“就再逛一条小巷”已经是两小时前的事了",
+        "zh-tw": "說「就再逛一條小巷」已經是兩小時前的事了"
+      },
+      "habit": {
+        "ko": "맛집 찾는다며 일행을 다 끌고 다니다 결국 찾아냄",
+        "en": "Drags everyone around looking for food, and somehow finds it",
+        "ja": "名店探しで全員を連れ回し、なぜか本当に見つける",
+        "zh-cn": "拖着大家到处找美食，最后竟然真的找到了",
+        "zh-tw": "拖著大家到處找美食，最後竟然真的找到了"
+      },
+      "buddyLine": {
+        "ko": "길을 잃어도 서로 '오히려 좋아' 하는 사이",
+        "en": "Get lost and you both say \"even better\"",
+        "ja": "道に迷っても「むしろ最高」と言い合える仲",
+        "zh-cn": "迷路了也能互相说“这样更好”",
+        "zh-tw": "迷路了也能互相說「這樣更好」"
+      },
+      "clashLine": {
+        "ko": "'우리 잠깐 앉자'가 벌써 다섯 번째",
+        "en": "\"Can we sit for a bit?\" for the fifth time already",
+        "ja": "「ちょっと座ろう」がもう5回目",
+        "zh-cn": "“我们坐一下吧”已经是第五次了",
+        "zh-tw": "「我們坐一下吧」已經是第五次了"
+      }
+    },
+    "Sea": {
+      "emoji": "🌿",
+      "roast": {
+        "ko": "여행 계획을 물으면 '너 가고 싶은 데 가자'로 끝내는 사람",
+        "en": "Asked about the plan, they answer \"wherever you want\"",
+        "ja": "旅の計画を聞くと「行きたいところでいいよ」で終わる人",
+        "zh-cn": "一问行程，就回答“你想去哪都行”",
+        "zh-tw": "一問行程，就回答「你想去哪都行」"
+      },
+      "habit": {
+        "ko": "경치 좋은 곳에 앉으면 일어날 생각을 안 함",
+        "en": "Sits down at a nice view and has no plans to ever stand up",
+        "ja": "景色のいい場所に座ると立ち上がる気がなくなる",
+        "zh-cn": "在风景好的地方一坐下，就不打算起来了",
+        "zh-tw": "在風景好的地方一坐下，就不打算起來了"
+      },
+      "buddyLine": {
+        "ko": "말없이 풍경만 봐도 어색하지 않은 사이",
+        "en": "You can watch the view in silence and it is never awkward",
+        "ja": "黙って景色を見ていても気まずくならない仲",
+        "zh-cn": "一起默默看风景也不会尴尬",
+        "zh-tw": "一起默默看風景也不會尷尬"
+      },
+      "clashLine": {
+        "ko": "눈 떠 보니 내가 왜 등산 중이지?",
+        "en": "You blink, and somehow you are hiking",
+        "ja": "気づいたら、なぜか登山している",
+        "zh-cn": "一回神，我怎么在爬山？",
+        "zh-tw": "一回神，我怎麼在爬山？"
+      }
+    },
+    "SeA": {
+      "emoji": "🎉",
+      "roast": {
+        "ko": "단체 사진 찍자며 모르는 사람까지 모으는 사람",
+        "en": "Rounds up complete strangers for the group photo",
+        "ja": "集合写真のために知らない人まで集める人",
+        "zh-cn": "拍合照时连陌生人都拉进来",
+        "zh-tw": "拍合照時連陌生人都拉進來"
+      },
+      "habit": {
+        "ko": "새벽까지 놀고 아침에 제일 먼저 일어나 모두를 깨움",
+        "en": "Up until dawn, then first awake and waking everyone else",
+        "ja": "明け方まで遊んで、朝いちばんに起きて全員を起こす",
+        "zh-cn": "玩到凌晨，早上还第一个起床叫醒所有人",
+        "zh-tw": "玩到凌晨，早上還第一個起床叫醒所有人"
+      },
+      "buddyLine": {
+        "ko": "내가 '가자!' 외치면 이미 예약까지 끝나 있음",
+        "en": "You shout \"let's go!\" and the booking is already done",
+        "ja": "「行こう！」と叫ぶと、もう予約まで終わっている",
+        "zh-cn": "你喊“走吧！”的时候，TA已经订好了",
+        "zh-tw": "你喊「走吧！」的時候，TA已經訂好了"
+      },
+      "clashLine": {
+        "ko": "신나서 돌아봤더니 혼자 노을 보러 사라짐",
+        "en": "You turn around, buzzing, and they've slipped off to watch the sunset",
+        "ja": "盛り上がって振り返ると、ひとりで夕焼けを見に消えている",
+        "zh-cn": "兴奋地一回头，TA已经一个人去看晚霞了",
+        "zh-tw": "興奮地一回頭，TA已經一個人去看晚霞了"
+      }
+    }
+  }
+}

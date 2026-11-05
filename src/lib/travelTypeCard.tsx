@@ -3,7 +3,7 @@ import QRCode from 'qrcode';
 import { Lang } from '@/types';
 import { SITE_URL, localizePath } from '@/lib/i18n/routing';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
-import { STATS, Stats, TEST_PATH, THEME, TYPES, TypeKey, grade, isPlanner, loc, tt } from '@/lib/travelType';
+import { FUN, STATS, Stats, TEST_PATH, THEME, TYPES, TypeKey, grade, isPlanner, loc, tt } from '@/lib/travelType';
 import { withUtm } from '@/lib/utm';
 
 export type CardSize = 'og' | 'feed' | 'story';
@@ -71,7 +71,7 @@ export async function renderTypeCard({ key, stats, lang, size, personal }: { key
   const theme = THEME[key];
   const info = TYPES[key];
   const name = loc(info.name, lang);
-  const tagline = loc(info.tagline, lang);
+  const tagline = loc(FUN[key].roast, lang);
   const prefix = personal ? tt(isPlanner(stats) ? 'planner' : 'spontaneous', lang) : '';
   const title = tt('title', lang);
   const labels = Object.fromEntries(STATS.map((s) => [s, tt(`stat.${s}`, lang)]));
@@ -106,9 +106,9 @@ export async function renderTypeCard({ key, stats, lang, size, personal }: { key
         <div style={{ display: 'flex', fontSize: 32, color: theme.accent }}>{`Check East Point · ${title}`}</div>
         {prefix && <div style={{ display: 'flex', marginTop: size === 'story' ? 60 : 36, fontSize: 38, color: theme.accent }}>{prefix}</div>}
         <div style={{ display: 'flex', alignItems: 'center', marginTop: prefix ? 18 : 40, height: Math.round(fit(name, 920, 104) * 1.45), fontSize: fit(name, 920, 104), whiteSpace: 'nowrap' }}>{name}</div>
-        <div style={{ display: 'flex', marginTop: 8, fontSize: fit(tagline, 940, 38), opacity: 0.8, whiteSpace: 'nowrap' }}>{tagline}</div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8, maxWidth: 940, fontSize: 38, lineHeight: 1.3, opacity: 0.85, textAlign: 'center' }}>{tagline}</div>
         <div style={{ display: 'flex', marginTop: size === 'story' ? 50 : 16 }}>
-          <Radar stats={stats} size={size === 'story' ? 860 : 700} accent={theme.accent} soft={theme.soft} labels={labels} />
+          <Radar stats={stats} size={size === 'story' ? 860 : 620} accent={theme.accent} soft={theme.soft} labels={labels} />
         </div>
         {grades}
         <div style={{ display: 'flex', alignItems: 'center', gap: 28, marginTop: 'auto' }}>
