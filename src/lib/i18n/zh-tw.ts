@@ -31,6 +31,8 @@ export const ZH_TW: Record<string, string> = {
   "share.copy": "複製連結",
   "share.copied": "連結已複製",
   "share.threads": "Threads",
+  "share.reddit": "Reddit",
+  "share.kakaoCopied": "訊息已複製。請貼上到KakaoTalk傳送。",
   "share.instagram": "Instagram 快拍",
   "share.instagramSaved": "圖片已儲存，請發到 Instagram 快拍",
   "share.more": "更多",

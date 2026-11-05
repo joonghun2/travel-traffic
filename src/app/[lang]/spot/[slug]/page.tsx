@@ -17,6 +17,8 @@ import {
 import { computeLiveSpotMetric } from '@/lib/crowdEngine';
 import { SPOT_FACTS } from '@/data/spotFacts';
 import { getCrowdSnapshot } from '@/lib/crowdSnapshot';
+import { SPOT_SEO } from '@/data/spotSeo';
+import SpotGuide from '@/components/SpotGuide';
 import { formatDistance, getGoogleNavUrl, getKakaoNavUrl, getNaverNavUrl } from '@/lib/geoUtils';
 import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
@@ -73,13 +75,12 @@ async function forecastMetadata(lang: Lang, slug: string): Promise<Metadata> {
   const quiet = quietestDay(data.spots[spot.id]);
   const today = todayOf(data.spots[spot.id]);
   const rate = Math.round(today?.rate ?? spot.popularity);
-  const title = t('forecast.metaTitle', { name });
-  const description = t('forecast.metaDesc', {
-    name,
-    quiet: quiet ? formatForecastDate(quiet.date, lang) : '',
-    status: t(`card.status.${statusOfRate(rate)}`),
-    score: rate,
-  });
+  const seo = SPOT_SEO[slug];
+  const status = t(`card.status.${statusOfRate(rate)}`);
+  const title = seo?.title[lang] ?? t('forecast.metaTitle', { name });
+  const description =
+    seo?.description[lang].replace('{status}', status).replace('{score}', String(rate)) ??
+    t('forecast.metaDesc', { name, quiet: quiet ? formatForecastDate(quiet.date, lang) : '', status, score: rate });
   const path = `/spot/${slug}`;
   const url = `${SITE_URL}${localizePath(path, lang)}`;
   return {
@@ -100,13 +101,12 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const t = translator(lang);
   const name = pick(spot.name, lang);
   const metric = (await getCrowdSnapshot()).spots.find((s) => s.id === spot.id) ?? computeLiveSpotMetric(spot);
-  const title = t('spot.metaTitle', { name });
-  const description = t('spot.metaDesc', {
-    name,
-    best: pick(spot.bestTime, lang),
-    status: t(`card.status.${metric.status}`),
-    score: metric.currentScore,
-  });
+  const seo = SPOT_SEO[slug];
+  const status = t(`card.status.${metric.status}`);
+  const title = seo?.title[lang] ?? t('spot.metaTitle', { name });
+  const description =
+    seo?.description[lang].replace('{status}', status).replace('{score}', String(metric.currentScore)) ??
+    t('spot.metaDesc', { name, best: pick(spot.bestTime, lang), status, score: metric.currentScore });
   const url = `${SITE_URL}${localizePath(path, lang)}`;
 
   return {
@@ -183,6 +183,7 @@ export default async function SpotPage({ params }: { params: Params }) {
   // Live data timestamp ("YYYY-MM-DD HH:mm" KST) or today for estimates.
   const modified = (initial.liveUpdatedAt ?? new Date(Date.now() + 9 * 3600 * 1000).toISOString()).slice(0, 10);
   const facts = SPOT_FACTS[getSpotSlug(spot)];
+  const seo = SPOT_SEO[getSpotSlug(spot)];
   const about = t('spot.about', {
     name,
     area: area || 'Seoul',
@@ -219,6 +220,7 @@ export default async function SpotPage({ params }: { params: Params }) {
     ...(facts?.closedDays ? [{ q: t('spot.faq.qClosed', { name }), a: pick(facts.closedDays, lang) }] : []),
     ...(facts?.admission ? [{ q: t('spot.faq.qFee', { name }), a: pick(facts.admission, lang) }] : []),
     ...(facts?.accessibility ? [{ q: t('spot.faq.qAccess', { name }), a: pick(facts.accessibility, lang) }] : []),
+    ...(seo?.faqs[lang] ?? []),
     { q: t('spot.faq.q3'), a: t('spot.faq.a3') },
   ];
 
@@ -304,6 +306,8 @@ export default async function SpotPage({ params }: { params: Params }) {
           sharePath={path}
           shareImageUrl={`${url}/og`}
         />
+
+        {seo && <SpotGuide seo={seo} lang={lang} />}
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs space-y-3 text-sm">
           <p className="text-gray-700 dark:text-gray-200">

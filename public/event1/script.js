@@ -469,6 +469,11 @@ function shareX() {
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
 }
 
+function shareThreads() {
+    const text = `${getShareText()}\n${getShareUrl()}`;
+    window.open(`https://www.threads.net/intent/post?text=${encodeURIComponent(text)}`, '_blank');
+}
+
 function shareReddit() {
     const url = getShareUrl();
     const title = (currentLang === 'ja') ? '旅行生存タイプテスト' : (currentLang === 'en' ? 'Travel Survival Test' : '여행 생존 유형 테스트');
@@ -507,7 +512,8 @@ function shareKakao() {
             }],
         });
     } else {
-        showToast('Kakao sharing not ready.');
+        // SDK off: the phone's share sheet lists KakaoTalk; shareNative copies the message otherwise.
+        shareNative();
     }
 }
 

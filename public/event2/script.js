@@ -321,7 +321,13 @@
                 }],
             });
         } else {
-            showToast('Kakao sharing not ready.');
+            // SDK off: the phone's share sheet lists KakaoTalk, or copy the message to paste.
+            const data = getShareData();
+            if (navigator.share) {
+                navigator.share({ title: data.title, text: data.text, url: data.url }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(`${data.text}\n${data.url}`).then(() => showToast('Copied!'));
+            }
         }
     }
 

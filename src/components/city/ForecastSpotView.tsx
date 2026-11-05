@@ -13,6 +13,8 @@ import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
 import ShareButton from '@/components/ShareButton';
 import AffiliateBox from '@/components/AffiliateBox';
+import SpotGuide from '@/components/SpotGuide';
+import { SPOT_SEO } from '@/data/spotSeo';
 
 const STATUS_KEY = {
   relaxed: 'card.status.relaxed',
@@ -44,6 +46,7 @@ export function forecastFaqs(spot: ForecastSpot, data: ForecastData, lang: Lang)
         list: getNearbyForecastSpots(spot, 3).map((n) => pick(n.spot.name, lang)).join(lang === 'en' || lang === 'ko' ? ', ' : '、'),
       }),
     },
+    ...(SPOT_SEO[getSpotSlug(spot)]?.faqs[lang] ?? []),
     { q: t('forecast.faq.q2'), a: t('forecast.faq.a2') },
     ...(spot.station
       ? [{ q: t('forecast.faq.q3', { name }), a: t('forecast.faq.a3', { station: spot.station.name, exit: spot.station.exit }) }]
@@ -55,6 +58,7 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
   const t = translator(lang);
   const name = pick(spot.name, lang);
   const slug = getSpotSlug(spot);
+  const seo = SPOT_SEO[slug];
   const path = `/spot/${slug}`;
   const url = `${SITE_URL}${localizePath(path, lang)}`;
   const hubPath = localizePath(`/${spot.city}`, lang);
@@ -182,6 +186,8 @@ export default function ForecastSpotView({ spot, data, lang }: { spot: ForecastS
           </p>
           <ShareButton path={path} title={name} text={shareText} imageUrl={`${url}/og`} className="mt-4 w-full" />
         </section>
+
+        {seo && <SpotGuide seo={seo} lang={lang} />}
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs space-y-4">
           <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('forecast.chartTitle')}</h2>

@@ -477,8 +477,8 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
       "ko": "롯데월드 어드벤처 부산",
       "en": "Lotte World Adventure Busan",
       "ja": "ロッテワールド アドベンチャー釜山",
-      "zh-cn": "主题公园 。, 釜山乐天世界探险世界",
-      "zh-tw": "主題公園, 釜山樂天世界"
+      "zh-cn": "釜山乐天世界探险乐园",
+      "zh-tw": "釜山樂天世界探險樂園"
     },
     "area": {
       "ko": "기장군",
@@ -487,8 +487,8 @@ export const FORECAST_SPOTS: ForecastSpot[] = [
       "zh-cn": "釜山 机张郡",
       "zh-tw": "釜山 機張郡"
     },
-    "category": "nature",
-    "emoji": "⛰️",
+    "category": "attraction",
+    "emoji": "🎢",
     "lat": 35.19602,
     "lng": 129.2132,
     "popularity": 67

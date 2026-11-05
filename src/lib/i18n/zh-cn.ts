@@ -34,6 +34,8 @@ export const ZH_CN: Record<string, string> = {
   'share.copy': '复制链接',
   'share.copied': '链接已复制',
   'share.threads': 'Threads',
+  'share.reddit': 'Reddit',
+  'share.kakaoCopied': '消息已复制。请粘贴到KakaoTalk发送。',
   'share.instagram': 'Instagram 快拍',
   'share.instagramSaved': '图片已保存，请发到 Instagram 快拍',
   'share.more': '更多',

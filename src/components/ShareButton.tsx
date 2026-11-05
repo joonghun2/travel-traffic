@@ -114,6 +114,21 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
     setOpen(false);
   };
 
+  // Without the Kakao SDK: the phone's share sheet (KakaoTalk is listed there), or a message to paste.
+  const shareKakaoMessage = async () => {
+    track('kakao');
+    const url = urlFor('kakao');
+    setOpen(false);
+    if (canNativeShare) {
+      try {
+        await navigator.share({ title, text, url });
+      } catch {}
+      return;
+    }
+    await copyText(`${text}\n${url}`);
+    showToast(t('share.kakaoCopied'));
+  };
+
   const shareNative = async () => {
     track('native');
     try {
@@ -122,15 +137,13 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
     setOpen(false);
   };
 
-  const copyLink = async () => {
-    track('copy');
-    const url = urlFor('copy');
+  const copyText = async (value: string) => {
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(value);
     } catch {
       // Clipboard API can be blocked (permissions, in-app browsers); fall back to a hidden textarea.
       const textarea = document.createElement('textarea');
-      textarea.value = url;
+      textarea.value = value;
       textarea.setAttribute('readonly', '');
       textarea.style.position = 'fixed';
       textarea.style.opacity = '0';
@@ -139,6 +152,11 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
       document.execCommand('copy');
       textarea.remove();
     }
+  };
+
+  const copyLink = async () => {
+    track('copy');
+    await copyText(urlFor('copy'));
     setOpen(false);
     showToast(t('share.copied'));
   };
@@ -187,7 +205,7 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
     ...(storyImage
       ? [{ key: 'instagram', label: t('share.instagram'), icon: '◎', cls: 'bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white', onClick: shareStory }]
       : []),
-    ...(kakaoReady ? [{ key: 'kakao', label: t('share.kakao'), icon: '💬', cls: 'bg-[#FEE500] text-gray-900', onClick: shareKakao }] : []),
+    { key: 'kakao', label: t('share.kakao'), icon: '💬', cls: 'bg-[#FEE500] text-gray-900', onClick: kakaoReady ? shareKakao : shareKakaoMessage },
     {
       key: 'line',
       label: t('share.line'),
@@ -209,6 +227,13 @@ export default function ShareButton({ path, title, text, imageUrl, className = '
       icon: '@',
       cls: 'bg-black text-white',
       onClick: () => openWindow('threads', `https://www.threads.net/intent/post?text=${encodeURIComponent(`${text} ${urlFor('threads')}`)}`),
+    },
+    {
+      key: 'reddit',
+      label: t('share.reddit'),
+      icon: 'r/',
+      cls: 'bg-[#FF4500] text-white',
+      onClick: () => openWindow('reddit', `https://www.reddit.com/submit?url=${encodeURIComponent(urlFor('reddit'))}&title=${encodeURIComponent(title)}`),
     },
     {
       key: 'whatsapp',
