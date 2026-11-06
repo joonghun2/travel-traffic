@@ -42,7 +42,12 @@ function demoWeek(): BusiestWeek {
 async function week(): Promise<BusiestWeek | null> {
   const w = await busiestSeoulLastWeek().catch(() => null);
   if (w?.spots.length) return w;
-  return process.env.NODE_ENV === 'development' ? demoWeek() : null;
+  if (process.env.NODE_ENV !== 'development') return null;
+  // Dev without Supabase keys: the live site's ranking, so layers can be re-made locally after a layout fix.
+  const live = await fetch('https://www.checkeastpoint.com/sns/reel/beats.json', { cache: 'no-store' })
+    .then((r) => (r.ok ? r.json() : null))
+    .catch(() => null);
+  return live?.spots?.length ? { from: live.from, to: live.to, samples: live.samples, spots: live.spots } : demoWeek();
 }
 
 function caption(w: BusiestWeek) {
@@ -102,7 +107,7 @@ function Text({ beat, w }: { beat: Beat; w: BusiestWeek }) {
         {first ? '👑 ' : ''}
         {spot.rank}위
       </div>
-      <div style={{ display: 'flex', marginTop: 40, fontSize: spot.ko.length > 7 ? 104 : 132, lineHeight: 1.15, ...IMPACT }}>{spot.ko}</div>
+      <div style={{ display: 'flex', marginTop: 40, fontSize: spot.ko.length > 10 ? 84 : spot.ko.length > 7 ? 104 : 132, lineHeight: 1.15, ...IMPACT }}>{spot.ko}</div>
       <div style={{ display: 'flex', marginTop: 16, fontSize: 46, ...IMPACT, WebkitTextStroke: '6px #0f172a' }}>{spot.en}</div>
       <div style={{ display: 'flex', marginTop: 48, padding: '18px 40px', borderRadius: 999, background: first ? RED : '#0f172a', color: 'white', fontSize: 48 }}>
         평균 혼잡도 {spot.score}

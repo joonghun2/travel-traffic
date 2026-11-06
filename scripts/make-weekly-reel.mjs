@@ -9,8 +9,13 @@
 //   rank   장소/<spot slug>.png, the ranked place (made with Figma; missing ones are listed with
 //          prompts in 장소/만들어야 할 장소.txt and stand in with a Seoul scene)
 //   outro  the night Han River scene ("*야경*"), else the next Seoul scene
-// Music: tracks in the drive's 음악 folder (one per week, starting where it gets loud, faded); none -> silent.
-// usage: node scripts/make-weekly-reel.mjs [--base http://localhost:3000] [--weather 구름|비|눈|벚꽃|낙엽|없음] [--out dir]
+// --style mini: photoreal "miniature city" clips instead (cars and people moving, tilt-shift), made with
+//   scripts/make-mini-clip.mjs into 미니어처 소스/실사 미니어처/장소: han-river.mp4 (hook), <spot slug>.mp4
+//   (ranks), han-river-night.mp4 (outro). The clips carry their own light (afternoon -> night by rank),
+//   so the time-lapse light and clouds are left out; seasonal particles and text stay.
+// Music: tracks in the drive's 음악 folder, starting where each gets loud. With two or more, this week's
+//   track plays up to rank 1 and cross-fades into the next one for rank 1 and the outro; none -> silent.
+// usage: node scripts/make-weekly-reel.mjs [--base http://localhost:3000] [--style mini] [--weather 구름|비|눈|벚꽃|낙엽|없음] [--out dir]
 // Needs ffmpeg in .tools (cd .tools && npm install ffmpeg-static@5.3.0).
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
@@ -25,6 +30,8 @@ const DRIVE = '/Volumes/무제/사진 data';
 const MUSIC_DIR = join(DRIVE, '음악');
 const SCENE_DIR = join(DRIVE, 'AI 일러스트', '움직이는 배경');
 const PLACE_DIR = join(SCENE_DIR, '장소');
+const MINI = arg('--style') === 'mini';
+const MINI_DIR = join(DRIVE, '미니어처 소스', '실사 미니어처', '장소');
 const FFMPEG = '.tools/node_modules/ffmpeg-static/ffmpeg';
 const FPS = 30;
 const SWIPE = 0.3; // scene transition length
@@ -71,7 +78,14 @@ const images = (dir, test = () => true) => (existsSync(dir) ? readdirSync(dir).f
 const seoulScenes = images(SCENE_DIR, (f) => /^\d+/.test(f));
 const seoulScene = (k) => (seoulScenes.length ? seoulScenes[(weekIndex + k) % seoulScenes.length] : null);
 const missing = [];
-beats.forEach((b, i) => {
+if (MINI) {
+  const clip = (name) => join(MINI_DIR, `${name}.mp4`);
+  beats.forEach((b) => {
+    b.scene = clip(b.id === 'hook' ? 'han-river' : b.id === 'outro' ? 'han-river-night' : week.spots[Number(b.id.slice(5)) - 1].slug);
+  });
+  const absent = beats.filter((b) => !existsSync(b.scene)).map((b) => b.scene.split('/').pop());
+  if (absent.length) throw new Error(`Miniature clips missing in ${MINI_DIR}: ${absent.join(', ')} (make them with scripts/make-mini-clip.mjs)`);
+} else beats.forEach((b, i) => {
   if (b.id === 'hook') b.scene = seoulScene(0);
   else if (b.id === 'outro') b.scene = seoulScenes.find((f) => f.includes('야경')) ?? seoulScene(1);
   else {
@@ -184,6 +198,11 @@ beats.forEach((b, i) => {
   const seconds = b.seconds + (i < beats.length - 1 ? SWIPE : 0);
   const frames = Math.round(seconds * FPS);
   const side = i % 2 ? 1 : -1;
+  if (b.scene.endsWith('.mp4')) {
+    inputs.push('-stream_loop', '-1', '-t', seconds.toFixed(3), '-i', b.scene);
+    parts.push(`[${inputCount() - 1}:v]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},fps=${FPS},setsar=1,format=yuv420p,trim=duration=${seconds.toFixed(3)},setpts=PTS-STARTPTS[c${i}]`);
+    return;
+  }
   inputs.push('-i', b.scene);
   parts.push(
     `[${inputCount() - 1}:v]scale=${2 * W}:${2 * H}:force_original_aspect_ratio=increase,crop=${2 * W}:${2 * H},` +
@@ -197,7 +216,7 @@ beats.slice(1).forEach((b, i) => {
 });
 
 // Weather drifts over the scenes (and takes the time-of-day light with them).
-const clouds = withClouds ? await softClouds() : null;
+const clouds = withClouds && !MINI ? await softClouds() : null;
 if (clouds) {
   // Only over scenes with open sky (not indoor markets or street canyons).
   const open = [];
@@ -230,9 +249,9 @@ const LIGHT = [
   { at: 0.45, curves: "r='0/0.02 0.5/0.42 1/0.96':g='0/0 0.5/0.28 1/0.8':b='0/0.06 0.5/0.42 1/0.93'" },
   { at: 0.68, curves: "r='0/0 0.5/0.1 0.85/0.5 1/0.95':g='0/0 0.5/0.13 0.85/0.5 1/0.9':b='0/0.04 0.5/0.3 0.85/0.66 1/1'" },
 ];
-parts.push(`[${last}]split=${LIGHT.length + 1}[day]${LIGHT.map((_, k) => `[l${k}]`).join('')}`);
-last = 'day';
-LIGHT.forEach((l, k) => {
+if (!MINI) parts.push(`[${last}]split=${LIGHT.length + 1}[day]${LIGHT.map((_, k) => `[l${k}]`).join('')}`);
+if (!MINI) last = 'day';
+(MINI ? [] : LIGHT).forEach((l, k) => {
   parts.push(
     `[l${k}]curves=${l.curves},format=rgba,fade=t=in:st=${(l.at * duration).toFixed(2)}:d=${(duration * 0.1).toFixed(2)}:alpha=1[lf${k}]`,
     `[${last}][lf${k}]overlay=0:0[lt${k}]`
@@ -254,6 +273,7 @@ parts.push(`[${last}]format=yuv420p[out]`);
 // --- Music ---------------------------------------------------------------------------------------
 const tracks = existsSync(MUSIC_DIR) ? readdirSync(MUSIC_DIR).filter((f) => /\.(mp3|m4a|aac|wav)$/i.test(f) && !f.startsWith('.')).sort() : [];
 const track = tracks.length ? join(MUSIC_DIR, tracks[weekIndex % tracks.length]) : null;
+const second = tracks.length > 1 ? join(MUSIC_DIR, tracks[(weekIndex + 1) % tracks.length]) : null;
 /** Seconds into the track where it first gets near full loudness, skipping a quiet intro. */
 function loudStart(file) {
   // ebur128 prints short-term loudness (S) every 0.1 s on stderr.
@@ -264,7 +284,22 @@ function loudStart(file) {
   return Math.max(0, Math.floor((points.find((p) => p.s >= peak - 4)?.t ?? 1) - 1));
 }
 let audioMap = [];
-if (track) {
+const XFADE = 0.6;
+const top = beats.find((b) => b.id === 'rank-1');
+if (track && second && top) {
+  // This week's track builds up to rank 1, then the other track takes over for the reveal and outro.
+  const cut = top.start;
+  inputs.push('-ss', String(loudStart(track)), '-i', track);
+  const a = inputCount() - 1;
+  inputs.push('-ss', String(loudStart(second)), '-i', second);
+  const b = inputCount() - 1;
+  parts.push(
+    `[${a}:a]atrim=0:${(cut + XFADE / 2).toFixed(2)},afade=t=in:d=0.4,asetpts=PTS-STARTPTS[ma]`,
+    `[${b}:a]atrim=0:${(duration - cut + XFADE / 2).toFixed(2)},asetpts=PTS-STARTPTS[mb]`,
+    `[ma][mb]acrossfade=d=${XFADE}:c1=tri:c2=tri,atrim=0:${duration},afade=t=out:st=${(duration - 1).toFixed(2)}:d=1,volume=0.8[aout]`
+  );
+  audioMap = ['-map', '[aout]', '-c:a', 'aac', '-b:a', '192k', '-shortest'];
+} else if (track) {
   inputs.push('-ss', String(loudStart(track)), '-i', track);
   parts.push(`[${inputCount() - 1}:a]atrim=0:${duration},afade=t=in:d=0.5,afade=t=out:st=${(duration - 1).toFixed(2)}:d=1,volume=0.8[aout]`);
   audioMap = ['-map', '[aout]', '-c:a', 'aac', '-b:a', '192k', '-shortest'];
@@ -280,4 +315,4 @@ console.log(`\nReel (${duration.toFixed(1)} s): ${output}`);
 console.log(`Scenes: ${beats.map((b) => `${b.id}=${b.scene.split('/').pop()}`).join(', ')}`);
 console.log(`Weather: ${weather}${clouds ? ' + 구름' : ''}`);
 console.log(`Layers and caption: ${outDir}`);
-console.log(track ? `Music: ${track}` : `No music (add tracks to ${MUSIC_DIR}, or add music in the Instagram app)`);
+console.log(track ? `Music: ${track}${second && top ? ` -> ${second} (from rank 1)` : ''}` : `No music (add tracks to ${MUSIC_DIR}, or add music in the Instagram app)`);
