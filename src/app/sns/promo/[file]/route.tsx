@@ -2,6 +2,7 @@ import { ImageResponse } from 'next/og';
 import { cjkFontFamily, loadCjkFonts } from '@/lib/ogFonts';
 import { THEME, TYPES, TypeKey } from '@/lib/travelType';
 import { BUSAN_PROMO_TEXT, busanFoodPromoSlide } from '../busanFood';
+import { travelCardSlide } from '../travelCards';
 
 // Instagram promo for the travel-type test (scripts/make-travel-type-promo.mjs puts these over drive
 // scenery): transparent text layers only. Busan Food Olympics layers live in ../busanFood.tsx.
@@ -93,6 +94,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ fil
       { width: W, height: layer.height, fonts }
     );
   }
+
+  const card = file.match(/^travel-card-(\d+)\.png$/);
+  if (card) return (await travelCardSlide(Number(card[1]))) ?? new Response('Not found', { status: 404 });
 
   const m = file.match(/^travel-type-(\d+|story)\.png$/);
   const slide = m && (m[1] === 'story' ? 'story' : Number(m[1]));

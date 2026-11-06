@@ -22,7 +22,7 @@ const fit = (text: string, width: number, max: number) => {
 };
 
 /** Card art as a data URL: from public/ when the files are there (dev, build), else the live site. */
-async function artDataUrl(key: TypeKey): Promise<string | null> {
+export async function artDataUrl(key: TypeKey): Promise<string | null> {
   const path = cardArt(key);
   try {
     const buf = await readFile(join(process.cwd(), 'public', path));
@@ -36,7 +36,7 @@ async function artDataUrl(key: TypeKey): Promise<string | null> {
 }
 
 /** The trading card itself at a given width (height is 7/5 of it); same layout as TravelCard. */
-function CardFace({ k, stats, lang, badge, art, w }: { k: TypeKey; stats: Stats; lang: Lang; badge: string; art: string | null; w: number }) {
+export function CardFace({ k, stats, lang, badge, art, w }: { k: TypeKey; stats: Stats; lang: Lang; badge: string; art: string | null; w: number }) {
   const theme = THEME[k];
   const info = TYPES[k];
   const face = cardFace(stats, lang);
@@ -130,11 +130,27 @@ function CardFace({ k, stats, lang, badge, art, w }: { k: TypeKey; stats: Stats;
   );
 }
 
+/** Every character a card face (plus the page around it) draws, for loading just those font glyphs. */
+export function cardText(key: TypeKey, stats: Stats, lang: Lang, badge: string) {
+  const info = TYPES[key];
+  return [
+    loc(info.name, lang),
+    loc(TYPES[info.clash].name, lang),
+    loc(FUN[key].roast, lang),
+    loc(FUN[key].habit, lang),
+    ...cardFace(stats, lang).moves.map((m) => m.name),
+    badge,
+    tt('title', lang),
+    ...['power', 'weakness', 'retreat', 'start', 'introFun'].map((k) => tt(k, lang)),
+    tt('rarity', lang, { n: RARITY[key] }),
+    'Check East Point checkeastpoint.com Illus. “”·+●0123456789',
+  ].join('');
+}
+
 export async function renderTypeCard({ key, stats, lang, size, personal }: { key: TypeKey; stats: Stats; lang: Lang; size: CardSize; personal: boolean }) {
   const { width, height } = SIZES[size];
   const theme = THEME[key];
   const info = TYPES[key];
-  const face = cardFace(stats, lang);
   const badge = personal ? tt(isPlanner(stats) ? 'planner' : 'spontaneous', lang) : tt('cardBadge', lang);
   const title = tt('title', lang);
   const link = withUtm(`${SITE_URL}${localizePath(TEST_PATH, lang)}`, { source: 'card', medium: 'image', campaign: 'travel-type', content: `${info.slug}-${size}` });
@@ -142,19 +158,7 @@ export async function renderTypeCard({ key, stats, lang, size, personal }: { key
     size === 'og' ? null : QRCode.toDataURL(link, { width: 300, margin: 1, color: { dark: theme.accent, light: '#ffffff' } }),
     artDataUrl(key),
   ]);
-  const text = [
-    loc(info.name, lang),
-    loc(TYPES[info.clash].name, lang),
-    loc(FUN[key].roast, lang),
-    loc(FUN[key].habit, lang),
-    ...face.moves.map((m) => m.name),
-    badge,
-    title,
-    ...['power', 'weakness', 'retreat', 'start', 'introFun'].map((k) => tt(k, lang)),
-    tt('rarity', lang, { n: RARITY[key] }),
-    'Check East Point checkeastpoint.com Illus. “”·+●0123456789',
-  ].join('');
-  const fonts = await loadCjkFonts(text, 800, lang);
+  const fonts = await loadCjkFonts(cardText(key, stats, lang, badge), 800, lang);
   const card = (w: number) => <CardFace k={key} stats={stats} lang={lang} badge={badge} art={art} w={w} />;
   const header = <div style={{ display: 'flex', fontSize: 34, color: theme.accent }}>{`Check East Point · ${title}`}</div>;
 
