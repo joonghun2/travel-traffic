@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from '@/lib/i18n/context';
-import { FUN, QUESTIONS, STATS, TEST_PATH, TYPE_KEYS, decodeAnswers, encodeAnswers, loc, resultPath, scoreAnswers, tt, typeOf } from '@/lib/travelType';
+import { QUESTIONS, STATS, TEST_PATH, cardArt, decodeAnswers, encodeAnswers, loc, resultPath, scoreAnswers, tt, typeOf } from '@/lib/travelType';
 
 export const OWN_RESULT_KEY = 'cep_travel_type';
 const LETTERS = ['A', 'B', 'C', 'D'];
@@ -143,10 +143,20 @@ export default function TravelTypeQuiz() {
         <div className="p-4 rounded-2xl bg-white border-2 border-violet-200 text-sm font-bold text-violet-700">{tt('friendInvite', lang)}</div>
       )}
       <div className="pt-4">
-        <IntroHexagon />
         <h1 className="mt-5 text-3xl sm:text-4xl font-black tracking-tight">{tt('title', lang)}</h1>
         <p className="mt-3 text-[15px] font-semibold leading-relaxed text-slate-700">{tt('introFun', lang)}</p>
-        <p className="mt-2 text-2xl tracking-wide" aria-hidden="true">{TYPE_KEYS.map((k) => FUN[k].emoji).join(' ')}</p>
+        <div className="mt-5 mb-8 flex justify-center -space-x-4" aria-hidden="true">
+          {(['SEA', 'sEa', 'SeA', 'Sea', 'sEA'] as const).map((k, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={k}
+              src={cardArt(k)}
+              alt=""
+              className="w-16 aspect-[5/7] rounded-lg object-cover border-[3px] border-white shadow-md"
+              style={{ transform: `rotate(${(i - 2) * 7}deg) translateY(${Math.abs(i - 2) * 6}px)` }}
+            />
+          ))}
+        </div>
         <p className="mt-3 text-sm leading-relaxed text-slate-500">{tt('intro', lang)}</p>
         <p className="mt-3 inline-block px-3 py-1 rounded-full bg-white text-xs font-bold text-slate-500">{tt('meta', lang)}</p>
       </div>
@@ -174,30 +184,5 @@ export default function TravelTypeQuiz() {
         {tt('allTypes', lang)} →
       </a>
     </div>
-  );
-}
-
-/** Small decorative hexagon that keeps "breathing" on the intro screen. */
-function IntroHexagon() {
-  const pts = (r: number) =>
-    Array.from({ length: 6 }, (_, i) => {
-      const a = -Math.PI / 2 + (i * Math.PI) / 3;
-      return `${60 + r * Math.cos(a)},${60 + r * Math.sin(a)}`;
-    }).join(' ');
-  return (
-    <svg viewBox="0 0 120 120" className="w-28 h-28 mx-auto" aria-hidden="true">
-      <polygon points={pts(50)} fill="none" stroke="#c4b5fd" strokeWidth={2} />
-      <polygon points={pts(33)} fill="none" stroke="#ddd6fe" strokeWidth={2} />
-      <motion.polygon
-        points="60,22 92,44 84,84 60,96 30,78 36,40"
-        fill="#a78bfa"
-        fillOpacity={0.45}
-        stroke="#7c3aed"
-        strokeWidth={2.5}
-        animate={{ scale: [0.85, 1, 0.85] }}
-        transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ transformOrigin: '60px 60px' }}
-      />
-    </svg>
   );
 }

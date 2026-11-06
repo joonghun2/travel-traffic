@@ -247,18 +247,18 @@
       "zh-tw": "推薦時段：熱鬧的晚上也沒問題，但重點景點最好上午先去。"
     },
     "buddy": {
-      "ko": "💚 환상의 여행 메이트",
-      "en": "💚 Dream travel buddy",
-      "ja": "💚 最高の旅仲間",
-      "zh-cn": "💚 最佳旅伴",
-      "zh-tw": "💚 最佳旅伴"
+      "ko": "환상의 여행 메이트",
+      "en": "Dream travel buddy",
+      "ja": "最高の旅仲間",
+      "zh-cn": "最佳旅伴",
+      "zh-tw": "最佳旅伴"
     },
     "clash": {
-      "ko": "💔 환장의 여행 메이트",
-      "en": "💔 Nightmare travel buddy",
-      "ja": "💔 最悪の旅仲間",
-      "zh-cn": "💔 最抓狂旅伴",
-      "zh-tw": "💔 最抓狂旅伴"
+      "ko": "환장의 여행 메이트",
+      "en": "Nightmare travel buddy",
+      "ja": "最悪の旅仲間",
+      "zh-cn": "最抓狂旅伴",
+      "zh-tw": "最抓狂旅伴"
     },
     "compareTitle": {
       "ko": "친구와 여행 궁합",
@@ -359,11 +359,11 @@
       "zh-tw": "檢視全部8種旅行型別"
     },
     "shareText": {
-      "ko": "나는 '{name}' {emoji}\n\"{roast}\"\n\n💚 환상의 메이트: {buddy}\n💔 환장의 메이트: {clash}\n\n너는 뭐 나와? 우리 같이 여행 가도 되는지 보자 👀",
-      "en": "I got \"{name}\" {emoji}\n\"{roast}\"\n\n💚 Dream buddy: {buddy}\n💔 Nightmare buddy: {clash}\n\nWhat do you get? Let's see if we can survive a trip together 👀",
-      "ja": "私は「{name}」{emoji}\n「{roast}」\n\n💚 最高の旅仲間：{buddy}\n💔 最悪の旅仲間：{clash}\n\nあなたは何タイプ？一緒に旅行しても大丈夫か見てみよう 👀",
-      "zh-cn": "我是“{name}”{emoji}\n“{roast}”\n\n💚 最佳旅伴：{buddy}\n💔 最抓狂旅伴：{clash}\n\n你是哪一型？来看看我们能不能一起旅行 👀",
-      "zh-tw": "我是「{name}」{emoji}\n「{roast}」\n\n💚 最佳旅伴：{buddy}\n💔 最抓狂旅伴：{clash}\n\n你是哪一型？來看看我們能不能一起旅行 👀"
+      "ko": "나는 '{name}'\n\"{roast}\"\n\n💚 환상의 메이트: {buddy}\n💔 환장의 메이트: {clash}\n\n너는 뭐 나와? 우리 같이 여행 가도 되는지 보자 👀",
+      "en": "I got \"{name}\"\n\"{roast}\"\n\n💚 Dream buddy: {buddy}\n💔 Nightmare buddy: {clash}\n\nWhat do you get? Let's see if we can survive a trip together 👀",
+      "ja": "私は「{name}」\n「{roast}」\n\n💚 最高の旅仲間：{buddy}\n💔 最悪の旅仲間：{clash}\n\nあなたは何タイプ？一緒に旅行しても大丈夫か見てみよう 👀",
+      "zh-cn": "我是“{name}”\n“{roast}”\n\n💚 最佳旅伴：{buddy}\n💔 最抓狂旅伴：{clash}\n\n你是哪一型？来看看我们能不能一起旅行 👀",
+      "zh-tw": "我是「{name}」\n「{roast}」\n\n💚 最佳旅伴：{buddy}\n💔 最抓狂旅伴：{clash}\n\n你是哪一型？來看看我們能不能一起旅行 👀"
     },
     "disclaimer": {
       "ko": "Big Five 성격 모델, Plog의 여행자 유형론, 여행 동기 이론을 바탕으로 만든 재미용 성향 테스트이며 심리 진단 검사가 아닙니다. 추천 장소의 영업시간과 휴무일은 방문 전에 확인해 주세요.",
@@ -401,11 +401,11 @@
       "zh-tw": "旅行時一定會做的事"
     },
     "shareCta": {
-      "ko": "친구에게 결과 보내기 💌",
-      "en": "Send my result to a friend 💌",
-      "ja": "友達に結果を送る 💌",
-      "zh-cn": "把结果发给朋友 💌",
-      "zh-tw": "把結果傳給朋友 💌"
+      "ko": "친구에게 결과 보내기",
+      "en": "Send my result to a friend",
+      "ja": "友達に結果を送る",
+      "zh-cn": "把结果发给朋友",
+      "zh-tw": "把結果傳給朋友"
     },
     "introFun": {
       "ko": "같이 여행 가도 괜찮을까? 내 유형과 환장의 메이트를 확인해 보세요.",
@@ -413,6 +413,41 @@
       "ja": "一緒に旅行しても大丈夫？自分のタイプと最悪の旅仲間をチェック。",
       "zh-cn": "一起旅行真的没问题吗？来看看你的类型和最抓狂旅伴。",
       "zh-tw": "一起旅行真的沒問題嗎？來看看你的類型和最抓狂旅伴。"
+    },
+    "power": {
+      "ko": "여행력",
+      "en": "Travel Power",
+      "ja": "旅力",
+      "zh-cn": "旅行力",
+      "zh-tw": "旅行力"
+    },
+    "weakness": {
+      "ko": "약점",
+      "en": "Weakness",
+      "ja": "弱点",
+      "zh-cn": "弱点",
+      "zh-tw": "弱點"
+    },
+    "bestWith": {
+      "ko": "찰떡",
+      "en": "Best with",
+      "ja": "相性◎",
+      "zh-cn": "最搭",
+      "zh-tw": "最搭"
+    },
+    "retreat": {
+      "ko": "귀가 욕구",
+      "en": "Homesick",
+      "ja": "帰りたい度",
+      "zh-cn": "想回家指数",
+      "zh-tw": "想回家指數"
+    },
+    "cardBadge": {
+      "ko": "여행 카드",
+      "en": "Travel Card",
+      "ja": "旅カード",
+      "zh-cn": "旅行卡",
+      "zh-tw": "旅行卡"
     }
   }
 }

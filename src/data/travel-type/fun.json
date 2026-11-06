@@ -1,8 +1,7 @@
 {
-  "_note": "Playful lines for sharing: a gentle roast, a travel habit, and why the buddy/clash type fits. Tease travel habits only, never people or places.",
+  "_note": "Playful lines for sharing and the result card: a gentle roast, a travel habit, why the buddy/clash type fits, and a card move name per stat. Tease travel habits only, never people or places.",
   "fun": {
     "sEa": {
-      "emoji": "🌙",
       "roast": {
         "ko": "혼자 왔다면서 노을 앞에서 플레이리스트만 세 번 바꾸는 사람",
         "en": "Came alone, then changed the playlist three times in front of one sunset",
@@ -33,7 +32,6 @@
       }
     },
     "sEA": {
-      "emoji": "🧭",
       "roast": {
         "ko": "'여기 길 맞아?'의 '여기'가 항상 산 중턱인 사람",
         "en": "Whenever they ask \"is this the right way?\", they are halfway up a mountain",
@@ -64,7 +62,6 @@
       }
     },
     "sea": {
-      "emoji": "☕",
       "roast": {
         "ko": "아침 8시 궁궐에서 혼자 뿌듯해하며 '역시 사람 없을 때지' 하는 사람",
         "en": "Alone at a palace at 8 AM, quietly proud, saying \"this is the time to come\"",
@@ -95,7 +92,6 @@
       }
     },
     "seA": {
-      "emoji": "✅",
       "roast": {
         "ko": "여행 일정표에 화장실 가는 시간까지 있는 사람",
         "en": "Their itinerary has a slot for bathroom breaks",
@@ -126,7 +122,6 @@
       }
     },
     "SEa": {
-      "emoji": "🧺",
       "roast": {
         "ko": "시장에서 덤으로 받은 귤이 가방 반을 차지하는 사람",
         "en": "Half their bag is free tangerines from the market",
@@ -157,7 +152,6 @@
       }
     },
     "SEA": {
-      "emoji": "🚩",
       "roast": {
         "ko": "'딱 한 골목만 더'라고 말한 지 두 시간 지난 사람",
         "en": "Said \"just one more alley\" two hours ago",
@@ -188,7 +182,6 @@
       }
     },
     "Sea": {
-      "emoji": "🌿",
       "roast": {
         "ko": "여행 계획을 물으면 '너 가고 싶은 데 가자'로 끝내는 사람",
         "en": "Asked about the plan, they answer \"wherever you want\"",
@@ -219,7 +212,6 @@
       }
     },
     "SeA": {
-      "emoji": "🎉",
       "roast": {
         "ko": "단체 사진 찍자며 모르는 사람까지 모으는 사람",
         "en": "Rounds up complete strangers for the group photo",
@@ -248,6 +240,50 @@
         "zh-cn": "兴奋地一回头，TA已经一个人去看晚霞了",
         "zh-tw": "興奮地一回頭，TA已經一個人去看晚霞了"
       }
+    }
+  },
+  "moves": {
+    "SOC": {
+      "ko": "아무나 친구 만들기",
+      "en": "Instant Friends",
+      "ja": "即席フレンド",
+      "zh-cn": "秒交朋友",
+      "zh-tw": "秒交朋友"
+    },
+    "EXP": {
+      "ko": "딱 한 골목만 더",
+      "en": "Just One More Alley",
+      "ja": "あと一本だけ路地",
+      "zh-cn": "再逛一条小巷",
+      "zh-tw": "再逛一條小巷"
+    },
+    "SEN": {
+      "ko": "노을 앞 멍때리기",
+      "en": "Sunset Stare",
+      "ja": "夕焼けぼんやり",
+      "zh-cn": "对着晚霞发呆",
+      "zh-tw": "對著晚霞發呆"
+    },
+    "ACT": {
+      "ko": "하루 3만 보",
+      "en": "30,000 Steps",
+      "ja": "1日3万歩",
+      "zh-cn": "一天三万步",
+      "zh-tw": "一天三萬步"
+    },
+    "PLN": {
+      "ko": "분 단위 일정표",
+      "en": "Minute-by-Minute Plan",
+      "ja": "分刻みスケジュール",
+      "zh-cn": "分钟级行程",
+      "zh-tw": "分鐘級行程"
+    },
+    "CRW": {
+      "ko": "인파 뚫고 직진",
+      "en": "Crowd Breaker",
+      "ja": "人混み突破",
+      "zh-cn": "人海突围",
+      "zh-tw": "人海突圍"
     }
   }
 }

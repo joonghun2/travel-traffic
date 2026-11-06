@@ -40,7 +40,23 @@ export const QUESTIONS = QUESTIONS_JSON.questions as Question[];
 export const TYPES = TYPES_JSON.types as Record<TypeKey, TravelType>;
 export const TYPE_KEYS = Object.keys(TYPES) as TypeKey[];
 /** Playful result lines (src/data/travel-type/fun.json). */
-export const FUN = FUN_JSON.fun as Record<TypeKey, { emoji: string; roast: Loc; habit: Loc; buddyLine: Loc; clashLine: Loc }>;
+export const FUN = FUN_JSON.fun as Record<TypeKey, { roast: Loc; habit: Loc; buddyLine: Loc; clashLine: Loc }>;
+const MOVES = FUN_JSON.moves as Record<StatId, Loc>;
+export const STAT_COLORS: Record<StatId, string> = { SOC: '#534AB7', EXP: '#0F6E56', SEN: '#993556', ACT: '#854F0B', PLN: '#185FA5', CRW: '#3B6D11' };
+export const cardArt = (key: TypeKey) => `/travel-type/cards/${TYPES[key].slug}.jpg`;
+
+/**
+ * Trading-card numbers for a result: power is the sum of the six stats, the two moves are the top two
+ * stats (2 and 3 cost dots in that stat's colour), and "homesick" grows as activity drops.
+ */
+export function cardFace(stats: Stats, lang: Lang) {
+  const top = [...STATS].sort((x, y) => stats[y] - stats[x]).slice(0, 2);
+  return {
+    power: STATS.reduce((sum, s) => sum + stats[s], 0),
+    moves: top.map((s, i) => ({ stat: s, name: loc(MOVES[s], lang), value: stats[s], dots: i + 2, color: STAT_COLORS[s] })),
+    homesick: Math.min(3, Math.max(1, 3 - Math.floor(stats.ACT / 34))),
+  };
+}
 export const TEST_PATH = '/play/travel-type';
 export const resultPath = (key: TypeKey) => `${TEST_PATH}/result/${TYPES[key].slug}`;
 export const typeBySlug = (slug: string) => TYPE_KEYS.find((k) => TYPES[k].slug === slug);

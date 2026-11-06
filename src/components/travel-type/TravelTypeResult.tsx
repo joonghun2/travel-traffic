@@ -7,17 +7,18 @@ import { useTranslation } from '@/lib/i18n/context';
 import { STATUS_COLOR } from '@/lib/mapSpots';
 import ShareButton from '@/components/ShareButton';
 import RadarChart from './RadarChart';
+import TravelCard from './TravelCard';
 import { OWN_RESULT_KEY } from './TravelTypeQuiz';
 import {
   FUN,
   QUESTIONS,
-  RARITY,
   STATS,
   Stats,
   TEST_PATH,
   THEME,
   TYPES,
   TypeKey,
+  cardArt,
   decisiveAnswers,
   decodeAnswers,
   grade,
@@ -82,7 +83,6 @@ export default function TravelTypeResult({ typeKey, picks }: { typeKey: TypeKey;
   const fun = FUN[typeKey];
   const shareText = tt('shareText', lang, {
     name,
-    emoji: fun.emoji,
     roast: loc(fun.roast, lang),
     buddy: loc(TYPES[info.buddy].name, lang),
     clash: loc(TYPES[info.clash].name, lang),
@@ -104,44 +104,31 @@ export default function TravelTypeResult({ typeKey, picks }: { typeKey: TypeKey;
         </Link>
       )}
 
-      {/* Result: the part people send to friends */}
-      <section className="rounded-[28px] p-5 sm:p-6 shadow-sm" style={{ background: `linear-gradient(150deg, ${theme.bg}, ${theme.soft})`, color: '#1e1b2e' }}>
-        <div className="flex items-center justify-between gap-2 text-xs font-bold">
-          <span className="truncate" style={{ color: theme.accent }}>
-            {tt('title', lang)}
-          </span>
-          <span className="shrink-0 whitespace-nowrap px-2.5 py-1 rounded-full bg-white/70" style={{ color: theme.accent }}>
-            {tt('rarity', lang, { n: RARITY[typeKey] })}
-          </span>
-        </div>
-        <div className="mt-3 text-6xl" aria-hidden="true">{fun.emoji}</div>
-        <p className="mt-3 text-sm font-extrabold" style={{ color: theme.accent }}>
-          {answers ? tt(planner ? 'planner' : 'spontaneous', lang) : ' '}
-        </p>
-        <h1 className="text-[2rem] leading-tight font-black tracking-tight">{name}</h1>
-        <p className="mt-3 p-3.5 rounded-2xl bg-white/80 text-[15px] font-bold leading-snug">“{loc(fun.roast, lang)}”</p>
-        <p className="mt-2.5 text-sm font-semibold opacity-80">
-          😂 {tt('habit', lang)}: {loc(fun.habit, lang)}
-        </p>
-        {near && (
-          <p className="mt-2 inline-block px-2.5 py-1 rounded-full bg-white/70 text-xs font-bold" style={{ color: theme.accent }}>
+      {/* Result as a trading card: the part people send to friends */}
+      <TravelCard typeKey={typeKey} stats={stats} lang={lang} badge={answers ? tt(planner ? 'planner' : 'spontaneous', lang) : tt('cardBadge', lang)} />
+      {near && (
+        <p className="text-center">
+          <span className="inline-block px-2.5 py-1 rounded-full bg-white text-xs font-bold" style={{ color: theme.accent }}>
             {tt('near', lang, { name: loc(TYPES[near].name, lang) })}
-          </p>
-        )}
-
-      </section>
+          </span>
+        </p>
+      )}
 
       {/* Buddy / clash */}
       <section className="grid grid-cols-1 gap-3">
         {(['buddy', 'clash'] as const).map((rel) => {
           const k = info[rel];
           return (
-            <Link key={rel} href={localePath(resultPath(k))} className="p-4 rounded-3xl bg-white hover:shadow-sm transition">
+            <Link key={rel} href={localePath(resultPath(k))} className="flex gap-3 p-3 rounded-3xl bg-white hover:shadow-sm transition">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={cardArt(k)} alt="" className="w-14 aspect-[5/7] shrink-0 rounded-lg object-cover" />
+              <div className="min-w-0">
               <p className="text-xs font-bold text-slate-500">{tt(rel, lang)}</p>
               <p className="mt-1 text-base font-extrabold" style={{ color: THEME[k].accent }}>
-                {FUN[k].emoji} {loc(TYPES[k].name, lang)}
+                {loc(TYPES[k].name, lang)}
               </p>
               <p className="mt-1 text-sm text-slate-600 leading-snug">“{loc(fun[rel === 'buddy' ? 'buddyLine' : 'clashLine'], lang)}”</p>
+              </div>
             </Link>
           );
         })}
