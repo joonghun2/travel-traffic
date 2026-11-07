@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { BF_MIN_VOTES, BF_TEXT, BUSAN_FOODS, BUSAN_FOODS_BY_ID, BusanFood, busanFoodImage } from '@/data/busanFood';
+import { BUSAN_FOOD_STORIES } from '@/data/busanFoodStories';
 import { useTranslation } from '@/lib/i18n/context';
 import { SITE_URL, pick as pickText } from '@/lib/i18n/routing';
 import type { BusanFoodStats } from '@/app/api/busan-food/route';
@@ -52,6 +53,23 @@ function advance(state: Bracket, pickIndex: 0 | 1): Bracket {
 
 function FoodPhoto({ food, sizes, className = '' }: { food: BusanFood; sizes: string; className?: string }) {
   return <Image src={busanFoodImage(food.id)} alt="" fill sizes={sizes} className={`object-cover ${className}`} />;
+}
+
+/** A food's history, open for the champion and tap-to-open for the rest of the top 4. */
+function FoodTmi({ food, open = false }: { food: BusanFood; open?: boolean }) {
+  const { lang } = useTranslation();
+  const text = BF_TEXT[lang];
+  const story = BUSAN_FOOD_STORIES[food.id];
+  if (!story) return null;
+  if (open) return <p className="text-sm leading-relaxed text-slate-700">{pickText(story.story, lang)}</p>;
+  return (
+    <details className="group mt-1">
+      <summary className="list-none cursor-pointer text-[11px] font-bold text-sky-600 select-none">
+        📜 {text.tmiMore} <span className="inline-block transition group-open:rotate-180">▾</span>
+      </summary>
+      <p className="mt-1.5 text-xs leading-relaxed text-slate-600">{pickText(story.story, lang)}</p>
+    </details>
+  );
 }
 
 export default function BusanFoodOlympics() {
@@ -123,34 +141,40 @@ export default function BusanFoodOlympics() {
   const reset = () => setHistory([]);
 
   const roundLabel = (n: number) => (n === 2 ? text.final : n === 4 ? text.semifinal : fill('roundOf', { n }));
+  const roundCheer = (n: number) => (n === 2 ? text.cheerFinal : n === 4 ? text.cheerSemi : n === 8 ? text.cheer8 : text.cheer16);
 
   // ---------- Intro ----------
   if (phase === 'intro') {
     return (
       <div className="space-y-6">
         <div className="text-center">
-          <div className="grid grid-cols-4 gap-1.5 mb-5 rounded-2xl overflow-hidden" aria-hidden="true">
-            {BUSAN_FOODS.slice(0, 8).map((food) => (
-              <div key={food.id} className="relative aspect-square">
+          <div className="grid grid-cols-4 gap-2 mb-6" aria-hidden="true">
+            {BUSAN_FOODS.slice(0, 8).map((food, i) => (
+              <div
+                key={food.id}
+                className={`relative aspect-square rounded-2xl overflow-hidden border-[3px] border-white shadow-md ${i % 2 ? 'rotate-3' : '-rotate-3'}`}
+              >
                 <FoodPhoto food={food} sizes="25vw" />
               </div>
             ))}
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300 text-xs font-bold mb-3">
-            🥇 {fill('roundOf', { n: 16 })}
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400 text-slate-900 text-xs font-black mb-3 shadow-sm">
+            🥇 {fill('roundOf', { n: 16 })} · 🌊 BUSAN
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight">{text.title}</h1>
-          <p className="mt-3 text-sm text-gray-400 leading-relaxed">{text.subtitle}</p>
+          <h1 className="text-4xl font-black tracking-tight">
+            {text.title} <span aria-hidden="true">🏅</span>
+          </h1>
+          <p className="mt-3 text-[15px] text-slate-600 leading-relaxed">{text.subtitle}</p>
         </div>
 
         {friendPick && (
-          <div className="flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-sky-500/15 to-amber-500/15 border border-sky-500/30">
+          <div className="flex items-center gap-3 p-3 rounded-2xl bg-white border-2 border-amber-300 shadow-sm">
             <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
               <FoodPhoto food={friendPick} sizes="64px" />
             </div>
             <div>
               <p className="font-bold">{fill('friendPick', { food: pickText(friendPick.name, lang) })}</p>
-              <p className="mt-0.5 text-xs text-gray-300">{text.friendPickSub}</p>
+              <p className="mt-0.5 text-xs text-slate-500">{text.friendPickSub}</p>
             </div>
           </div>
         )}
@@ -158,7 +182,7 @@ export default function BusanFoodOlympics() {
         <button
           type="button"
           onClick={start}
-          className="w-full h-14 rounded-2xl bg-gradient-to-r from-sky-500 to-amber-500 text-white text-lg font-extrabold shadow-lg shadow-sky-500/20 active:scale-[0.98] transition cursor-pointer"
+          className="w-full h-16 rounded-2xl bg-gradient-to-r from-sky-500 to-amber-400 text-white text-xl font-black shadow-[0_6px_0_#0c4a6e] active:translate-y-1 active:shadow-[0_2px_0_#0c4a6e] transition cursor-pointer"
         >
           {text.start} 🔥
         </button>
@@ -178,13 +202,20 @@ export default function BusanFoodOlympics() {
 
     return (
       <div className="space-y-5">
-        <div className="rounded-3xl overflow-hidden border border-amber-400/40 bg-[#16171d]">
+        <div className="rounded-3xl overflow-hidden border-4 border-amber-300 bg-white shadow-xl">
           <div className="relative aspect-square">
             <FoodPhoto food={champion} sizes="(max-width: 512px) 100vw, 512px" />
-            <div className="absolute inset-x-0 bottom-0 p-5 pt-16 bg-gradient-to-t from-black/85 to-transparent text-center">
+            <div className="absolute inset-x-0 bottom-0 p-5 pt-16 bg-gradient-to-t from-black/80 to-transparent text-center text-white">
               <p className="text-xs font-bold text-amber-300 tracking-wide">🥇 {text.winnerLabel}</p>
-              <h1 className="mt-1 text-3xl font-extrabold">{pickText(champion.name, lang)}</h1>
+              <h1 className="mt-1 text-3xl font-black">{pickText(champion.name, lang)}</h1>
+              {BUSAN_FOOD_STORIES[champion.id] && (
+                <p className="mt-1.5 text-sm text-white/90">{pickText(BUSAN_FOOD_STORIES[champion.id].quip, lang)}</p>
+              )}
             </div>
+          </div>
+          <div className="p-5 bg-amber-50">
+            <p className="text-sm font-black text-amber-700 mb-1.5">{text.tmiTitle}</p>
+            <FoodTmi food={champion} open />
           </div>
         </div>
 
@@ -194,22 +225,27 @@ export default function BusanFoodOlympics() {
           text={shareText}
           imageUrl={`${SITE_URL}${localePath(PATH)}/og`}
           storyImage={{ src: localePath(`${PATH}/story/${champion.id}.png`), fileName: `busan-food-${champion.id}.png` }}
-          className="w-full h-12 !bg-white !text-gray-900 !border-0 text-base"
+          className="w-full h-12 !bg-slate-900 !text-white !border-0 text-base"
         />
 
         <OthersPanel stats={stats} champion={champion} fill={fill} />
 
-        <div className="p-5 rounded-2xl bg-[#16171d] border border-gray-800">
-          <p className="text-sm font-bold text-gray-300 mb-3">{text.top4}</p>
-          <ol className="space-y-2.5">
+        <div className="p-5 rounded-2xl bg-white shadow-sm border border-slate-200">
+          <p className="text-sm font-black text-slate-700 mb-3">{text.top4}</p>
+          <ol className="space-y-3">
             {ranking.map(({ food, label, medal }) => (
-              <li key={food.id} className="flex items-center gap-3">
-                <span className="w-6 text-center text-lg" aria-hidden="true">{medal}</span>
-                <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
-                  <FoodPhoto food={food} sizes="40px" />
+              <li key={food.id} className="flex items-start gap-3">
+                <span className="w-6 pt-2 text-center text-lg" aria-hidden="true">{medal}</span>
+                <div className="relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
+                  <FoodPhoto food={food} sizes="48px" />
                 </div>
-                <span className="flex-1 text-sm font-semibold">{pickText(food.name, lang)}</span>
-                <span className="text-[11px] text-gray-400">{label}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="text-sm font-bold">{pickText(food.name, lang)}</span>
+                    <span className="text-[11px] text-slate-400 shrink-0">{label}</span>
+                  </div>
+                  <FoodTmi food={food} />
+                </div>
               </li>
             ))}
           </ol>
@@ -221,13 +257,13 @@ export default function BusanFoodOlympics() {
           <button
             type="button"
             onClick={start}
-            className="h-12 rounded-2xl bg-[#16171d] border border-gray-700 font-bold text-sm hover:border-gray-500 transition cursor-pointer"
+            className="h-12 rounded-2xl bg-white border border-slate-200 shadow-sm font-bold text-sm hover:border-slate-400 transition cursor-pointer"
           >
             ↻ {text.restart}
           </button>
           <Link
             href={localePath('/play')}
-            className="h-12 rounded-2xl bg-[#16171d] border border-gray-700 font-bold text-sm hover:border-gray-500 transition flex items-center justify-center"
+            className="h-12 rounded-2xl bg-white border border-slate-200 shadow-sm font-bold text-sm hover:border-slate-400 transition flex items-center justify-center"
           >
             🎮 {text.otherTests}
           </Link>
@@ -243,9 +279,10 @@ export default function BusanFoodOlympics() {
   return (
     <div className="space-y-5">
       <div className="text-center">
-        <p className="text-2xl font-extrabold">{roundLabel(state.round.length)}</p>
-        <p className="mt-1 text-sm text-gray-400 tabular-nums">{fill('progress', { cur: state.match + 1, total: totalMatches })}</p>
-        <div className="mt-3 h-1.5 rounded-full bg-gray-800 overflow-hidden">
+        <p className="text-3xl font-black">{roundLabel(state.round.length)}</p>
+        <p className="mt-1 text-sm font-bold text-sky-700">{roundCheer(state.round.length)}</p>
+        <p className="mt-0.5 text-xs text-slate-400 tabular-nums">{fill('progress', { cur: state.match + 1, total: totalMatches })}</p>
+        <div className="mt-3 h-2 rounded-full bg-white shadow-inner overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-sky-500 to-amber-500 transition-all duration-300"
             style={{ width: `${(state.match / totalMatches) * 100}%` }}
@@ -259,21 +296,29 @@ export default function BusanFoodOlympics() {
             key={`${state.round.length}-${state.match}-${food.id}`}
             type="button"
             onClick={() => pick(i as 0 | 1)}
-            className={`relative h-56 sm:h-64 rounded-3xl overflow-hidden border-2 transition-all duration-200 cursor-pointer active:scale-[0.98] ${
+            className={`relative h-56 sm:h-64 rounded-3xl overflow-hidden border-4 shadow-lg transition-all duration-200 cursor-pointer active:scale-[0.98] ${
               picked === i
-                ? 'border-amber-400 scale-[1.02]'
+                ? 'border-amber-400 scale-[1.03] rotate-1'
                 : picked !== null
-                ? 'border-gray-800 opacity-40 scale-95'
-                : 'border-gray-800 hover:border-amber-400/60'
+                ? 'border-white opacity-40 scale-95'
+                : 'border-white hover:border-amber-300'
             }`}
           >
             <FoodPhoto food={food} sizes="(max-width: 512px) 100vw, 512px" />
-            <span className="absolute inset-x-0 bottom-0 px-4 pb-3 pt-10 bg-gradient-to-t from-black/85 to-transparent text-lg sm:text-xl font-bold text-center">
-              {pickText(food.name, lang)}
+            <span className="absolute inset-x-0 bottom-0 px-4 pb-3 pt-12 bg-gradient-to-t from-black/85 via-black/50 to-transparent text-center text-white">
+              <span className="block text-lg sm:text-xl font-black">{pickText(food.name, lang)}</span>
+              {BUSAN_FOOD_STORIES[food.id] && (
+                <span className="block mt-0.5 text-xs sm:text-sm text-white/85">{pickText(BUSAN_FOOD_STORIES[food.id].quip, lang)}</span>
+              )}
             </span>
+            {picked === i && (
+              <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-amber-400 text-slate-900 text-sm font-black shadow" aria-hidden="true">
+                PICK! 😋
+              </span>
+            )}
           </button>
         ))}
-        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-amber-500 flex items-center justify-center text-sm font-black shadow-lg pointer-events-none">
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-6 w-14 h-14 rounded-full bg-gradient-to-br from-sky-500 to-amber-400 border-4 border-white text-white flex items-center justify-center text-base font-black shadow-lg pointer-events-none">
           {text.vs}
         </span>
       </div>
@@ -283,11 +328,11 @@ export default function BusanFoodOlympics() {
           type="button"
           onClick={undo}
           disabled={history.length <= 1}
-          className="px-3 py-2 rounded-xl text-gray-400 hover:text-white disabled:opacity-30 cursor-pointer disabled:cursor-default"
+          className="px-3 py-2 rounded-xl text-slate-500 hover:text-slate-900 disabled:opacity-30 cursor-pointer disabled:cursor-default"
         >
           ↶ {text.undo}
         </button>
-        <button type="button" onClick={reset} className="px-3 py-2 rounded-xl text-gray-400 hover:text-white cursor-pointer">
+        <button type="button" onClick={reset} className="px-3 py-2 rounded-xl text-slate-500 hover:text-slate-900 cursor-pointer">
           {text.quit}
         </button>
       </div>
@@ -311,9 +356,9 @@ function OthersPanel({
 
   if (stats.total < BF_MIN_VOTES) {
     return (
-      <div className="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-center">
+      <div className="p-4 rounded-2xl bg-sky-50 border border-sky-200 text-center">
         <p className="text-sm font-bold">👥 {fill('participants', { n: stats.total })}</p>
-        <p className="mt-1 text-xs text-gray-300">{fill('unlockHint', { n: BF_MIN_VOTES })}</p>
+        <p className="mt-1 text-xs text-slate-500">{fill('unlockHint', { n: BF_MIN_VOTES })}</p>
       </div>
     );
   }
@@ -325,31 +370,31 @@ function OthersPanel({
   const mine = stats.foods[champion.id];
 
   return (
-    <div className="p-5 rounded-2xl bg-[#16171d] border border-sky-500/30">
+    <div className="p-5 rounded-2xl bg-white shadow-sm border border-sky-200">
       <div className="flex items-baseline justify-between mb-1">
-        <p className="text-sm font-bold text-gray-200">👥 {text.othersTitle}</p>
-        <p className="text-[11px] text-gray-500">{fill('participants', { n: stats.total })}</p>
+        <p className="text-sm font-black text-slate-700">👥 {text.othersTitle}</p>
+        <p className="text-[11px] text-slate-400">{fill('participants', { n: stats.total })}</p>
       </div>
-      <p className="text-xs text-amber-300 mb-4">{fill('sameAsYou', { pct: pct(mine?.golds ?? 0) })}</p>
+      <p className="text-xs font-bold text-amber-600 mb-4">{fill('sameAsYou', { pct: pct(mine?.golds ?? 0) })}</p>
       <ol className="space-y-2.5">
         {top.map(({ food, golds }, i) => (
           <li key={food.id} className="flex items-center gap-3 text-sm">
-            <span className="w-4 text-center font-black text-gray-500">{i + 1}</span>
-            <span className={`w-28 truncate ${food.id === champion.id ? 'text-amber-300 font-bold' : ''}`}>
+            <span className="w-4 text-center font-black text-slate-400">{i + 1}</span>
+            <span className={`w-28 truncate ${food.id === champion.id ? 'text-amber-600 font-bold' : ''}`}>
               {pickText(food.name, lang)}
             </span>
-            <span className="flex-1 h-2 rounded-full bg-gray-800 overflow-hidden">
+            <span className="flex-1 h-2 rounded-full bg-slate-100 overflow-hidden">
               <span
                 className={`block h-full rounded-full ${food.id === champion.id ? 'bg-amber-400' : 'bg-sky-500'}`}
                 style={{ width: `${pct(golds)}%` }}
               />
             </span>
-            <span className="w-10 text-right tabular-nums text-gray-300">{pct(golds)}%</span>
+            <span className="w-10 text-right tabular-nums text-slate-500">{pct(golds)}%</span>
           </li>
         ))}
       </ol>
       {mine && mine.games > 0 && (
-        <p className="mt-4 text-xs text-gray-400">
+        <p className="mt-4 text-xs text-slate-500">
           {pickText(champion.name, lang)} · {text.winRate} {Math.round((mine.wins / mine.games) * 100)}%
         </p>
       )}

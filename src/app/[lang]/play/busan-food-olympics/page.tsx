@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
 export default function BusanFoodOlympicsPage() {
   return (
-    <div className="min-h-screen bg-[#0d0e12] text-white flex flex-col pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-[#e8f6ff] via-[#fff8ef] to-[#fff1e6] text-slate-900 flex flex-col pb-24">
       <DashboardHeader />
       <main className="flex-1 max-w-lg w-full mx-auto px-4 sm:px-6 pt-6 sm:pt-10">
         <BusanFoodOlympics />

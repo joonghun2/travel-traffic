@@ -44,15 +44,16 @@ type Text = Record<
   | 'title' | 'subtitle' | 'start' | 'roundOf' | 'semifinal' | 'final' | 'progress' | 'vs' | 'undo' | 'quit'
   | 'winnerLabel' | 'top4' | 'rank1' | 'rank2' | 'rank3' | 'shareText' | 'restart' | 'otherTests'
   | 'friendPick' | 'friendPickSub' | 'othersTitle' | 'sameAsYou' | 'participants' | 'unlockHint'
-  | 'winRate' | 'storyCta' | 'metaTitle' | 'metaDesc' | 'cardTitle' | 'cardSub',
+  | 'winRate' | 'storyCta' | 'metaTitle' | 'metaDesc' | 'cardTitle' | 'cardSub'
+  | 'tmiTitle' | 'tmiMore' | 'cheer16' | 'cheer8' | 'cheerSemi' | 'cheerFinal',
   string
 >;
 
 export const BF_TEXT: Record<Lang, Text> = {
   ko: {
     title: '부산 음식 올림픽',
-    subtitle: '돼지국밥 vs 밀면? 유튜브에서 가장 많이 찾은 부산 음식 16가지! 둘 중 하나만 골라 나의 부산 원픽을 찾아보세요.',
-    start: '시작하기',
+    subtitle: '국밥이냐 밀면이냐, 그것이 문제로다! 유튜브에서 제일 많이 찾은 부산 음식 16개! 둘 중 하나만 골라서 나의 금메달을 뽑아 주이소 🏅',
+    start: '드가자!',
     roundOf: '{n}강',
     semifinal: '준결승',
     final: '결승',
@@ -80,11 +81,17 @@ export const BF_TEXT: Record<Lang, Text> = {
     metaDesc: '돼지국밥, 밀면, 씨앗호떡, 낙곱새… 유튜브 검색량으로 뽑은 부산 음식 16강 이상형 월드컵. 나의 원픽을 찾고 다른 사람들의 선택과 비교해 보세요.',
     cardTitle: '부산 음식 올림픽',
     cardSub: '돼지국밥 vs 밀면? 부산 음식 16강 대결!',
+    tmiTitle: '알고 먹으면 더 맛있는 TMI 📜',
+    tmiMore: 'TMI 보기',
+    cheer16: '첫 경기부터 고민 시작! 가볍게 몸 풀어 볼까요? 🤸',
+    cheer8: '8강부터는 진짜 어렵다… 침 꼴깍 주의 🤤',
+    cheerSemi: '메달이 눈앞! 신중하게 고르이소 🏅',
+    cheerFinal: '대망의 결승전! 부산의 운명이 당신 손에 🔥',
   },
   en: {
     title: 'Busan Food Olympics',
     subtitle: 'Pork rice soup or cold noodles? The 16 Busan foods Koreans search for most. Pick one of two until your Busan gold medal wins.',
-    start: 'Start',
+    start: 'Let\'s eat!',
     roundOf: 'Round of {n}',
     semifinal: 'Semifinal',
     final: 'Final',
@@ -112,6 +119,12 @@ export const BF_TEXT: Record<Lang, Text> = {
     metaDesc: 'Dwaeji gukbap, milmyeon, seed hotteok, nakgopsae… a 16-food Busan tournament built from what Koreans search for most. Find your favourite and see what everyone else picked.',
     cardTitle: 'Busan Food Olympics',
     cardSub: 'Gukbap vs milmyeon? 16 Busan foods face off!',
+    tmiTitle: 'Fun facts that make it taste better 📜',
+    tmiMore: 'Fun fact',
+    cheer16: 'Tough calls already! Let\'s warm up 🤸',
+    cheer8: 'Quarterfinals. Mouth-watering danger zone 🤤',
+    cheerSemi: 'Medals in sight! Choose wisely 🏅',
+    cheerFinal: 'The grand final! Busan\'s fate is in your hands 🔥',
   },
   ja: {
     title: '釜山グルメオリンピック',
@@ -144,6 +157,12 @@ export const BF_TEXT: Record<Lang, Text> = {
     metaDesc: 'テジクッパ、ミルミョン、シアッホットク、ナッコプセ…検索数で選んだ釜山グルメ16品のトーナメント。あなたのNo.1を見つけて、みんなの選択と比べよう。',
     cardTitle: '釜山グルメオリンピック',
     cardSub: 'テジクッパ vs ミルミョン？釜山グルメ16品対決！',
+    tmiTitle: '知って食べるともっとおいしいTMI 📜',
+    tmiMore: 'TMIを見る',
+    cheer16: '初戦から悩む！軽く準備運動しましょう 🤸',
+    cheer8: 'ベスト8からは本気で難しい…よだれ注意 🤤',
+    cheerSemi: 'メダルは目前！慎重に選んで 🏅',
+    cheerFinal: 'いよいよ決勝！釜山の運命はあなたの手に 🔥',
   },
   'zh-cn': {
     title: '釜山美食奥运会',
@@ -176,6 +195,12 @@ export const BF_TEXT: Record<Lang, Text> = {
     metaDesc: '猪肉汤饭、小麦冷面、坚果糖饼、章鱼牛肠虾火锅…按搜索量选出的16种釜山美食对决。找出你的第一名，和大家的选择比一比。',
     cardTitle: '釜山美食奥运会',
     cardSub: '汤饭 vs 冷面？16种釜山美食大对决！',
+    tmiTitle: '知道了更好吃的冷知识 📜',
+    tmiMore: '冷知识',
+    cheer16: '第一场就开始纠结！先热热身 🤸',
+    cheer8: '八强开始真的难选…小心流口水 🤤',
+    cheerSemi: '奖牌就在眼前！慎重选择 🏅',
+    cheerFinal: '巅峰决赛！釜山的命运就在你手中 🔥',
   },
   'zh-tw': {
     title: '釜山美食奧運會',
@@ -208,5 +233,11 @@ export const BF_TEXT: Record<Lang, Text> = {
     metaDesc: '豬肉湯飯、小麥冷麵、堅果糖餅、章魚牛腸蝦火鍋…依搜尋量選出的16種釜山美食對決。找出你的第一名，和大家的選擇比一比。',
     cardTitle: '釜山美食奧運會',
     cardSub: '湯飯 vs 冷麵？16種釜山美食大對決！',
+    tmiTitle: '知道了更好吃的冷知識 📜',
+    tmiMore: '冷知識',
+    cheer16: '第一場就開始糾結！先熱熱身 🤸',
+    cheer8: '八強開始真的難選…小心流口水 🤤',
+    cheerSemi: '獎牌就在眼前！慎重選擇 🏅',
+    cheerFinal: '巔峰決賽！釜山的命運就在你手中 🔥',
   },
 };
