@@ -11,7 +11,7 @@ import { SITE_URL, pick as pickText } from '@/lib/i18n/routing';
 import type { BusanFoodStats } from '@/app/api/busan-food/route';
 import ShareButton from './ShareButton';
 
-const KakaoAdfitBanner = dynamic(() => import('./KakaoAdfitBanner'), { ssr: false });
+const AdSlot = dynamic(() => import('@/components/AdSlot'), { ssr: false });
 
 const AD_UNIT = 'DAN-1KAy0L6HlzeWlDlY';
 const PATH = '/play/busan-food-olympics';
@@ -251,7 +251,7 @@ export default function BusanFoodOlympics() {
           </ol>
         </div>
 
-        <KakaoAdfitBanner unit={AD_UNIT} width="300" height="250" />
+        <AdSlot unit={AD_UNIT} width="300" height="250" query="Busan food tour" subId="play-busan-food-olympics" />
 
         <div className="grid grid-cols-2 gap-3">
           <button

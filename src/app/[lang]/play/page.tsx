@@ -9,7 +9,7 @@ import { useTranslation } from '@/lib/i18n/context';
 import dynamic from 'next/dynamic';
 import { BF_TEXT, busanFoodImage } from '@/data/busanFood';
 
-const KakaoAdfitBanner = dynamic(() => import('@/components/KakaoAdfitBanner'), { ssr: false });
+const AdSlot = dynamic(() => import('@/components/AdSlot'), { ssr: false });
 
 export default function PlayPage() {
   const { lang, t, localePath } = useTranslation();
@@ -314,7 +314,7 @@ export default function PlayPage() {
 
         {/* Kakao AdFit 300x250 */}
         <div className="mt-6">
-          <KakaoAdfitBanner unit="DAN-1KAy0L6HlzeWlDlY" width="300" height="250" />
+          <AdSlot unit="DAN-1KAy0L6HlzeWlDlY" width="300" height="250" query="Seoul" subId="play-hub" />
         </div>
       </main>
 

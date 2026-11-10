@@ -13,7 +13,7 @@ import BottomNav from '@/components/BottomNav';
 import SpotList from './SpotList';
 import SpotSheet from './SpotSheet';
 
-const KakaoAdfitBanner = dynamic(() => import('@/components/KakaoAdfitBanner'), { ssr: false });
+const AdSlot = dynamic(() => import('@/components/AdSlot'), { ssr: false });
 
 // Kakao AdFit units shown with the spot card: 300x250 beside it on PC, 320x100 under it on mobile.
 const AD_UNIT_PC = 'DAN-dtTgaQki8TeayQUI';
@@ -459,7 +459,7 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
               aria-label="AD"
               className="absolute bottom-6 left-[21.5rem] z-20 w-[300px] rounded-2xl overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl"
             >
-              <KakaoAdfitBanner unit={AD_UNIT_PC} width="300" height="250" />
+              <AdSlot unit={AD_UNIT_PC} width="300" height="250" query={selected.name} subId={`map-${selected.id}`} />
             </aside>
           )}
         </div>
@@ -503,7 +503,7 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
           <SpotSheet spot={selected} distanceKm={distances?.get(selected.id)} onClose={() => setSelectedId(null)} className="rounded-t-3xl" />
           {isDesktop === false && (
             <aside aria-label="AD" className="bg-white dark:bg-gray-900 border-x border-gray-200 dark:border-gray-800 flex justify-center py-1">
-              <KakaoAdfitBanner unit={AD_UNIT_MOBILE} width="320" height="100" />
+              <AdSlot unit={AD_UNIT_MOBILE} width="320" height="100" query={selected.name} subId={`map-${selected.id}`} />
             </aside>
           )}
         </div>

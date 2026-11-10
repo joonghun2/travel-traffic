@@ -26,7 +26,7 @@ import { STATUS_COLOR } from '@/lib/mapSpots';
 import { LiveSpotMetric } from '@/types';
 import ShareButton from './ShareButton';
 
-const KakaoAdfitBanner = dynamic(() => import('./KakaoAdfitBanner'), { ssr: false });
+const AdSlot = dynamic(() => import('@/components/AdSlot'), { ssr: false });
 
 const AD_UNIT = 'DAN-1KAy0L6HlzeWlDlY';
 const STORAGE_KEY = 'cep_sft_result';
@@ -388,7 +388,7 @@ export function SeoulFoodTestResult({ type }: { type: FoodTypeId }) {
         </div>
       </section>
 
-      <KakaoAdfitBanner unit={AD_UNIT} width="300" height="250" />
+      <AdSlot unit={AD_UNIT} width="300" height="250" query="Seoul food tour" subId="play-seoul-food-test" />
 
       <div className="grid grid-cols-2 gap-3">
         <Link

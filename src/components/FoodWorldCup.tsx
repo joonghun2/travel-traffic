@@ -10,7 +10,7 @@ import { useTranslation } from '@/lib/i18n/context';
 import { SITE_URL, pick as pickText } from '@/lib/i18n/routing';
 import ShareButton from './ShareButton';
 
-const KakaoAdfitBanner = dynamic(() => import('./KakaoAdfitBanner'), { ssr: false });
+const AdSlot = dynamic(() => import('@/components/AdSlot'), { ssr: false });
 
 const AD_UNIT = 'DAN-1KAy0L6HlzeWlDlY';
 const BRACKETS = [16, 32, 64, 128] as const;
@@ -211,7 +211,7 @@ export default function FoodWorldCup() {
           </ol>
         </div>
 
-        <KakaoAdfitBanner unit={AD_UNIT} width="300" height="250" />
+        <AdSlot unit={AD_UNIT} width="300" height="250" query="Seoul food tour" subId="play-food-worldcup" />
 
         <div className="grid grid-cols-2 gap-3">
           <button

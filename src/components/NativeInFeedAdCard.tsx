@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import KakaoAdfitBanner from './KakaoAdfitBanner';
+import AdSlot from './AdSlot';
+import { useTranslation } from '@/lib/i18n/context';
 
 interface NativeInFeedAdCardProps {
   className?: string;
@@ -14,6 +15,9 @@ interface NativeInFeedAdCardProps {
 export default function NativeInFeedAdCard({
   className = '',
 }: NativeInFeedAdCardProps) {
+  const { lang } = useTranslation();
+  // Other languages: just the Travelpayouts links (the Korean sponsor frame below is for AdFit).
+  if (lang !== 'ko') return <AdSlot unit="DAN-dtTgaQki8TeayQUI" width="300" height="250" query="Seoul" subId="list-infeed" className={`py-2 ${className}`} />;
   return (
     <article
       className={`group relative w-full bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-5 hover:shadow-lg transition-all duration-300 flex flex-col justify-between shadow-xs ${className}`}
@@ -35,12 +39,7 @@ export default function NativeInFeedAdCard({
 
       {/* 300x250 Kakao Ad Unit */}
       <div className="w-full flex-1 flex items-center justify-center my-auto py-2 overflow-hidden min-h-[250px]">
-        <KakaoAdfitBanner
-          unit="DAN-dtTgaQki8TeayQUI"
-          width="300"
-          height="250"
-          className="my-0"
-        />
+        <AdSlot unit="DAN-dtTgaQki8TeayQUI" width="300" height="250" query="Seoul" subId="list-infeed" className="my-0" />
       </div>
 
       {/* Footer */}

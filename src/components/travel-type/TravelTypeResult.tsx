@@ -35,7 +35,7 @@ import {
 import type { TravelPick } from '@/lib/travelTypePicks';
 import { SITE_URL } from '@/lib/i18n/routing';
 
-const KakaoAdfitBanner = dynamic(() => import('@/components/KakaoAdfitBanner'), { ssr: false });
+const AdSlot = dynamic(() => import('@/components/AdSlot'), { ssr: false });
 const AD_UNIT = 'DAN-1KAy0L6HlzeWlDlY';
 
 type Viewer = 'loading' | 'own' | 'friend' | 'type';
@@ -279,7 +279,7 @@ export default function TravelTypeResult({ typeKey, picks }: { typeKey: TypeKey;
         <p className="text-sm text-slate-600">💡 {loc(planner ? info.plannerTip : info.spontaneousTip, lang)}</p>
       </section>
 
-      <KakaoAdfitBanner unit={AD_UNIT} width="300" height="250" />
+      <AdSlot unit={AD_UNIT} width="300" height="250" query="Seoul" subId="play-travel-type" />
 
 
       {/* Share */}
