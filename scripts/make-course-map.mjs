@@ -1,7 +1,7 @@
 // Course map for a blog post: numbered stops joined by a route line over an OpenStreetMap base map,
 // with each stop's crowd forecast. 1080x1350 PNG.
 // usage: node scripts/make-course-map.mjs <spec.json>
-//   spec: { out, title, subtitle, footnote, stops: [{ name, lat, lng, when, rate }], legs: ["도보", ...] }
+//   spec: { out, title, subtitle, footnote, stops: [{ name, lat, lng, when, rate, side?, dx?, dy? }], legs: ["도보", ...] }
 //   legs[i] labels the way from stop i to stop i+1 ("도보" draws a dotted walking line).
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -107,9 +107,10 @@ spec.stops.forEach((s, i) => {
   const p = pts[i];
   const [label, color] = STATUS(s.rate);
   const cardW = Math.max(300, 46 + s.name.length * 36);
-  const right = p.x + 50 + cardW < W - 24;
-  const cx = right ? p.x + 48 : p.x - 48 - cardW;
-  const cy = Math.min(Math.max(p.y - 58, 300), H - 230);
+  // Optional per-stop overrides when cards collide: side "left"/"right", dx/dy (px nudges).
+  const right = s.side ? s.side === 'right' : p.x + 50 + cardW < W - 24;
+  const cx = (right ? p.x + 48 : p.x - 48 - cardW) + (s.dx || 0);
+  const cy = Math.min(Math.max(p.y - 58 + (s.dy || 0), 300), H - 230);
   svg.push(
     `<rect x="${cx}" y="${cy}" width="${cardW}" height="116" rx="22" fill="white" fill-opacity="0.95" stroke="#e2e8f0" stroke-width="2"/>`,
     `<text x="${cx + 22}" y="${cy + 48}" font-family="${FONT}" font-weight="800" font-size="34" fill="#0f172a">${esc(s.name)}</text>`,
