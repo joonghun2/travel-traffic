@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useTranslation } from '@/lib/i18n/context';
-import { airaloKoreaLink, klookSearchLink } from '@/lib/affiliate';
+import { YESIM_KOREA, klookSearchLink } from '@/lib/affiliate';
 import { Lang } from '@/types';
 
 const KakaoAdfitBanner = dynamic(() => import('./KakaoAdfitBanner'), { ssr: false });
@@ -14,28 +14,28 @@ const TEXT: Record<ForeignLang, { klook: string; klookSub: string; esim: string;
     klook: 'Tours & tickets: {q}',
     klookSub: 'Skip-the-line deals on Klook',
     esim: 'Korea eSIM',
-    esimSub: 'Data from landing (Airalo)',
+    esimSub: 'Data from landing (Yesim)',
     disclosure: 'Affiliate links: we may earn a small commission at no extra cost to you.',
   },
   ja: {
     klook: '{q}のツアー・チケット',
     klookSub: 'Klookでお得に予約',
     esim: '韓国旅行用eSIM',
-    esimSub: '到着後すぐ使える（Airalo）',
+    esimSub: '到着後すぐ使える（Yesim）',
     disclosure: 'アフィリエイトリンクです。料金は変わりません。',
   },
   'zh-cn': {
     klook: '{q} 门票与一日游',
     klookSub: '在 Klook 比较优惠',
     esim: '韩国旅行 eSIM',
-    esimSub: '落地即可上网（Airalo）',
+    esimSub: '落地即可上网（Yesim）',
     disclosure: '推广链接：本站可能获得少量佣金，价格不变。',
   },
   'zh-tw': {
     klook: '{q} 門票與一日遊',
     klookSub: '在 Klook 比較優惠',
     esim: '韓國旅行 eSIM',
-    esimSub: '落地即可上網（Airalo）',
+    esimSub: '落地即可上網（Yesim）',
     disclosure: '推廣連結：本站可能獲得少量佣金，價格不變。',
   },
 };
@@ -57,7 +57,7 @@ interface AdSlotProps {
 
 /**
  * One ad placement that follows the page language: Korean pages show Kakao AdFit, other languages
- * show Travelpayouts links (Klook tours for `query`, plus a Korea eSIM) in roughly the same space.
+ * show Travelpayouts links (Klook tours for `query`, plus a Yesim Korea eSIM) in roughly the same space.
  */
 export default function AdSlot({ unit, width, height, query, subId, className = '' }: AdSlotProps) {
   const { lang } = useTranslation();
@@ -65,7 +65,6 @@ export default function AdSlot({ unit, width, height, query, subId, className = 
 
   const text = TEXT[lang as ForeignLang] ?? TEXT.en;
   const compact = Number(height) < 150;
-  const esim = airaloKoreaLink(lang, subId);
   return (
     <aside
       aria-label="Travel deals"
@@ -79,8 +78,8 @@ export default function AdSlot({ unit, width, height, query, subId, className = 
         </span>
         <span className="text-gray-400" aria-hidden="true">↗</span>
       </a>
-      {!compact && esim && (
-        <a href={esim} target="_blank" rel="sponsored noopener noreferrer" className={linkCls} suppressHydrationWarning>
+      {!compact && (
+        <a href={YESIM_KOREA} target="_blank" rel="sponsored noopener noreferrer" className={linkCls} suppressHydrationWarning>
           <span>
             <span className="block text-sm font-bold text-gray-800 dark:text-gray-100">📶 {text.esim}</span>
             <span className="block text-xs text-gray-500 dark:text-gray-400">{text.esimSub}</span>

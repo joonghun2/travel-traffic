@@ -30,3 +30,27 @@ const AIRALO_PATH: Record<Exclude<Lang, 'ko'>, string> = { en: '', ja: 'ja/', 'z
 export function airaloKoreaLink(lang: Lang, subId: string) {
   return lang === 'ko' ? null : tpLink('airalo', `https://www.airalo.com/${AIRALO_PATH[lang]}south-korea-esim`, subId);
 }
+
+// Ready-made Travelpayouts short links (made in the dashboard's link generator, account 797404). Each one
+// opens the brand's Korea page and is tracked to this account. Regenerate there if a brand changes its URLs.
+export type KoreaCity = 'seoul' | 'busan' | 'jeju';
+
+/** Yesim South Korea eSIM (18%, 90-day cookie). */
+export const YESIM_KOREA = 'https://yesim.tpo.lv/7VILpm9x';
+
+/** Radical Storage luggage lockers in the city (8%). */
+export const LUGGAGE_STORAGE: Record<KoreaCity, string> = {
+  seoul: 'https://radicalstorage.tpo.lv/2vdVF1BD',
+  busan: 'https://radicalstorage.tpo.lv/yRd3udle',
+  jeju: 'https://radicalstorage.tpo.lv/vnsWhuqJ',
+};
+
+/** Kiwitaxi private transfer from the city's main airport (Incheon, Gimhae, Jeju) (9-11%). */
+export const AIRPORT_TRANSFER: Record<KoreaCity, string> = {
+  seoul: 'https://kiwitaxi.tpo.lv/W62azu8p',
+  busan: 'https://kiwitaxi.tpo.lv/pNTxqcX5',
+  jeju: 'https://kiwitaxi.tpo.lv/3DOHV2R2',
+};
+
+/** Localrent car rental in Korea (7.5-10%); offered on Jeju pages, where most visitors drive. */
+export const CAR_RENTAL_KOREA = 'https://localrent.tpo.lv/LxiiyvX3';
