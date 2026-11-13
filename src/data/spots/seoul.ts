@@ -738,7 +738,7 @@ export const SEOUL_SPOTS: Spot[] = [
     lng: 127.0980,
     baseScore: 92,
     peakHours: [11, 12, 13, 14, 15, 16, 17],
-    bestTime: { ko: '오전 09:30 (오픈런) 또는 오후 16:00 After4 티켓', en: '09:30 AM (Opening run) or 4:00 PM', ja: '朝 09:30（開園直後）または16:00' },
+    bestTime: { ko: '개장 30분 전 도착 (오픈런) 또는 오후 4시 이후', en: '30 minutes before opening, or after 4:00 PM', ja: '開園30分前に到着、または16時以降' },
     tip: { ko: '매직패스 앱 사전 예약 필수! 석촌호수 위 매직아일랜드 성 앞이 인생샷 명당입니다.', en: 'Use Magic Pass mobile reservations; Magic Island Castle bridge is the photo spot.', ja: 'アプリでマジックパス予約必須。石村湖に浮かぶ城の前がベスト撮影場所。' },
     searchKeywords: ['롯데월드', '매직아일랜드', 'lotteworld', 'ロッテワールド', '잠실', '자유이용권', '아틀란티스'],
   },

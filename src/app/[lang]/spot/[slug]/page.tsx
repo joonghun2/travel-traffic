@@ -24,6 +24,9 @@ import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
 import SpotLivePanel from '@/components/SpotLivePanel';
 import AffiliateBox from '@/components/AffiliateBox';
+import GoingTodayCard from '@/components/GoingTodayCard';
+import AdSlot from '@/components/AdSlot';
+import { getSeoulKtoForecast, hasSeoulKtoForecast } from '@/lib/seoulKtoForecast';
 import ForecastSpotView from '@/components/city/ForecastSpotView';
 import { getAllForecastSlugs, getForecastSpotBySlug } from '@/lib/forecastSpots';
 import { getForecast, statusOfRate, todayOf } from '@/lib/forecast';
@@ -184,6 +187,9 @@ export default async function SpotPage({ params }: { params: Params }) {
   const modified = (initial.liveUpdatedAt ?? new Date(Date.now() + 9 * 3600 * 1000).toISOString()).slice(0, 10);
   const facts = SPOT_FACTS[getSpotSlug(spot)];
   const seo = SPOT_SEO[getSpotSlug(spot)];
+  // Spots people search right before a visit get the "going today" card with the KTO day outlook.
+  const goingToday = hasSeoulKtoForecast(getSpotSlug(spot));
+  const ktoDays = goingToday ? await getSeoulKtoForecast(getSpotSlug(spot)) : null;
   const about = t('spot.about', {
     name,
     area: area || 'Seoul',
@@ -306,6 +312,11 @@ export default async function SpotPage({ params }: { params: Params }) {
           sharePath={path}
           shareImageUrl={`${url}/og`}
         />
+
+        {goingToday && <GoingTodayCard lang={lang} days={ktoDays} slug={getSpotSlug(spot)} />}
+        {goingToday && lang === 'ko' && (
+          <AdSlot unit="DAN-dtTgaQki8TeayQUI" width="300" height="250" query={spot.name.en} subId={`${getSpotSlug(spot)}-adfit`} />
+        )}
 
         {seo && <SpotGuide seo={seo} lang={lang} />}
 
