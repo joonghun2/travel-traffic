@@ -1,6 +1,7 @@
 import { Lang } from '@/types';
 import { ForecastDay, statusOfRate } from '@/lib/forecast';
 import { klookSearchLink } from '@/lib/affiliate';
+import { COUPANG, COUPANG_DISCLOSURE } from '@/lib/coupang';
 
 // "If you're going today" card for spots people search right before a visit (Lotte World first).
 // Shows the Korea Tourism Organization outlook for today and the next days, a mood line for today's
@@ -165,7 +166,19 @@ const LEVEL_STYLE: Record<Level, string> = {
   very_crowded: 'bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-200',
 };
 
+// Korean pages: Coupang search links for the checklist items you can buy (index into checklist).
+const COUPANG_ITEMS: Record<number, string> = { 2: COUPANG.powerBank, 4: COUPANG.kidsIdBracelet, 5: COUPANG.raincoat };
+const KO_WINTER_ITEM = '매직아일랜드는 야외라 추워요. 핫팩과 터치 장갑 챙기기';
+
 const OFFICIAL_HOURS = 'https://adventure.lotteworld.com/usage-guide/service/closed';
+
+function CoupangLink({ href }: { href: string }) {
+  return (
+    <a href={href} target="_blank" rel="sponsored noopener noreferrer" className="ml-1.5 inline-block text-xs font-semibold text-sky-700 dark:text-sky-300 underline underline-offset-2">
+      쿠팡에서 보기 ↗
+    </a>
+  );
+}
 
 export default function GoingTodayCard({ lang, days, slug }: { lang: Lang; days: ForecastDay[] | null; slug: string }) {
   const c = COPY[lang];
@@ -174,6 +187,9 @@ export default function GoingTodayCard({ lang, days, slug }: { lang: Lang; days:
   const today = upcoming[0]?.date === todayYmd ? upcoming[0] : undefined;
   // statusOfRate never returns "packed" (that band is Seoul-only).
   const level = (today ? statusOfRate(today.rate) : 'moderate') as Level;
+  const ko = lang === 'ko';
+  const month = Number(todayYmd.slice(5, 7));
+  const winter = month >= 11 || month <= 2;
 
   return (
     <section className="p-5 rounded-3xl bg-gradient-to-br from-violet-50 to-sky-50 dark:from-violet-950/40 dark:to-sky-950/30 border border-violet-100 dark:border-violet-900/40 space-y-4">
@@ -212,12 +228,24 @@ export default function GoingTodayCard({ lang, days, slug }: { lang: Lang; days:
       <div>
         <h3 className="text-sm font-bold text-gray-900 dark:text-white">✅ {c.checklistTitle}</h3>
         <ul className="mt-2 space-y-1.5 text-sm text-gray-700 dark:text-gray-200">
-          {c.checklist.map((item) => (
+          {c.checklist.map((item, i) => (
             <li key={item} className="flex gap-2">
               <span aria-hidden="true">☐</span>
-              <span>{item}</span>
+              <span>
+                {item}
+                {ko && COUPANG_ITEMS[i] && <CoupangLink href={COUPANG_ITEMS[i]} />}
+              </span>
             </li>
           ))}
+          {ko && winter && (
+            <li className="flex gap-2">
+              <span aria-hidden="true">☐</span>
+              <span>
+                {KO_WINTER_ITEM}
+                <CoupangLink href={COUPANG.handWarmer} />
+              </span>
+            </li>
+          )}
         </ul>
         <a href={OFFICIAL_HOURS} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-xs font-semibold text-violet-700 dark:text-violet-300 underline underline-offset-2">
           {c.hoursLink} ↗
@@ -238,6 +266,7 @@ export default function GoingTodayCard({ lang, days, slug }: { lang: Lang; days:
         <span className="text-gray-400" aria-hidden="true">↗</span>
       </a>
       <p className="text-[11px] text-gray-400">{c.disclosure}</p>
+      {ko && <p className="text-[11px] text-gray-400">{COUPANG_DISCLOSURE}</p>}
     </section>
   );
 }
