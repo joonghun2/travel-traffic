@@ -25,7 +25,7 @@ const COPY: Partial<Record<Lang, CourseCopy>> & { en: CourseCopy } = {
   ko: {
     title: '잠실 최적 코스 (지금 혼잡도 기준)',
     sub: '지금 가장 한산한 곳부터 도는 순서예요. 점수는 실시간으로 바뀌어요.',
-    walk: '롯데월드에서 {d}',
+    walk: '여기서 {d}',
     share: '친구에게 코스 보내기',
     shareTitle: '잠실 최적 코스',
     queueTitle: '⏳ 줄 서는 동안 3분 테스트 어때요?',
@@ -36,7 +36,7 @@ const COPY: Partial<Record<Lang, CourseCopy>> & { en: CourseCopy } = {
   en: {
     title: 'Best Jamsil route right now',
     sub: 'Start with the quietest spot. Scores update live.',
-    walk: '{d} from Lotte World',
+    walk: '{d} from here',
     share: 'Send this route to friends',
     shareTitle: 'Best Jamsil route',
     queueTitle: '⏳ Waiting in line? Try a 3-minute test',

@@ -6,6 +6,7 @@ import { ForecastDay } from '@/lib/forecast';
 // day, so it is fetched separately. Shown as the whole-day outlook next to the live score.
 const SEOUL_KTO: Record<string, { signguCd: number; ktoName: string }> = {
   'lotte-world-theme-park-magic-island': { signguCd: 11710, ktoName: '롯데월드 어드벤처' },
+  'jamsil-lotte-world-mall-seokchon-lake': { signguCd: 11710, ktoName: '롯데월드타워&롯데월드몰' },
 };
 
 export const hasSeoulKtoForecast = (slug: string) => slug in SEOUL_KTO;

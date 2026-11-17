@@ -167,10 +167,65 @@ const LEVEL_STYLE: Record<Level, string> = {
 };
 
 // Korean pages: Coupang search links for the checklist items you can buy (index into checklist).
-const COUPANG_ITEMS: Record<number, string> = { 2: COUPANG.powerBank, 4: COUPANG.kidsIdBracelet, 5: COUPANG.raincoat };
-const KO_WINTER_ITEM = '매직아일랜드는 야외라 추워요. 핫팩과 터치 장갑 챙기기';
+// Per-place parts of the card. Lotte World uses COPY as is; other places override title, checklist and
+// ticket (missing languages fall back to English). coupang maps checklist index -> Coupang link (Korean only).
+type Place = {
+  copy?: Partial<Record<Lang, Partial<Pick<Copy, 'title' | 'mood' | 'checklist' | 'ticket'>>>>;
+  coupang: Record<number, string>;
+  koWinter?: { text: string; href: string };
+  officialHours?: string;
+  ticketQuery: string;
+};
 
-const OFFICIAL_HOURS = 'https://adventure.lotteworld.com/usage-guide/service/closed';
+const PLACES: Record<string, Place> = {
+  'lotte-world-theme-park-magic-island': {
+    coupang: { 2: COUPANG.powerBank, 4: COUPANG.kidsIdBracelet, 5: COUPANG.raincoat },
+    koWinter: { text: '매직아일랜드는 야외라 추워요. 핫팩과 터치 장갑 챙기기', href: COUPANG.handWarmer },
+    officialHours: 'https://adventure.lotteworld.com/usage-guide/service/closed',
+    ticketQuery: 'Lotte World Adventure ticket',
+  },
+  'jamsil-lotte-world-mall-seokchon-lake': {
+    copy: {
+      ko: {
+        title: '오늘 롯데월드몰·석촌호수 가신다면',
+        mood: {
+          relaxed: '오늘은 여유로운 편이에요. 호숫가 산책하기 딱 좋은 날! 🌿',
+          moderate: '보통 수준이에요. 식사 시간만 피하면 편하게 둘러볼 수 있어요.',
+          crowded: '꽤 붐빌 것 같아요. 몰 안 식당과 카페는 줄이 길 수 있어요.',
+          very_crowded: '많이 붐비는 날이에요. 산책은 이른 시간에, 식사는 조금 일찍 하세요 😌',
+        },
+        checklist: [
+          '롯데월드몰은 잠실역과 바로 이어져요. 주말엔 차보다 지하철이 편해요',
+          '호숫가 산책은 오래 걸으니 편한 신발 신기',
+          '사진을 많이 찍으니 보조배터리 챙기기',
+          '해 질 무렵 호수와 타워 야경 사진엔 삼각대가 있으면 좋아요',
+          '주말 오후엔 몰 안 식당 줄이 길어요. 식사는 조금 일찍 하기',
+        ],
+        ticket: { title: '서울스카이 전망대 입장권 비교', sub: 'Klook에서 가격 확인하기' },
+      },
+      en: {
+        title: 'Going to Lotte World Mall & Seokchon Lake today?',
+        mood: {
+          relaxed: 'A relaxed day. Perfect for a lakeside walk! 🌿',
+          moderate: 'Moderate crowds. Skip peak mealtimes and it is easy to get around.',
+          crowded: 'Expect a busy day. Mall restaurants and cafes may have lines.',
+          very_crowded: 'A very busy day. Walk the lake early and eat a little early 😌',
+        },
+        checklist: [
+          'Lotte World Mall connects directly to Jamsil Station; on weekends the subway beats driving',
+          'Wear comfortable shoes for the lakeside walk',
+          "Bring a power bank: you'll take lots of photos",
+          'A small tripod helps for sunset and night shots of the lake and tower',
+          'Mall restaurants get long lines on weekend afternoons; eat a little early',
+        ],
+        ticket: { title: 'Compare Seoul Sky observatory tickets', sub: 'Check prices on Klook' },
+      },
+    },
+    coupang: { 2: COUPANG.powerBank, 3: COUPANG.phoneTripod },
+    koWinter: { text: '겨울 호숫가는 바람이 차요. 핫팩과 터치 장갑 챙기기', href: COUPANG.handWarmer },
+    ticketQuery: 'Seoul Sky ticket',
+  },
+};
 
 function CoupangLink({ href }: { href: string }) {
   return (
@@ -181,7 +236,8 @@ function CoupangLink({ href }: { href: string }) {
 }
 
 export default function GoingTodayCard({ lang, days, slug }: { lang: Lang; days: ForecastDay[] | null; slug: string }) {
-  const c = COPY[lang];
+  const place = PLACES[slug] ?? PLACES['lotte-world-theme-park-magic-island'];
+  const c: Copy = { ...COPY[lang], ...(place.copy?.[lang] ?? place.copy?.en ?? {}) };
   const todayYmd = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
   const upcoming = (days ?? []).filter((d) => d.date >= todayYmd).slice(0, 7);
   const today = upcoming[0]?.date === todayYmd ? upcoming[0] : undefined;
@@ -233,27 +289,29 @@ export default function GoingTodayCard({ lang, days, slug }: { lang: Lang; days:
               <span aria-hidden="true">☐</span>
               <span>
                 {item}
-                {ko && COUPANG_ITEMS[i] && <CoupangLink href={COUPANG_ITEMS[i]} />}
+                {ko && place.coupang[i] && <CoupangLink href={place.coupang[i]} />}
               </span>
             </li>
           ))}
-          {ko && winter && (
+          {ko && winter && place.koWinter && (
             <li className="flex gap-2">
               <span aria-hidden="true">☐</span>
               <span>
-                {KO_WINTER_ITEM}
-                <CoupangLink href={COUPANG.handWarmer} />
+                {place.koWinter.text}
+                <CoupangLink href={place.koWinter.href} />
               </span>
             </li>
           )}
         </ul>
-        <a href={OFFICIAL_HOURS} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-xs font-semibold text-violet-700 dark:text-violet-300 underline underline-offset-2">
-          {c.hoursLink} ↗
-        </a>
+        {place.officialHours && (
+          <a href={place.officialHours} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-xs font-semibold text-violet-700 dark:text-violet-300 underline underline-offset-2">
+            {c.hoursLink} ↗
+          </a>
+        )}
       </div>
 
       <a
-        href={klookSearchLink('Lotte World Adventure ticket', `${slug}-going-today`)}
+        href={klookSearchLink(place.ticketQuery, `${slug}-going-today`)}
         target="_blank"
         rel="sponsored noopener noreferrer"
         suppressHydrationWarning
