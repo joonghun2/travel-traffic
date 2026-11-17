@@ -3,6 +3,7 @@ import { Lang, LiveSpotMetric, Spot } from '@/types';
 import { localizePath, pick } from '@/lib/i18n/routing';
 import { getSpotSlug } from '@/lib/spots';
 import ShareButton from '@/components/ShareButton';
+import { courseStops } from '@/lib/course';
 
 // Two cards for spots people visit right after searching (Lotte World first):
 // - QueueTestCard: "3-minute test while you wait in line" -> the travel-type test (low bounce, shareable).
@@ -77,7 +78,6 @@ export function NearbyCourseCard({
   lang,
   spot,
   metric,
-  nearby,
   metrics,
   sharePath,
   shareImageUrl,
@@ -85,21 +85,13 @@ export function NearbyCourseCard({
   lang: Lang;
   spot: Spot;
   metric: LiveSpotMetric;
-  nearby: { spot: Spot; distanceKm: number }[];
   metrics: LiveSpotMetric[];
   sharePath: string;
+  /** Course infographic for the share card (src/app/share/course/[slug]). */
   shareImageUrl: string;
 }) {
   const c = copyFor(lang);
-  const stops = [
-    { spot, distanceKm: 0, m: metric },
-    ...nearby
-      .filter((n) => n.distanceKm <= 3.5 && !/station/i.test(n.spot.name.en))
-      .slice(0, 3)
-      .map((n) => ({ ...n, m: metrics.find((x) => x.id === n.spot.id) })),
-  ]
-    .filter((s): s is { spot: Spot; distanceKm: number; m: LiveSpotMetric } => Boolean(s.m))
-    .sort((a, b) => a.m.currentScore - b.m.currentScore);
+  const stops = courseStops(spot, metric, metrics);
 
   const shareText = [
     `${c.shareTitle}`,

@@ -180,8 +180,6 @@ export default async function SpotPage({ params }: { params: Params }) {
   const quietHour = formatHour(lang, getQuietestDaytimeHour(weekday));
   const busy = busiestRange(lang, spot);
   const nearby = getNearbySpots(spot, 4);
-  // Wider ring for the course card (stations are skipped there).
-  const courseNearby = hasSeoulKtoForecast(getSpotSlug(spot)) ? getNearbySpots(spot, 10) : [];
   const sameTheme = getSameThemeSpots(spot, 4);
   const statusLabel = t(`card.status.${initial.status}`);
   const listSep = lang === 'en' ? ', ' : lang === 'ko' ? ', ' : '、';
@@ -326,10 +324,9 @@ export default async function SpotPage({ params }: { params: Params }) {
             lang={lang}
             spot={spot}
             metric={initial}
-            nearby={courseNearby}
             metrics={snapshot.spots}
             sharePath={path}
-            shareImageUrl={`${url}/og`}
+            shareImageUrl={`${SITE_URL}/share/course/${getSpotSlug(spot)}?lang=${lang}&v=${Math.floor(Date.now() / 600000)}`}
           />
         )}
 
