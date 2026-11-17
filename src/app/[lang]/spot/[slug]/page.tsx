@@ -25,6 +25,7 @@ import BottomNav from '@/components/BottomNav';
 import SpotLivePanel from '@/components/SpotLivePanel';
 import AffiliateBox from '@/components/AffiliateBox';
 import GoingTodayCard from '@/components/GoingTodayCard';
+import { NearbyCourseCard, QueueTestCard } from '@/components/NearbyCourseCard';
 import AdSlot from '@/components/AdSlot';
 import { getSeoulKtoForecast, hasSeoulKtoForecast } from '@/lib/seoulKtoForecast';
 import ForecastSpotView from '@/components/city/ForecastSpotView';
@@ -179,6 +180,8 @@ export default async function SpotPage({ params }: { params: Params }) {
   const quietHour = formatHour(lang, getQuietestDaytimeHour(weekday));
   const busy = busiestRange(lang, spot);
   const nearby = getNearbySpots(spot, 4);
+  // Wider ring for the course card (stations are skipped there).
+  const courseNearby = hasSeoulKtoForecast(getSpotSlug(spot)) ? getNearbySpots(spot, 10) : [];
   const sameTheme = getSameThemeSpots(spot, 4);
   const statusLabel = t(`card.status.${initial.status}`);
   const listSep = lang === 'en' ? ', ' : lang === 'ko' ? ', ' : '、';
@@ -316,6 +319,18 @@ export default async function SpotPage({ params }: { params: Params }) {
         {goingToday && <GoingTodayCard lang={lang} days={ktoDays} slug={getSpotSlug(spot)} />}
         {goingToday && lang === 'ko' && (
           <AdSlot unit="DAN-dtTgaQki8TeayQUI" width="300" height="250" query={spot.name.en} subId={`${getSpotSlug(spot)}-adfit`} />
+        )}
+        {goingToday && <QueueTestCard lang={lang} />}
+        {goingToday && (
+          <NearbyCourseCard
+            lang={lang}
+            spot={spot}
+            metric={initial}
+            nearby={courseNearby}
+            metrics={snapshot.spots}
+            sharePath={path}
+            shareImageUrl={`${url}/og`}
+          />
         )}
 
         {seo && <SpotGuide seo={seo} lang={lang} />}
