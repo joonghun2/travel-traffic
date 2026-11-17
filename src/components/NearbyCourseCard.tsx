@@ -3,7 +3,7 @@ import { Lang, LiveSpotMetric, Spot } from '@/types';
 import { localizePath, pick } from '@/lib/i18n/routing';
 import { getSpotSlug } from '@/lib/spots';
 import ShareButton from '@/components/ShareButton';
-import { courseStops } from '@/lib/course';
+import { courseStops, courseTitle } from '@/lib/course';
 
 // Two cards for spots people visit right after searching (Lotte World first):
 // - QueueTestCard: "3-minute test while you wait in line" -> the travel-type test (low bounce, shareable).
@@ -24,22 +24,22 @@ type CourseCopy = {
 
 const COPY: Partial<Record<Lang, CourseCopy>> & { en: CourseCopy } = {
   ko: {
-    title: '잠실 최적 코스 (지금 혼잡도 기준)',
+    title: '{course} (지금 혼잡도 기준)',
     sub: '지금 가장 한산한 곳부터 도는 순서예요. 점수는 실시간으로 바뀌어요.',
     walk: '여기서 {d}',
     share: '친구에게 코스 보내기',
-    shareTitle: '잠실 최적 코스',
+    shareTitle: '{course}',
     queueTitle: '⏳ 줄 서는 동안 3분 테스트 어때요?',
     queueBody: '나는 어떤 여행자일까? 결과를 친구에게 보내면 둘의 여행 궁합 %도 바로 나와요.',
     queueCta: '여행 성향 테스트 하기 →',
     status: { relaxed: '여유', moderate: '보통', crowded: '혼잡', very_crowded: '매우 혼잡', packed: '매우 혼잡' },
   },
   en: {
-    title: 'Best Jamsil route right now',
+    title: '{course} right now',
     sub: 'Start with the quietest spot. Scores update live.',
     walk: '{d} from here',
     share: 'Send this route to friends',
-    shareTitle: 'Best Jamsil route',
+    shareTitle: '{course}',
     queueTitle: '⏳ Waiting in line? Try a 3-minute test',
     queueBody: 'What kind of traveler are you? Share your result and see your travel match with friends.',
     queueCta: 'Take the travel test →',
@@ -90,7 +90,9 @@ export function NearbyCourseCard({
   /** Course infographic for the share card (src/app/share/course/[slug]). */
   shareImageUrl: string;
 }) {
-  const c = copyFor(lang);
+  const base = copyFor(lang);
+  const course = courseTitle(getSpotSlug(spot), lang);
+  const c = { ...base, title: base.title.replace('{course}', course), shareTitle: base.shareTitle.replace('{course}', course) };
   const stops = courseStops(spot, metric, metrics);
 
   const shareText = [

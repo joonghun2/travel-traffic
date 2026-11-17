@@ -4,7 +4,7 @@ import { isLang, pick } from '@/lib/i18n/routing';
 import { getSpotBySlug } from '@/lib/spots';
 import { getCrowdSnapshot } from '@/lib/crowdSnapshot';
 import { computeLiveSpotMetric } from '@/lib/crowdEngine';
-import { courseStops } from '@/lib/course';
+import { courseStops, courseTitle, hasCourse } from '@/lib/course';
 import { Lang } from '@/types';
 
 // Share-card infographic for the "best course right now" card: /share/course/<slug>?lang=ko.
@@ -31,10 +31,10 @@ const short = (s: string) => s.split(/\s*[&(]\s*/)[0].trim();
 export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const spot = getSpotBySlug(slug);
-  if (!spot) return new Response('Not found', { status: 404 });
+  if (!spot || !hasCourse(slug)) return new Response('Not found', { status: 404 });
   const q = new URL(request.url).searchParams.get('lang') ?? 'ko';
   const lang: Lang = isLang(q) ? q : 'ko';
-  const t = lang === 'ko' ? TEXT.ko : TEXT.en;
+  const t = { ...(lang === 'ko' ? TEXT.ko : TEXT.en), title: courseTitle(slug, lang) };
 
   const snapshot = await getCrowdSnapshot();
   const metric = snapshot.spots.find((s) => s.id === spot.id) ?? computeLiveSpotMetric(spot);

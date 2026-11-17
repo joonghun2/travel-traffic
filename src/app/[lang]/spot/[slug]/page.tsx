@@ -26,6 +26,7 @@ import SpotLivePanel from '@/components/SpotLivePanel';
 import AffiliateBox from '@/components/AffiliateBox';
 import GoingTodayCard from '@/components/GoingTodayCard';
 import { NearbyCourseCard, QueueTestCard } from '@/components/NearbyCourseCard';
+import { hasCourse } from '@/lib/course';
 import AdSlot from '@/components/AdSlot';
 import { getSeoulKtoForecast, hasSeoulKtoForecast } from '@/lib/seoulKtoForecast';
 import ForecastSpotView from '@/components/city/ForecastSpotView';
@@ -319,7 +320,7 @@ export default async function SpotPage({ params }: { params: Params }) {
           <AdSlot unit="DAN-dtTgaQki8TeayQUI" width="300" height="250" query={spot.name.en} subId={`${getSpotSlug(spot)}-adfit`} />
         )}
         {goingToday && <QueueTestCard lang={lang} />}
-        {goingToday && (
+        {hasCourse(getSpotSlug(spot)) && (
           <NearbyCourseCard
             lang={lang}
             spot={spot}
