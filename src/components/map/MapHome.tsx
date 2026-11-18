@@ -443,7 +443,7 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
         className="relative lg:grid lg:grid-cols-[var(--list-w)_1fr] lg:h-[calc(100vh-7.75rem)]"
       >
         {/* Map (right on PC) */}
-        <div className="relative mt-3 lg:mt-0 h-[58vh] min-h-[340px] lg:h-full lg:order-2 overflow-hidden">
+        <div className="relative mt-3 lg:mt-0 h-[44vh] min-h-[300px] lg:h-full lg:order-2 overflow-hidden">
           {map}
           {legend}
           {selected && (
@@ -462,10 +462,20 @@ export default function MapHome({ city, initialSpots, liveCount, baseDate, fromS
               <AdSlot unit={AD_UNIT_PC} width="300" height="250" query={selected.name} subId={`map-${selected.id}`} />
             </aside>
           )}
+          {!selected && (
+            <button
+              type="button"
+              onClick={() => document.getElementById('spot-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              className="lg:hidden absolute bottom-3 left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-full bg-gray-900/90 text-white text-sm font-bold shadow-lg active:scale-95 transition-transform"
+            >
+              {lang === 'ko' ? '📋 명소 리스트 보기 ↓' : '📋 Spot list ↓'}
+            </button>
+          )}
         </div>
 
         {/* Ranked list (left on PC, below the map on mobile) */}
         <SpotList
+          id="spot-list"
           spots={ordered}
           title={listTitle}
           selectedId={selectedId}

@@ -13,10 +13,11 @@ interface Props {
   onSelect: (id: number) => void;
   distances: Map<number, number> | null;
   className?: string;
+  id?: string;
 }
 
 // Ranked list of every spot. Server-rendered so names and scores are in the HTML.
-export default function SpotList({ spots, title, selectedId, onSelect, distances, className = '' }: Props) {
+export default function SpotList({ spots, title, selectedId, onSelect, distances, className = '', id }: Props) {
   const { t, localePath } = useTranslation();
   const selectedRef = useRef<HTMLLIElement>(null);
 
@@ -25,7 +26,7 @@ export default function SpotList({ spots, title, selectedId, onSelect, distances
   }, [selectedId]);
 
   return (
-    <section className={className} aria-label={title}>
+    <section id={id} className={`scroll-mt-16 ${className}`} aria-label={title}>
       <h2 className="px-3 py-2 text-xs font-bold text-gray-500 dark:text-gray-400 sticky top-0 bg-white/95 dark:bg-gray-950/95 backdrop-blur z-10">
         {title}
       </h2>
