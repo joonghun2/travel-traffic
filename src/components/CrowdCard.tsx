@@ -214,6 +214,12 @@ export default function CrowdCard({ spot, userLat, userLng }: CrowdCardProps) {
 
           {/* Action Row: Single [길찾기] button + Escape Gem toggle */}
           <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+            <Link
+              href={localePath(`/spot/${getSpotSlug(spot)}`)}
+              className="flex-1 h-11 px-4 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-[0.98] font-bold text-xs sm:text-sm flex items-center justify-center gap-1 transition-all duration-150"
+            >
+              {t('map.detail')} ›
+            </Link>
             <button
               onClick={() => setShowNavSheet(true)}
               className="flex-1 h-11 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md transition-all duration-150 cursor-pointer"
