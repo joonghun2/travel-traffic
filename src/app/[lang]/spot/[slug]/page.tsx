@@ -384,7 +384,13 @@ export default async function SpotPage({ params }: { params: Params }) {
           </section>
         )}
 
-        <AffiliateBox lang={lang} name={name} enName={spot.name.en} slug={getSpotSlug(spot)} />
+        <AffiliateBox
+          lang={lang}
+          name={name}
+          enName={spot.name.en}
+          slug={getSpotSlug(spot)}
+          busy={['crowded', 'very_crowded', 'packed'].includes(initial.status)}
+        />
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
           <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.aboutTitle', { name })}</h2>

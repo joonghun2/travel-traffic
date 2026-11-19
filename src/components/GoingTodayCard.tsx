@@ -1,6 +1,6 @@
 import { Lang } from '@/types';
 import { ForecastDay, statusOfRate } from '@/lib/forecast';
-import { klookSearchLink } from '@/lib/affiliate';
+import { klookSpotLink } from '@/lib/affiliate';
 import { COUPANG, COUPANG_DISCLOSURE } from '@/lib/coupang';
 
 // "If you're going today" card for spots people search right before a visit (Lotte World first).
@@ -227,6 +227,24 @@ const PLACES: Record<string, Place> = {
   },
 };
 
+// Shown under the ticket link on busy days: the reason to book ahead.
+const BUSY_TICKET: Record<Lang, string> = {
+  ko: '붐비는 날이에요 · 미리 예매하면 현장 매표 시간을 아낄 수 있어요',
+  en: 'A busy day: book ahead and skip the ticket desk',
+  ja: '混雑する日です：事前予約で窓口に並ばずに',
+  'zh-cn': '今天较拥挤：提前预订，免在售票处排队',
+  'zh-tw': '今天較擁擠：提前預訂，免在售票處排隊',
+};
+
+// The crowd score is about the area around the park, not ride queues; say where real ride waits are.
+const RIDE_WAIT_NOTE: Record<Lang, string> = {
+  ko: '※ 이 점수는 주변 인파 기준이에요. 놀이기구별 실제 대기시간은 롯데월드 공식 앱에서 확인하세요.',
+  en: 'Note: this score is about crowds around the park. For real ride wait times, use the official Lotte World app.',
+  ja: '※このスコアは周辺の人出の目安です。アトラクションごとの実際の待ち時間はロッテワールド公式アプリで確認してください。',
+  'zh-cn': '※ 该分数基于周边人流。各游乐设施的实际排队时间请查看乐天世界官方App。',
+  'zh-tw': '※ 此分數依周邊人潮估算。各遊樂設施的實際排隊時間請查看樂天世界官方App。',
+};
+
 function CoupangLink({ href }: { href: string }) {
   return (
     <a href={href} target="_blank" rel="sponsored noopener noreferrer" className="ml-1.5 inline-block text-xs font-semibold text-sky-700 dark:text-sky-300 underline underline-offset-2">
@@ -311,7 +329,7 @@ export default function GoingTodayCard({ lang, days, slug }: { lang: Lang; days:
       </div>
 
       <a
-        href={klookSearchLink(place.ticketQuery, `${slug}-going-today`)}
+        href={klookSpotLink(slug, place.ticketQuery, lang, `${slug}-going-today`)}
         target="_blank"
         rel="sponsored noopener noreferrer"
         suppressHydrationWarning
@@ -319,10 +337,13 @@ export default function GoingTodayCard({ lang, days, slug }: { lang: Lang; days:
       >
         <span>
           <span className="block text-sm font-bold text-gray-900 dark:text-white">🎟️ {c.ticket.title}</span>
-          <span className="block text-xs text-gray-500 dark:text-gray-400">{c.ticket.sub}</span>
+          <span className="block text-xs text-gray-500 dark:text-gray-400">
+            {level === 'crowded' || level === 'very_crowded' ? BUSY_TICKET[lang] : c.ticket.sub}
+          </span>
         </span>
         <span className="text-gray-400" aria-hidden="true">↗</span>
       </a>
+      {slug === 'lotte-world-theme-park-magic-island' && <p className="text-[11px] text-gray-500 dark:text-gray-400">{RIDE_WAIT_NOTE[lang]}</p>}
       <p className="text-[11px] text-gray-400">{c.disclosure}</p>
       {ko && <p className="text-[11px] text-gray-400">{COUPANG_DISCLOSURE}</p>}
     </section>

@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useTranslation } from '@/lib/i18n/context';
-import { YESIM_KOREA, klookSearchLink } from '@/lib/affiliate';
+import { YESIM_KOREA, klookSearchLink, withSubId } from '@/lib/affiliate';
 import { Lang } from '@/types';
 
 const KakaoAdfitBanner = dynamic(() => import('./KakaoAdfitBanner'), { ssr: false });
@@ -14,7 +14,7 @@ const TEXT: Record<ForeignLang, { klook: string; klookSub: string; esim: string;
     klook: 'Tours & tickets: {q}',
     klookSub: 'Skip-the-line deals on Klook',
     esim: 'Korea eSIM',
-    esimSub: 'Data from landing (Yesim)',
+    esimSub: 'Data the moment you land, install by QR (Yesim)',
     disclosure: 'Affiliate links: we may earn a small commission at no extra cost to you.',
   },
   ja: {
@@ -71,7 +71,7 @@ export default function AdSlot({ unit, width, height, query, subId, className = 
       className={`w-full max-w-[320px] mx-auto space-y-2 ${className}`}
       style={{ minHeight: compact ? undefined : `${height}px` }}
     >
-      <a href={klookSearchLink(query, subId)} target="_blank" rel="sponsored noopener noreferrer" className={linkCls} suppressHydrationWarning>
+      <a href={klookSearchLink(query, subId, lang)} target="_blank" rel="sponsored noopener noreferrer" className={linkCls} suppressHydrationWarning>
         <span>
           <span className="block text-sm font-bold text-gray-800 dark:text-gray-100">🎟️ {text.klook.replace('{q}', query)}</span>
           <span className="block text-xs text-gray-500 dark:text-gray-400">{text.klookSub}</span>
@@ -79,7 +79,7 @@ export default function AdSlot({ unit, width, height, query, subId, className = 
         <span className="text-gray-400" aria-hidden="true">↗</span>
       </a>
       {!compact && (
-        <a href={YESIM_KOREA} target="_blank" rel="sponsored noopener noreferrer" className={linkCls} suppressHydrationWarning>
+        <a href={withSubId(YESIM_KOREA, `${subId}-esim`)} target="_blank" rel="sponsored noopener noreferrer" className={linkCls} suppressHydrationWarning>
           <span>
             <span className="block text-sm font-bold text-gray-800 dark:text-gray-100">📶 {text.esim}</span>
             <span className="block text-xs text-gray-500 dark:text-gray-400">{text.esimSub}</span>
