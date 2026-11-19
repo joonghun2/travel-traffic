@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { CrowdStatus, LiveSpotMetric } from '@/types';
 import { useTranslation } from '@/lib/i18n/context';
 import ShareButton from './ShareButton';
+import GoVerdict from './GoVerdict';
 
 const STATUS_STYLE: Record<CrowdStatus, { text: string; badge: string; bar: string; label: string }> = {
   relaxed: {
@@ -46,8 +47,9 @@ interface SpotLivePanelProps {
 }
 
 export default function SpotLivePanel({ initial, name, sharePath, shareImageUrl }: SpotLivePanelProps) {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const [metric, setMetric] = useState(initial);
+  const [spots, setSpots] = useState<LiveSpotMetric[]>([]);
 
   useEffect(() => {
     const fetchMetric = async () => {
@@ -55,8 +57,10 @@ export default function SpotLivePanel({ initial, name, sharePath, shareImageUrl 
         const res = await fetch('/api/crowd', { cache: 'no-store' });
         if (!res.ok) return;
         const data = await res.json();
-        const live = (data.spots as LiveSpotMetric[] | undefined)?.find((s) => s.id === initial.id);
+        const all = (data.spots as LiveSpotMetric[] | undefined) ?? [];
+        const live = all.find((s) => s.id === initial.id);
         if (live) setMetric(live);
+        setSpots(all);
       } catch {}
     };
     fetchMetric();
@@ -73,6 +77,7 @@ export default function SpotLivePanel({ initial, name, sharePath, shareImageUrl 
 
   return (
     <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
+      <GoVerdict metric={metric} spots={spots} lang={lang} />
       <div className="flex items-center justify-between gap-3">
         <h2 className="text-sm font-bold text-gray-700 dark:text-gray-200">{t('spot.liveNow')}</h2>
         <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-bold ${style.badge}`}>

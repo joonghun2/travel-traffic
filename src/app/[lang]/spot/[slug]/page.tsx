@@ -24,6 +24,7 @@ import DashboardHeader from '@/components/DashboardHeader';
 import BottomNav from '@/components/BottomNav';
 import SpotLivePanel from '@/components/SpotLivePanel';
 import AffiliateBox from '@/components/AffiliateBox';
+import AirportCard, { AIRPORT_SLUGS } from '@/components/AirportCard';
 import GoingTodayCard from '@/components/GoingTodayCard';
 import { NearbyCourseCard, QueueTestCard } from '@/components/NearbyCourseCard';
 import { hasCourse } from '@/lib/course';
@@ -315,6 +316,7 @@ export default async function SpotPage({ params }: { params: Params }) {
           shareImageUrl={`${url}/og`}
         />
 
+        {AIRPORT_SLUGS.has(getSpotSlug(spot)) && <AirportCard lang={lang} slug={getSpotSlug(spot)} />}
         {goingToday && <GoingTodayCard lang={lang} days={ktoDays} slug={getSpotSlug(spot)} />}
         {goingToday && lang === 'ko' && (
           <AdSlot unit="DAN-dtTgaQki8TeayQUI" width="300" height="250" query={spot.name.en} subId={`${getSpotSlug(spot)}-adfit`} />
@@ -384,13 +386,7 @@ export default async function SpotPage({ params }: { params: Params }) {
           </section>
         )}
 
-        <AffiliateBox
-          lang={lang}
-          name={name}
-          enName={spot.name.en}
-          slug={getSpotSlug(spot)}
-          busy={['crowded', 'very_crowded', 'packed'].includes(initial.status)}
-        />
+        <AffiliateBox lang={lang} name={name} enName={spot.name.en} slug={getSpotSlug(spot)} />
 
         <section className="p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xs">
           <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('spot.aboutTitle', { name })}</h2>
