@@ -11,7 +11,7 @@ import { withUtm } from '@/lib/utm';
 
 // 1080×1920 story card: food type + 3 quiet places near the chosen area right now.
 // /play/seoul-food-test/result/<type>/story/<area>.png — rendered on demand, refreshed every 5 minutes.
-export const revalidate = 300;
+export const revalidate = 3600;
 export const preferredRegion = 'icn1';
 
 export function generateStaticParams() {
@@ -90,6 +90,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
         </div>
       </div>
     ),
-    { width: 1080, height: 1920, fonts, headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' } }
+    { width: 1080, height: 1920, fonts, headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200' } }
   );
 }

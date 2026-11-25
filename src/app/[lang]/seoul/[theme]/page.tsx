@@ -1,7 +1,7 @@
 import { ThemeHubPage, themeMetadata, themeStaticParams } from '@/components/city/ThemeHub';
 
 export const dynamicParams = false;
-export const revalidate = 300;
+export const revalidate = 900;
 export const preferredRegion = 'icn1';
 export const generateStaticParams = themeStaticParams('seoul');
 export const generateMetadata = themeMetadata('seoul');

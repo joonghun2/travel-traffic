@@ -11,7 +11,7 @@ import BottomNav from '@/components/BottomNav';
 type Params = Promise<{ lang: string }>;
 
 // Same refresh as the Seoul card images.
-export const revalidate = 300;
+export const revalidate = 1800;
 export const preferredRegion = 'icn1';
 
 const CITIES: CityId[] = ['seoul', 'jeju', 'busan'];

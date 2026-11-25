@@ -10,7 +10,7 @@ import TravelTypeResult from '@/components/travel-type/TravelTypeResult';
 type Params = Promise<{ lang: string; type: string }>;
 
 // Picks show today's crowd level; Seoul data refreshes every 5 minutes.
-export const revalidate = 300;
+export const revalidate = 3600;
 export const preferredRegion = 'icn1';
 export const dynamicParams = false;
 

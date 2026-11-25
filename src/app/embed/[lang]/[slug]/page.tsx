@@ -12,7 +12,7 @@ import { withUtm } from '@/lib/utm';
 
 // /embed/<lang>/<slug>?theme=dark — the iframe badge from /widget.
 // Rendered on first request, then refreshed every 5 minutes (Seoul is live).
-export const revalidate = 300;
+export const revalidate = 600;
 export const preferredRegion = 'icn1';
 
 export function generateStaticParams() {

@@ -5,7 +5,7 @@ import { toMapSpots } from '@/lib/mapSpots';
 import MapHome from '@/components/map/MapHome';
 
 // Re-render with the cached Seoul snapshot every 5 minutes; the client polls /api/crowd.
-export const revalidate = 300;
+export const revalidate = 900;
 export const preferredRegion = 'icn1';
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {

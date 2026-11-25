@@ -11,7 +11,7 @@ import { backgroundFor, CardBackground } from '@/lib/cardBackground';
 
 // /cards/seoul-feed.png (Korean, via rewrite), /en/cards/busan-story.png, ...
 // Seoul is live, so cards regenerate every 5 minutes; Jeju/Busan change once a day.
-export const revalidate = 300;
+export const revalidate = 1800;
 export const preferredRegion = 'icn1';
 
 const SIZES = { feed: { width: 1080, height: 1350 }, story: { width: 1080, height: 1920 } } as const;
@@ -150,6 +150,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ lang
         </div>
       </div>
     ),
-    { ...size, fonts, headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' } }
+    { ...size, fonts, headers: { 'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600' } }
   );
 }

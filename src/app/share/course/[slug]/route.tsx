@@ -110,6 +110,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
         </div>
       </div>
     ),
-    { width: W, height: H, fonts, headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' } }
+    { width: W, height: H, fonts, headers: { 'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1200' } }
   );
 }
