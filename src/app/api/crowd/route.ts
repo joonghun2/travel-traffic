@@ -5,8 +5,9 @@ import { getCrowdSnapshot } from '@/lib/crowdSnapshot';
 export const runtime = 'nodejs';
 // Run next to the Seoul API (Vercel Seoul region).
 export const preferredRegion = 'icn1';
-// The JSON is regenerated at most once a minute; Seoul data itself is cached for 5 minutes.
-export const revalidate = 60;
+// The JSON is regenerated at most every 10 minutes (crowd data is collected every 10 minutes), which
+// keeps ISR writes within the free plan. Visitors polling every minute are served from the CDN cache.
+export const revalidate = 600;
 
 export async function GET() {
   try {
@@ -38,7 +39,7 @@ export async function GET() {
       },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+          'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=600',
           'Access-Control-Allow-Origin': '*',
         },
       }
